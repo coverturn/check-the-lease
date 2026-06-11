@@ -74,6 +74,13 @@ export default function Upload() {
   const [fileError, setFileError] = useState<string | null>(null);
 
   useEffect(() => {
+    try {
+      const s = new URLSearchParams(window.location.search).get("state");
+      if (s) setForm((f) => ({ ...f, state: s.toUpperCase() }));
+    } catch { /* noop */ }
+  }, []);
+
+  useEffect(() => {
     if (!isAnalysing) { setMsgIdx(0); return; }
     const t = setInterval(() => setMsgIdx((i) => (i + 1) % LOADING_MESSAGES.length), 3000);
     return () => clearInterval(t);
