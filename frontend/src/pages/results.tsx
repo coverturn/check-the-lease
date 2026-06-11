@@ -191,7 +191,7 @@ function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => voi
         backgroundColor: checked ? "#1E3A5F" : "transparent",
         cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center",
-        transition: "all 0.15s ease",
+        transition: "border-color 0.15s ease, background-color 0.15s ease, transform 0.15s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
       {checked && (
@@ -373,7 +373,7 @@ export default function Results() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 marginBottom: previewExpanded ? 14 : 0,
-                transition: "all 0.2s ease",
+                transition: "box-shadow 0.2s ease, transform 0.16s cubic-bezier(0.16,1,0.3,1)",
                 boxShadow: previewExpanded ? "4px 4px 0 0 #5A8B7A" : "2px 2px 0 0 #5A8B7A",
               }}
               aria-expanded={previewExpanded}
@@ -485,7 +485,7 @@ export default function Results() {
                   <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 18, padding: "22px 26px", backgroundColor: done ? "rgba(30,58,95,0.04)" : "var(--color-bone)", borderBottom: i === questions.length - 1 ? "none" : "1.5px solid rgba(23,23,23,0.08)", transition: "background-color 0.2s ease" }}>
                     <Checkbox checked={!!done} onChange={() => setCheckedItems(prev => ({ ...prev, [i]: !prev[i] }))} />
                     <div style={{ flex: 1, paddingTop: 2 }}>
-                      <span style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.7vw,16px)", color: done ? "var(--color-ink-muted)" : "var(--color-ink)", lineHeight: 1.6, textDecoration: done ? "line-through" : "none", opacity: done ? 0.55 : 1, transition: "all 0.2s ease" }}>
+                      <span style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.7vw,16px)", color: done ? "var(--color-ink-muted)" : "var(--color-ink)", lineHeight: 1.6, textDecoration: done ? "line-through" : "none", opacity: done ? 0.55 : 1, transition: "color 0.2s ease, opacity 0.2s ease" }}>
                         {q}
                       </span>
                     </div>
