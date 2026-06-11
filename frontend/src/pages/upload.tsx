@@ -145,6 +145,7 @@ export default function Upload() {
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
       sessionStorage.setItem("ctl-intake", JSON.stringify(sampleIntake));
       sessionStorage.setItem("ctl-analysis", JSON.stringify(data.analysis));
+      sessionStorage.removeItem("ctl-paid"); // new scan starts locked until unlocked
       if (data.leaseText) sessionStorage.setItem("ctl-lease-text", data.leaseText);
       navigate("/results/demo");
     } catch (err: unknown) {
@@ -170,6 +171,7 @@ export default function Upload() {
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
       sessionStorage.setItem("ctl-intake", JSON.stringify(intake));
       sessionStorage.setItem("ctl-analysis", JSON.stringify(data.analysis));
+      sessionStorage.removeItem("ctl-paid"); // new scan starts locked until unlocked
       if (data.leaseText) sessionStorage.setItem("ctl-lease-text", data.leaseText);
       navigate(`/results/${Math.random().toString(36).slice(2, 10)}`);
     } catch (err: unknown) {
