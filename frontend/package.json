@@ -10,7 +10,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "overrides": {
-    "esbuild": "0.25.12"
+    "esbuild": "0.25.12",
+    "@esbuild/linux-x64": "0.25.12",
+    "@esbuild/linux-arm64": "0.25.12"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
