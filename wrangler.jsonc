@@ -1,7 +1,7 @@
 {
-  "name": "check-the-lease-preview",
+  "name": "check-the-lease",
   "main": "worker/index.ts",
-  "compatibility_date": "2025-06-01",
+  "compatibility_date": "2026-06-11",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./frontend/dist/public",
