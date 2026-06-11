@@ -5,7 +5,13 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { STATE_GUIDES } from "@/lib/guide-data";
-import { IconChevronRight, IconMapPin, IconClock, IconShield, IconUpload, IconSearchSmall, IconDocumentSmall, IconWarning } from "@/components/icons/Icon";
+import { IconChevronRight, IconMapPin, IconClock, IconShield, IconUpload, IconDocumentSmall, IconWarning, IconSparkle, IconPlus, IconKey } from "@/components/icons/Icon";
+import { IllusMovingBox } from "@/components/illustrations/MovingBox";
+import { IllusMagnifier } from "@/components/illustrations/Magnifier";
+import { IllusDocument } from "@/components/illustrations/Document";
+import { IllusKeys } from "@/components/illustrations/Keys";
+import { IllusHouse } from "@/components/illustrations/House";
+import { HomeFinal } from "@/components/illustrations/HomeFinal";
 
 const EASE = "cubic-bezier(0.16,1,0.3,1)";
 const INK = "#171717";
@@ -14,6 +20,7 @@ const NAVY = "#1E3A5F";
 const SAGE = "#5A8B7A";
 const WINE = "#7A2C3D";
 const SAND = "#C97A4A";
+const SUN = "#F5C547";
 
 function useScrollReveal() {
   useEffect(() => {
@@ -72,9 +79,9 @@ function HeroAction() {
 }
 
 const STEPS = [
-  { icon: IconUpload, n: "01", title: "Pick your state & upload", body: "Choose your state, drop in the PDF. No account, never stored." },
-  { icon: IconSearchSmall, n: "02", title: "We read every clause", body: "Checked against your state's actual tenant law in about 15 seconds." },
-  { icon: IconDocumentSmall, n: "03", title: "See what it really says", body: "Plain-English flags, the law behind each one, and what to say." },
+  { illus: IllusMovingBox, n: "01", title: "Pick your state & upload", body: "Choose your state, drop in the PDF. No account, never stored." },
+  { illus: IllusMagnifier, n: "02", title: "We read every clause", body: "Checked against your state's actual tenant law in about 15 seconds." },
+  { illus: IllusDocument, n: "03", title: "See what it really says", body: "Plain-English flags, the law behind each one, and what to say." },
 ];
 
 const PREVIEW = [
@@ -95,12 +102,26 @@ export default function Home() {
 
         {/* ═══ HERO — action first ═══ */}
         <section aria-labelledby="hero-heading" style={{ position: "relative", overflow: "hidden", backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.045) 1.5px, transparent 1.5px)", backgroundSize: "26px 26px" }}>
-          <div className="hero-grid" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr", alignItems: "center", gap: "clamp(32px,5vw,72px)", padding: "clamp(40px,6vw,96px) clamp(20px,4vw,48px)" }}>
-            <style>{`@media (min-width: 880px){ .hero-grid { grid-template-columns: 1.05fr 0.95fr !important; } }`}</style>
+          {/* Brand video texture */}
+          <video autoPlay muted loop playsInline aria-hidden={true} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.1, mixBlendMode: "multiply", pointerEvents: "none" }}>
+            <source src={`${import.meta.env.BASE_URL}hero-video.mp4`} type="video/mp4" />
+          </video>
+          {/* Floating brand illustrations + sunshine sparkles */}
+          <div aria-hidden={true} className="hero-decor" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+            <div style={{ position: "absolute", left: "-16px", top: "15%", opacity: 0.5, animation: "ctl-illus-float-a 8.5s ease-in-out infinite" }}><IllusKeys size={104} /></div>
+            <div style={{ position: "absolute", left: "1%", bottom: "5%", opacity: 0.4, animation: "ctl-illus-float-b 11s ease-in-out infinite 1.6s" }}><IllusHouse size={120} /></div>
+            <div style={{ position: "absolute", right: "-12px", bottom: "18%", opacity: 0.32, animation: "ctl-illus-float-d 13s ease-in-out infinite 4s" }}><IllusDocument size={92} /></div>
+            <div style={{ position: "absolute", top: "11%", right: "41%", color: SUN, animation: "star-twinkle 4s ease-in-out infinite" }}><IconSparkle size={26} /></div>
+            <div style={{ position: "absolute", top: "40%", right: "45%", color: SUN, animation: "blob-bob 6s ease-in-out infinite 1s" }}><IconSparkle size={16} /></div>
+            <div style={{ position: "absolute", bottom: "28%", left: "44%", color: SAGE, animation: "blob-bob 7s ease-in-out infinite 2.4s" }}><IconPlus size={18} /></div>
+          </div>
+          <div className="hero-grid" style={{ position: "relative", zIndex: 1, maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr", alignItems: "center", gap: "clamp(32px,5vw,72px)", padding: "clamp(40px,6vw,96px) clamp(20px,4vw,48px)" }}>
+            <style>{`@media (min-width: 880px){ .hero-grid { grid-template-columns: 1.05fr 0.95fr !important; } } @media (max-width: 720px){ .hero-decor { display: none !important; } }`}</style>
 
             {/* Left: message + action */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(90,139,122,0.1)", border: "1.5px solid rgba(90,139,122,0.3)", borderRadius: 999, fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#3D5F50", marginBottom: 22, animation: `ctl-fade-up 0.6s 0.05s ${EASE} both` }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(245,197,71,0.16)", border: "1.5px solid rgba(245,197,71,0.5)", borderRadius: 999, fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#8A6A12", marginBottom: 22, animation: `ctl-fade-up 0.6s 0.05s ${EASE} both` }}>
+                <span style={{ display: "inline-flex", color: SUN }}><IconSparkle size={13} aria-hidden={true} /></span>
                 Free scan · all 50 states
               </div>
               <h1 id="hero-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(40px,6.5vw,76px)", lineHeight: 0.98, letterSpacing: "-0.04em", color: "var(--color-ink)", margin: 0, animation: `ctl-fade-up 0.7s 0.1s ${EASE} both` }}>
@@ -150,6 +171,18 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ═══ BRAND MARQUEE ═══ */}
+        <div aria-hidden={true} style={{ overflow: "hidden", lineHeight: 0, borderBottom: "1.5px solid rgba(23,23,23,0.08)" }}>
+          <svg viewBox="0 0 1200 60" width="100%" height="56" preserveAspectRatio="xMidYMid meet">
+            <path id="ctl-marquee-path" d="M 0,32 Q 300,8 600,28 T 1200,26" fill="none" />
+            <text style={{ fontFamily: "'Fraunces', Georgia, serif", fontStyle: "italic", fontSize: "17px", fill: NAVY, opacity: 0.5, letterSpacing: "-0.01em" }}>
+              <textPath href="#ctl-marquee-path" startOffset="0%">
+                we read your lease · so everyone gets a fair deal · free scan for renters · free scan for landlords · we read your lease ·
+              </textPath>
+            </text>
+          </svg>
+        </div>
+
         {/* ═══ HOW IT WORKS — 3 steps ═══ */}
         <section data-reveal className="ctl-reveal" aria-labelledby="how-h" style={{ padding: "clamp(56px,8vw,96px) clamp(20px,4vw,48px)" }}>
           <div style={{ maxWidth: 1000, margin: "0 auto" }}>
@@ -161,12 +194,12 @@ export default function Home() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px,1fr))", gap: 16 }}>
               {STEPS.map((s) => {
-                const Ic = s.icon;
+                const Illus = s.illus;
                 return (
                   <div key={s.n} style={{ background: BONE, border: `2px solid ${INK}`, borderRadius: 16, padding: "clamp(24px,3vw,32px)", boxShadow: `4px 4px 0 0 ${INK}` }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-                      <Ic size={28} aria-hidden={true} />
-                      <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 36, color: "rgba(30,58,95,0.18)", lineHeight: 1 }}>{s.n}</span>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+                      <div aria-hidden={true}><Illus size={64} /></div>
+                      <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 42, color: "rgba(245,197,71,0.55)", lineHeight: 1 }}>{s.n}</span>
                     </div>
                     <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(18px,2.2vw,22px)", letterSpacing: "-0.02em", color: "var(--color-ink)", margin: "0 0 8px" }}>{s.title}</h3>
                     <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", lineHeight: 1.6, margin: 0 }}>{s.body}</p>
@@ -236,7 +269,8 @@ export default function Home() {
         {/* ═══ FINAL CTA ═══ */}
         <section data-reveal className="ctl-reveal" aria-labelledby="cta-h" style={{ padding: "clamp(40px,6vw,80px) clamp(20px,4vw,48px) clamp(64px,9vw,110px)" }}>
           <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", position: "relative" }}>
-            <div aria-hidden={true} style={{ position: "absolute", left: "8%", top: -10, opacity: 0.12, pointerEvents: "none", color: SAGE }}><IconSearchSmall size={90} /></div>
+            <div aria-hidden={true} style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}><HomeFinal size={132} /></div>
+            <div aria-hidden={true} style={{ position: "absolute", right: "10%", top: 6, color: SUN, animation: "star-twinkle 5s ease-in-out infinite 1s", pointerEvents: "none" }}><IconSparkle size={22} /></div>
             <h2 id="cta-h" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(30px,5vw,52px)", letterSpacing: "-0.035em", lineHeight: 1.02, color: "var(--color-ink)", margin: "0 0 16px" }}>
               Know what you're signing. <em style={{ fontStyle: "italic", color: "var(--color-ink-muted)" }}>Before you agree.</em>
             </h2>
