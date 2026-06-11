@@ -101,66 +101,54 @@ export default function Home() {
       <main id="main" style={{ flex: 1, width: "100%" }} role="main">
 
         {/* ═══ HERO — action first ═══ */}
-        <section aria-labelledby="hero-heading" style={{ position: "relative", overflow: "hidden", backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.045) 1.5px, transparent 1.5px)", backgroundSize: "26px 26px" }}>
-          {/* Brand video texture */}
-          <video autoPlay muted loop playsInline aria-hidden={true} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.1, mixBlendMode: "multiply", pointerEvents: "none" }}>
-            <source src={`${import.meta.env.BASE_URL}hero-video.mp4`} type="video/mp4" />
-          </video>
-          {/* Floating brand illustrations + sunshine sparkles */}
+        <section aria-labelledby="hero-heading" style={{ position: "relative", overflow: "hidden", background: SUN, backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.075) 1.6px, transparent 1.6px)", backgroundSize: "22px 22px" }}>
+          {/* Comic sparkles + dots on sunshine */}
           <div aria-hidden={true} className="hero-decor" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
-            <div style={{ position: "absolute", left: "-16px", top: "15%", opacity: 0.5, animation: "ctl-illus-float-a 8.5s ease-in-out infinite" }}><IllusKeys size={104} /></div>
-            <div style={{ position: "absolute", left: "1%", bottom: "5%", opacity: 0.4, animation: "ctl-illus-float-b 11s ease-in-out infinite 1.6s" }}><IllusHouse size={120} /></div>
-            <div style={{ position: "absolute", right: "-12px", bottom: "18%", opacity: 0.32, animation: "ctl-illus-float-d 13s ease-in-out infinite 4s" }}><IllusDocument size={92} /></div>
-            <div style={{ position: "absolute", top: "11%", right: "41%", color: SUN, animation: "star-twinkle 4s ease-in-out infinite" }}><IconSparkle size={26} /></div>
-            <div style={{ position: "absolute", top: "40%", right: "45%", color: SUN, animation: "blob-bob 6s ease-in-out infinite 1s" }}><IconSparkle size={16} /></div>
-            <div style={{ position: "absolute", bottom: "28%", left: "44%", color: SAGE, animation: "blob-bob 7s ease-in-out infinite 2.4s" }}><IconPlus size={18} /></div>
+            <div style={{ position: "absolute", top: "13%", right: "39%", color: INK, animation: "star-twinkle 4s ease-in-out infinite" }}><IconSparkle size={22} /></div>
+            <div style={{ position: "absolute", top: "60%", left: "6%", color: INK, opacity: 0.85, animation: "star-twinkle 5s ease-in-out infinite 1.5s" }}><IconSparkle size={15} /></div>
+            <div style={{ position: "absolute", bottom: "15%", right: "9%", width: 11, height: 11, borderRadius: "50%", background: "#7A5A8B", opacity: 0.6 }} />
+            <div style={{ position: "absolute", top: "22%", left: "11%", width: 8, height: 8, borderRadius: "50%", background: NAVY, opacity: 0.5 }} />
+            <div style={{ position: "absolute", bottom: "30%", left: "46%", width: 7, height: 7, borderRadius: "50%", background: SAND, opacity: 0.55 }} />
           </div>
           <div className="hero-grid" style={{ position: "relative", zIndex: 1, maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr", alignItems: "center", gap: "clamp(32px,5vw,72px)", padding: "clamp(40px,6vw,96px) clamp(20px,4vw,48px)" }}>
             <style>{`@media (min-width: 880px){ .hero-grid { grid-template-columns: 1.05fr 0.95fr !important; } } @media (max-width: 720px){ .hero-decor { display: none !important; } }`}</style>
 
             {/* Left: message + action */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(245,197,71,0.16)", border: "1.5px solid rgba(245,197,71,0.5)", borderRadius: 999, fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#8A6A12", marginBottom: 22, animation: `ctl-fade-up 0.6s 0.05s ${EASE} both` }}>
-                <span style={{ display: "inline-flex", color: SUN }}><IconSparkle size={13} aria-hidden={true} /></span>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.13em", color: "rgba(23,23,23,0.6)", marginBottom: 20, animation: `ctl-fade-up 0.6s 0.05s ${EASE} both` }}>
+                <span style={{ display: "inline-flex", color: SAGE }}><IconSparkle size={13} aria-hidden={true} /></span>
                 Free scan · all 50 states
               </div>
-              <h1 id="hero-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(40px,6.5vw,76px)", lineHeight: 0.98, letterSpacing: "-0.04em", color: "var(--color-ink)", margin: 0, animation: `ctl-fade-up 0.7s 0.1s ${EASE} both` }}>
+              <h1 id="hero-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(40px,6.5vw,76px)", lineHeight: 0.98, letterSpacing: "-0.04em", color: INK, margin: 0, animation: `ctl-fade-up 0.7s 0.1s ${EASE} both` }}>
                 Know what your lease<br /><em style={{ fontStyle: "italic", color: NAVY }}>really says.</em>
               </h1>
-              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.55, marginTop: "clamp(18px,2.5vw,24px)", marginBottom: "clamp(24px,3.5vw,32px)", color: "var(--color-ink-muted)", maxWidth: 440, animation: `ctl-fade-up 0.7s 0.2s ${EASE} both` }}>
+              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.55, marginTop: "clamp(18px,2.5vw,24px)", marginBottom: "clamp(20px,3vw,26px)", color: "rgba(23,23,23,0.74)", maxWidth: 440, animation: `ctl-fade-up 0.7s 0.2s ${EASE} both` }}>
                 Upload your lease and get a free scan that names the red flags in seconds — cited to your state's law. Full report $9.99, no subscription.
               </p>
-              <div style={{ animation: `ctl-fade-up 0.7s 0.3s ${EASE} both` }}>
+              {/* Pill badges (OG brand style) */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: "clamp(24px,3.5vw,30px)", animation: `ctl-fade-up 0.7s 0.26s ${EASE} both` }}>
+                {[{ t: "Free scan", bg: BONE, fg: INK }, { t: "15-second read", bg: SAGE, fg: "#FBF8F1" }, { t: "All 50 states", bg: BONE, fg: SAND }].map((p) => (
+                  <span key={p.t} style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 700, color: p.fg, background: p.bg, border: `2px solid ${INK}`, borderRadius: 999, padding: "7px 16px", boxShadow: `2px 2px 0 0 ${INK}` }}>{p.t}</span>
+                ))}
+              </div>
+              <div style={{ animation: `ctl-fade-up 0.7s 0.34s ${EASE} both` }}>
                 <HeroAction />
               </div>
             </div>
 
-            {/* Right: before → after proof (compact, not text-dense) */}
-            <div className="hero-aside" style={{ animation: `ctl-fade-up 0.9s 0.3s ${EASE} both` }}>
-              <div style={{ background: "#141414", borderRadius: 18, padding: "clamp(18px,2.4vw,26px)", border: `2px solid ${INK}`, boxShadow: `6px 6px 0 0 ${INK}`, marginBottom: 12 }}>
-                <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.55)", marginBottom: 12 }}>From your lease</div>
-                <p style={{ fontFamily: "var(--app-font-mono)", fontSize: "clamp(12px,1.4vw,14px)", color: "rgba(251,248,241,0.95)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
-                  "Tenant waives the right to notice of entry. Landlord may enter at any time for any purpose."
-                </p>
-              </div>
-              <div aria-hidden={true} style={{ textAlign: "center", fontSize: 20, color: "rgba(122,44,61,0.5)", padding: "2px 0", lineHeight: 1 }}>↓</div>
-              <div style={{ background: WINE, borderRadius: 18, padding: "clamp(18px,2.4vw,26px)", marginTop: 12, border: `2px solid ${INK}`, boxShadow: `8px 8px 0 0 ${INK}` }}>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: "rgba(255,255,255,0.18)", borderRadius: 6, padding: "5px 12px", marginBottom: 14 }}>
-                  <IconWarning size={14} aria-hidden={true} />
-                  <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.13em", color: "rgba(255,255,255,0.95)" }}>High risk</span>
-                </div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(17px,2vw,21px)", color: "#FBF8F1", letterSpacing: "-0.02em", margin: "0 0 8px", lineHeight: 1.25 }}>
-                  Your landlord can't enter without notice.
-                </h3>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(12px,1.4vw,14px)", color: "rgba(251,248,241,0.9)", lineHeight: 1.6, margin: 0 }}>
-                  Most states require written notice before entry. This clause tries to waive that — and usually can't.
-                </p>
+            {/* Right: the flagged document (brand hero art) */}
+            <div className="hero-aside" style={{ display: "flex", justifyContent: "center", animation: `ctl-float-card 7s ease-in-out infinite, ctl-fade-up 0.9s 0.3s ${EASE} both` }}>
+              <div style={{ position: "relative", width: "100%", maxWidth: 360 }}>
+                <div aria-hidden={true} style={{ position: "absolute", left: -22, bottom: 28, transform: "rotate(-14deg)", zIndex: 0 }}><IllusKeys size={118} /></div>
+                <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center" }}><IllusDocument size={300} /></div>
+                <div style={{ position: "absolute", left: "14%", bottom: "20%", zIndex: 2, background: WINE, color: "#FBF8F1", border: `2px solid ${INK}`, borderRadius: 6, padding: "5px 14px", fontFamily: "var(--app-font-mono)", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", boxShadow: `3px 3px 0 0 ${INK}` }}>FLAGGED</div>
+                <div aria-hidden={true} style={{ position: "absolute", top: -4, right: "12%", color: INK, animation: "star-twinkle 5s ease-in-out infinite 0.8s" }}><IconSparkle size={24} /></div>
               </div>
             </div>
           </div>
 
           {/* Trust strip */}
-          <div style={{ borderTop: "1.5px solid rgba(23,23,23,0.08)", borderBottom: "1.5px solid rgba(23,23,23,0.08)", background: "rgba(23,23,23,0.015)" }}>
+          <div style={{ position: "relative", zIndex: 1, borderTop: `2px solid ${INK}`, borderBottom: `1.5px solid rgba(23,23,23,0.08)`, background: BONE }}>
             <div style={{ maxWidth: 1120, margin: "0 auto", padding: "14px clamp(20px,4vw,48px)", display: "flex", flexWrap: "wrap", gap: "10px 28px", justifyContent: "center" }}>
               {[{ i: IconMapPin, t: "All 50 states + territories" }, { i: IconClock, t: "~15 seconds" }, { i: IconShield, t: "Never stored, no account" }, { i: IconDocumentSmall, t: "Cited to your state's law" }].map(({ i: Ic, t }) => (
                 <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)" }}>
