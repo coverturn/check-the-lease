@@ -25,11 +25,21 @@ const JSON_SCHEMA_PREAMBLE = `JSON SCHEMA TO RETURN:
   "potential_issues": [{ "severity": "low|medium|high", "title": "...", "explanation": "...", "citation": "...", "original_quote": "..." }],
   "missing_protections": { "renter": [{ "title": "...", "explanation": "...", "helps": "renter" }], "landlord": [{ "title": "...", "explanation": "...", "helps": "landlord" }] },
   "parent_considerations": [{ "title": "...", "explanation": "..." }],
+  "financial_impact": { "items": [{ "label": "Late fees", "amount": "up to ~$160/month", "basis": "5% of rent, charged after a 3-day grace period" }], "total_estimate": "$X–$Y over the lease term", "note": "Rough estimate for information only, not financial advice." },
+  "negotiation": { "email": "...", "scripts": [{ "clause": "Security deposit", "ask": "..." }], "tone_note": "..." },
   "questions": ["..."],
   "stats": { "potential_issues": N, "missing_protections": N, "questions": N }
 }
 NOTE: parent_considerations is OPTIONAL — only include it when explicitly instructed.
-Include 6-10 key terms (Rent, Security Deposit, Late Fee, Lease Term, Renewal, Entry Notice, Pets, Termination, Repairs, Utilities — extract actual values or write "Not specified"). Include all material issues found. Missing protections: 2-5 per side. Questions: 5-8. stats.missing_protections = total across both arrays. "citation" is optional on each issue — include it ONLY when it comes from the provided STATE LAW context.`;
+Include 6-10 key terms (Rent, Security Deposit, Late Fee, Lease Term, Renewal, Entry Notice, Pets, Termination, Repairs, Utilities — extract actual values or write "Not specified"). Include all material issues found. Missing protections: 2-5 per side. Questions: 5-8. stats.missing_protections = total across both arrays. "citation" is optional on each issue — include it ONLY when it comes from the provided STATE LAW context.
+
+ALWAYS include "financial_impact": estimate the POTENTIAL costs the user could realistically face based on the flagged issues and the lease's actual numbers. Cover items like late fees, admin/processing fees, early-termination charges, rent escalation, mandatory services/fees, and any deposit at risk. 3-6 items. Use the lease's real figures where present; otherwise reason from typical terms and say so in "basis". Phrase every amount as an approximate ceiling ("up to", "~", a range) — these are estimates, never guarantees. "total_estimate" is a plain range over the lease term. Keep "note" reminding it is informational only, not financial advice.
+
+ALWAYS include "negotiation": a practical toolkit the user could choose to use.
+- "email": a complete, ready-to-send message in the USER'S OWN first-person voice (NOT advice to the user). Polite but firm. ${"`"}If stage is "before"${"`"} it requests the specific changes before signing; if "already", it requests an amendment. 150-250 words. Open warmly, list the specific clause changes being requested, close cooperatively. Do NOT include "you should" or advice phrasing — it is the user speaking to their landlord.
+- "scripts": one short, copy-pasteable line per major flagged issue (3-6 items). "clause" = the topic; "ask" = the exact suggested wording the user could say or write, in first person (e.g. "I'd like the security deposit brought in line with the state limit of two months' rent — can we update clause 3?").
+- "tone_note": one sentence on adapting tone (e.g. softer for a long-term landlord, firmer pre-signing).
+For the "landlord" perspective, frame negotiation as the fixes to make to the template before issuing, and the email as a note to their own records or attorney; keep the same structure.`;
 
 export function buildAnalysisMessages(leaseText: string, intake: Intake) {
   const stateContext = buildStateContext(intake.state);

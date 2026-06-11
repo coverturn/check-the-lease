@@ -39,6 +39,29 @@ export const ParentConsiderationSchema = z.object({
   explanation: z.string(),
 });
 
+export const FinancialImpactItemSchema = z.object({
+  label: z.string(),
+  amount: z.string(),
+  basis: z.string(),
+});
+
+export const FinancialImpactSchema = z.object({
+  items: z.array(FinancialImpactItemSchema),
+  total_estimate: z.string(),
+  note: z.string().optional(),
+});
+
+export const NegotiationScriptSchema = z.object({
+  clause: z.string(),
+  ask: z.string(),
+});
+
+export const NegotiationSchema = z.object({
+  email: z.string(),
+  scripts: z.array(NegotiationScriptSchema),
+  tone_note: z.string().optional(),
+});
+
 export const AnalysisResultSchema = z.object({
   key_terms: z.array(KeyTermSchema),
   potential_issues: z.array(PotentialIssueSchema),
@@ -47,6 +70,8 @@ export const AnalysisResultSchema = z.object({
     landlord: z.array(MissingProtectionSchema),
   }),
   parent_considerations: z.array(ParentConsiderationSchema).optional(),
+  financial_impact: FinancialImpactSchema.optional(),
+  negotiation: NegotiationSchema.optional(),
   questions: z.array(z.string()),
   stats: z.object({
     potential_issues: z.number(),

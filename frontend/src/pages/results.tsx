@@ -21,11 +21,17 @@ type KeyTerm = { label: string; value: string; original_quote?: string };
 type PotentialIssue = { severity: "low" | "medium" | "high"; title: string; explanation: string; citation?: string; original_quote?: string };
 type MissingProtection = { title: string; explanation: string; helps: "renter" | "landlord" | "both" };
 type ParentConsideration = { title: string; explanation: string };
+type FinancialImpactItem = { label: string; amount: string; basis: string };
+type FinancialImpact = { items: FinancialImpactItem[]; total_estimate: string; note?: string };
+type NegotiationScript = { clause: string; ask: string };
+type Negotiation = { email: string; scripts: NegotiationScript[]; tone_note?: string };
 type AnalysisResult = {
   key_terms: KeyTerm[];
   potential_issues: PotentialIssue[];
   missing_protections: { renter: MissingProtection[]; landlord: MissingProtection[] };
   parent_considerations?: ParentConsideration[];
+  financial_impact?: FinancialImpact;
+  negotiation?: Negotiation;
   questions: string[];
   stats: { potential_issues: number; missing_protections: number; questions: number };
 };
@@ -66,6 +72,26 @@ const PLACEHOLDER_ANALYSIS: AnalysisResult = {
     "Can the one-sided attorney-fee clause be made reciprocal?",
     "Is there a written maintenance-response timeline you typically follow?",
   ],
+  financial_impact: {
+    items: [
+      { label: "Security deposit over the legal cap", amount: "up to ~$3,200 at risk", basis: "Deposit is $9,600 (3 months) vs the 2-month cap of $6,400" },
+      { label: "Unspecified late fees", amount: "up to ~$160+/month", basis: "'As determined by Landlord' could exceed a reasonable ~5% of rent" },
+      { label: "Pet fees (non-refundable)", amount: "$500 per pet", basis: "Stated as non-refundable, which may be deductible-only under state law" },
+      { label: "Early termination exposure", amount: "up to ~$6,400", basis: "No early-termination clause — could mean liability for rent until re-let" },
+    ],
+    total_estimate: "$3,800–$10,000+ over the lease term",
+    note: "Rough estimate for information only, not financial advice. Actual amounts depend on how the lease is enforced.",
+  },
+  negotiation: {
+    email: "Hi [Landlord's name],\n\nThank you for sending over the lease for Unit 4B — I'm keen to move forward and just have a few small changes I'd like to agree before signing.\n\nFirst, the security deposit is listed at $9,600 (three months' rent). California limits deposits to two months for an unfurnished unit, so I'd like to bring this to $6,400.\n\nSecond, the late fee is currently 'as determined by Landlord.' Could we set a specific figure — for example a flat $50 or 5% of rent — so we're both clear?\n\nFinally, I'd appreciate adding a 24-hour written notice period for non-emergency entry, and a simple channel and timeline for repair requests.\n\nI'm happy to sign as soon as these are updated. Thanks so much for working with me on this.\n\nBest,\n[Your name]",
+    scripts: [
+      { clause: "Security deposit", ask: "I'd like the deposit brought in line with the state limit of two months' rent ($6,400) — can we update clause 3?" },
+      { clause: "Late fees", ask: "Could we set the late fee at a specific amount, say $50 or 5% of rent, instead of 'as determined'?" },
+      { clause: "Entry notice", ask: "Can we add 24 hours' written notice before non-emergency entry, in line with state law?" },
+      { clause: "Repairs", ask: "Could we add a simple way to log repair requests and a target response time?" },
+    ],
+    tone_note: "Keep it warm if you have a good rapport; be a little firmer on the deposit, since that one is a clear legal limit.",
+  },
   stats: { potential_issues: 4, missing_protections: 6, questions: 7 },
 };
 
@@ -198,6 +224,25 @@ function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => voi
           <path d="M1.5 5L5 8.5L11.5 1.5" stroke="#FBF8F1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       )}
+    </button>
+  );
+}
+
+function CopyButton({ text, label = "Copy", lang }: { text: string; label?: string; lang: "en" | "es" }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(text); } catch { /* noop */ }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
+  return (
+    <button onClick={copy} style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: copied ? "#F0F6F4" : "rgba(23,23,23,0.04)", border: `1.5px solid ${copied ? "#5A8B7A" : "rgba(23,23,23,0.15)"}`, borderRadius: 8, padding: "7px 13px", cursor: "pointer", fontFamily: "var(--app-font-sans)", fontSize: 12, fontWeight: 600, color: copied ? "#3D5F50" : "var(--color-ink)", transition: "border-color 0.15s, background-color 0.15s", flexShrink: 0 }}>
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        {copied
+          ? <path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          : <><rect x="3.2" y="3.2" width="6.6" height="6.6" rx="1.4" stroke="currentColor" strokeWidth="1.3" /><path d="M5.6 3V1.9A0.9 0.9 0 016.5 1h5.6a0.9 0.9 0 01.9.9v5.6a0.9 0.9 0 01-.9.9H11" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></>}
+      </svg>
+      {copied ? (lang === "es" ? "Copiado" : "Copied") : label}
     </button>
   );
 }
@@ -765,6 +810,108 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                     </article>
                   ))}
                 </div>
+              </section>
+            </>
+          )}
+
+          {!LOCKED && analysis.financial_impact && analysis.financial_impact.items.length > 0 && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px,5vw,48px)", marginTop: "clamp(48px,7vw,80px)" }}>
+                <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />
+                <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(23,23,23,0.25)", flexShrink: 0 }}>
+                  {lang === "es" ? "lo que podría costar" : "what it could cost"}
+                </span>
+                <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />
+              </div>
+
+              <section aria-labelledby="finance-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#7A2C3D", border: "2px solid #171717", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontWeight: 700, fontSize: 15, color: "#FBF8F1" }}>$</span>
+                  </div>
+                  <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--color-ink-muted)" }}>{lang === "es" ? "Impacto económico" : "Financial impact"}</span>
+                </div>
+                <h2 id="finance-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.5vw,36px)", color: "var(--color-ink)", letterSpacing: "-0.025em", margin: "0 0 6px" }}>
+                  {lang === "es" ? "Lo que esto podría costarte." : "What this could cost you."}
+                </h2>
+                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", marginBottom: 24, lineHeight: 1.5 }}>
+                  {lang === "es" ? "Estimaciones aproximadas según las cláusulas marcadas. Solo información." : "Rough estimates based on the flagged clauses. Information only."}
+                </p>
+
+                <div style={{ border: "2.5px solid #171717", borderRadius: 18, overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }}>
+                  {analysis.financial_impact.items.map((item, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, padding: "18px 24px", backgroundColor: "var(--color-bone)", borderBottom: "1.5px solid rgba(23,23,23,0.08)", flexWrap: "wrap" }}>
+                      <div style={{ flex: "1 1 240px" }}>
+                        <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(15px,2vw,18px)", color: "var(--color-ink)", letterSpacing: "-0.01em", marginBottom: 4 }}>{item.label}</div>
+                        <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", lineHeight: 1.5 }}>{item.basis}</div>
+                      </div>
+                      <div style={{ fontFamily: "var(--app-font-mono)", fontSize: "clamp(14px,1.8vw,16px)", fontWeight: 700, color: "#7A2C3D", whiteSpace: "nowrap", flexShrink: 0, marginTop: 2 }}>{item.amount}</div>
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "20px 24px", backgroundColor: "#171717", flexWrap: "wrap" }}>
+                    <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(251,248,241,0.6)" }}>{lang === "es" ? "Total estimado" : "Estimated total"}</span>
+                    <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(18px,2.5vw,24px)", color: "#FBF8F1", letterSpacing: "-0.02em" }}>{analysis.financial_impact.total_estimate}</span>
+                  </div>
+                </div>
+                {analysis.financial_impact.note && (
+                  <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 12, fontStyle: "italic", lineHeight: 1.5 }}>{analysis.financial_impact.note}</p>
+                )}
+              </section>
+            </>
+          )}
+
+          {!LOCKED && analysis.negotiation && (analysis.negotiation.scripts.length > 0 || analysis.negotiation.email) && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px,5vw,48px)", marginTop: "clamp(48px,7vw,80px)" }}>
+                <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />
+                <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(23,23,23,0.25)", flexShrink: 0 }}>
+                  {lang === "es" ? "qué decir" : "what to say"}
+                </span>
+                <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />
+              </div>
+
+              <section aria-labelledby="negotiate-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#5A8B7A", border: "2px solid #171717", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4.5A1.5 1.5 0 013.5 3h9A1.5 1.5 0 0114 4.5v5A1.5 1.5 0 0112.5 11H6l-3 2.5V11H3.5A1.5 1.5 0 012 9.5z" stroke="#FBF8F1" strokeWidth="1.4" strokeLinejoin="round"/></svg>
+                  </div>
+                  <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--color-ink-muted)" }}>{lang === "es" ? "Kit de negociación" : "Negotiation toolkit"}</span>
+                </div>
+                <h2 id="negotiate-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.5vw,36px)", color: "var(--color-ink)", letterSpacing: "-0.025em", margin: "0 0 6px" }}>
+                  {lang === "es" ? "Qué decirle a tu arrendador." : "What to say to your landlord."}
+                </h2>
+                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", marginBottom: 24, lineHeight: 1.5 }}>
+                  {lang === "es" ? "Líneas listas para copiar y un correo completo. Cámbialos a tu voz." : "Copy-ready lines and a full email. Make them your own."}
+                </p>
+
+                {analysis.negotiation.scripts.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
+                    {analysis.negotiation.scripts.map((s, i) => (
+                      <article key={i} style={{ backgroundColor: "var(--color-bone)", border: "2.5px solid #171717", borderLeft: "6px solid #5A8B7A", borderRadius: 14, padding: "18px 22px", boxShadow: "4px 4px 0 0 #171717" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 10, flexWrap: "wrap" }}>
+                          <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#3D5F50" }}>{s.clause}</span>
+                          <CopyButton text={s.ask} lang={lang} label={lang === "es" ? "Copiar" : "Copy"} />
+                        </div>
+                        <p style={{ fontFamily: "var(--app-font-serif)", fontSize: "clamp(15px,2vw,18px)", color: "var(--color-ink)", lineHeight: 1.55, margin: 0, fontStyle: "italic" }}>&ldquo;{s.ask}&rdquo;</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+
+                {analysis.negotiation.email && (
+                  <div style={{ border: "2.5px solid #171717", borderRadius: 18, overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }}>
+                    <div style={{ backgroundColor: "#1E3A5F", padding: "14px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                      <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.7)" }}>{lang === "es" ? "Correo listo para enviar" : "Ready-to-send email"}</span>
+                      <CopyButton text={analysis.negotiation.email} lang={lang} label={lang === "es" ? "Copiar correo" : "Copy email"} />
+                    </div>
+                    <pre style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink)", lineHeight: 1.7, margin: 0, padding: "22px 24px", backgroundColor: "var(--color-bone)", whiteSpace: "pre-wrap", wordWrap: "break-word" }}>{analysis.negotiation.email}</pre>
+                  </div>
+                )}
+                {analysis.negotiation.tone_note && (
+                  <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", marginTop: 14, lineHeight: 1.55, display: "flex", gap: 8 }}>
+                    <span aria-hidden="true">💡</span><span>{analysis.negotiation.tone_note}</span>
+                  </p>
+                )}
               </section>
             </>
           )}
