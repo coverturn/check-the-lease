@@ -5,9 +5,10 @@ const SWATCHES = ["#7A2C3D", "#C97A4A", "#F5C547", "#5A8B7A", "#1E3A5F", "#7A5A8
 
 const PRODUCT = [
   { label: "Read my lease", href: "/upload" },
+  { label: "Pricing", href: "/pricing" },
   { label: "How it works", href: "/how-it-works" },
   { label: "Resources", href: "/resources" },
-  { label: "State guide", href: "/#state-coverage" },
+  { label: "Renter rights by state", href: "/renters-rights" },
 ];
 
 const LEGAL = [
@@ -18,7 +19,7 @@ const LEGAL = [
 
 const HELP = [
   { label: "Find a tenant lawyer", href: "/resources" },
-  { label: "State-by-state legal guide", href: "/#state-coverage" },
+  { label: "Renter rights by state", href: "/renters-rights" },
 ];
 
 const BG = "#1E3A5F";
@@ -92,8 +93,8 @@ export function Footer() {
             {[
               { n: "50", l: "states covered" },
               { n: "6", l: "territories" },
-              { n: "<15s", l: "per analysis" },
-              { n: "Free", l: "always" },
+              { n: "<15s", l: "per scan" },
+              { n: "Free", l: "to scan" },
             ].map(({ n, l }) => (
               <div key={l} style={{ padding: "14px 0", borderBottom: `1px solid ${BORDER}`, textAlign: "right" }}>
                 <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px,3vw,36px)", letterSpacing: "-0.04em", color: TEXT, lineHeight: 1 }}>{n}</div>

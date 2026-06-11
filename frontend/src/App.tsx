@@ -12,6 +12,8 @@ import Results from "@/pages/results";
 import Example from "@/pages/example";
 import Pricing from "@/pages/pricing";
 import Checkout from "@/pages/checkout";
+import Guides from "@/pages/guides";
+import Guide from "@/pages/guide";
 import About from "@/pages/about";
 import BuildLog from "@/pages/build-log";
 import HowItWorks from "@/pages/how-it-works";
@@ -31,6 +33,8 @@ function Router() {
       <Route path="/example" component={Example} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/renters-rights" component={Guides} />
+      <Route path="/renters-rights/:slug" component={Guide} />
       <Route path="/about" component={About} />
       <Route path="/build-log" component={BuildLog} />
       <Route path="/how-it-works" component={HowItWorks} />
