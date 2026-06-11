@@ -8,18 +8,31 @@ const app = new Hono<{ Bindings: Env }>();
 
 app.get("/api/health", (c) => c.json({ ok: true }));
 
-async function extractPdfText(bytes: Uint8Array): Promise<string> {
-  try {
-    const pdf = await getDocumentProxy(bytes);
-    const { text } = await extractText(pdf, { mergePages: true });
-    const merged = (Array.isArray(text) ? text.join(" ") : text).replace(/\s+/g, " ").trim();
-    if (merged.length > 100) return merged;
-  } catch {
-    // fall through to plain-text decode
+function looksLikePdf(bytes: Uint8Array): boolean {
+  // "%PDF" magic number
+  return bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46;
+}
+
+function decodeText(bytes: Uint8Array): string {
+  return new TextDecoder().decode(bytes).replace(/\s+/g, " ").trim();
+}
+
+async function extractLeaseText(bytes: Uint8Array): Promise<string> {
+  // Real PDF: parse with unpdf.
+  if (looksLikePdf(bytes)) {
+    try {
+      const pdf = await getDocumentProxy(bytes);
+      const { text } = await extractText(pdf, { mergePages: true });
+      const merged = (Array.isArray(text) ? text.join(" ") : text).replace(/\s+/g, " ").trim();
+      if (merged.length > 50) return merged;
+    } catch {
+      // fall through to text decode
+    }
   }
-  const fallback = new TextDecoder().decode(bytes).replace(/\s+/g, " ").trim();
-  if (fallback.length > 100) return fallback;
-  throw new Error("Could not extract text from file. For scanned PDFs, run OCR first (e.g. ilovepdf.com), then re-upload.");
+  // Plain-text lease (or non-PDF upload): decode directly.
+  const decoded = decodeText(bytes);
+  if (decoded.length > 50) return decoded;
+  throw new Error("Could not read this file. If it's a scanned PDF, run OCR first (e.g. ilovepdf.com), then re-upload.");
 }
 
 app.post("/api/analyze", async (c) => {
@@ -41,8 +54,8 @@ app.post("/api/analyze", async (c) => {
     }
 
     const bytes = new Uint8Array(await file.arrayBuffer());
-    const leaseText = await extractPdfText(bytes);
-    if (leaseText.length < 200) {
+    const leaseText = await extractLeaseText(bytes);
+    if (leaseText.length < 100) {
       return c.json({ error: "Lease text too short — likely a scanned PDF without OCR, or a corrupt file." }, 400);
     }
 

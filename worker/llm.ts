@@ -1,5 +1,5 @@
 // Provider-agnostic LLM layer. Default: Groq (Llama 3.3 70B), OpenAI-compatible.
-// Swap providers by changing PROVIDERS[env.LLM_PROVIDER] — Anthropic fallback stubbed.
+// Swap providers by changing the endpoint/model below — Anthropic fallback can drop in here.
 
 export interface Env {
   ASSETS: Fetcher;
@@ -44,8 +44,8 @@ export async function complete(
 }
 
 /**
- * Streaming chat. Returns a ReadableStream already formatted as the frontend's
- * SSE protocol: `data: {"content": "..."}` deltas, then `data: {"done": true}`.
+ * Streaming chat. Returns a ReadableStream formatted as the frontend's SSE protocol:
+ * `data: {\"content\": \"...\"}` deltas, then `data: {\"done\": true}`.
  */
 export async function streamChat(env: Env, messages: Msg[]): Promise<ReadableStream<Uint8Array>> {
   const upstream = await fetch(GROQ_URL, {
@@ -68,40 +68,43 @@ export async function streamChat(env: Env, messages: Msg[]): Promise<ReadableStr
     throw new Error(`LLM stream error ${upstream.status}: ${text.slice(0, 300)}`);
   }
 
-  const reader = upstream.body.getReader();
-  const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  let buffer = "";
+  const decoder = new TextDecoder();
+  const upstreamBody = upstream.body;
 
   return new ReadableStream<Uint8Array>({
-    async pull(controller) {
-      const { done, value } = await reader.read();
-      if (done) {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true })}\n\n`));
-        controller.close();
-        return;
-      }
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      buffer = lines.pop() ?? "";
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed.startsWith("data:")) continue;
-        const payload = trimmed.slice(5).trim();
-        if (payload === "[DONE]") continue;
-        try {
-          const json = JSON.parse(payload) as { choices?: Array<{ delta?: { content?: string } }> };
-          const delta = json.choices?.[0]?.delta?.content;
-          if (delta) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: delta })}\n\n`));
+    async start(controller) {
+      const reader = upstreamBody.getReader();
+      let buffer = "";
+      const send = (obj: unknown) => controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let nl: number;
+          while ((nl = buffer.indexOf("\n")) >= 0) {
+            const line = buffer.slice(0, nl).trim();
+            buffer = buffer.slice(nl + 1);
+            if (!line.startsWith("data:")) continue;
+            const payload = line.slice(5).trim();
+            if (payload === "[DONE]") continue;
+            try {
+              const json = JSON.parse(payload) as { choices?: Array<{ delta?: { content?: string } }> };
+              const delta = json.choices?.[0]?.delta?.content;
+              if (delta) send({ content: delta });
+            } catch {
+              // ignore keepalive / partial frames
+            }
           }
-        } catch {
-          // ignore keepalive / partial frames
         }
+        send({ done: true });
+      } catch (e) {
+        send({ error: e instanceof Error ? e.message : "stream error" });
+      } finally {
+        controller.close();
+        reader.releaseLock();
       }
-    },
-    cancel() {
-      reader.cancel().catch(() => {});
     },
   });
 }
