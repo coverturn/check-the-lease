@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { STATE_GUIDES } from "@/lib/guide-data";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -60,11 +61,13 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
 
 export default function Home() {
   useScrollReveal();
+  const [, navigate] = useLocation();
 
   const [ctaHover, setCtaHover] = useState(false);
   const [sampleHover, setSampleHover] = useState(false);
   const [mobileCTAHover, setMobileCTAHover] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
+  const [heroState, setHeroState] = useState("");
 
   useEffect(() => {
     const onScroll = () => {
@@ -215,73 +218,37 @@ export default function Home() {
                 <span style={{ marginLeft: 4, fontFamily: "var(--app-font-serif)", fontStyle: "italic", opacity: 0.7 }}>covered</span>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  marginTop: 0,
-                  flexWrap: "wrap",
-                  animation: `ctl-fade-up 0.7s 0.36s ${EASE} both`,
-                }}
-              >
-                {/* Primary CTA - start free scan */}
-                <Link
-                  href="/upload"
-                  className="mn-btn"
-                  onMouseEnter={() => setCtaHover(true)}
-                  onMouseLeave={() => setCtaHover(false)}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 10,
-                    borderRadius: 999,
-                    padding: "15px 28px",
-                    fontFamily: "var(--app-font-sans)",
-                    fontWeight: 700,
-                    fontSize: 16,
-                    letterSpacing: "-0.01em",
-                    textDecoration: "none",
-                    background: ctaHover ? "#3D5F50" : "#5A8B7A",
-                    color: "#FBF8F1",
-                    border: "2.5px solid #171717",
-                    boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "5px 5px 0 0 #171717",
-                    transform: ctaHover ? "translate(2px, 2px)" : "translate(0, 0)",
-                    transition: "background 0.2s, transform 0.12s ease, box-shadow 0.12s ease",
-                    minHeight: 52,
-                  }}
-                >
-                  Start free scan
-                  <IconChevronRight size={16} style={{ transform: ctaHover ? "translateX(4px)" : "translateX(0)", transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1)" }} aria-hidden={true} />
-                </Link>
-
-                {/* Ghost CTA - example report */}
+              {/* Hero action: pick your state → start free scan (the first step, surfaced) */}
+              <div style={{ animation: `ctl-fade-up 0.7s 0.36s ${EASE} both` }}>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "stretch", maxWidth: 480 }}>
+                  <select
+                    aria-label="Your state or territory"
+                    value={heroState}
+                    onChange={(e) => setHeroState(e.target.value)}
+                    style={{ flex: "1 1 190px", minWidth: 168, padding: "15px 16px", borderRadius: 12, border: "2.5px solid #171717", backgroundColor: "var(--color-bone)", color: heroState ? "var(--color-ink)" : "var(--color-ink-muted)", fontFamily: "var(--app-font-sans)", fontSize: 15, fontWeight: 600, appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23171717' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 15px center", paddingRight: 42, cursor: "pointer", outline: "none", minHeight: 54, boxShadow: "3px 3px 0 0 #5A8B7A" }}
+                  >
+                    <option value="">Choose your state</option>
+                    {STATE_GUIDES.map((s) => <option key={s.code} value={s.code}>{s.name}</option>)}
+                  </select>
+                  <button
+                    onClick={() => navigate(heroState ? `/upload?state=${heroState}` : "/upload")}
+                    className="mn-btn"
+                    onMouseEnter={() => setCtaHover(true)}
+                    onMouseLeave={() => setCtaHover(false)}
+                    style={{ flex: "0 0 auto", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, borderRadius: 999, padding: "15px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 16, letterSpacing: "-0.01em", background: ctaHover ? "#3D5F50" : "#5A8B7A", color: "#FBF8F1", border: "2.5px solid #171717", boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "5px 5px 0 0 #171717", transform: ctaHover ? "translate(2px, 2px)" : "translate(0, 0)", transition: "background 0.2s, transform 0.12s ease, box-shadow 0.12s ease", cursor: "pointer", minHeight: 54 }}
+                  >
+                    Start free scan
+                    <IconChevronRight size={16} style={{ transform: ctaHover ? "translateX(4px)" : "translateX(0)", transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1)" }} aria-hidden={true} />
+                  </button>
+                </div>
                 <Link
                   href="/example"
-                  className="mn-btn-ghost"
                   onMouseEnter={() => setSampleHover(true)}
                   onMouseLeave={() => setSampleHover(false)}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    borderRadius: 999,
-                    padding: "15px 24px",
-                    fontFamily: "var(--app-font-sans)",
-                    fontWeight: 500,
-                    fontSize: 15,
-                    textDecoration: "none",
-                    color: sampleHover ? "#FBF8F1" : "var(--color-ink)",
-                    backgroundColor: sampleHover ? "#171717" : "transparent",
-                    border: "2.5px solid #171717",
-                    boxShadow: sampleHover ? "2px 2px 0 0 #5A8B7A" : "4px 4px 0 0 #5A8B7A",
-                    transform: sampleHover ? "translate(2px, 2px)" : "translate(0, 0)",
-                    transition: "all 0.15s ease",
-                    minHeight: 52,
-                  }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, fontFamily: "var(--app-font-sans)", fontSize: 14, fontWeight: 600, color: sampleHover ? "#3D5F50" : "var(--color-ink)", textDecoration: "underline", textUnderlineOffset: 3 }}
                 >
                   See example report
-                  <IconChevronRight size={14} style={{ transform: sampleHover ? "translateX(3px)" : "translateX(0)", transition: "transform 0.2s ease" }} aria-hidden={true} />
+                  <IconChevronRight size={13} aria-hidden={true} />
                 </Link>
               </div>
 
