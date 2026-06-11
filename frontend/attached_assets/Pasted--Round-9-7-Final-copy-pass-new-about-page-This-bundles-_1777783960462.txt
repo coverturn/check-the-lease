@@ -1,0 +1,308 @@
+# Round 9.7 — Final copy pass + new /about page
+
+This bundles every copy fix from the senior audit + the founder→mission rewrite + a brand-new /about page that holds the origin story properly.
+
+The voice locks: **first-person "I"** (solo-founder authenticity), customer-led framing on the homepage, full origin story on /about.
+
+---
+
+# Round 9.7 — Copy + /about page
+
+## What stays from previous rounds
+
+Everything visual. This round only touches copy + adds one new page.
+
+## Part 1 — Copy fixes across the homepage
+
+### Hero
+
+**Sub copy** — replace:
+- Find: *"We read it so you don't have to. Free for renters and landlords."*
+- Replace: *"Catch the clauses that could cost you. Cited to your state's law. Free for renters and landlords."*
+
+**Stats labels** — replace:
+- Find: *"50 US states"* → *"All 50 states"*
+- Find: *"Free always"* → *"Always free"*
+- Find: *"<15s per lease"* → *"15-second read"*
+
+### Photographic section #1
+
+**Sub-caption** — replace:
+- Find: *"Whether you're turning that key for the first time, or issuing a new tenancy — a well-read lease protects everyone."*
+- Replace: *"Whether you're signing one or issuing one — a well-read lease protects everyone."*
+
+### Section 01 — The Problem (CRITICAL — currently renter-only, fix for dual audience)
+
+**H2** — replace:
+- Find: *"Your lease was written by their lawyer."*
+- Replace: *"Most leases aren't written for the people signing them."*
+
+**Body paragraph** — replace:
+- Find: *"The average American rental agreement is 35 pages of dense legal language, drafted by your landlord's property management company or their attorneys. Their job was to protect landlord interests and transfer risk to you."*
+- Replace: *"The average US lease is 35 pages of dense legal language. Renters sign in good faith — without a lawyer, often without time. Landlords inherit templates from property managers — full of clauses courts have already voided. Both sides end up with paperwork that doesn't reflect what they actually agreed to."*
+
+**Closing line** — replace:
+- Find: *"Your job was to sign before someone else got the apartment."*
+- Replace: *"A fair lease should protect both signatures. Most don't."*
+
+**Stats** — keep numbers, ADD source citations under each (italic Fraunces 10px, ink-muted):
+- 45M renter households in the US — *Source: Harvard JCHS, 2024*
+- 40% of leases contain unenforceable clauses — *Source: Penn Law / Massachusetts study*
+- 41% of renters dispute their deposit — *Source: Zillow Renter Survey, 2024*
+- 1 in 13 households faced eviction in 2023 — *Source: Eviction Lab, Princeton*
+
+### Section 02 — What's actually in there
+
+**H2** — split into H2 + sub:
+- Find: *"Clauses that appear in millions of US leases. Most are unenforceable. Few renters push back."*
+- Replace H2: *"Clauses that appear in millions of US leases."*
+- Add sub: *"Most are unenforceable. Few people push back."* (drop "renters" — applies to both)
+
+**Card labels** — replace:
+- Find: `RIGHT TO NOTICE` → Replace: `ENTERING WITHOUT WARNING`
+- Find: `HABITABILITY` → Replace: `LIVING CONDITIONS`
+- Keep: `SECURITY DEPOSIT` (already plain)
+
+**"WHAT THIS COSTS YOU"** sub-labels — replace:
+- Find: `WHAT THIS COSTS YOU` → Replace: `WHAT THIS COSTS` (drop "you" — applies to both)
+
+**Closing** — replace:
+- Find: *"Check the Lease flags these automatically — and tells you exactly which statute they violate."*
+- Replace: *"Check the Lease flags these automatically — and tells you exactly which law they break."*
+
+### Section 03 — How it works
+
+**Step 01 body** — replace:
+- Find: *"Drop the PDF you received. Any length, any state, any landlord's template."*
+- Replace: *"Drop the PDF. Any length, any state, any template."*
+
+**Step 02 body** — replace:
+- Find: *"Every flag and citation is tailored to your state's actual tenant protection statutes."*
+- Replace: *"We check it against your state's actual tenant rules — and the obligations on landlords."*
+
+### Section 04 — A complete read
+
+**RISK FLAGS body** — replace:
+- Find: *"Clauses that conflict with state law — each cited to the specific statute. So both sides know exactly where they stand."*
+- Replace: *"Clauses that conflict with state law — each cited to the specific rule. So both sides know exactly where they stand."*
+
+### Photographic section #2 (cut OR rewrite caption)
+
+**Recommended:** rewrite caption to a different angle than Photo #1.
+
+**Caption** — replace:
+- Find: *"Whether you're turning that key for the first time, or issuing a new tenancy — a well-read lease protects everyone."*
+- Replace: *"Where a fair lease ends and a fair tenancy begins."*
+
+(If you'd rather just cut Photo #2 entirely, do that instead — but the rewrite saves the visual moment.)
+
+### Section 06 — State & Territory Coverage
+
+**H2** — replace:
+- Find: *"Know your rights — wherever you are."*
+- Replace: *"Know what your state requires — wherever you are."*
+
+**Body** — replace:
+- Find: *"Click any state or territory to see the laws that protect every renter there — plus housing support programmes for seniors, veterans, students, families, and more."*
+- Replace: *"Click any state to see the laws that protect renters and the obligations on landlords — plus housing programs for seniors, veterans, students, and families."*
+
+### Founder note (replace with mission moment, "I" voice, no buildathon mention)
+
+**Quote** — replace entire founder note block:
+- Find: *"Built in 24 hours for the Replit Buildathon. Reading a lease shouldn't require a law degree — and the technology to fix that has been here for a while." — Ishmael, May 2026*
+- Replace: *"I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords deserve a fair read — and the technology to deliver it has been here for years. Now it's free." — Ishmael*
+
+(Keep the "I" avatar circle on the left. Drop the date — the year-stamp made it feel like a snapshot in time. The brand should feel ongoing.)
+
+### Footer
+
+**Big quote** — replace (currently duplicates founder note):
+- Find: *"Reading a lease shouldn't require a law degree."*
+- Replace: *"A fair lease protects everyone who signs it."*
+
+**Copyright** — replace:
+- Find: `© 2026 CHECK THE LEASE · ALL RIGHTS RESERVED`
+- Replace: `© 2026 Check the Lease. All rights reserved.`
+
+### British → US spellings (CRITICAL)
+
+Find and replace globally across every file:
+
+| British | US |
+|---|---|
+| programmes | programs |
+| programme | program |
+| organisations | organizations |
+| organisation | organization |
+| optimised | optimized |
+| analysed | analyzed |
+| analyser | analyzer |
+| behaviour | behavior |
+| colour | color |
+| centre | center |
+| favourite | favorite |
+| whilst | while |
+| realise | realize |
+| recognised | recognized |
+| prioritised | prioritized |
+| summarised | summarized |
+| tokenised | tokenized |
+
+## Part 2 — New `/about` page
+
+Create a new route at `/about`. The "About" link in the nav already exists — wire it to this new page.
+
+### Page structure
+
+**Layout:** same nav and footer as the homepage. Single-column max-width 720px container, padding 64px 28px desktop / 48px 20px mobile.
+
+### Section 1 — About hero
+
+**Eyebrow:** `ABOUT`
+
+**H1 (Fraunces 500, ~64px desktop, clamp scaled):**
+> A free lease reader for everyone who signs.
+
+**Sub (Inter 16px, ink-muted, max-width 540px):**
+> Check the Lease translates any US lease into plain English — what's risky, what's missing, what to ask. Free for renters and landlords. Cited to your state's actual law.
+
+### Section 2 — The story
+
+**Eyebrow:** `THE STORY`
+
+**H2:** *"How Check the Lease started."*
+
+**Body (paragraphs, Inter 15px, ink, line-height 1.65):**
+
+> *"In May 2026, Replit ran a 24-hour buildathon to celebrate its 10th anniversary. I'd been thinking about lease analysis for a while — every renter friend I have has at some point signed something they didn't understand and then got burned by it later. Deposits not returned. Surprise fees. Landlords who thought they could enter whenever.*
+>
+> *I built Check the Lease in those 24 hours. Cream backgrounds, hand-drawn illustrations, real Claude API analysis against a curated database of California tenant law. One person, one weekend, the prototype that became this site.*
+>
+> *What started as a hackathon submission stayed live because the problem isn't going away. 45 million US renters. 40% of leases contain unenforceable clauses. Most renters don't have a lawyer. Most landlords inherit templates they've never read.*
+>
+> *Check the Lease exists to put a plain-English layer between the contract and the people signing it. Free, cited to actual law, balanced for both sides. Because reading a lease shouldn't require a law degree."*
+
+### Section 3 — What I believe
+
+**Eyebrow:** `WHAT I BELIEVE`
+
+**H2:** *"The principles."*
+
+**4 principle cards** (2x2 grid desktop, 1-col mobile, bone bg + 1.5px border + 16px radius + 24px padding):
+
+1. **Eyebrow (Fraunces italic, sage):** *"Principle 01"*
+   **H3:** *"Every lease deserves a fair read."*
+   **Body:** *"Whether the signature is yours or your tenant's. The lease is a contract between two people — both should understand it."*
+
+2. **Eyebrow:** *"Principle 02"*
+   **H3:** *"Plain English over legalese."*
+   **Body:** *"If a clause needs a law degree to parse, it's hiding something. Every flag I surface is written at a sixth-grade reading level."*
+
+3. **Eyebrow:** *"Principle 03"*
+   **H3:** *"Free, for everyone."*
+   **Body:** *"The renters who get burned hardest by bad leases are the ones least likely to afford a lawyer. A free product helps them most. And free for landlords too — fair lease drafts protect both sides."*
+
+4. **Eyebrow:** *"Principle 04"*
+   **H3:** *"Cited to actual law."*
+   **Body:** *"Every claim links to the specific statute. Not "AI thinks this might be illegal" — "California Civil Code section 1950.5 caps your deposit at two months." Verifiable, every time."*
+
+### Section 4 — Inclusion (substance-led, not performative)
+
+**Eyebrow:** `WHO THIS IS FOR`
+
+**H2:** *"Built for who actually signs leases."*
+
+**Body:**
+> *"Renters of every income, language, race, and background. The renters who get screwed hardest by bad leases are the ones least likely to have a lawyer — single parents, immigrants, students, low-income families, seniors on fixed income. They sign anyway. Check the Lease surfaces housing aid programs in the analysis itself when relevant: CalWORKs Housing Support, Section 8 vouchers, state-specific emergency rental assistance, legal aid by state. Free, plain-English, and inclusive of who you are isn't optional. It's the whole point."*
+
+### Section 5 — What's next
+
+**Eyebrow:** `ROADMAP`
+
+**H2:** *"What's coming."*
+
+**Body (short bullets):**
+
+- **More states with deep coverage.** Currently CA, TX, FL, NY, IL, PA, OH, GA, NC, MI. Adding 10 more this year.
+- **Spanish-language analysis.** US has 41 million Spanish-speaking residents. Many sign English leases.
+- **Lease comparison.** Upload your current lease + a renewal — see what changed.
+- **Saved reads.** Optional account to save your analysis and re-check after lease changes.
+- **API for property platforms.** Free embed for tenant rights non-profits and property management tools.
+
+### Section 6 — Who built it
+
+**Eyebrow:** `THE TEAM`
+
+**H2:** *"One person, for now."*
+
+**Body:**
+> *"Hi, I'm Ishmael. I'm a senior product designer and design engineer based in London. I've been building websites and shipping AI-powered products for seven years. Check the Lease is solo work — designed, written, coded, and shipped by me. If it grows, the team grows. For now: just me, with very strong opinions about plain English and very little patience for legal jargon."*
+
+(Optional: drop in your photo here. If not, use the small "I" sticker avatar from the homepage.)
+
+### Section 7 — Get in touch
+
+**Eyebrow:** `CONTACT`
+
+**H2:** *"Reach out."*
+
+**Body:**
+> *"Press, partnerships, legal-aid org collaborations, or just feedback — email hello@checkthelease.com. I read every message."*
+
+### Section 8 — Footer (same as homepage)
+
+## Part 3 — Two new footer links
+
+Add to the existing footer **PRODUCT** column (or create a new **HELP** column):
+
+- **Find a tenant lawyer in your state** → external link to https://www.americanbar.org/groups/legal_services/flh-home/
+- **Free legal aid by state** → external link to https://www.lawhelp.org/
+
+These are functional inclusivity moves. Render as standard footer links, no special treatment.
+
+## Part 4 — Substance-led inclusion line in Resources tab
+
+In the **Resources** section on the results page (`/results/[id]`), add a small intro paragraph above the program cards:
+
+> *"We surface housing programs that disproportionately help low-income families, immigrants, single parents, seniors, and veterans. If you qualify, the link is one tap away."*
+
+Style: Inter 13px, ink-muted, italicised, max-width 480px, line-height 1.55. Sits below the section H2 *"Programs you may qualify for in [State]."* and above the filter pills.
+
+## Self-audit checklist
+
+- [ ] All British spellings replaced with US (programmes → programs, etc.)
+- [ ] Hero sub copy swapped to "Catch the clauses that could cost you..."
+- [ ] Stats labels updated (All 50 states / Always free / 15-second read)
+- [ ] Photographic section #1 sub-caption shortened
+- [ ] Section 01 The Problem rewritten to dual-audience ("Most leases aren't written for the people signing them.")
+- [ ] All 4 stats in The Problem have source citations underneath
+- [ ] Section 02 H2 split into H2 + sub
+- [ ] Card labels updated (HABITABILITY → LIVING CONDITIONS, etc.)
+- [ ] "WHAT THIS COSTS YOU" → "WHAT THIS COSTS"
+- [ ] "statute" → "law" everywhere user-facing
+- [ ] Section 03 Step 01 generalised ("Drop the PDF" not "PDF you received")
+- [ ] Section 03 Step 02 generalised (mentions both renter and landlord)
+- [ ] Section 04 RISK FLAGS body uses "rule" not "statute"
+- [ ] Photographic section #2 caption rewritten OR section cut
+- [ ] Section 06 State Coverage generalised ("Know what your state requires")
+- [ ] Founder note replaced with mission paragraph in "I" voice, no buildathon mention, attribution "— Ishmael"
+- [ ] Footer big quote varied to avoid duplication
+- [ ] Copyright sentence-cased
+- [ ] **NEW** /about page built with all 7 sections
+- [ ] About link in nav wired to /about
+- [ ] Two new footer links: "Find a tenant lawyer" + "Free legal aid by state"
+- [ ] Substance-led inclusion line added to Resources tab on results page
+- [ ] Lighthouse Accessibility 95+
+- [ ] No console errors
+
+## Deliverable
+
+After applying, share:
+1. Homepage hero (with new sub copy)
+2. The Problem section (with new dual-audience H2 + body + citations)
+3. Mission paragraph (replacing founder note)
+4. Footer (with new legal-aid links + sentence-case copyright)
+5. NEW /about page (full screenshot)
+6. Mobile screenshot at 375px
+
+After this, the copy is genuinely submission-ready. Then video + social post + submit.

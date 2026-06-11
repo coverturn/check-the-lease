@@ -1,0 +1,245 @@
+# Round 9.6 — Top 8 priority UX/copy fixes from senior expert audit
+
+Surgical pass. Each fix below is independently small. Together they close the credibility, plain-language, accessibility, and mobile gaps identified in the senior UX audit.
+
+---
+
+# Round 9.6 — Surgical UX + copy + accessibility fixes
+
+## Fix 1 — British spellings → American (CRITICAL credibility fix)
+
+This is a US product. **Find and replace globally:**
+
+| Find (British) | Replace (US) |
+|---|---|
+| `programmes` | `programs` |
+| `programme` | `program` |
+| `organisations` | `organizations` |
+| `organisation` | `organization` |
+| `optimised` | `optimized` |
+| `analysed` | `analyzed` |
+| `analyser` | `analyzer` |
+| `behaviour` | `behavior` |
+| `colour` | `color` |
+| `centre` | `center` |
+| `favourite` | `favorite` |
+| `licence` | `license` (when used as noun for permit) |
+| `whilst` | `while` |
+| `realise` | `realize` |
+| `recognised` | `recognized` |
+| `criticised` | `criticized` |
+| `prioritised` | `prioritized` |
+| `tokenised` | `tokenized` |
+| `summarised` | `summarized` |
+
+Search the entire codebase (every `.tsx`, `.ts`, `.md`, `.json`, `.html` file). The known instance is in the **State & Territory Coverage section body** ("housing support programmes for seniors..."). Verify everywhere else.
+
+## Fix 2 — Replace legal jargon section labels with Grade-6 English
+
+In the "What's actually in there" section, the three example clause cards use legal jargon as labels. Replace:
+
+| Find | Replace |
+|---|---|
+| `RIGHT TO NOTICE` | `ENTERING WITHOUT WARNING` |
+| `HABITABILITY` | `LIVING CONDITIONS` |
+| `SECURITY DEPOSIT` | (keep — already plain English) |
+
+In the closing line of that section:
+- Find: *"Check the Lease flags these automatically — and tells you exactly which statute they violate."*
+- Replace: *"Check the Lease flags these automatically — and tells you exactly which law they break."*
+
+In Step 02 of "How it works":
+- Find: *"Every flag and citation is tailored to your state's actual tenant protection statutes."*
+- Replace: *"We check your lease against your state's actual tenant rules."*
+
+## Fix 3 — Add source citations under every stat
+
+Below each of the 4 stats in The Problem section, add a small italic Fraunces citation in `ink-muted #6B6B6B` colour, font-size 10px, line-height 1.4:
+
+| Stat | Citation to add |
+|---|---|
+| **45M** renter households in the US | *Source: Harvard JCHS, 2024* |
+| **40%** of leases contain illegal clauses | *Source: Penn Law / Massachusetts study* |
+| **41%** of renters dispute their deposit | *Source: Zillow Renter Survey, 2024* |
+| **1 in 13** households faced eviction in 2023 | *Source: Eviction Lab, Princeton* |
+
+Render as small italic Fraunces below the label, not below the number. Should look like an editorial source attribution, not visually competing with the stat itself.
+
+## Fix 4 — Mobile horizontal overflow
+
+Add to the global stylesheet (top of `globals.css` or equivalent):
+
+```css
+html, body {
+  overflow-x: hidden;
+}
+```
+
+Then audit every `position: absolute` decorative element (the floating shapes, illustrations) on the home page. For each, ensure it doesn't extend past the viewport at 375px:
+
+- Move any decoration with `right: -Xpx` or `left: -Xpx` to use `right: 0` or `left: 0` minimum
+- Wrap each decoration block in a container with `overflow: hidden` if needed
+
+Test at 375px viewport. Verify no horizontal scrollbar appears.
+
+## Fix 5 — Verify sage CTA contrast (WCAG 2.2 AA)
+
+Sage `#5A8B7A` on cream `#FBF8F1` gives roughly 3.8:1 contrast — **below AA (4.5:1) for normal text**.
+
+Two valid solutions, pick whichever passes Lighthouse:
+
+**Option A (preferred):** Make CTA text qualify as "large text" (3:1 minimum):
+```css
+.btn-primary {
+  font-weight: 600;       /* bold weight */
+  font-size: 15px;        /* large-text threshold */
+}
+```
+
+**Option B (fallback):** Darken the CTA background to sage-dark:
+```css
+.btn-primary {
+  background: #3D5F50;    /* sage-dark — gives ~6.5:1 contrast */
+}
+```
+
+After applying, **run Lighthouse Accessibility audit**. Target score: 95+. If sage `#5A8B7A` still fails, switch to Option B.
+
+## Fix 6 — Add scroll-progress bar
+
+The page is 8010px tall. Visitors need orientation. Add a 2px ink-blue scroll-progress bar fixed at the top of the viewport (just below the dev banner):
+
+```tsx
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      setProgress(scrolled);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 56,                      /* below the nav, adjust based on nav height */
+      left: 0,
+      right: 0,
+      height: 2,
+      background: 'rgba(23,23,23,0.05)',
+      zIndex: 100,
+    }}>
+      <div style={{
+        height: '100%',
+        width: `${progress}%`,
+        background: '#1E3A5F',       /* ink-blue, calm */
+        transition: 'width 0.1s linear',
+      }} />
+    </div>
+  );
+}
+```
+
+Mount in the layout above all page content.
+
+## Fix 7 — Tighten hero sub-copy
+
+Find the current hero sub:
+- *"We read it so you don't have to. Free for renters and landlords."*
+
+Replace with:
+- *"Catch the clauses that could cost you — cited to your state's law. Free for renters and landlords."*
+
+Reasons:
+- "We read it so you don't have to" is generic SaaS cliché
+- "Catch the clauses that could cost you" is concrete + outcome-led + slightly defensive (high conversion)
+- "Cited to your state's law" reinforces the credibility gap competitors miss
+- Three claims still: outcome / credibility / who it's for
+
+## Fix 8 — Rewrite founder note (customer-led, not buildathon-led)
+
+Find the current founder note:
+- *"Built in 24 hours for the Replit Buildathon. Reading a lease shouldn't require a law degree — and the technology to fix that has been here for a while."*
+
+Replace with:
+- *"Reading a lease shouldn't require a law degree. So I spent 24 hours building this — for renters and landlords who deserve a fair read. The tech to fix this has been here for years. Now it's free."*
+
+Then attribution: *"— Ishmael, May 2026"*
+
+The new version leads with the **customer reason** (no law degree), not the **internal/PR fact** (buildathon). The buildathon detail still appears (24 hours) but it's in service of the customer story, not the headline.
+
+## Bonus fix — TL;DR strip below hero (HIGH IMPACT, MEDIUM EFFORT)
+
+Optional but recommended. Just below the hero, before the photographic section, add a single-row strip with 4 anchor links:
+
+```tsx
+<div style={{
+  background: '#F2EDE2',
+  border: '1.5px solid rgba(23,23,23,0.1)',
+  borderRadius: 16,
+  padding: '14px 24px',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 24,
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: '0 auto',
+  maxWidth: 800,
+}}>
+  <span style={{ fontFamily: 'Fraunces', fontStyle: 'italic', fontSize: 13, color: '#6B6B6B' }}>Jump to:</span>
+  <a href="#problem" style={{ fontSize: 12, fontWeight: 500, color: '#171717', textDecoration: 'none', borderBottom: '1.5px solid #5A8B7A' }}>The problem</a>
+  <a href="#how-it-works" style={{ fontSize: 12, fontWeight: 500, color: '#171717', textDecoration: 'none', borderBottom: '1.5px solid #5A8B7A' }}>How it works</a>
+  <a href="#who-its-for" style={{ fontSize: 12, fontWeight: 500, color: '#171717', textDecoration: 'none', borderBottom: '1.5px solid #5A8B7A' }}>Who it's for</a>
+  <a href="#state-coverage" style={{ fontSize: 12, fontWeight: 500, color: '#171717', textDecoration: 'none', borderBottom: '1.5px solid #5A8B7A' }}>State coverage</a>
+</div>
+```
+
+Add `id="problem"`, `id="how-it-works"`, `id="who-its-for"`, `id="state-coverage"` to the corresponding section elements.
+
+This gives fast scanners (especially buildathon voters) a way to skip to what they care about.
+
+## Accessibility verification (RUN THESE BEFORE DECLARING DONE)
+
+After applying all fixes, run these checks:
+
+1. **Lighthouse Accessibility audit** in dev tools — target 95+
+2. **Manual keyboard test:** Tab through the entire homepage. Every interactive element reachable. Focus rings visible. No traps.
+3. **Confirm `lang="en"` on `<html>`**
+4. **Confirm every image has `alt` text** (or `aria-hidden="true"` if purely decorative)
+5. **Confirm `prefers-reduced-motion: reduce`** disables animations:
+   - Marquee text scroll
+   - Floating decorative shapes drift
+   - Magnify pulse
+   - Scroll-reveal animations
+   - All button hover transforms
+6. **Test at 375px** — no horizontal scrollbar, all decorations contained
+
+## Self-audit checklist
+
+- [ ] All "programmes" → "programs" (and other British → US spellings)
+- [ ] "RIGHT TO NOTICE" → "ENTERING WITHOUT WARNING"
+- [ ] "HABITABILITY" → "LIVING CONDITIONS"
+- [ ] "statute" → "law" everywhere it appears as user-facing copy
+- [ ] All 4 stats in The Problem have italic Fraunces source citations underneath
+- [ ] Mobile horizontal overflow fixed (no scrollbar at 375px)
+- [ ] Sage CTA contrast verified at AA (Lighthouse 95+)
+- [ ] Scroll-progress bar visible at top, fills as you scroll
+- [ ] Hero sub-copy replaced
+- [ ] Founder note rewritten (customer-led)
+- [ ] TL;DR strip added below hero with 4 anchor links
+- [ ] All accessibility checks pass
+
+## Deliverable
+
+Take screenshots of:
+1. Hero (showing new tighter sub-copy + TL;DR strip below)
+2. The Problem section (with source citations under stats)
+3. What's Actually In There (with new card labels)
+4. Founder note (rewritten)
+5. Mobile at 375px (showing no horizontal scrollbar)
+
+Plus paste the Lighthouse Accessibility score.
+
+After this round, the site is submission-ready. Then it's video + social post + submit.

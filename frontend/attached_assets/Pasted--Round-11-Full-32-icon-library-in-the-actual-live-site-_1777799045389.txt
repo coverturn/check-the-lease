@@ -1,0 +1,925 @@
+# Round 11 — Full 32-icon library, in the actual live-site style
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+This supersedes everything from Rounds 10.5 and 10.6. Those used 4-5px strokes from an outdated style guide. The live site uses **2.5px outline strokes**, the **expanded brand palette including lilac #7A5A8B**, and a hybrid of filled illustrations + outline icons. This document is the canonical icon library.
+
+Audit: I read home, /resources, /about, and /how-it-works. The site already has a `src/components/illustrations/` folder with `Keys`, `House`, `MovingBox`, `Document`, `Truck`, `Magnifier`. This doc adds 32 small-format icons (48×48) that complete the system and replace any remaining ad-hoc inline SVGs.
+
+---
+
+## Style rules (from the live site, not my old guide)
+
+| Rule | Value |
+|---|---|
+| viewBox | `0 0 48 48` (every icon) |
+| Default stroke | `2.5px` |
+| Detail stroke | `2px` |
+| stroke-linecap | `round` |
+| stroke-linejoin | `round` |
+| Outline color | `#171717` (ink) when filled, brand color when outline-only |
+| Animations on decorative use | `star-twinkle`, `blob-bob` (already in CSS) |
+
+### Brand palette (locked, includes the new lilac)
+
+```
+--ink:        #171717   — outlines, text
+--cream:      #FBF8F1   — surface fills
+--cream-dark: #F2EDE2
+--ink-blue:   #1E3A5F   — primary trust
+--sage:       #5A8B7A   — primary action
+--sage-dark:  #3D5F50
+--clay:       #C97A4A   — warm accent
+--peach:      #F4A480   — soft accent
+--sunshine:   #F5C547   — sparkle/highlight
+--wine:       #7A2C3D   — alert/hot
+--lilac:      #7A5A8B   — informational/UI
+```
+
+---
+
+## Part 1 — Create the icon library file
+
+Create `src/components/icons/Icon.tsx`:
+
+```tsx
+import React from 'react';
+
+export type IconProps = {
+  size?: number;
+  className?: string;
+  'aria-label'?: string;
+  'aria-hidden'?: boolean;
+  style?: React.CSSProperties;
+};
+
+const wrap = (children: React.ReactNode, props: IconProps) => {
+  const {
+    size = 24,
+    className,
+    'aria-label': ariaLabel,
+    'aria-hidden': ariaHidden,
+    style,
+  } = props;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      role={ariaLabel ? 'img' : undefined}
+      aria-label={ariaLabel}
+      aria-hidden={ariaHidden ?? !ariaLabel}
+      style={style}
+    >
+      {children}
+    </svg>
+  );
+};
+```
+
+Then append all 32 icons below the helper. Each icon is a self-contained component.
+
+---
+
+## Part 2 — The 32 icons (described + coded)
+
+For every icon I list: **what it looks like**, **where it goes**, **the full code**.
+
+---
+
+### 1. IconUpload — paper sheet with arrow lifting up
+
+**Look:** Cream document with folded corner, sage arrow rising through it, single sunshine sparkle off the upper-right corner. Outline-led, 2.5px ink stroke around the page, sage 2.5px arrow.
+
+**Where it's used:** Hero "Read my lease" CTA (size 18 inline-left), upload dropzone (size 48 centered), upload page step indicators, mobile sticky CTA.
+
+```tsx
+export const IconUpload = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M14 8 H30 L36 14 V40 H14 Z" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M30 8 V14 H36" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" fill="none" />
+      <path d="M24 32 V20" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M19 25 L24 20 L29 25" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M40 10 L42 12 M40 14 L38 12" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 2. IconClose — bouncy X with sage centre-dot
+
+**Look:** Two slightly curved ink-coloured lines crossing through the centre, with a tiny sage circle exactly at the intersection. Hand-drawn, not geometric.
+
+**Where it's used:** Modal/dialog dismiss buttons, file upload reject toast, chatbot close (replace the existing generic 24×24 close), filter pill "x".
+
+```tsx
+export const IconClose = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M14 14 Q24 22 34 34" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M34 14 Q24 22 14 34" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <circle cx="24" cy="24" r="2" fill="#5A8B7A" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 3. IconMapPin — sage teardrop pin with cream dot
+
+**Look:** Classic teardrop pin in sage with ink outline, hollow cream dot in the centre, tiny lilac plus floating off the upper-right.
+
+**Where it's used:** State picker hover labels, "your state" chip on results page, location field in upload form, footer "All 50 states" badge.
+
+```tsx
+export const IconMapPin = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 6 C32 6 38 12 38 20 C38 30 24 42 24 42 C24 42 10 30 10 20 C10 12 16 6 24 6 Z" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="24" cy="20" r="4.5" fill="#FBF8F1" stroke="#171717" strokeWidth="2" />
+      <path d="M40 8 V12 M38 10 H42" stroke="#7A5A8B" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 4. IconSparkle — sunshine four-point star
+
+**Look:** Asymmetric four-pointed star in sunshine yellow with ink outline. Two small companion dots: one sage, one lilac, floating off-axis.
+
+**Where it's used:** "Free" badges, "AI-powered" callouts, hero floating decoration (with `star-twinkle` animation), success states.
+
+```tsx
+export const IconSparkle = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 6 L27 21 L42 24 L27 27 L24 42 L21 27 L6 24 L21 21 Z" fill="#F5C547" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="40" cy="10" r="2" fill="#5A8B7A" />
+      <circle cx="9" cy="38" r="2" fill="#7A5A8B" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 5. IconCheck — sage circle with cream tick + sunshine spark
+
+**Look:** Solid sage circle (ink outlined), cream tick mark inside, single sunshine spark off the upper-right.
+
+**Where it's used:** Feature lists ("Free for renters", "Free for landlords", "All 50 states"), pricing comparisons, "verified" badges, completed steps in upload flow.
+
+```tsx
+export const IconCheck = (props: IconProps) =>
+  wrap(
+    <>
+      <circle cx="24" cy="24" r="17" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M15 24 L22 31 L34 18" stroke="#FBF8F1" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M40 8 L42 10 M40 12 L38 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 6. IconHeart — peach heart with cream highlight
+
+**Look:** Plump peach heart, ink outlined, with a small cream highlight on the upper-left lobe and a tiny sage twinkle off the lower-right.
+
+**Where it's used:** Inclusion section hero ("Renters of every income, language, race"), "Why this exists" mission strip, charity/free-resource callouts.
+
+```tsx
+export const IconHeart = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 40 C24 40 8 30 8 18 C8 13 12 9 17 9 C20 9 22.5 10.5 24 13 C25.5 10.5 28 9 31 9 C36 9 40 13 40 18 C40 30 24 40 24 40 Z" fill="#F4A480" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M14 16 Q15 14 17 13.5" stroke="#FBF8F1" strokeWidth="2" strokeLinecap="round" />
+      <path d="M40 32 L42 34 M40 36 L38 34" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 7. IconHouseSmall — clay roof + cream walls + ink-blue door
+
+**Look:** Compact house silhouette: clay roof (ink outlined), cream wall block, ink-blue door with sunshine doorknob, tiny cream cloud puff floating off the upper-right.
+
+**Where it's used:** "For renters" / "For landlords" toggle row, footer "State guide" link, results page "Your home" header. (The big 120×120 `House.tsx` illustration stays — this is the small-format companion.)
+
+```tsx
+export const IconHouseSmall = (props: IconProps) =>
+  wrap(
+    <>
+      <rect x="10" y="22" width="28" height="20" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <path d="M6 24 L24 8 L42 24" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="20" y="28" width="8" height="14" fill="#1E3A5F" stroke="#171717" strokeWidth="2" />
+      <circle cx="26" cy="35" r="0.8" fill="#F5C547" />
+      <path d="M36 12 Q39 11 41 13 Q43 11 44 13 Q44 16 41 16 Q39 16 36 14 Z" fill="#FBF8F1" stroke="#171717" strokeWidth="1.5" strokeLinejoin="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 8. IconUser — sage character with smiley face
+
+**Look:** Round sage head with ink eyes and a friendly curved smile, sage shoulders below. Same flavour as the existing 52×52 inline renter avatar but cleaned up and reusable.
+
+**Where it's used:** Founder note attribution, testimonials, "For renters" card header, account placeholder (none currently — future-proofs).
+
+```tsx
+export const IconUser = (props: IconProps) =>
+  wrap(
+    <>
+      <circle cx="24" cy="17" r="9" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M8 42 C8 32 14 28 24 28 C34 28 40 32 40 42" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="21" cy="16" r="1.2" fill="#171717" />
+      <circle cx="27" cy="16" r="1.2" fill="#171717" />
+      <path d="M21 20 Q24 22.5 27 20" stroke="#171717" strokeWidth="2" strokeLinecap="round" fill="none" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 9. IconDocumentSmall — cream sheet with sage wavy lines
+
+**Look:** Compact document with folded corner, three sage wavy text lines inside (NOT straight — wavy reads as "plain English summary"), sunshine sparkle off corner.
+
+**Where it's used:** "What's actually in there" cards, results page section headers, lease excerpt callouts. (Big `Document.tsx` 120×120 stays for hero.)
+
+```tsx
+export const IconDocumentSmall = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M12 6 H30 L36 12 V42 H12 Z" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M30 6 V12 H36" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" fill="none" />
+      <path d="M16 20 Q20 18 24 20 T32 20" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M16 26 Q20 24 24 26 T32 26" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M16 32 Q20 30 24 32 T30 32" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M40 8 L42 10 M40 12 L38 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 10. IconSearchSmall — sage-rim lens with sunshine star inside
+
+**Look:** Cream lens with thick sage outer rim, ink handle bar, tiny sunshine star inside the lens (instead of a dull crosshair). Companion to the big `Magnifier.tsx`.
+
+**Where it's used:** Resources search input, state-picker search field, FAQ search, results "find a clause" filter.
+
+```tsx
+export const IconSearchSmall = (props: IconProps) =>
+  wrap(
+    <>
+      <circle cx="20" cy="20" r="12" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <circle cx="20" cy="20" r="12" stroke="#5A8B7A" strokeWidth="1.5" fill="none" />
+      <path d="M28.5 28.5 L40 40" stroke="#171717" strokeWidth="3" strokeLinecap="round" />
+      <path d="M20 14 L21.5 18.5 L26 20 L21.5 21.5 L20 26 L18.5 21.5 L14 20 L18.5 18.5 Z" fill="#F5C547" stroke="#171717" strokeWidth="1.5" strokeLinejoin="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 11. IconMail — cream envelope, sage flap, peach wax dot
+
+**Look:** Cream envelope rectangle, sage triangle flap on top, small peach circle on the lower-right corner like a wax seal.
+
+**Where it's used:** Footer "Get in touch", contact form submit, "we'll email your results" upload-page note, support links.
+
+```tsx
+export const IconMail = (props: IconProps) =>
+  wrap(
+    <>
+      <rect x="6" y="14" width="36" height="24" rx="2" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <path d="M6 16 L24 28 L42 16" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="38" cy="34" r="2.5" fill="#F4A480" stroke="#171717" strokeWidth="1.5" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 12. IconShield — ink-blue shield with cream tick + sunshine spark
+
+**Look:** Shield silhouette in ink-blue with ink outline, cream tick inside, sunshine spark off the upper-right.
+
+**Where it's used:** Privacy strip ("nothing stored", "WCAG 2.2 AA"), "your data" trust badges, results page security note.
+
+```tsx
+export const IconShield = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 6 L38 11 V24 C38 33 32 39 24 42 C16 39 10 33 10 24 V11 Z" fill="#1E3A5F" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M16 24 L22 30 L33 18" stroke="#FBF8F1" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M40 8 L42 10 M40 12 L38 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 13. IconHelp — sage rounded square with cream "?"
+
+**Look:** Sage rounded square, ink outlined, with a friendly cream question mark inside (the curve is bouncy, not formal). Tiny lilac dot off the upper-right.
+
+**Where it's used:** FAQ section header, tooltips, chatbot trigger when minimised, "what does this mean?" inline icons next to legal terms.
+
+```tsx
+export const IconHelp = (props: IconProps) =>
+  wrap(
+    <>
+      <rect x="8" y="8" width="32" height="32" rx="8" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M19 18 C19 14 21.5 12 24 12 C27 12 29 14 29 17 C29 20 24 21 24 25" stroke="#FBF8F1" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <circle cx="24" cy="32" r="2" fill="#FBF8F1" />
+      <circle cx="42" cy="6" r="1.8" fill="#7A5A8B" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 14. IconWarning — clay rounded triangle with cream "!"
+
+**Look:** Friendly clay rounded triangle (NOT sharp brutalist edges), ink outline, cream exclamation mark inside, tiny wine dot off the upper-right.
+
+**Where it's used:** Risk-flag chips on results page ("⚠ HIGH RISK"), inline warnings on flagged clauses, "this is illegal" callouts.
+
+```tsx
+export const IconWarning = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 6 Q26 6 27 8 L41 36 Q42 40 38 40 H10 Q6 40 7 36 L21 8 Q22 6 24 6 Z" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 16 V28" stroke="#FBF8F1" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="24" cy="34" r="2" fill="#FBF8F1" />
+      <circle cx="42" cy="10" r="1.8" fill="#7A2C3D" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 15. IconKey — sage key tilted -28° with sunshine sparkle
+
+**Look:** Single sage key tilted at -28° (matches the rotation in the existing big `Keys.tsx`), with a sunshine sparkle off the bow. Companion to the big `Keys.tsx` illustration.
+
+**Where it's used:** Security deposit / "what you'll get back" card, "your rights" sub-headers, login if added later.
+
+```tsx
+export const IconKey = (props: IconProps) =>
+  wrap(
+    <g transform="rotate(-28 24 24)">
+      <>
+        <circle cx="14" cy="24" r="8" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+        <circle cx="14" cy="24" r="2.5" fill="#171717" />
+        <path d="M22 24 H40" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M40 24 V30 M34 24 V28" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M44 8 L46 10 M44 12 L42 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+      </>
+    </g>,
+    props,
+  );
+```
+
+---
+
+### 16. IconBox — three-face cardboard box with sage tape
+
+**Look:** True 3D box (top face peach, left face clay, right face wine), ink outlined, sage tape strips crossing the top, sunshine sparkle off the upper-right corner. Companion to the big `MovingBox.tsx`.
+
+**Where it's used:** "Moving in?" / "Moving out?" rows, packing-list adjacent CTAs, results page "What you'll need" callout.
+
+```tsx
+export const IconBox = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M8 16 L24 8 L40 16 L24 24 Z" fill="#F4A480" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M8 16 V36 L24 44 V24 Z" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M40 16 V36 L24 44 V24 Z" fill="#7A2C3D" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M16 12 L32 20 M16 20 L32 12" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" />
+      <path d="M42 6 L44 8 M42 10 L40 8" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 17. IconChevronRight — bouncy curved arrowhead with sage tail-dot
+
+**Look:** Hand-drawn curved chevron in ink, with a tiny sage dot at the tail (start point) — gives it character vs a geometric chevron.
+
+**Where it's used:** "Read my lease →" CTAs (replace the inline → glyphs the live site uses now), accordion expand, "more states" link, breadcrumb separators.
+
+```tsx
+export const IconChevronRight = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M18 12 Q26 18 30 24 Q26 30 18 36" stroke="#171717" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="18" cy="12" r="1.8" fill="#5A8B7A" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 18. IconMenu — three jaunty wavy lines with sunshine dot
+
+**Look:** Three slightly wavy horizontal lines (NOT perfect straight lines — they're hand-drawn), with a single sunshine dot off the upper-right corner. Replaces the existing straight-line hamburger in `Nav.tsx`.
+
+**Where it's used:** Mobile nav hamburger (Nav.tsx — replace the existing straight 3-line version).
+
+```tsx
+export const IconMenu = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M9 14 Q24 12 39 14" stroke="#171717" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d="M9 24 Q24 26 39 24" stroke="#171717" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d="M9 34 Q24 32 39 34" stroke="#171717" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <circle cx="42" cy="9" r="2" fill="#F5C547" stroke="#171717" strokeWidth="1.5" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 19. IconPhone — clay handset with sage signal arcs
+
+**Look:** Curved clay handset (ink outlined), two sage signal arcs radiating off the upper-right.
+
+**Where it's used:** Footer phone link, "call a lawyer" rows in /resources, contact strip on /about.
+
+```tsx
+export const IconPhone = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M10 8 Q14 6 20 8 L24 16 Q22 20 18 22 Q24 30 28 32 Q32 30 34 26 L42 30 Q42 36 40 38 Q34 42 26 38 Q14 32 10 18 Q8 12 10 8 Z" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M34 6 Q40 8 42 14" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M30 10 Q34 12 36 16" stroke="#5A8B7A" strokeWidth="2" strokeLinecap="round" fill="none" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 20. IconClock — cream face with sage hands + sunshine ticks
+
+**Look:** Cream clock face, ink outlined, sage hour and minute hands, four small sunshine tick-marks at 12/3/6/9 positions.
+
+**Where it's used:** "Results in 15 seconds" badges, urgency callouts, time-to-resolve estimates on results page, "fastest in the field" claims.
+
+```tsx
+export const IconClock = (props: IconProps) =>
+  wrap(
+    <>
+      <circle cx="24" cy="24" r="17" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <path d="M24 13 V24 L32 28" stroke="#5A8B7A" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <circle cx="24" cy="24" r="2" fill="#171717" />
+      <circle cx="24" cy="9" r="1.5" fill="#F5C547" />
+      <circle cx="24" cy="39" r="1.5" fill="#F5C547" />
+      <circle cx="9" cy="24" r="1.5" fill="#F5C547" />
+      <circle cx="39" cy="24" r="1.5" fill="#F5C547" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 21. IconCalendar — cream pages with sage tab + clay/sunshine dots
+
+**Look:** Calendar block: sage header tab on top, cream body with grid dots inside (clay for past dates, sunshine highlighted for "today", sage for future).
+
+**Where it's used:** Roadmap section on /about, lease term display on results, "renewal date" callouts, scheduled-task references.
+
+```tsx
+export const IconCalendar = (props: IconProps) =>
+  wrap(
+    <>
+      <rect x="8" y="12" width="32" height="30" rx="3" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <rect x="8" y="12" width="32" height="8" rx="3" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M16 8 V16 M32 8 V16" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="16" cy="28" r="1.8" fill="#C97A4A" />
+      <circle cx="24" cy="28" r="1.8" fill="#C97A4A" />
+      <circle cx="32" cy="28" r="1.8" fill="#F5C547" />
+      <circle cx="16" cy="35" r="1.8" fill="#C97A4A" />
+      <circle cx="24" cy="35" r="1.8" fill="#5A8B7A" />
+      <circle cx="32" cy="35" r="1.8" fill="#5A8B7A" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 22. IconGlobe — sage sphere with cream meridians + lilac dot
+
+**Look:** Sage globe, ink outlined, with cream equator and two cream meridian arcs, a tiny lilac dot near the upper-right (representing the user's location).
+
+**Where it's used:** Resources hero ("Help anywhere in the US"), state coverage section, "all 50 states + 6 territories" footer badge, language/locale selector if added.
+
+```tsx
+export const IconGlobe = (props: IconProps) =>
+  wrap(
+    <>
+      <circle cx="24" cy="24" r="17" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M7 24 H41" stroke="#FBF8F1" strokeWidth="2" strokeLinecap="round" />
+      <path d="M24 7 Q32 24 24 41" stroke="#FBF8F1" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M24 7 Q16 24 24 41" stroke="#FBF8F1" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <circle cx="36" cy="14" r="2" fill="#7A5A8B" stroke="#171717" strokeWidth="1.5" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 23. IconChat — peach speech bubble with sage typing dots
+
+**Look:** Plump peach speech bubble with a small tail off the lower-left, ink outlined, three sage typing dots inside. Replaces the existing 26×26 ChatBot.tsx icon.
+
+**Where it's used:** Floating chatbot button (closed state), "Ask a question" callouts, FAQ shortcut, "we're here" headers.
+
+```tsx
+export const IconChat = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M8 14 Q8 8 14 8 H34 Q40 8 40 14 V28 Q40 34 34 34 H22 L14 40 V34 Q8 34 8 28 Z" fill="#F4A480" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="17" cy="21" r="2" fill="#5A8B7A" />
+      <circle cx="24" cy="21" r="2" fill="#5A8B7A" />
+      <circle cx="31" cy="21" r="2" fill="#5A8B7A" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 24. IconSend — sage paper plane with sunshine speed-trail
+
+**Look:** Sage paper plane, ink outlined, with two short sunshine speed-line trails behind it.
+
+**Where it's used:** Chatbot input send button, contact form submit (alternative to default), "send my results" share button.
+
+```tsx
+export const IconSend = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M6 24 L42 8 L34 42 L24 28 L6 24 Z" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 28 L42 8" stroke="#171717" strokeWidth="2" strokeLinecap="round" />
+      <path d="M6 30 L12 32 M6 36 L10 37" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 25. IconLightbulb — sunshine bulb with sage base + lilac glow rays
+
+**Look:** Sunshine yellow bulb (ink outlined), sage screw-base, six tiny lilac rays radiating around the bulb suggesting illumination.
+
+**Where it's used:** "Pro tips" callouts on results page, /about "what we learned" section, FAQ helpful-tip blocks, onboarding hints.
+
+```tsx
+export const IconLightbulb = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M16 22 Q16 12 24 12 Q32 12 32 22 Q32 28 28 30 V34 H20 V30 Q16 28 16 22 Z" fill="#F5C547" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="20" y="34" width="8" height="5" rx="1" fill="#5A8B7A" stroke="#171717" strokeWidth="2" />
+      <path d="M22 41 H26" stroke="#171717" strokeWidth="2" strokeLinecap="round" />
+      <path d="M9 22 H6 M39 22 H42 M11 11 L9 9 M37 11 L39 9 M11 33 L9 35 M37 33 L39 35" stroke="#7A5A8B" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 26. IconFlag — clay flag on ink-blue pole with sunshine sparkle
+
+**Look:** Wavy clay flag (ink outlined) on an ink-blue pole, with a small ink-blue base circle, sunshine sparkle off the top.
+
+**Where it's used:** "Flagged clauses" chips on results page (replace the existing ⚠ glyph in some contexts), "this needs attention" callouts, milestone markers in roadmap.
+
+```tsx
+export const IconFlag = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M12 6 V42" stroke="#1E3A5F" strokeWidth="3" strokeLinecap="round" />
+      <path d="M12 8 Q24 4 36 8 Q34 16 36 22 Q24 18 12 22 Z" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="12" cy="42" r="2.5" fill="#1E3A5F" stroke="#171717" strokeWidth="2" />
+      <path d="M40 8 L42 10 M40 12 L38 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 27. IconScale — ink-blue scales of justice with sunshine pivot
+
+**Look:** Two ink-blue triangle pans suspended from a horizontal beam, central vertical post with a sunshine pivot dot on top, ink-coloured base.
+
+**Where it's used:** "Cited under [statute]" badges on results page, /resources "free legal aid" hero, "your legal rights" section headers, "go to court" cards.
+
+```tsx
+export const IconScale = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 8 V40" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M10 14 H38" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="24" cy="8" r="2.5" fill="#F5C547" stroke="#171717" strokeWidth="2" />
+      <path d="M10 14 L6 26 L14 26 Z" fill="#1E3A5F" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M38 14 L34 26 L42 26 Z" fill="#1E3A5F" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M16 40 H32" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 28. IconDownload — cream tray with sage arrow
+
+**Look:** Cream open tray (ink outlined), a sage arrow falling into it from above, sunshine sparkle off the upper-right.
+
+**Where it's used:** "Save as PDF" button on results page, "download sample lease" CTA, /about "press kit" link if added.
+
+```tsx
+export const IconDownload = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M24 8 V28" stroke="#5A8B7A" strokeWidth="3" strokeLinecap="round" />
+      <path d="M16 22 L24 30 L32 22" stroke="#5A8B7A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M8 32 V40 H40 V32" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M42 8 L44 10 M42 12 L40 10" stroke="#F5C547" strokeWidth="2" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 29. IconShare — three nodes connected by sage lines
+
+**Look:** Three circles (cream top-left, clay top-right, sage bottom-right) connected by sage lines passing through the centre. Friendly, hand-drawn.
+
+**Where it's used:** "Share my results" button, social-share cluster on /results, "share with your landlord" CTA on results page.
+
+```tsx
+export const IconShare = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M16 24 L32 14 M16 24 L32 34" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="14" cy="24" r="6" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" />
+      <circle cx="34" cy="12" r="6" fill="#C97A4A" stroke="#171717" strokeWidth="2.5" />
+      <circle cx="34" cy="36" r="6" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 30. IconExternalLink — cream square with sage arrow popping out
+
+**Look:** Cream square (ink outlined) representing the current page, with a sage arrow popping out the upper-right corner pointing to a new destination. Cleaner version of the existing `M2 10L10 2M10 2H5M10 2V7` path on /resources.
+
+**Where it's used:** Every outbound link on /resources (replace the existing 12×12 inline arrow), links to state legislatures, "open in [law site]" buttons.
+
+```tsx
+export const IconExternalLink = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M10 14 V38 H34 V26" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M22 26 L40 8" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M28 8 H40 V20" stroke="#5A8B7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 31. IconPlus — sage rounded square with cream plus
+
+**Look:** Sage rounded square (ink outlined) with a fat cream plus inside.
+
+**Where it's used:** "Show more states" expander, FAQ accordion expand-state, filter add buttons, "add another lease" CTA if added.
+
+```tsx
+export const IconPlus = (props: IconProps) =>
+  wrap(
+    <>
+      <rect x="8" y="8" width="32" height="32" rx="8" fill="#5A8B7A" stroke="#171717" strokeWidth="2.5" />
+      <path d="M24 16 V32 M16 24 H32" stroke="#FBF8F1" strokeWidth="3" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+### 32. IconLock — wine padlock with sunshine keyhole
+
+**Look:** Wine-coloured padlock body (ink outlined), ink shackle on top, sunshine keyhole circle + slot in the centre.
+
+**Where it's used:** Privacy strip ("nothing stored"), "your lease isn't saved" callout, /privacy page hero, chatbot intro "anonymous" line.
+
+```tsx
+export const IconLock = (props: IconProps) =>
+  wrap(
+    <>
+      <path d="M16 22 V14 Q16 8 24 8 Q32 8 32 14 V22" stroke="#171717" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <rect x="10" y="22" width="28" height="20" rx="3" fill="#7A2C3D" stroke="#171717" strokeWidth="2.5" />
+      <circle cx="24" cy="30" r="3" fill="#F5C547" stroke="#171717" strokeWidth="2" />
+      <path d="M24 32 V36" stroke="#F5C547" strokeWidth="2.5" strokeLinecap="round" />
+    </>,
+    props,
+  );
+```
+
+---
+
+## Part 3 — Page-by-page audit (where each icon lands)
+
+I navigated the live site. Here is exactly where each icon goes.
+
+### `/` (homepage — `pages/home.tsx`)
+
+| Section | Existing element | Replace with |
+|---|---|---|
+| Hero "Read my lease" CTA | Inline `→` glyph | `IconChevronRight` (size 16, inline-right) + keep the button label |
+| Hero "Try a sample lease" link | Inline `→` glyph | `IconChevronRight` (size 14) |
+| Hero pill stats ("All 50 states", "Always free", "15s per lease") | None | Add `IconMapPin`, `IconSparkle`, `IconClock` (size 14) inline-left of each stat label |
+| "What's actually in there" risk callout | `⚠` glyph | `IconWarning` (size 18, inline) |
+| Section 03 "How it works" steps 01/02/03 | Numbers only | Add `IconUpload`, `IconMapPin`, `IconDocumentSmall` (size 32) above each step number |
+| Section 04 "A complete read" feature cards | None | Add `IconKey`, `IconWarning`, `IconShield`, `IconHelp` (size 28) above each card title |
+| Section 05 "For renters" / "For landlords" cards | Inline 52×52 sage avatar + house | Replace with `IconUser` (renters) and `IconHouseSmall` (landlords), size 52 |
+| Section 06 "State coverage" header | None | Add `IconGlobe` (size 32) inline-left of the H2 |
+| Section 06 "Free legal aid" link | Inline `→` glyph | `IconChevronRight` (size 14) |
+| Final CTA strip "Read your lease" | None | `IconUpload` (size 18, inline-left of button label) |
+| Footer "Get in touch" line | None | `IconMail` (size 16, inline-left) |
+| Footer "Free help" links | Inline `§` glyph | `IconScale` (size 16) |
+
+### `/how-it-works`
+
+| Section | Existing | Replace with |
+|---|---|---|
+| Step 1 illustration | 48×48 outline doc with sage lines | Keep existing OR swap to `IconUpload` (size 64) for consistency |
+| Step 2 illustration | 48×48 outline circle face (clay) | Keep — it's already a custom illustration |
+| Step 3 illustration | 48×48 outline doc with circle stamp (wine) | Keep — custom |
+| Step 4 illustration | 48×48 outline lilac panels grid | Keep — custom |
+| "Read my lease" CTA | Inline `→` | `IconChevronRight` (size 16) |
+
+### `/resources`
+
+| Section | Existing | Replace with |
+|---|---|---|
+| Hero icon | 32×32 sparkle | Replace with `IconGlobe` (size 48) — better fits "anywhere in the US" |
+| Hero search input prefix | 16×16 magnifier | `IconSearchSmall` (size 18) |
+| Every outbound org link | 12×12 arrow `M2 10L10 2M10 2H5M10 2V7` | `IconExternalLink` (size 14) — same colour treatment |
+| State picker accordion expand chevron | None visible | `IconChevronRight` (size 16, rotates 90deg when open) |
+| "Free legal aid" section header | None | `IconScale` (size 32, inline-left of H2) |
+| "Specific situations" filter section | None | `IconHelp` (size 24, inline-left of H2) |
+| Disclaimer block | None | `IconLock` (size 16, inline-left) for the privacy line |
+| "We don't take referral fees" callout | None | `IconShield` (size 20) |
+
+### `/about`
+
+| Section | Existing | Replace with |
+|---|---|---|
+| Hero portrait placeholder (280×280) | Custom illustration | Keep — already custom |
+| Mission section | None | `IconHeart` (size 32, inline-left of H2) |
+| Roadmap dates | None | `IconCalendar` (size 24, inline-left of each milestone) |
+| "What we built" / principles cards | None | Mix of `IconLightbulb`, `IconShield`, `IconScale`, `IconCheck` (size 28) per card |
+| Founder note attribution | "I" letter avatar | `IconUser` (size 40) |
+| Press / contact | None | `IconMail` (size 18) for email, `IconPhone` (size 18) if phone added |
+
+### `/results/[id]` (already exists — audit when next live)
+
+| Section | Replace with |
+|---|---|
+| Page header "Your lease" | `IconDocumentSmall` (size 32) inline-left |
+| Each flagged clause chip | `IconFlag` (size 14) inline-left |
+| "Cited under [Statute]" badges | `IconScale` (size 12) inline-left |
+| "Save as PDF" button | `IconDownload` (size 18) |
+| "Share results" button | `IconShare` (size 18) |
+| Pro-tip blue callouts | `IconLightbulb` (size 20) |
+| Time-to-resolve hints | `IconClock` (size 14) |
+| Resources tab "Free legal aid in [State]" | `IconScale` (size 24) |
+| Privacy footer | `IconLock` (size 14) |
+
+### `Nav.tsx` (every page)
+
+| Element | Replace with |
+|---|---|
+| Mobile hamburger 20×14 | `IconMenu` (size 24) — gives the nav bar a sunshine accent dot, ties to the brand |
+| Mobile menu close | `IconClose` (size 24) |
+
+### `ChatBot.tsx` (floating widget)
+
+| Element | Replace with |
+|---|---|
+| Closed bubble (currently 26×26 dark with yellow dots) | `IconChat` (size 28) — same flavour but cleaner |
+| Open header close | `IconClose` (size 20) |
+| Send message button | `IconSend` (size 22) |
+| Privacy line in intro | `IconLock` (size 14) inline-left of "Nothing is stored" |
+
+---
+
+## Part 4 — Sizing rules (locked)
+
+| Context | Size |
+|---|---|
+| Inline next to small body text | **14px** |
+| Inline next to button label | **16-18px** |
+| Inline-left of section H2 | **24-32px** |
+| Standalone in card | **28-40px** |
+| Hero / section feature illustration | **48-64px** (use bigger 120×120 illustrations beyond this) |
+| Floating decorative | **20-32px**, with `star-twinkle` or `blob-bob` animation |
+
+---
+
+## Part 5 — Accessibility
+
+- If the icon stands alone (e.g., no adjacent text label), pass `aria-label="…"` describing function.
+- If the icon is decorative next to text that already says the same thing, omit `aria-label` — defaults to `aria-hidden="true"`.
+- **Never** use `aria-label="icon"` or other meaningless labels.
+- Floating decorative icons (sparkles, triangles in hero) MUST have `aria-hidden="true"`.
+
+---
+
+## Part 6 — `prefers-reduced-motion` handling
+
+The icons themselves don't animate — but where they're placed inside an animated wrapper (`star-twinkle`, `blob-bob`), the existing `@media (prefers-reduced-motion: reduce)` rule must disable those animations. Confirm this rule already exists in `globals.css`. If not, add:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+---
+
+## Self-audit checklist
+
+- [ ] `src/components/icons/Icon.tsx` exists with all 32 icons
+- [ ] Every replacement listed in Part 3 is applied page-by-page
+- [ ] `Nav.tsx` mobile hamburger uses `IconMenu`
+- [ ] `ChatBot.tsx` uses `IconChat` (closed) and `IconSend` (input)
+- [ ] All `/resources` outbound links use `IconExternalLink`
+- [ ] No icon has empty or meaningless `aria-label`
+- [ ] Floating decorative icons have `aria-hidden="true"`
+- [ ] Big 120×120 illustrations in `/illustrations/` are untouched (Keys, House, MovingBox, Document, Truck, Magnifier)
+- [ ] `prefers-reduced-motion` rule confirmed in CSS
+- [ ] Mobile (375px) — every icon renders crisply at the smallest size used (14px)
+- [ ] Lighthouse Accessibility 95+
+- [ ] Build clean, no TS errors, no console warnings
+
+---
+
+## Deliverable
+
+Take screenshots of:
+1. Hero with new `IconChevronRight` + pill stat icons
+2. Section 03 "How it works" with `IconUpload` / `IconMapPin` / `IconDocumentSmall` above the numbers
+3. Section 05 "For renters / For landlords" with new `IconUser` and `IconHouseSmall`
+4. Section 06 "State coverage" header with `IconGlobe`
+5. /resources hero with `IconGlobe` + `IconSearchSmall` + outbound `IconExternalLink`
+6. /about roadmap with `IconCalendar` and founder attribution with `IconUser`
+7. Floating chatbot (closed) with `IconChat`, (open) with `IconSend`
+8. Mobile (375px) showing the nav `IconMenu` + a representative inline icon at 14px
+
+After this round, the icon system is locked. Submission-ready.

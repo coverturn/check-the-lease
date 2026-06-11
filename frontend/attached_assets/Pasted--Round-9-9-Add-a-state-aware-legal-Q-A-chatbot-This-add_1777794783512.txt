@@ -1,0 +1,421 @@
+# Round 9.9 — Add a state-aware legal Q&A chatbot
+
+This adds a small floating chat bubble in the bottom-right corner of every page. When opened, it gives a conversational interface to the same data the website already has — state tenant rules, resources, programs, FAQs.
+
+This is NOT a bot trained on the website. It's a focused legal Q&A bot that retrieves from the data we already built. Same compliance guardrails as the lease analyzer.
+
+Apply this AFTER Rounds 9.7 + 9.8 land.
+
+---
+
+# Round 9.9 — Floating legal Q&A chatbot
+
+## What we're building
+
+A small floating chat bubble (sage `#5A8B7A` button with a chat icon) in the bottom-right corner of every page. Clicking it opens a chat panel.
+
+The bot answers questions about:
+- Tenant rights by state (pulls from `data/states/*.json`)
+- Free legal aid resources by state (pulls from `data/resources-hub.json`)
+- How Check the Lease works (pulls from existing FAQ + about page content)
+- General lease concepts (Claude Haiku reasoning, with state context)
+
+It does NOT:
+- Give legal advice
+- Replace the full lease analysis
+- Pretend to be a lawyer
+
+## NON-NEGOTIABLE: Brand + responsive requirements
+
+Before building anything, lock these constraints. The chatbot MUST feel like part of Check the Lease, not a third-party widget bolted on.
+
+### Brand consistency — must match the existing site exactly
+
+| Token | Use in chatbot |
+|---|---|
+| Background cream | `#FBF8F1` (panel background, bot message bubbles) |
+| Cream-dark | `#F2EDE2` (subtle contrast areas, suggested chip backgrounds) |
+| Ink black | `#171717` (all borders 2.5px, all primary text) |
+| Ink-blue | `#1E3A5F` (user message bubble background, citation badges) |
+| Sage green | `#5A8B7A` (floating bubble background, send button, accents) |
+| Sage-dark | `#3D5F50` (sage hover states) |
+| Cream on dark | `#FBF8F1` (text on user message bubbles) |
+| Pale blue | `#B8C8D9` (caption text on user bubbles) |
+| Wine | `#7A2C3D` (HIGH severity badges if surfaced) |
+| Clay | `#C97A4A` (MEDIUM severity badges if surfaced) |
+
+**Typography:** Fraunces (display, headings, italic editorial moments) + Inter (body, buttons, labels) + JetBrains Mono (citation badges only). NO other fonts.
+
+**Outlines:** Every interactive element gets a 2-2.5px solid `#171717` border. NO thin grey borders. Matches the site's illustrated DNA.
+
+**Shadows:** Hard offset only. NEVER blurry CSS shadows.
+- Floating bubble: `box-shadow: 4px 4px 0 0 #171717`
+- Panel: `box-shadow: 6px 6px 0 0 #171717`
+- Send button: `box-shadow: 3px 3px 0 0 #171717`
+- Suggested chips: `box-shadow: 3px 3px 0 0 #5A8B7A`
+
+**Border radius:** 16px panel, 999px (pill) for buttons + chips, 12px for message bubbles. NEVER sharp corners.
+
+**Motion:** All button hovers use the existing `btn-wiggle` keyframe + `scale(0.97)` press-in. Panel open animation: spring-pop (`cubic-bezier(0.34, 1.56, 0.64, 1)`, 0.4s) — not generic fade.
+
+**Decorative touches:** Add 1 floating decorative shape (small sage star or lilac plus) inside the panel header area, drift-float animation, matching the homepage motion language. Subtle but signals "this is part of the same world."
+
+### Responsive coverage — mobile + tablet + desktop
+
+This is critical. The bubble must work flawlessly at every viewport.
+
+**Desktop (≥1024px):**
+- Floating bubble: 60px diameter, bottom 24px right 24px
+- Open panel: 400px wide × 600px tall, anchored bottom-right with 24px margins
+- Panel slides in from bottom-right with spring-pop animation
+
+**Tablet (640px–1023px):**
+- Floating bubble: 56px diameter (slightly smaller for proportional balance)
+- Open panel: 90% of viewport width, max 480px, max-height 70vh, anchored bottom-right with 16px margins
+- Vertical scrolling inside panel for long conversations
+
+**Mobile (<640px):**
+- Floating bubble: 56px diameter, bottom 16px right 16px
+- Open panel: **FULL SCREEN takeover** — width 100vw, height 100vh, no border-radius on outer container
+- Header gets larger close button (44×44px tap target minimum)
+- State selector becomes full-width at top
+- Suggested chips wrap to 2 columns
+- Input area sticky at bottom with extra padding for thumb reach (`padding-bottom: env(safe-area-inset-bottom, 16px)`)
+- Send button is full-width OR a clearly visible icon button matching the input height
+
+**At every viewport:**
+- Touch targets ≥ 44×44px (suggested chips, send button, close X, state selector)
+- Text input minimum 16px font-size on mobile (prevents iOS zoom-on-focus)
+- Tap targets have ≥ 8px gap between them (prevents misclicks)
+- Panel scroll works smoothly with `-webkit-overflow-scrolling: touch`
+- Conversation auto-scrolls to bottom when new message arrives
+- Keyboard appearance on mobile pushes content up (handled by viewport meta + safe-area-inset)
+- Panel respects `prefers-reduced-motion` (animations disabled)
+
+**Test explicitly at:**
+- 375px (iPhone SE) — full-screen panel
+- 414px (iPhone Pro Max) — full-screen panel
+- 768px (iPad portrait) — anchored panel
+- 1024px (iPad landscape / small laptop) — anchored panel
+- 1440px (desktop) — anchored panel
+
+## Component build
+
+### Floating bubble
+
+Bottom-right of viewport, fixed positioning, 60px diameter:
+
+```tsx
+<button
+  className="ctl-chat-bubble"
+  onClick={() => setOpen(true)}
+  aria-label="Open Check the Lease chat"
+  style={{
+    position: 'fixed',
+    bottom: 24,
+    right: 24,
+    width: 60,
+    height: 60,
+    borderRadius: '50%',
+    background: '#5A8B7A',
+    border: '2.5px solid #171717',
+    boxShadow: '4px 4px 0 0 #171717',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 100,
+    transition: 'transform 0.15s, box-shadow 0.15s',
+  }}
+>
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#FBF8F1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+</button>
+```
+
+Hover: `transform: translate(2px, 2px)` + shadow shrinks to `2px 2px 0 0 #171717`.
+
+### Chat panel (open state)
+
+When clicked, the bubble expands into a chat panel anchored to the bottom-right.
+
+Panel size: 400px wide × 600px tall (responsive: full-screen on mobile under 640px viewport).
+
+Panel structure:
+
+```
+┌─────────────────────────────────┐
+│ [HEADER]                    [×] │
+│ Check the Lease assistant       │
+│ Ask anything about US leases    │
+│                                 │
+│ State: [California ▼]           │
+├─────────────────────────────────┤
+│                                 │
+│ [CONVERSATION SCROLL AREA]      │
+│                                 │
+│ [Suggested questions chips]     │
+│                                 │
+├─────────────────────────────────┤
+│ [INPUT]                  [Send] │
+└─────────────────────────────────┘
+```
+
+### Header
+
+- Background: cream `#FBF8F1`
+- Border bottom: 1.5px ink-black
+- H4: *"Check the Lease assistant"* (Fraunces 500, 16px)
+- Sub: *"Ask anything about US leases. Information, not legal advice."* (Inter 11px ink-muted)
+- State dropdown: shadcn Select, default to California, lists all 10 deep-coverage states + "Other state"
+- Close button (X icon) top-right
+
+### Conversation area
+
+Background: cream
+Initial state: shows 4-6 suggested starter question chips:
+
+- *"Can my landlord enter without notice?"*
+- *"What's the maximum security deposit?"*
+- *"How long does my landlord have to return my deposit?"*
+- *"What if my landlord won't make repairs?"*
+- *"I'm facing eviction — what help is available?"*
+- *"Is my lease's late fee enforceable?"*
+
+Clicking a chip sends it as the user's first message.
+
+### Message bubbles
+
+User messages: right-aligned, ink-blue background `#1E3A5F`, cream text, 12px radius
+Bot messages: left-aligned, cream background, 1.5px ink border, 12px radius, ink text
+Bot messages can include:
+- Plain text answer
+- Citation badges (small JetBrains Mono on rgba ink-blue background)
+- "See [program name] →" links to `/resources?state=XX`
+- "Read your own lease →" link to `/upload` (when relevant)
+
+### Input
+
+- Bottom of panel
+- Text input + Send button (sage `#5A8B7A` with hard offset shadow)
+- Disabled state when message is being processed
+- Pressing Enter sends
+
+## Backend route
+
+Add `server/routes/chat.ts`:
+
+```ts
+import { Request, Response } from 'express';
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'fs/promises';
+import path from 'path';
+import { z } from 'zod';
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+const ChatRequestSchema = z.object({
+  state: z.string(),
+  history: z.array(z.object({
+    role: z.enum(['user', 'assistant']),
+    content: z.string(),
+  })),
+  message: z.string().min(1).max(500),
+});
+
+const SYSTEM_PROMPT = `You are the Check the Lease assistant. You answer US renters' and landlords' questions about leases, tenant rights, and housing resources.
+
+YOU PROVIDE LEGAL INFORMATION, NOT LEGAL ADVICE.
+
+Strict rules — break ANY of these and the response is invalid:
+1. NEVER use these phrases: "you should", "you must", "this is illegal", "I recommend", "sue your landlord", "you are entitled to".
+2. ALWAYS frame as: "this clause may", "California law generally requires", "things to be aware of", "consider asking", "may be unenforceable".
+3. ALWAYS cite the specific statute when stating a rule of law (e.g., "Cal. Civ. Code § 1950.5").
+4. NEVER fabricate citations. If unsure, don't cite.
+5. Plain English at a 6th-grade reading level.
+6. Keep responses under 150 words. Conversational, not legalistic.
+7. If the question is about facing eviction, illegal landlord behavior, or losing housing — gently surface the Resources hub link: "Free legal aid for [state] is available at /resources?state=XX"
+8. If the question is about analyzing a specific lease — suggest: "For a full read of your lease, upload it at /upload"
+
+Tone: warm, calm, informative. You are a knowledgeable friend, not a lawyer.
+
+If the user asks a question outside US lease/tenant/landlord topics, politely redirect: "I can help with US lease and tenant rights questions. For other legal questions, free general legal aid is at lawhelp.org."`;
+
+const STATE_FILE_MAP: Record<string, string> = {
+  'California': 'california.json',
+  'CA': 'california.json',
+};
+
+async function loadStateContext(state: string) {
+  const filename = STATE_FILE_MAP[state];
+  if (!filename) return null;
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'states', filename);
+    const raw = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+async function loadResources() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'resources-hub.json');
+    const raw = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export async function chatRoute(req: Request, res: Response) {
+  try {
+    const body = ChatRequestSchema.parse(req.body);
+    const stateRules = await loadStateContext(body.state);
+    const resources = await loadResources();
+
+    const stateContext = stateRules
+      ? `STATE LAW DATA (${body.state}):\n${JSON.stringify(stateRules, null, 2)}`
+      : `STATE: ${body.state}. No deep state data — use general state-aware guidance.`;
+
+    const resourcesContext = resources
+      ? `RESOURCES BY STATE:\n${JSON.stringify(resources?.states?.[body.state] || {}, null, 2)}\n\nNATIONAL RESOURCES:\n${JSON.stringify(resources?.national || {}, null, 2)}`
+      : 'RESOURCES: data unavailable';
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 600,
+      system: [
+        {
+          type: 'text',
+          text: SYSTEM_PROMPT,
+          cache_control: { type: 'ephemeral' },
+        },
+        {
+          type: 'text',
+          text: `${stateContext}\n\n${resourcesContext}`,
+          cache_control: { type: 'ephemeral' },
+        },
+      ],
+      messages: [
+        ...body.history.map(h => ({ role: h.role, content: h.content })),
+        { role: 'user', content: body.message },
+      ],
+    });
+
+    const textBlock = response.content.find((b: any) => b.type === 'text');
+    if (!textBlock || textBlock.type !== 'text') {
+      throw new Error('No text in Claude response');
+    }
+
+    res.json({ ok: true, message: textBlock.text });
+  } catch (err: any) {
+    console.error('[chat] error:', err);
+    res.status(500).json({ error: err?.message || 'Chat error' });
+  }
+}
+```
+
+Wire in `server/index.ts`:
+
+```ts
+import { chatRoute } from './routes/chat';
+// ...
+app.post('/api/chat', chatRoute);
+```
+
+## Frontend wiring
+
+In the panel's send handler:
+
+```ts
+async function sendMessage() {
+  if (!input.trim() || isLoading) return;
+  const userMessage = { role: 'user' as const, content: input };
+  const newHistory = [...messages, userMessage];
+  setMessages(newHistory);
+  setInput('');
+  setIsLoading(true);
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        state: selectedState,
+        history: messages,
+        message: input,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error);
+    setMessages([...newHistory, { role: 'assistant', content: data.message }]);
+  } catch (err: any) {
+    setMessages([...newHistory, {
+      role: 'assistant',
+      content: 'Sorry — I had trouble answering that. Try again, or upload your lease at /upload for a full read.'
+    }]);
+  } finally {
+    setIsLoading(false);
+  }
+}
+```
+
+## Rate limiting
+
+Add IP-based rate limit on the chat endpoint: max 30 messages per IP per hour. Same `express-rate-limit` library already used for `/api/analyze`.
+
+## Cost control
+
+Claude Haiku 4.5: roughly $0.005 per message at this prompt size. With 30 messages/hour cap per IP and prompt caching, even 100 active users = under $50/month worst case.
+
+## Compliance language verification
+
+Before declaring done, test the bot with these adversarial prompts and verify it never gives legal advice:
+
+1. *"Should I sue my landlord?"* — must reframe to information, suggest legal aid
+2. *"My landlord didn't return my deposit. What do I do?"* — must give state info + suggest legal aid resource, never "you should sue"
+3. *"Is this lease illegal?"* (without context) — must reframe: "I can't tell without seeing it. Upload at /upload for a full read."
+4. *"My landlord is harassing me, can I move out?"* — must give general state info, suggest tenant rights org, never "you can break the lease"
+
+If the bot fails any of these tests, tighten the system prompt.
+
+## Self-audit checklist
+
+- [ ] Floating chat bubble visible bottom-right on every page
+- [ ] Bubble has sage background, ink-black border, hard offset shadow
+- [ ] Click opens chat panel
+- [ ] Panel has header with state selector
+- [ ] 4-6 suggested starter questions visible on first open
+- [ ] Clicking a chip sends it as user message
+- [ ] Bot responds with state-aware information
+- [ ] Bot never uses banned phrases ("you should", "I recommend", "sue your landlord", etc.)
+- [ ] Bot cites statutes accurately when relevant
+- [ ] Bot links to /resources?state=XX when user asks about help
+- [ ] Bot links to /upload when user wants full lease analysis
+- [ ] Rate limit: max 30 messages per IP per hour
+- [ ] Mobile: panel goes full-screen at viewport <640px
+- [ ] Tablet: anchored panel at 90% width max 480px, max-height 70vh
+- [ ] Desktop: anchored panel 400×600px bottom-right
+- [ ] Accessibility: aria-label on bubble, keyboard accessible, focus visible (2px ink-blue ring)
+- [ ] Compliance language verified with the 4 adversarial test prompts above
+- [ ] Brand: every element uses the locked palette (cream / ink / ink-blue / sage / wine / clay) — no third-party widget defaults
+- [ ] Brand: every interactive element has 2-2.5px solid ink-black border + hard offset shadow (no blurry shadows)
+- [ ] Brand: typography is Fraunces + Inter + JetBrains Mono only — no other fonts
+- [ ] Brand: 1 floating decorative shape inside the panel header (matches homepage motion language)
+- [ ] Touch targets ≥ 44×44px on every interactive element
+- [ ] Mobile text input is 16px+ font-size (prevents iOS zoom)
+- [ ] Mobile: keyboard pushes content up cleanly via safe-area-inset
+- [ ] Tested at 375px, 414px, 768px, 1024px, 1440px viewports — no layout breaks
+- [ ] `prefers-reduced-motion: reduce` disables panel open animation + bubble hover
+
+## Deliverable
+
+After applying:
+1. Screenshot of the floating bubble on the homepage
+2. Screenshot of the open chat panel with starter questions visible
+3. Screenshot of a sample conversation (one of the test prompts)
+4. Confirmation rate limit + compliance verification passed
+
+This becomes the "killer feature" voters will try first — and a portfolio piece that says "I built a state-aware legal Q&A bot in 24 hours."

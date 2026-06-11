@@ -1,0 +1,17 @@
+{
+  "name": "check-the-lease-preview",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./frontend/dist/public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "vars": {
+    "LLM_PROVIDER": "groq"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

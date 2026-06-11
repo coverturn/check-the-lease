@@ -1,0 +1,245 @@
+# Round 9.8 — Free legal resources + housing orgs hub (state-by-state + national)
+
+This adds a substantive, real-data resource layer to Check the Lease — free attorneys / legal aid by state and territory, plus national housing nonprofits. **This is real public-interest infrastructure**, not marketing decoration. It deepens the mission claim from "we say we're inclusive" to "we surface the actual help."
+
+Apply this AFTER Round 9.7 lands.
+
+---
+
+# Round 9.8 — Build the Resources Hub
+
+## What we're building
+
+A new dedicated route at `/resources` that contains:
+
+1. **National housing nonprofits** — orgs that work nationwide to help renters
+2. **Free legal aid directory** — by state and territory (50 states + DC + 5 territories)
+3. **Tenant union directory** — by major metro
+4. **Emergency rental assistance** — federal + state programs
+5. **Inclusion-focused services** — orgs serving immigrants, LGBTQ+, women, families, veterans, seniors
+
+Plus surface a curated subset of this data inside the existing `/results/[id]` Resources tab so users get the relevant orgs based on their state.
+
+## Part 1 — Research phase (Agent does this)
+
+Agent: before writing copy or building the page, **research and verify**:
+
+For each of the 50 states + DC + 5 territories (Puerto Rico, US Virgin Islands, Guam, American Samoa, Northern Mariana Islands), find:
+
+- **At least 1 free legal aid organization** (e.g., Bay Area Legal Aid for CA, Legal Aid Society for NY)
+- **At least 1 tenant rights organization** (e.g., Tenants Together for CA)
+- **The state's official tenant rights page** (state AG or housing department)
+- **The state's emergency rental assistance program URL**
+
+For national-level, find:
+
+- **National Low Income Housing Coalition** (nlihc.org)
+- **National Housing Law Project** (nhlp.org)
+- **LawHelp.org** — federal directory of free legal aid
+- **HUD's tenant rights page**
+- **Eviction Lab** (Princeton — research + data)
+- **Lambda Legal** — LGBTQ+ legal support
+- **National Network to End Domestic Violence** — DV-related housing
+- **Catholic Charities** — emergency rental assistance often available
+- **Salvation Army** — emergency rental assistance
+- **211.org** — universal social services helpline
+- **NeighborWorks America** — homeownership + counseling
+- **American Bar Association free legal answers** (abafreelegalanswers.org)
+
+For specific underserved groups, find at least 2 nationally recognized orgs each:
+- **Immigrants** (e.g., National Immigration Law Center, CLINIC)
+- **LGBTQ+** (e.g., Lambda Legal, NCLR)
+- **Women / Domestic violence survivors** (e.g., NNEDV, RAINN)
+- **Veterans** (e.g., VA tenant programs, US Vets)
+- **Seniors** (e.g., AARP, NCOA)
+- **Disabled renters** (e.g., Disability Rights Education & Defense Fund)
+- **Families with children** (e.g., Children's Defense Fund housing programs)
+
+**Verify each URL is live before adding it.** Dead links destroy the credibility this section is supposed to build.
+
+## Part 2 — Data structure
+
+Save the verified data to a new file: `data/resources-hub.json`
+
+Structure:
+
+```json
+{
+  "national": {
+    "general": [
+      {
+        "name": "LawHelp.org",
+        "description": "Free legal aid directory — find local legal aid by ZIP code, plus self-help legal information for renters.",
+        "url": "https://www.lawhelp.org",
+        "tags": ["all", "legal-aid", "national"]
+      },
+      {
+        "name": "National Low Income Housing Coalition",
+        "description": "Research, advocacy, and policy resources to ensure housing for the lowest-income people.",
+        "url": "https://nlihc.org",
+        "tags": ["all", "low-income", "advocacy"]
+      },
+      // ... etc
+    ],
+    "by_group": {
+      "immigrants": [...],
+      "lgbtq": [...],
+      "women_dv": [...],
+      "veterans": [...],
+      "seniors": [...],
+      "disabled": [...],
+      "families": [...]
+    }
+  },
+  "states": {
+    "CA": {
+      "name": "California",
+      "official_tenant_page": "https://landlordtenant.dre.ca.gov",
+      "emergency_rental_assistance": "https://housing.ca.gov",
+      "legal_aid": [
+        {
+          "name": "Bay Area Legal Aid",
+          "description": "Free legal help for low-income tenants in the SF Bay Area — eviction defense, security deposit disputes, habitability claims.",
+          "url": "https://baylegal.org",
+          "service_area": "SF Bay Area"
+        },
+        {
+          "name": "Legal Aid Foundation of Los Angeles (LAFLA)",
+          "description": "Free legal services for tenants in LA County — landlord-tenant disputes, eviction defense, fair housing.",
+          "url": "https://lafla.org",
+          "service_area": "LA County"
+        }
+      ],
+      "tenant_unions": [
+        {
+          "name": "Tenants Together",
+          "description": "Statewide tenant rights advocacy + referrals to local legal aid and tenant unions.",
+          "url": "https://www.tenantstogether.org",
+          "service_area": "Statewide"
+        }
+      ]
+    },
+    // ... all 50 states + DC + territories
+  }
+}
+```
+
+Keep entries CONCISE — one descriptive line per organization. Don't pad with marketing language.
+
+## Part 3 — Build `/resources` page
+
+Create a new route at `/resources`. Same nav and footer as the homepage.
+
+### Page structure
+
+**Section 1 — Hero**
+
+- Eyebrow: `RESOURCES`
+- H1: *"Help, when the lease isn't enough."*
+- Sub: *"Free legal aid, tenant rights organizations, and housing support — by state and nationally. Curated, verified, and updated. We don't take referral fees."*
+
+**Section 2 — National housing organizations**
+
+- Eyebrow: `NATIONAL`
+- H2: *"Help that works anywhere in the US."*
+- Body: short paragraph explaining these orgs serve every state
+- 6-8 cards in a 2-col grid (1-col mobile), each with: name, description, URL link
+
+**Section 3 — Find help by state**
+
+- Eyebrow: `BY STATE`
+- H2: *"Click your state to see what's available."*
+- Body: short paragraph
+- A clean state picker — could reuse the same interactive US map component from the homepage, OR a simple dropdown + filtered list below
+- When a state is selected, show:
+  - The state's official tenant rights page (link)
+  - The state's emergency rental assistance program (link)
+  - Legal aid organizations (cards)
+  - Tenant unions (cards)
+
+**Section 4 — Help for specific situations**
+
+- Eyebrow: `SPECIFIC SITUATIONS`
+- H2: *"If you're facing a particular challenge."*
+- Body: introduces the filter approach
+- Filter pills: All · Immigrants · LGBTQ+ · Women & DV survivors · Veterans · Seniors · Disabled · Families
+- Below: cards filtered by the selected pill, showing relevant national orgs
+
+**Section 5 — Inclusion statement**
+
+- Eyebrow: `WHY THIS EXISTS`
+- H2 (Fraunces italic, ~32px): *"The renters who need help most are the ones least likely to find it."*
+- Body:
+  > *"Single parents, immigrants, low-income families, seniors on fixed income, LGBTQ+ renters facing discrimination, domestic violence survivors needing emergency housing, veterans transitioning out of service. The people who get burned hardest by bad leases are the people least likely to have a lawyer's number on speed dial. This page exists to put one there."*
+
+**Section 6 — Disclaimer**
+
+- Standard disclaimer block:
+  > *"Check the Lease provides information about these organizations. We're not affiliated with any of them. We don't take referral fees. We do verify every link before listing it. If you find a broken or outdated entry, email hello@checkthelease.com and we'll fix it."*
+
+**Section 7 — Footer (same as homepage)**
+
+## Part 4 — Surface relevant resources inside `/results/[id]`
+
+The Resources tab on the results page already exists from earlier rounds. Extend it:
+
+After the existing program cards (CalWORKs, etc.), add a small subsection:
+
+- Heading: *"More help in [State]:"*
+- Pull from `data/resources-hub.json` → `states.[abbreviation].legal_aid` and `tenant_unions`
+- Show top 3 most relevant orgs as compact cards
+- Below cards: link → *"See all resources for [State] →"* navigating to `/resources?state=XX`
+
+## Part 5 — Update homepage and nav
+
+**Add Resources link to nav:**
+- For renters · For landlords · How it works · **Resources** · About
+
+**Add a small Resources mention in the homepage Section 06 (State Coverage):**
+- After the body paragraph, add: *"Plus a directory of free legal aid in every state — see [Resources](/resources)."*
+
+**Update About page — Section 4 (Inclusion):**
+- Replace the existing "substance-led inclusion" paragraph with one that links to the Resources hub:
+  > *"Renters of every income, language, race, and background. The renters who get screwed hardest by bad leases are the ones least likely to have a lawyer. So I built a [Resources hub](/resources) — free legal aid by state, national housing nonprofits, and orgs that specifically support immigrants, LGBTQ+ renters, women, families, seniors, and veterans. Free, plain-English, and inclusive of who you are isn't optional. It's the whole point."*
+
+## Part 6 — Footer updates
+
+The two new footer links from Round 9.7 (Find a tenant lawyer + Free legal aid by state) — point both to `/resources` instead of external URLs. The Resources hub IS the directory now.
+
+## Self-audit checklist
+
+- [ ] All 50 states + DC + 5 territories researched and added to `data/resources-hub.json` with at least 1 legal aid org each
+- [ ] Every URL verified live before adding (no dead links)
+- [ ] National section has 8+ general orgs + 2+ orgs for each underserved group (immigrants, LGBTQ+, women/DV, veterans, seniors, disabled, families)
+- [ ] `/resources` page renders all sections
+- [ ] State picker / map works (clicking a state shows that state's resources)
+- [ ] Filter pills on "specific situations" section work
+- [ ] Resources link added to homepage nav
+- [ ] Mention added to homepage Section 06
+- [ ] About page Section 4 updated with link to Resources
+- [ ] Two footer links repointed to `/resources` (instead of external)
+- [ ] Results page Resources tab extended with state-specific orgs + "See all" link
+- [ ] Disclaimer ("we're not affiliated, we don't take referral fees") rendered on /resources page
+- [ ] Mobile responsive at 375px
+- [ ] WCAG 2.2 AA preserved (Lighthouse 95+)
+- [ ] No console errors
+
+## Why this round matters strategically
+
+Beyond the buildathon:
+
+1. **It's real public-interest work.** This isn't fake marketing — it's a curated directory that genuinely helps people who can't afford a lawyer find one.
+2. **It deepens the brand's "fair deal" promise** from claim to substance.
+3. **It's a portfolio centerpiece.** "I built and curated a 50-state legal aid directory in a weekend" is a story that lands with hiring managers.
+4. **It's SEO gold.** Pages structured around real legal aid orgs by state will rank for searches like "free legal aid Texas tenant" — bringing organic traffic to the product itself.
+5. **It's the move that takes Check the Lease from "hackathon project" to "credible nonprofit-adjacent service."** Big credibility lift.
+
+## Deliverable
+
+After applying, share:
+1. The new /resources page hero
+2. A state-specific view (e.g., California with all its legal aid + tenant unions)
+3. The "specific situations" filter section
+4. Confirmation `data/resources-hub.json` has all 50 states + DC + 5 territories
+5. Updated nav showing the Resources link
+6. Mobile screenshot of /resources

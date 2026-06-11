@@ -1,0 +1,246 @@
+# Round 3 — Results page shell (`/results/[id]`)
+
+Paste this into Replit Agent AFTER Round 2 lands and the /upload page works.
+
+---
+
+# Round 3 — Build the results page shell
+
+Build the results page at `app/results/[id]/page.tsx` (App Router) — or `src/pages/Results.tsx` if the project is Vite + React Router. Match the existing project structure.
+
+This round is the SHELL with placeholder data only. Real analysis wires up in Round 4 (Claude API + state law data). The page reads intake state from `sessionStorage` (key `ctl-intake`) that Round 2 set.
+
+Use ALL the design tokens, fonts, colours, and copy rules from Round 1. Don't redefine.
+
+## Install these additional shadcn components
+
+```
+npx shadcn@latest add tabs accordion tooltip separator progress
+```
+
+## Page structure
+
+Same nav and footer as the rest of the site. Container max-width 880px (slightly wider than intake), centred, padding 48px 28px desktop / 32px 20px mobile.
+
+### Top — Snapshot card (the hero of the results page)
+
+A bone-dark background card, border-radius 24px, padding 32px, with FIVE stat tiles in a horizontal row (stacks 2-up on mobile, 1-up on small mobile):
+
+Each stat tile (no border, no card — just three stacked elements):
+- Stat label (Inter, 11px, ink-muted, uppercase, letter-spacing 0.1em, weight 500)
+- Stat number (Fraunces 500, 36px, ink, letter-spacing -0.02em)
+- Optional sublabel (Fraunces italic, 11px, sage, weight 500)
+
+The five tiles:
+1. "POTENTIAL ISSUES" / number / "for review"
+2. "MISSING PROTECTIONS" / number / "to consider"
+3. "QUESTIONS" / number / "to raise"
+4. "STATE" / abbreviation / e.g. "California"
+5. "PERSPECTIVE" / "Renter" or "Landlord" or "Both"
+
+Above the row, in a small ribbon: an ink-blue eyebrow line: "YOUR LEASE READ" plus a Fraunces italic title: "Here's what we found in your lease." Sub: "Tailored using your state and the personal context you shared. Information only — not legal advice."
+
+For now, hardcode placeholder values: 4 / 3 / 7 / "CA" / "Renter".
+
+### Section 1 — Key Terms
+
+Eyebrow: `01 — KEY TERMS`
+H2 (Fraunces 500, 28px): "What it actually says."
+Body (Inter 13px ink-muted, max-width 480px): "Plain-English extraction of the key clauses."
+
+Grid of 8 small cards, 2 columns desktop, 1 mobile, gap 12px. Each card:
+- bone background, 1.5px soft border, border-radius 12px, padding 16px
+- Label (Inter 11px ink-muted, uppercase, letter-spacing 0.08em, weight 500): the term name
+- Value (Fraunces 500, 18px, ink, letter-spacing -0.02em): the extracted value
+- Original-clause link (Inter 11px sage, underline, weight 500): "View original"
+
+The 8 placeholder cards:
+1. RENT / "$3,200/month"
+2. SECURITY DEPOSIT / "$9,600"
+3. LATE FEE / "Unspecified"
+4. LEASE TERM / "12 months"
+5. RENEWAL / "Auto-renews"
+6. ENTRY NOTICE / "None specified"
+7. PETS / "Allowed with deposit"
+8. TERMINATION / "Standard"
+
+### Section 2 — Potential Issues
+
+Eyebrow: `02 — POTENTIAL ISSUES`
+H2: "Things to be aware of."
+Body: "Clauses that may need a closer look. Each one cites the actual law in your state. Information, not advice."
+
+A vertical stack of 4 placeholder issue cards. Each issue card:
+- bone background, 1.5px soft border, border-radius 16px, padding 24px
+- Severity badge at top: small uppercase Inter 10px weight 500 letter-spacing 0.1em, padding 4px 10px, 4px radius. Three severity styles:
+  - LOW: sage background, bone text
+  - MEDIUM: clay background (#C97A4A), bone text
+  - HIGH: wine background (#7A2C3D), bone text
+- H3 (Fraunces 500, 18px): the issue title
+- Body (Inter 13px ink line-height 1.55): plain-English explanation
+- Citation block (JetBrains Mono 11px ink-blue on rgba(30,58,95,0.08) bg, 6px radius, padding 8px 12px, inline-block): the statute reference
+- Original-clause link below: "View the original clause →"
+
+The 4 placeholder issues:
+
+1. **HIGH** — "Security deposit exceeds the legal cap."
+   "California limits residential security deposits to two months' rent for unfurnished units. Your lease asks for three months' rent."
+   Citation: `Cal. Civ. Code § 1950.5`
+
+2. **HIGH** — "Self-help eviction language."
+   "California requires a formal unlawful detainer process before excluding a tenant. Lockouts and re-entry without court order are prohibited."
+   Citation: `Cal. Civ. Code § 789.3`
+
+3. **MEDIUM** — "Entry rights are broad."
+   "California generally requires 24 hours' written notice for non-emergency entry. The clause does not match this expectation."
+   Citation: `Cal. Civ. Code § 1954`
+
+4. **MEDIUM** — "Late fee is unspecified."
+   "California requires late fees to be a reasonable estimate of actual damages. 'As determined by Landlord' is unlikely to be enforceable as written."
+   Citation: `Cal. Civ. Code § 1671`
+
+### Section 3 — Missing Protections
+
+Eyebrow: `03 — MISSING PROTECTIONS`
+H2: "What good leases often clarify."
+Body: "Protections that aren't in your lease but help avoid disputes. Information for both renters and landlords."
+
+A shadcn Tabs component with two tabs at the top: "Renter view" and "Landlord view" (default Renter view).
+
+Inside each tab: a vertical stack of 3 placeholder cards. Each card:
+- bone background, 1.5px soft border, border-radius 16px, padding 22px
+- Eyebrow (Fraunces italic 11px sage weight 500): "MAY BE MISSING"
+- H3 (Fraunces 500, 17px): the missing item
+- Body (Inter 13px ink line-height 1.55): why it helps
+- Footer line (Fraunces italic 12px ink-muted): "Helps: [renter / landlord / both]"
+
+**Renter view** placeholder cards:
+1. "A clear repair response process." / "Reduces confusion about who reports what and when. Helps: renter and landlord."
+2. "A 21-day deposit return timeline." / "California requires the deposit to be returned with an itemised statement within 21 days. Spelling this out reduces disputes. Helps: renter."
+3. "A habitability statement." / "California implies a warranty of habitability — putting it in writing reduces ambiguity. Helps: renter and landlord."
+
+**Landlord view** placeholder cards:
+1. "A written maintenance-request channel." / "Specifying email, app, or phone for repair requests reduces missed messages. Helps: landlord."
+2. "Late-fee structure with specific amounts." / "Vague late-fee clauses are unenforceable. A clear flat fee or percentage protects landlord rights. Helps: landlord."
+3. "Move-out condition expectations." / "Documenting expected condition at move-out reduces deposit-return disputes. Helps: both."
+
+### Section 4 — Resources (only if intake state has any optional context checked)
+
+If `sessionStorage.ctl-intake.isParent` OR `receivesHousingAid` OR `isStudent` is true, render this section. Otherwise hide.
+
+Eyebrow: `04 — RESOURCES`
+H2: "Programs you may qualify for in California."
+Body (Fraunces italic 13px ink-muted): "Information only. We're not affiliated with these programs."
+
+Grid of 2 placeholder program cards (the real list comes in Round 6). Each card:
+- bone-dark background, 1.5px soft border, border-radius 16px, padding 22px
+- State pill at top (Fraunces italic 11px sage): "California"
+- H3 (Fraunces 500, 17px): program name
+- Body (Inter 12px ink-muted line-height 1.5): one-line description
+- "Apply →" link (Inter 12px ink-blue weight 500, underline)
+
+Placeholders:
+1. "CalWORKs Housing Support" / "Rental assistance, security deposit help, case management for eligible families."
+2. "California Tenant Protection Act" / "Caps annual rent increases at 5% + CPI for many tenancies. Worth knowing if your lease includes increase language."
+
+### Section 5 — Questions to Ask
+
+Eyebrow: `05 — QUESTIONS TO ASK`
+H2: depends on intake stage:
+- If `stage === 'before'`: "Ask before you sign."
+- If `stage === 'already'`: "What to keep on hand."
+
+Body (Inter 13px ink-muted): "Tactful, specific points to raise. Information, not scripts."
+
+A vertical numbered list of 7 placeholder questions. Each item:
+- Number (Fraunces 500, 24px, ink-blue) on the left
+- Question text (Inter 14px ink, line-height 1.55) on the right
+
+If `stage === 'before'`, placeholders:
+1. "Can you clarify how much notice is given before entry, and through what channel?"
+2. "Can the security deposit be reduced to two months' rent in line with California law?"
+3. "Can the late fee be specified as a fixed amount or percentage rather than 'as determined'?"
+4. "Can a clear repair-request channel be added to the lease?"
+5. "Can the auto-renewal be adjusted to a 30-day notice period rather than 90?"
+6. "Can the one-sided attorney-fee clause be made reciprocal?"
+7. "Is there a written maintenance-response timeline you typically follow?"
+
+If `stage === 'already'`, placeholders:
+1. "Keep written copies of any maintenance requests and replies."
+2. "Document the condition of the property with photos at move-in."
+3. "Save copies of every rent payment receipt or bank confirmation."
+4. "If the deposit is not returned within 21 days of move-out, you may be entitled to a refund and statement."
+5. "Note any entry events — date, time, notice given (or not)."
+6. "Keep written communication on rent increases — California limits annual increases."
+7. "If a clause is being enforced against you, consider speaking with a tenant lawyer or local legal aid."
+
+### Sticky bottom banner
+
+A persistent thin banner at the bottom of the viewport (use a normal-flow component, not `position: fixed` — make it the last element in the page so it sits at the bottom of the scroll):
+- bone-dark background, top hairline, padding 16px 24px
+- Inter 11px ink-muted line-height 1.5: "Check the Lease provides legal information, not legal advice. We are not a law firm. No attorney-client relationship is formed."
+- On the right: a small "×" dismiss button using shadcn Button ghost variant (just visual — don't actually persist dismissal in this round).
+
+### Footer
+
+Use the shared `<Footer />` component.
+
+## Reading intake state from sessionStorage
+
+At the top of the results page component, read sessionStorage:
+
+```ts
+'use client'; // if Next.js App Router
+
+import { useEffect, useState } from 'react';
+
+type IntakeState = {
+  file: File | null;
+  state: string | null;
+  stage: 'before' | 'already';
+  perspective: 'renter' | 'landlord' | 'both';
+  isParent: boolean;
+  receivesHousingAid: boolean;
+  isStudent: boolean;
+  reviewingForSomeoneElse: boolean;
+};
+
+const DEFAULT_INTAKE: IntakeState = {
+  file: null, state: 'CA', stage: 'before', perspective: 'renter',
+  isParent: false, receivesHousingAid: false, isStudent: false, reviewingForSomeoneElse: false
+};
+
+// inside component:
+const [intake, setIntake] = useState<IntakeState>(DEFAULT_INTAKE);
+
+useEffect(() => {
+  const raw = sessionStorage.getItem('ctl-intake');
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      // file won't survive sessionStorage — that's fine for the shell
+      setIntake({ ...DEFAULT_INTAKE, ...parsed });
+    } catch (e) {
+      // fall back to defaults
+    }
+  }
+}, []);
+```
+
+If no sessionStorage exists (e.g. user lands on `/results/demo` directly), use the defaults — that's the demo state.
+
+## Out of scope this round (do NOT build)
+
+- Real Claude API analysis — Round 4
+- Real PDF parsing — Round 4
+- Real California state law data — Round 4
+- The full 50-state law data — Rounds 4–6
+- Email collection on results — Round 7
+- RevenueCat paywall stub — Round 7
+- Persisting analyses — never (we're stateless by design)
+
+## Deliverable
+
+The /results/[id] page renders end-to-end with placeholder data, all five sections, conditional Resources section based on sessionStorage, sticky compliance banner. Mobile-responsive. Same calm, editorial design language. Tabs work. Numbered list looks editorial.
+
+When done, share the preview URL `/results/demo` and tell me anything that didn't work.

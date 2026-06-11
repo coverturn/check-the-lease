@@ -1,0 +1,392 @@
+# Round 7 — Final polish to "incredible" (research-driven brief)
+
+Paste this AFTER Rounds 1-6 are done. This is the final polish round before deploy.
+
+The product works. The brand is locked. The structure is in place. This round transforms it from "functional" to "incredible" — the kind of site where judges and Replicash voters stop scrolling and stare.
+
+You have full creative latitude within the existing design tokens. You should research, decide, and execute aggressively.
+
+---
+
+# Round 7 — Polish to incredible
+
+## The brief
+
+You are a senior product designer + design engineer. The mission this round: apply rigorous design craft to elevate Check the Lease from "works" to "incredible". Every section gets thoughtful design intervention. Every interaction gets motion. Every claim gets evidence.
+
+Do NOT change:
+- The cream/ink/ink-blue/sage palette
+- Fraunces (display) + Inter (body) + JetBrains Mono (citations) typography
+- The compliance language guardrails (no "you should", always cite statutes)
+- The four core sections (Key Terms / Issues / Missing Protections / Questions)
+
+DO change:
+- Visual hierarchy in every section
+- Motion language (subtle, editorial, never gimmicky)
+- Section transitions and rhythm
+- Hover and focus states across every interactive element
+- Mobile presentation
+
+## Research phase (start here, allow 15-20 minutes)
+
+Browse these 10 sites and document specific design moves you observe. Use Replit's web preview or just navigate via your browser knowledge. For each, note: hero pattern, section transitions, trust signals, motion specifics.
+
+| # | Site | Why relevant — what to study |
+|---|---|---|
+| 1 | wisprflow.ai | Editorial calm, marquee curving SVG text, EB Garamond + Figtree, Lumen cream + Vast charcoal palette discipline |
+| 2 | granola.ai | Embedded product UI in hero, ultra-tight headline kerning, big single number social proof |
+| 3 | hellodivorce.com | Legal-tech for non-experts, "not legal advice" framing, free vs paid tier clarity, real customer photos |
+| 4 | justfix.org | Tenant rights tool, inline interactive widgets, language toggle, activist-but-calm tone |
+| 5 | stripe.com/atlas | Documentary photography in hero, big single value prop, 3-step "how it works" with physical objects |
+| 6 | plaid.com | Massive editorial typography, generous negative space, sticky scroll-progress nav |
+| 7 | hims.com | Sensitive consumer category executed calmly, quiz-style intake, real testimonials, side-by-side comparison |
+| 8 | curology.com | Founder story moment with face, step-by-step explainer with illustrations between steps |
+| 9 | resend.com | Code snippets prominent, dark mode mastery, every transition polished |
+| 10 | linear.app | Aggressive negative space, "small team" energy as a feature, brand discipline |
+
+After research, write a brief summary in your chat narration: "Here are the 5 moves I'm specifically applying from this research, and why."
+
+## Nielsen's 10 heuristics — apply each one
+
+Run through each heuristic against the current site. Fix what's broken.
+
+| # | Heuristic | Apply to Check the Lease |
+|---|---|---|
+| 1 | Visibility of system status | Add scroll-progress bar at top of every page. Add fade-in section reveals on scroll (IntersectionObserver). Loading state already exists from R5 — keep. |
+| 2 | Match real-world language | Audit every label: "Potential Issues" → consider "Things to watch for" (less clinical). Test all copy for plain-English clarity at 6th-grade reading level. |
+| 3 | User control & freedom | Add "Analyse another lease →" link in the header of the results page. Every page must have a clear way back home. |
+| 4 | Consistency & standards | Audit every interactive element — buttons, links, cards, form inputs. Same hover state, same press-in scale(0.97), same transition timing (150-200ms). |
+| 5 | Error prevention | Validate file type and size on file selection (not on submit). Show "PDF only · max 25MB" inline before user picks a file. |
+| 6 | Recognition over recall | State picker shows all 50 visible (already correct). Form fields all have visible labels (no placeholder-only inputs). |
+| 7 | Flexibility & efficiency | "Try with sample" button must have equal visual weight as primary CTA in hero. Sticky CTA on mobile bottom bar. |
+| 8 | Aesthetic & minimalist design | This is THE failure mode currently. Every section needs to earn its place. Cut anything that doesn't serve the user journey. Add editorial moments (italic Fraunces) sparingly for voice. |
+| 9 | Error recovery | API errors show specific recovery: "PDF unreadable? Try OCR first." not just "Something went wrong". |
+| 10 | Help & documentation | FAQ should be inline accordion, not buried. Within 5 seconds a visitor must understand what we do. |
+
+## WCAG 2.2 AA — accessibility requirements (NON-NEGOTIABLE)
+
+This product serves vulnerable users — renters with disabilities, English as a second language, low literacy, screen reader users, keyboard-only users. Accessibility is not a polish layer. It's a requirement. Every item below must be verified before declaring Round 7 complete.
+
+### Perceivable
+
+- **Colour contrast minimums:**
+  - Normal text (under 18.66px regular or 24px bold): minimum **4.5:1** ratio
+  - Large text: minimum **3:1**
+  - UI component boundaries (button borders, input borders): minimum **3:1**
+  - Verify ink `#171717` on bone `#FBF8F1` (passes — ~16:1)
+  - Verify ink-muted `#6B6B6B` on bone `#FBF8F1` (passes — ~5.7:1)
+  - Verify sage `#5A8B7A` eyebrows on bone — verify it passes 4.5:1 minimum, if not, darken to `#3D5F50`
+  - Verify pale-blue `#B8C8D9` on ink-blue `#1E3A5F` for dark cards
+  - Verify clay/wine severity badges have sufficient contrast against their backgrounds
+
+- **Colour is never the only indicator:** Severity badges have BOTH a colour AND a text label ("HIGH" / "MEDIUM" / "LOW"). Filter pill active state has both colour change AND a visual marker. Sage dot pulse has an accompanying aria-live region announcing state changes if applicable.
+
+- **Alt text:** Every meaningful image has descriptive alt text. Decorative-only SVGs use `aria-hidden="true"` or empty alt `alt=""`. The hero illustration has alt like `"Document with magnifying glass — Check the Lease analyses your lease."`
+
+- **Text resizing:** Page works at 200% browser zoom without horizontal scroll or content cut-off.
+
+### Operable
+
+- **Keyboard navigation:** Every interactive element reachable via Tab in logical order matching visual order. Test the full flow without a mouse: nav → hero CTAs → state pills → feature cards → upload → results.
+
+- **Focus states:** Every focusable element has a visible focus ring. Use a 2px solid ink-blue outline with 2px offset. NOT the default browser blue. Apply globally:
+```css
+*:focus-visible {
+  outline: 2px solid #1E3A5F;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+```
+
+- **Skip-to-main-content link:** First focusable element on every page. Visually hidden until focused, then appears top-left.
+```tsx
+<a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-ink-blue focus:text-bone focus:px-4 focus:py-2 focus:rounded">
+  Skip to main content
+</a>
+```
+
+- **Touch targets:** Minimum 44×44px for ALL interactive elements (buttons, links, pills, checkboxes, radio cards). Pad smaller visual elements with invisible touch padding if needed.
+
+- **No keyboard traps:** Modal dialogs, expanded accordions, dropdown menus must be escapable via Esc key.
+
+- **Time limits:** No auto-redirects without user control. Loading state has no timeout.
+
+### Understandable
+
+- **`lang="en"` on `<html>`** declared.
+
+- **Form labels:** Every input has a visible label using proper `<label htmlFor="...">`. Placeholder text is NEVER the only label.
+
+- **Error messages:** Specific, constructive, near the field. Not just red borders — actual text explaining what's wrong and how to fix it.
+
+- **Reading level:** All copy at 6th-grade level minimum. Test with hemingwayapp.com or similar. Replace legal jargon with plain English everywhere except direct statute citations.
+
+- **Predictable navigation:** Same nav, same footer, same brand presentation on every page.
+
+### Robust
+
+- **Semantic HTML:** Use `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`, `<button>` (not `<div onClick>`), `<a>` for links (not `<button>` for navigation).
+
+- **ARIA live regions** for dynamic content:
+  - Loading state announces to screen readers: `aria-live="polite"` on the loading card, with the rotating message updating
+  - Analysis complete announces: `aria-live="polite"` on the results region
+  - Error states announce: `aria-live="assertive"` for failures
+
+- **Heading hierarchy:** One `<h1>` per page (the H1 in hero). All other headings follow logical nesting (H2 for sections, H3 for cards, H4 for sub-elements).
+
+- **Icon-only buttons** have `aria-label`:
+```tsx
+<button aria-label="Remove file"><X /></button>
+<button aria-label="Dismiss banner"><X /></button>
+```
+
+- **Buttons vs links:** Use `<button>` for actions, `<a href>` for navigation. Never confuse them.
+
+### Tools to verify
+
+After building, run these checks (Agent should attempt these via the Replit shell):
+
+1. **Lighthouse Accessibility audit** — must score 95+. Run in dev tools or via `npx @lhci/cli@0.13.x autorun`.
+2. **axe DevTools** — paste a small script that uses `@axe-core/react` to log issues, OR install the browser extension and run on the deployed page.
+3. **Manual keyboard test:** Tab through the entire flow. Every interactive element reachable. Focus visible. No traps.
+4. **Manual screen reader test:** Optional but ideal — use VoiceOver (Cmd+F5 on Mac) or NVDA on the landing page. Hero, CTA, sections, feature cards should all announce sensibly.
+
+### Specific Check the Lease accessibility additions
+
+- The `<svg>` magnifying-glass animation in the hero illustration must NOT auto-play if `prefers-reduced-motion: reduce`. Wrap the animation in a media query.
+- The marquee curving italic divider must NOT scroll if `prefers-reduced-motion: reduce` — render static.
+- The sticky scroll-progress bar must NOT animate position changes — purely declarative width based on scroll.
+- The interactive state preview pills must be `<button>` elements with `aria-pressed` reflecting active state.
+- The Without/With comparison cards must NOT rely on colour alone — sage vs wine — to convey meaning. Each has a clear text label ("WITHOUT US" / "WITH US") and ✓ / · symbols on the bullet items.
+- Loading state's rotating messages should announce via `aria-live="polite"` so blind users know analysis is in progress.
+
+## The 8 specific additions to ship
+
+Build each of these. Take creative liberty in execution within the design system.
+
+### 1. Sticky scroll-progress bar
+
+Thin (2-3px) bar at the top of the viewport showing scroll progress through the page. Subtle ink-blue fill (`#1E3A5F`). On the landing page only. Below the nav, above content.
+
+```tsx
+// In your main layout, after the nav:
+const [scrollProgress, setScrollProgress] = useState(0);
+useEffect(() => {
+  const onScroll = () => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / docHeight) * 100;
+    setScrollProgress(progress);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  return () => window.removeEventListener('scroll', onScroll);
+}, []);
+```
+
+### 2. Embedded product preview in the hero
+
+Replace the floating illustration on the right column of the hero with a mini browser-frame mockup that shows what the actual results page looks like. This is "the Granola move" — show the product, don't just describe it.
+
+Inside the browser frame: stat tiles (4 issues / 3 missing / 7 questions), a "High" severity issue card with title and citation, a "Medium" severity card. All using real-looking Check the Lease data from a California analysis.
+
+### 3. Marquee curving italic divider
+
+Below the hero, before the next section. SVG text following a gentle wave curve. Italic Fraunces, ink-blue colour, ~16-18px.
+
+Text: "free for renters · free for landlords · information, not advice · cited to the actual law · free forever ·"
+
+Use SVG `<textPath>` along a wave path. This is the Wispr signature move adapted for our brand.
+
+```tsx
+<svg viewBox="0 0 1200 80" width="100%" height="80">
+  <path id="marquee" d="M 0,40 Q 300,5 600,35 T 1200,32" fill="none"/>
+  <text style={{fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: '18px', fill: '#1E3A5F', letterSpacing: '-0.01em'}}>
+    <textPath href="#marquee" startOffset="0">free for renters · free for landlords · information, not advice · cited to the actual law · free forever ·</textPath>
+  </text>
+</svg>
+```
+
+Optional: animate the startOffset over 30s for a slow scroll effect. CSS animation only.
+
+### 4. Interactive state preview band
+
+A new section between hero and "What you'll see". Title: "Pick your state to see what we cover."
+
+Below: a horizontal row of state pills. Five visible (CA, TX, FL, NY, IL) and a "+5 more" pill. Each pill clickable. When clicked, the panel below updates to show 4 specific tenant rights for that state.
+
+Default to California shown. Real data. Example for CA:
+- "Cap deposit at 2 months' rent"
+- "Give 24h written notice before entry"
+- "Return deposit in 21 days with itemised statement"
+- "Cap rent increases at 5% + CPI"
+
+For other deep-coverage states (TX, FL, NY, IL, PA, OH, GA, NC, MI), add 4 specific rules each. Pull from a small JSON file `data/state-previews.json` that you write. Look up real tenant rules per state — must be accurate, with citations.
+
+This is the JustFix interactive moment that makes the homepage feel like a tool, not a brochure.
+
+### 5. Photographic moment
+
+A full-width image band between "What you'll see" and "Without us / With us". 
+
+Use a solid colour placeholder for now (warm sandstone tone, gradient from `#D4B896` → `#BFA070`) with an editorial overlay caption in italic Fraunces:
+
+> "Sat at the kitchen table with a 14-page lease. Reading every line of it shouldn't require a law degree."
+
+Add a small "Death To Stock" attribution in the corner — Ishmael will swap in a real photo from his Death To Stock library post-build (or generate via Nano Banana Pro using the prompt below).
+
+### 6. "Without us / With us" comparison
+
+A new section after the photographic moment. Title: "Without us. With us."
+
+Two cards side-by-side (stacks on mobile):
+
+**Left card:** muted wine background `rgba(122,44,61,0.05)`, wine border. Eyebrow: "WITHOUT US". H3: "14 pages of legalese." Bullet list:
+- *"Notwithstanding the foregoing..."*
+- No idea what's standard or sketchy
+- No idea what your state requires
+- Sign and hope for the best
+
+**Right card:** muted sage background `rgba(90,139,122,0.06)`, sage border. Eyebrow: "WITH US". H3: "A four-part read." Bullet list:
+- ✓ Plain English on every clause
+- ✓ Things to watch for, with citations
+- ✓ Missing protections to ask about
+- ✓ Questions tailored to your state
+
+This is the Hims/Hers move — show the value, don't just describe it.
+
+### 7. JSON snippet "under the hood"
+
+A small new section after "How it works". Dark code block (background `#0E0E0E`) showing a real example of the structured analysis JSON our backend returns. JetBrains Mono, syntax-highlighted with subtle colours (sage for keys, cream for strings, pale-blue for numbers).
+
+Eyebrow: "UNDER THE HOOD"
+Below the code: small italic Fraunces caption: *"— structured. cited. verifiable."*
+
+This is the Resend move — show the technical product to build credibility with the technical audience (judges).
+
+Show real example output (you can copy from the Round 4 system or write a representative one). At minimum 8-10 lines of formatted JSON.
+
+### 8. Founder note
+
+A small editorial section after "Under the hood" and before FAQ. 
+
+A Fraunces italic 14px block, indented from the edges, with a small avatar circle on the left (40px, ink-blue background, white "I" letter in Fraunces italic).
+
+Text:
+> *"Built in 24 hours, by one person, for the Replit Buildathon. Because reading a lease shouldn't require a law degree — and the technology to fix that has been here for a while."*
+>
+> — Ishmael, May 2026
+
+This is the Curology + Linear move — humanity + small-team energy as a feature.
+
+## Animation & motion language
+
+Every element gets motion intentionally. Use this as the spec:
+
+| Element | Motion |
+|---|---|
+| Hero text | Fade-up 200ms ease-out, staggered (badge → H1 → sub → CTAs → stats) |
+| Section reveals on scroll | Fade-up 400ms ease-out, triggered when 20% of section enters viewport (use IntersectionObserver) |
+| Buttons (primary + ghost) | Hover: scale(0.97) + colour wash, 150ms ease |
+| Cards | Hover: scale(0.99) + border tightens to medium opacity, 200ms ease |
+| Links | Hover: text-underline-offset 3px → 4px, 150ms ease |
+| Marquee curving text | Slow horizontal scroll via animated startOffset, 30s linear infinite |
+| Sage pulse dot in nav badge | Existing scale animation, keep |
+| Document magnify (hero illustration) | Existing pulse, keep |
+| Page transitions | Fade in main on route change, 200ms ease-in |
+
+CRITICAL: respect `prefers-reduced-motion`. Wrap all animations in `@media (prefers-reduced-motion: no-preference)` or disable them entirely if the user has reduced motion set.
+
+## Image generation specs (for Ishmael to run later)
+
+If we need additional photographic moments, generate via Nano Banana Pro using these exact prompts. Otherwise the photographic placeholder works for the buildathon.
+
+**Hero photographic moment (if used instead of illustration):**
+> Editorial photograph, soft natural window light. Hands of a young person sat at a kitchen table, holding a multi-page lease document. Coffee mug in frame. Cream tablecloth. Warm tones. Shallow depth of field. Background slightly blurred. Style: Death To Stock, contemporary editorial. 16:9 aspect ratio.
+
+**Founder avatar (if more than initial letter is used):**
+> Editorial photograph, soft natural light. Young Black British man, mid-20s, casual but polished, sat at a desk with a laptop. Calm expression. Cream walls behind. Shallow depth. Style: contemporary editorial portrait, Wispr Flow vibe. Square 1:1.
+
+**Section anchor — "Without us / With us":**
+> Two illustrations side by side. Left: a stick-figure person buried in stacks of paper, looking confused, single colour palette of muted wine. Right: same stick-figure person calmly reading a clean structured page, single colour palette of muted sage. Editorial cartoon style, ink outlines, flat fills. 16:9 aspect.
+
+These are all OPTIONAL. Use solid colour placeholders for the buildathon; swap in real assets post-launch.
+
+## Mobile audit
+
+After all changes, test every page at:
+- 375px (iPhone SE)
+- 414px (iPhone Pro Max)
+- 768px (iPad portrait)
+
+For each, verify:
+- Hero: stacks cleanly (text above embedded product preview)
+- Marquee: still readable, doesn't overflow
+- State preview: pills wrap, panel readable
+- Feature cards: 1 column at 375px, 2 columns at 414px+
+- Without/With: stacks at 375px, side-by-side at 768px+
+- JSON snippet: scrollable horizontally, doesn't break layout
+- Founder note: scales down, avatar still readable
+- FAQ: full-width clickable rows
+- Final CTA: button is tappable (44x44px minimum)
+- Footer: stacks cleanly
+
+Add a sticky bottom CTA bar on mobile (under 768px viewport): pill button "Check my lease →" anchored to bottom, with safe-area inset padding.
+
+## Self-audit checklist (RUN BEFORE DECLARING DONE)
+
+You must verify every item before saying "Round 7 complete":
+
+- [ ] All 8 specific additions shipped
+- [ ] All 10 Nielsen heuristics evaluated and addressed
+- [ ] All inspiration moves studied and at least 5 specifically applied
+- [ ] Sticky scroll-progress bar visible on landing
+- [ ] Embedded product preview replaces floating illustration in hero
+- [ ] Marquee curving SVG text with textPath rendering correctly
+- [ ] Interactive state preview band working (5 states clickable, panel updates)
+- [ ] Photographic placeholder band rendering with editorial caption
+- [ ] Without/With comparison rendering with correct mute colours
+- [ ] JSON snippet block rendering in JetBrains Mono on dark background
+- [ ] Founder note rendering with avatar circle
+- [ ] All buttons use scale(0.97) press-in hover
+- [ ] All cards use scale(0.99) + border-tighten hover
+- [ ] All sections fade-up reveal on scroll
+- [ ] `prefers-reduced-motion` respected throughout
+- [ ] Mobile audit passed at 375px, 414px, 768px
+- [ ] Sticky bottom CTA on mobile under 768px
+- [ ] No console errors
+- [ ] No horizontal scroll on any page on any viewport
+- [ ] Loading state from R5 still works
+- [ ] All Round 1-6 functionality still works (regression test the demo flow)
+
+### WCAG 2.2 AA verification
+
+- [ ] Lighthouse Accessibility score 95+ on landing, upload, and results pages
+- [ ] Every text/background combination passes 4.5:1 (normal text) or 3:1 (large text)
+- [ ] Every interactive element has a visible focus ring (2px ink-blue, 2px offset)
+- [ ] Skip-to-main-content link present and reachable as first focusable element
+- [ ] Every input has a proper `<label htmlFor>` (no placeholder-only labels)
+- [ ] Every icon-only button has an `aria-label`
+- [ ] One `<h1>` per page; logical heading nesting throughout
+- [ ] Semantic HTML used (`<nav>`, `<main>`, `<section>`, `<button>`, `<a>`)
+- [ ] All images have alt text or `aria-hidden="true"` (for decorative SVG)
+- [ ] Severity badges use BOTH colour AND text label (HIGH / MEDIUM / LOW)
+- [ ] Touch targets minimum 44×44px (buttons, pills, checkboxes, radio cards)
+- [ ] Keyboard tab order matches visual order across full landing → upload → results flow
+- [ ] No keyboard traps (Esc closes modals, accordions, expanded sections)
+- [ ] `lang="en"` on `<html>` element
+- [ ] `prefers-reduced-motion: reduce` honoured on all animations (marquee, magnify, pulse, bob, page transitions)
+- [ ] ARIA live regions on loading state (`aria-live="polite"`) and error state (`aria-live="assertive"`)
+- [ ] Page works at 200% browser zoom without horizontal scroll
+- [ ] Form errors are specific, near the field, with text not just colour
+
+## Deliverable
+
+Run through every audit item. Fix anything broken. Then share back:
+
+1. The preview URL
+2. A 3-line summary of the 5 specific moves you applied from the inspiration sites
+3. Any creative decisions you made that diverged from this brief, and why
+4. Anything you want me to verify
+
+This is the last build round. After this, we move to deploy + buildathon submission.
+
+Take your time. Quality over speed.

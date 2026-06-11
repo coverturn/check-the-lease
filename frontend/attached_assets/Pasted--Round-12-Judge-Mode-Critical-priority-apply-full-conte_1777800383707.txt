@@ -1,0 +1,342 @@
+# Round 12 — Judge Mode
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+This round is targeted at the buildathon judging rubric (Progress 33%, Execution 22%, Use of Agent 22%). Every change below directly serves the next 90 seconds a judge will spend on the site. Apply in the order listed — earlier changes are higher-impact-per-minute.
+
+Skip the icon set from Round 11 for now. Apply that AFTER this lands.
+
+---
+
+## Fix 1 — Flip the hero primary CTA to "See a real result →"
+
+This is the single highest-leverage change in the round. Judges will not upload a real lease. They WILL click a one-click demo. Right now the demo CTA is secondary. Promote it.
+
+**Find the current hero CTA layout:**
+- Primary button: "Read my lease →"
+- Secondary link: "Try a sample lease →"
+
+**Replace with:**
+- Primary button: "See a real result →" → links to `/results/demo`
+- Secondary link: "Or read your own lease →" → links to `/upload`
+
+**Why:** the strongest proof on the entire site is `/results/demo`. Putting it one click from the hero converts 100% of curious judges. The button copy "See a real result" frames it as the demo experience without using the word "demo" (which can read as "fake").
+
+**Same flip on `/upload` page:** the link "Try the sample California lease →" should become a primary button styled identically to "Read my lease →" — placed RIGHT NEXT to the upload dropzone, not above it as a secondary link.
+
+---
+
+## Fix 2 — Add a "50 · DC · 6" coverage badge to the hero
+
+Above-the-fold credibility costs nothing. Right now coverage is buried in section 06.
+
+**Add a small inline pill chip to the hero, directly under the sub-copy and above the CTA row:**
+
+```tsx
+<div style={{
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 10,
+  padding: '8px 16px',
+  background: 'rgba(90,139,122,0.08)',
+  border: '1.5px solid rgba(90,139,122,0.25)',
+  borderRadius: 999,
+  fontSize: 13,
+  fontWeight: 500,
+  color: '#3D5F50',
+  marginBottom: 24,
+}}>
+  <span style={{ fontWeight: 700 }}>50</span>
+  <span style={{ opacity: 0.6 }}>·</span>
+  <span>DC</span>
+  <span style={{ opacity: 0.6 }}>·</span>
+  <span>6 territories</span>
+  <span style={{ marginLeft: 4, fontFamily: 'Fraunces, serif', fontStyle: 'italic', opacity: 0.7 }}>covered</span>
+</div>
+```
+
+Place it BEFORE the H1 — eyebrow position. Or directly under the H1, above the sub-copy. Test both visually, pick whichever feels less cluttered.
+
+---
+
+## Fix 3 — Move "What's actually in there" above "The Problem"
+
+Currently the section order is:
+- 01 — The Problem (4 stats about the market)
+- 02 — What's actually in there (3 real example clauses)
+
+**Swap them.** The clause examples are the strongest concrete proof of what the product does. They should land FIRST, while attention is highest. The market stats are necessary context but they slow down the "what does this thing do" answer.
+
+**Renumber after swap:**
+- 01 — What's actually in there
+- 02 — The Problem (the wider context — keep stats here)
+- 03 — How it works
+- (continue existing order)
+
+Update all anchor links, jump-to navigation strip, and any aria-labels that reference these section numbers.
+
+---
+
+## Fix 4 — Replace the "FRAGILE / SIGN" tape illustrations with a results-page preview card
+
+The decorative tape illustrations are clever but don't communicate what the product does to a 90-second visitor. Replace with a clean preview card showing the actual product output.
+
+**In the hero illustration slot (right side or wherever the FRAGILE/SIGN tapes currently sit):**
+
+Build a tilted (-2 degrees) "preview" card mock that shows:
+- A small section header chip: `CALIFORNIA · PRE-SIGNING REVIEW · RENTER`
+- One real flagged clause: `Security deposit exceeds the legal cap.`
+- Sub-line: `California limits residential security deposits to two months' rent. This lease asks for three.`
+- A tiny `§ See the law` button at the bottom
+- A subtle "HIGH RISK" chip in the top-right corner with the warning peach/clay color
+
+Style it as a polaroid-card with cream background, ink border, hard offset shadow (4px 4px 0 ink), Fraunces italic for the eyebrow chip.
+
+This is a static preview — it doesn't need to be interactive. It just needs to LOOK like the actual results page so the judge instantly understands "ah, the output is structured and cited."
+
+**Keep the existing decorative floating shapes (sparkle, triangle, dot) elsewhere on the page** — they're fine as ambient texture. Only the FRAGILE/SIGN tape is being replaced, and only because it's in the hero where it competes for attention.
+
+---
+
+## Fix 5 — Tighten hero sub-copy with capability proof
+
+Replace the current hero sub-copy with the smart-copy alternatives that prove capability without claiming traction.
+
+**Current:** "Catch the clauses that could cost you — cited to your state's law. Free for renters and landlords."
+
+**Replace with:**
+
+> "Reads any US lease in under 15 seconds — and cites the actual statute every other AI lease reader skips. Free for renters and landlords. Always."
+
+The phrase "every other AI lease reader skips" is a defensible competitive claim — it's true if you've checked competitors and they don't cite statutes inline (verify before shipping). If unsure, soften to: "with the actual statute, every time."
+
+---
+
+## Fix 6 — Add a "How I built it" / build-log section
+
+This directly targets the Progress in 24 hours criterion (33% of total — the biggest single lever).
+
+**Option A (faster — 20 min):** Add an expandable section to `/about` titled **"How I built this in 24 hours."**
+
+Inside, write 4 short paragraphs in first-person:
+
+1. **Hour 0–4:** "I started with a single Replit Agent prompt: 'build a free AI lease reader for US renters that cites the actual state law.' The first version was ugly — a dropzone, a paste field, and a wall of text output."
+
+2. **Hour 4–10:** "I rebuilt the brand from scratch. Cream, sage, clay, and a Fraunces italic so it didn't feel like every other Tailwind hackathon site. I drew the illustrations (Keys, House, Document, Truck) by hand-coding SVG paths because Stable Diffusion couldn't get the rubberhose look I wanted."
+
+3. **Hour 10–18:** "The hard part was the analysis. I prompted Agent through 11 iterations to get the results page right — four tabs, severity grouping, statute citations, an action plan checklist. Most lease readers give you a wall of red flags. I wanted a punch list of questions to ask the landlord."
+
+4. **Hour 18–24:** "I added a 50-state legal aid directory because the renters most likely to get burned by a bad lease are the ones least likely to have a lawyer's number. Then I built a chatbot that knows your state's rules and answers questions in plain English. Free, no account, never stored."
+
+Sign off: *"Built with Replit Agent on May 2-3 2026 for the 10 Year Buildathon. — Ishmael"*
+
+**Option B (better — 45 min):** Build a dedicated `/build-log` page with screenshots.
+
+Same 4 paragraphs, but each one paired with a screenshot:
+- Screenshot 1: First Replit Agent prompt
+- Screenshot 2: First ugly version of the homepage
+- Screenshot 3: One of the prompt round files (e.g., round-9-7-prompt.md showing the depth of iteration)
+- Screenshot 4: Final results page
+
+If you don't have early screenshots saved, use what you have — even a single "before/after" comparison is enough. The point is to prove the journey existed.
+
+Link to it from the homepage footer AND the founder note. **"Built in 24 hours with Replit Agent — see the build log →"**
+
+---
+
+## Fix 7 — "Built with Replit Agent" footer attribution
+
+Below the existing footer, above the © line, add a clean attribution row:
+
+```tsx
+<div style={{
+  borderTop: '1px solid rgba(23,23,23,0.08)',
+  paddingTop: 24,
+  marginTop: 24,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
+  gap: 16,
+}}>
+  <p style={{
+    fontFamily: 'Fraunces, serif',
+    fontStyle: 'italic',
+    fontSize: 13,
+    color: '#6B6B6B',
+    margin: 0,
+  }}>
+    Built in 24 hours with Replit Agent for the 10 Year Buildathon.
+  </p>
+  <a
+    href="/build-log"
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      color: '#171717',
+      textDecoration: 'none',
+      borderBottom: '1.5px solid #5A8B7A',
+      paddingBottom: 1,
+    }}
+  >
+    See how it came together →
+  </a>
+</div>
+```
+
+This single addition directly serves Use of Agent (22%) and gives a path to the build log for Progress (33%).
+
+---
+
+## Fix 8 — Add a "Cited where it matters" feature card
+
+Currently your biggest moat — citing actual statutes — is buried in the hero sub-copy. Promote it to a dedicated feature.
+
+In the existing "A complete read" section (Section 04 currently), add a fifth card OR replace one of the weaker ones with:
+
+**EYEBROW:** `THE DIFFERENCE`
+**HEADING:** `Cited where it matters.`
+**BODY:** `Every flagged clause links back to the actual law your state has on the books. Other AI lease readers tell you "this might be illegal." Check the Lease tells you which statute, and where to read it.`
+
+Render with the `IconScale` icon if Round 11 has shipped, or a small `§` glyph styled in clay if not.
+
+This card alone is the highest-converting moat statement on the site. Without it, the cite-the-statute differentiator stays invisible.
+
+---
+
+## Fix 9 — Compress the State Coverage section
+
+This section is gorgeous but eats ~1500px of vertical space at section 06 (so deep that most judges won't reach it).
+
+Two options:
+
+**Option A (compress):** Keep the interactive map but reduce its height by 30% (set `aspectRatio: '16/9'` instead of `4/3` or whatever it currently is). Move the territory chips (DC, PR, GU, VI, AS, MP) into a single horizontal row instead of a 2x3 grid. Cuts ~600px.
+
+**Option B (collapse — bigger gain):** Replace the whole section with a single hero strip:
+- Big number: **50 + DC + 6**
+- Sub: *"Every US state and territory. Click below to see the laws for yours."*
+- A single button: `Pick your state →` that opens a modal/dropdown with the search input
+- Below: a thin marquee of state abbreviations scrolling slowly
+
+This cuts ~1500px AND increases discoverability of the state picker (currently buried inside an interactive map that not every judge will explore).
+
+Recommend Option B. The map is impressive but not the product. The state picker IS.
+
+---
+
+## Fix 10 — Add the OG image (for when you do the social post)
+
+Even if the post isn't live yet, get the OG meta tags in place so when you post on X/LinkedIn it previews well.
+
+Create an OG image at `public/og-image.png` (1200x630):
+- Background: cream `#FBF8F1`
+- Top-left: the "Check the Lease" wordmark in Fraunces italic on a sunshine yellow sticker
+- Centre-left: H1 "Read your lease before it reads you." in big Fraunces italic ink
+- Centre-right: a small, tilted preview of the results page (same as Fix 4)
+- Bottom-strip: "Free. All 50 states. Built in 24 hours with Replit Agent."
+- Bottom-right corner: small "checkthelease.com" or your subdomain
+
+If you can't generate the image in the next hour, use a placeholder — but get the meta tags in place so the link doesn't preview as a blank white card:
+
+```html
+<meta property="og:title" content="Check the Lease — Read your lease before it reads you." />
+<meta property="og:description" content="Free AI lease reader for US renters and landlords. Cites the actual statute. All 50 states. Built in 24 hours with Replit Agent." />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:url" content="https://YOUR-DOMAIN.com" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Check the Lease — Read your lease before it reads you." />
+<meta name="twitter:description" content="Free AI lease reader for US renters and landlords. Cites the actual statute. All 50 states." />
+<meta name="twitter:image" content="/og-image.png" />
+```
+
+---
+
+## Fix 11 — Lighthouse audit + fix anything below 90
+
+Run Lighthouse on the deployed homepage. Target: 90+ on all four scores (Performance, Accessibility, Best Practices, SEO).
+
+Most likely failure points and the surgical fixes:
+
+**Performance below 90:**
+- The state map SVG is heavy. Lazy-load it with `loading="lazy"` if it's an `<img>` or wrap the component in a `IntersectionObserver` so it only renders when scrolled to.
+- The Anthropic chatbot script may be loading eagerly. Defer it until the user opens the bubble.
+- The 6 hand-drawn 120×120 illustrations should be inlined (already are) but check for layout shift — they may need explicit `width/height` to prevent CLS.
+
+**Accessibility below 95:**
+- Verify `lang="en"` on `<html>`.
+- Verify every interactive element has a visible focus ring.
+- The CTA button contrast (sage on cream) — confirm it's still passing AA.
+- Floating decorative SVGs all have `aria-hidden="true"`.
+- Marquee text scroll has `prefers-reduced-motion` support.
+
+**Best Practices:**
+- All images use HTTPS (auto on Replit deploy).
+- No console errors (check `read_console_messages`).
+- No deprecated APIs.
+
+**SEO:**
+- Meta description present (it is).
+- `<title>` is unique and descriptive (it is).
+- Robots meta tag set to `index, follow` (NOT `noindex` from a forgotten dev flag).
+- Sitemap.xml exists at root.
+
+---
+
+## Fix 12 — Smart trust copy in the hero
+
+Replace any placeholder "trust number" copy with these capability statements (all true day-one):
+
+In the hero, between the H1 and the CTA row, add a single italic Fraunces line:
+
+> *"Reads any US lease — every state, every territory, every clause that could cost you — in under 15 seconds. Free, always."*
+
+In the "Why this works" or "What we do" section (wherever capability proof currently lives), use this 3-row claim block:
+
+```
+✓  Every US state. Every territory. The actual statute, cited every time.
+✓  Free for renters. Free for landlords. No account, no email, never stored.
+✓  Powered by Claude. Reviewed by no one but you.
+```
+
+These are all defensible without traction. Don't fabricate user counts or testimonials.
+
+---
+
+## Self-audit checklist (run BEFORE deploying)
+
+- [ ] Hero CTA is "See a real result →" (primary) + "Or read your own lease →" (secondary)
+- [ ] `50 · DC · 6 territories` badge visible above the fold
+- [ ] "What's actually in there" is now Section 01 (was 02)
+- [ ] FRAGILE/SIGN tapes replaced with tilted results-preview card
+- [ ] Hero sub-copy uses capability proof (not market stats)
+- [ ] `/about` has the "How I built this in 24 hours" section OR `/build-log` page exists
+- [ ] Footer has "Built in 24 hours with Replit Agent" attribution + link to build log
+- [ ] "Cited where it matters" feature card exists in Section 04
+- [ ] State coverage section compressed (Option B preferred)
+- [ ] OG meta tags in place (image optional, tags required)
+- [ ] Lighthouse 90+ on all four scores
+- [ ] Smart trust copy applied (no fabricated numbers)
+- [ ] Mobile (375px) — every change still works
+- [ ] No console errors
+- [ ] Deploy to subdomain (lease.coverturn.com) if Cloudflare Pages route is set up — otherwise keep the Replit preview
+
+---
+
+## Deliverable
+
+Take screenshots of:
+1. New hero with "See a real result →" CTA + coverage badge + results-preview card
+2. Reordered sections (What's actually in there → The Problem)
+3. New "Cited where it matters" feature card
+4. Compressed state coverage section
+5. Build log section / page
+6. Footer with Replit Agent attribution
+7. Lighthouse scores (all four)
+8. Mobile view of the new hero at 375px
+
+After this round + (optional) Round 11 icon swap, the site is submission-locked. Then it's video + social post + submit.
+
+**Estimated time to ship all 12 fixes: 90-120 minutes.**
+
+That leaves you 60-90 minutes for video + social post + final submission. Tight but doable.

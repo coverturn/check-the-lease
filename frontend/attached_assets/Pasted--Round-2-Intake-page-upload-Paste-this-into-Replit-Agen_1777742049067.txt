@@ -1,0 +1,186 @@
+# Round 2 — Intake page (`/upload`)
+
+Paste this into Replit Agent AFTER Round 1 lands and the landing page is working in preview.
+
+---
+
+# Round 2 — Build the intake page
+
+Now build the upload/intake page at `app/upload/page.tsx`. Use ALL the design tokens, fonts, colours, and copy rules from Round 1. Don't redefine them — just use them.
+
+## First: tidy up
+
+If you haven't already, extract the nav and footer from `app/page.tsx` into reusable components:
+- `components/Nav.tsx`
+- `components/Footer.tsx`
+
+Use them on both the landing page and this new intake page.
+
+## Install these additional shadcn components
+
+```
+npx shadcn@latest add input select radio-group checkbox label separator
+```
+
+## Page structure
+
+Same nav and footer as the landing page. Body uses bone background, ink text. Container max-width 720px, centred, padding 48px 28px desktop / 32px 20px mobile.
+
+### Header section (top of page)
+
+Eyebrow (sage uppercase, 11px, weight 500, letter-spacing 0.12em): `TELL US ABOUT YOUR LEASE`
+
+H1 (Fraunces 500, ~44px desktop / 32px mobile, letter-spacing -0.025em): "A few details, then we'll get to it."
+
+Sub (Inter 16px, ink-muted, line-height 1.55, max-width 540px, margin-bottom 32px): "Your lease stays in your browser. Nothing optional is required, and we don't ask for an email or phone number until after your results."
+
+### The form — single page, five stacked cards, 16px gap
+
+Each card uses bone background, 1.5px soft border, border-radius 16px, padding 24px.
+
+Inside each card, the consistent header pattern:
+- Small eyebrow (Fraunces italic 11px, sage colour, weight 500, margin-bottom 8px)
+- Heading (Fraunces 500, 18px, ink, letter-spacing -0.02em, margin-bottom 6px)
+- Body (Inter 13px, ink-muted, line-height 1.5, margin-bottom 16px)
+- Then the input below
+
+---
+
+#### Card 1 — Upload your lease
+
+Eyebrow: `01 — UPLOAD`
+Heading: "Drop your lease."
+Body: "PDF only. Up to 25MB. Stays in your browser — never stored on our servers."
+
+The input: a drag-drop zone built with native HTML5 drag-drop events (DON'T install react-dropzone).
+
+States:
+- **Empty:** dashed 2px border in soft-opacity, padding 48px, centred content. Show Lucide `<FileUp size={28} className="text-sage" />` icon centred above text. Below icon: "Drop your PDF here, or click to browse." (Inter 14px ink). Below that: "PDF · max 25MB" (Inter 11px ink-muted). Whole zone is clickable to open file picker (accept=".pdf"). Hover: border switches to solid 2px medium opacity.
+- **File selected:** solid 1.5px medium-opacity border, padding 16px, flex row. Left side: Lucide `<FileText />` icon + filename (Inter 14px ink, weight 500) + filesize (Inter 11px ink-muted) below. Right side: ghost button with Lucide `<X />` 16px to clear the file.
+
+---
+
+#### Card 2 — Pick your state
+
+Eyebrow: `02 — STATE`
+Heading: "Where's the property?"
+Body: "We tailor analysis to your state's tenant rules. Deep coverage in 10 states; the rest get general state-aware guidance."
+
+The input: shadcn `Select` component, full-width.
+
+Use SelectGroup with labels:
+
+**SelectGroup label: "Deep coverage"** (sage colour, Fraunces italic 11px, padding 8px 12px)
+Items in this order: California, Texas, Florida, New York, Illinois, Pennsylvania, Ohio, Georgia, North Carolina, Michigan.
+
+Each deep-coverage item shows the state name + a small sage badge to the right reading "Deep" (sage bg, bone text, 9px uppercase, 4px radius, padding 2px 6px).
+
+**SelectGroup label: "State-aware overview"**
+Items (alphabetical): Alabama, Alaska, Arizona, Arkansas, Colorado, Connecticut, Delaware, District of Columbia, Hawaii, Idaho, Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, North Dakota, Oklahoma, Oregon, Rhode Island, South Carolina, South Dakota, Tennessee, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming.
+
+Placeholder when nothing selected: "Choose your state".
+
+---
+
+#### Card 3 — Lease stage
+
+Eyebrow: `03 — STAGE`
+Heading: "Where are you in the process?"
+
+Two-option RadioGroup styled as horizontal cards (not standard radios). Each option card:
+- bone background, 1.5px soft border, border-radius 12px, padding 16px 20px, cursor pointer.
+- Selected state: 2px ink-blue border, small ink-blue filled circle in top-right corner.
+- Hover: border tightens to medium opacity.
+
+Options:
+1. "Before signing" (label, Inter 14px weight 500) → "I'm reviewing this lease before agreeing." (sublabel Inter 12px ink-muted) — DEFAULT SELECTED
+2. "Already signed" → "I want to know what I agreed to."
+
+Display in a row at desktop (gap 12px), stacked at mobile.
+
+---
+
+#### Card 4 — Perspective
+
+Eyebrow: `04 — PERSPECTIVE`
+Heading: "Whose side are we on?"
+Body: "We can read it from either angle — or both."
+
+Three-option RadioGroup with the same card-style as Card 3. Three columns at desktop, stacks on mobile.
+
+Options:
+1. "Renter" → "Surface risks, costs, and surprises." — DEFAULT SELECTED
+2. "Landlord" → "Surface compliance and clarity gaps."
+3. "Both" → "Read the lease as a balanced check."
+
+---
+
+#### Card 5 — Optional context
+
+Eyebrow: `05 — OPTIONAL CONTEXT`
+Heading: "Anything we should know?"
+Body: "Skip if you'd rather not say. These help us tailor what we surface."
+
+Four shadcn `Checkbox` items stacked vertically with 14px gap. Each row: checkbox + label (Inter 14px ink). The whole row is clickable.
+
+Options:
+1. "I'm a parent or guardian"
+2. "I receive housing assistance or benefits"
+3. "I'm a student or young renter"
+4. "I'm reviewing this for someone else"
+
+---
+
+### Submit row
+
+Below the cards, padding-top 40px, centred.
+
+Single CTA pill button:
+- Text: "Analyse my lease →"
+- Filled ink-blue bg, bone text, 2px ink-blue border, padding 14px 32px, Inter 500 16px, border-radius 999px.
+- Hover: ink-blue-dark + scale(0.97).
+- DISABLED state (when no file OR no state): ink-muted bg, ink-muted text, 50% opacity, cursor-not-allowed, no hover effect.
+
+Below the button (centred, Inter 11px ink-muted, max-width 480px, line-height 1.5, margin-top 16px):
+"By continuing you agree this is for informational purposes only. Check the Lease provides legal information, not legal advice."
+
+### Footer
+
+Use the shared `<Footer />` component.
+
+## State management
+
+Use React `useState` only — don't add Zustand or Redux. Form shape:
+
+```ts
+type IntakeState = {
+  file: File | null;
+  state: string | null;
+  stage: 'before' | 'already';
+  perspective: 'renter' | 'landlord' | 'both';
+  isParent: boolean;
+  receivesHousingAid: boolean;
+  isStudent: boolean;
+  reviewingForSomeoneElse: boolean;
+};
+```
+
+Initial values: `{ file: null, state: null, stage: 'before', perspective: 'renter', isParent: false, receivesHousingAid: false, isStudent: false, reviewingForSomeoneElse: false }`.
+
+On submit (only when file is set AND state is set): navigate to `/results/demo` using `useRouter().push('/results/demo')`. The /results page doesn't exist yet — that's expected, we'll build it in Round 3.
+
+Persist the intake state to `sessionStorage` under key `ctl-intake` so Round 3 can read it back on the results page.
+
+## Out of scope this round (do NOT build)
+
+- Real PDF parsing — Round 4
+- Real analysis — Round 4
+- The /results page itself — Round 3
+- Backend persistence — later
+- Email collection on the intake page — never (only after results)
+
+## Deliverable
+
+The /upload page working as described. Mobile-responsive (cards stack, RadioGroup options stack). Form validates (Analyse button disabled until file + state). Clicking submit navigates to /results/demo. Beautiful, calm, editorial — same design language as Round 1.
+
+When done, share the preview URL for /upload and flag anything that didn't work as expected.

@@ -1,0 +1,233 @@
+# Round 8.9 — The single move that transforms the visual: hard-offset shadows
+
+This round is tight and surgical. One move applied everywhere: **hard-offset solid-colour shadows on every card, button, and badge**. Not blurry CSS shadows. Solid colour offsets, sliding forward on hover.
+
+This is the move that comic books, Linear, Wispr Flow, and Manuel Neto's illustrations all use. It's THE thing missing.
+
+---
+
+# Round 8.9 — Hard-offset shadows everywhere
+
+## What's gone wrong
+
+After Rounds 8.7 and 8.8, the cards and CTAs still look like generic CSS rectangles with borders. The problem isn't the border weight or the colour — it's that they have **no visual weight or "drawn" quality**.
+
+The fix is one specific move: **every interactive element gets a hard-offset solid-colour shadow**. No blur. No softness. Just a coloured rectangle offset behind the element by 4-6px.
+
+## What to apply
+
+### Cards — hard offset shadow
+
+Every card on the site:
+
+```css
+.card-mn {
+  background: #FBF8F1;
+  border: 2.5px solid #171717;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  /* Hard offset shadow */
+  box-shadow: 6px 6px 0 0 #171717;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-mn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 0 #171717;
+}
+
+.card-mn:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 0 #171717;
+}
+```
+
+Featured (dark) cards get a **coloured shadow** instead of black:
+
+```css
+.card-mn-dark {
+  background: #1E3A5F;
+  color: #FBF8F1;
+  border: 2.5px solid #171717;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  /* Hard offset shadow in clay or sage to add colour */
+  box-shadow: 6px 6px 0 0 #C97A4A;  /* or #5A8B7A for sage variant */
+}
+```
+
+Variations to spread across cards (so they don't all use black shadow — adds vibrancy):
+
+| Card type | Shadow colour |
+|---|---|
+| Standard cream cards | `#171717` (black, primary) |
+| Featured/dark ink-blue cards | `#C97A4A` (clay) or `#5A8B7A` (sage) |
+| Severity high (wine bg) | `#171717` (black) |
+| Severity medium (clay bg) | `#171717` (black) |
+| Resources cards on dark | `#5A8B7A` (sage) |
+| "Why we built this" mission card | `#F5C547` (sunshine) |
+
+The variety of shadow colours adds rhythm to the page. Black for the calm sections, brand-colour for moments that should pop.
+
+### Buttons — hard offset shadow
+
+Every button on the site:
+
+```css
+.btn-mn-primary {
+  background: #1E3A5F;
+  color: #FBF8F1;
+  border: 2.5px solid #171717;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  /* Hard offset */
+  box-shadow: 4px 4px 0 0 #171717;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s;
+}
+
+.btn-mn-primary:hover {
+  background: #15294a;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 #171717;
+}
+
+.btn-mn-primary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 #171717;
+}
+```
+
+Ghost button:
+```css
+.btn-mn-ghost {
+  background: #FBF8F1;
+  color: #171717;
+  border: 2.5px solid #171717;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 #171717;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.2s;
+}
+
+.btn-mn-ghost:hover {
+  background: #171717;
+  color: #FBF8F1;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 #171717;
+}
+```
+
+### Severity badges — small hard offset
+
+```css
+.badge-mn {
+  background: #C97A4A;  /* or wine/sage */
+  color: #FBF8F1;
+  border: 2px solid #171717;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  /* Smaller offset for smaller element */
+  box-shadow: 3px 3px 0 0 #171717;
+}
+```
+
+### State preview pills — hard offset
+
+```css
+.pill-mn {
+  background: transparent;
+  color: #171717;
+  border: 2px solid #171717;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 0 #171717;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.2s;
+}
+
+.pill-mn:hover {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1.5px 1.5px 0 0 #171717;
+}
+
+.pill-mn.active {
+  background: #1E3A5F;
+  color: #FBF8F1;
+  border-color: #171717;
+  box-shadow: 3px 3px 0 0 #C97A4A;  /* clay shadow when active for emphasis */
+}
+```
+
+## Why this works
+
+A hard-offset shadow:
+1. **Gives every element visual weight** — they don't float, they sit
+2. **Makes hover physically meaningful** — the element slides forward and lands on top of where its shadow was
+3. **Reads as "drawn" not "rendered"** — comic books, screen-printed posters, illustrated UI all use this
+4. **Adds colour rhythm** — varying the shadow colours (black / clay / sage / sunshine) gives the page texture without overwhelming
+5. **Makes the page feel like one connected illustrated world** — every interactive element has the same underlying geometry
+
+This is the **single most missing move** in the current build.
+
+## What stays from previous rounds
+
+- All copy from Round 8
+- Section structure
+- Custom SVG icons from Round 8.8
+- Floating decorative shapes from Round 8.8
+- Bold section colour blocking from Round 8.8
+- Spring-pop / btn-wiggle / drift-float animations from Round 8.7
+
+## What this round REMOVES
+
+If anywhere is still using:
+- `box-shadow` with `blur` (e.g., `box-shadow: 0 4px 20px rgba(...)`) — REMOVE, replace with hard offset above
+- `backdrop-filter` glassmorphism — REMOVE
+- Drop shadows on illustrations — REMOVE (illustrations don't get shadows)
+
+The ONLY box-shadow allowed is the hard solid-colour offset.
+
+## Self-audit checklist
+
+- [ ] Every card has a hard-offset shadow (no blur, solid colour)
+- [ ] Every button has a hard-offset shadow
+- [ ] Every severity badge has a hard-offset shadow
+- [ ] Every state preview pill has a hard-offset shadow
+- [ ] Active pill has a clay or sunshine shadow (not black) for emphasis
+- [ ] Featured ink-blue cards have a coloured shadow (clay or sage), not black
+- [ ] Standard cream cards have black shadow
+- [ ] Hover state slides element forward by half the offset, shadow shrinks accordingly
+- [ ] Active state slides element forward by full offset, shadow disappears
+- [ ] No blurry CSS shadows anywhere
+- [ ] No backdrop-filter / glassmorphism
+- [ ] Illustrations (the SVG illustrations themselves) have NO shadow
+- [ ] Mobile still passes responsive at 375 / 414 / 768
+- [ ] WCAG 2.2 AA Lighthouse 95+ still passes
+
+## Deliverable
+
+After applying, take screenshots of:
+1. Hero with the dual CTAs (should both have hard shadows now)
+2. The "What you'll see" cards (each card has a hard shadow)
+3. The state preview pills (each pill has a small shadow)
+4. The Without us / With us comparison cards (both should have hard shadows in different colours)
+5. The final dark CTA panel
+
+Share back. This single change should be the visual transformation we've been chasing.

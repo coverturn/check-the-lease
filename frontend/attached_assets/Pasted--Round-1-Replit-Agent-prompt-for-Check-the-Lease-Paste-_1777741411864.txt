@@ -1,0 +1,203 @@
+# Round 1 — Replit Agent prompt for Check the Lease
+
+Paste everything below into Replit Agent verbatim.
+
+---
+
+# Project: Check the Lease
+
+You are a senior product designer and engineer with a calm, editorial design eye. We are building "Check the Lease" — a beautiful, trustworthy AI lease reader for US renters and landlords. The user uploads a lease, picks their state, and we show what's in it, what might be risky, what protections might be missing, and what to ask. The product provides legal information, never legal advice. Not a law firm. No attorney-client relationship is formed.
+
+This is entered in the Replit 10 Year Buildathon. Quality is the priority. This needs to look like a product that could ship today.
+
+## What you're building in this round (Round 1 of ~8)
+
+Set up the project foundation plus the landing page only. Do NOT build the upload/intake page or the results page yet — those come in Rounds 2 and 3.
+
+## Stack — use exactly this
+
+- Next.js 14 App Router with TypeScript
+- Tailwind CSS configured with the tokens below
+- shadcn/ui — initialise it, then install components: button, card, badge
+- lucide-react for icons (use plain shapes only — no scales, no gavels, nothing legal-coded)
+- Google Fonts via `next/font/google`: Fraunces (variable, weights 400/500/600), Inter (weights 400/500/600), JetBrains Mono (400)
+
+## Design tokens — configure in tailwind.config.ts
+
+Colour tokens:
+- bone (page background): `#FBF8F1`
+- bone-dark (section background): `#F2EDE2`
+- ink (text primary): `#171717`
+- ink-muted (text secondary): `#6B6B6B`
+- ink-blue (primary accent): `#1E3A5F`
+- ink-blue-dark (hover): `#15294a`
+- sage (secondary accent): `#5A8B7A`
+- sage-dark: `#3D5F50`
+- clay (medium severity): `#C97A4A`
+- wine (high severity): `#7A2C3D`
+- pale-blue (on dark): `#B8C8D9`
+- cream-on-dark (muted text on dark): `#C9D2DD`
+
+Border radii:
+- sm: 8px
+- md: 16px
+- lg: 24px
+- pill: 999px
+
+Border opacities:
+- subtle: rgba(23,23,23,0.08)
+- soft: rgba(23,23,23,0.10)
+- medium: rgba(23,23,23,0.25)
+
+Typography roles:
+- Display (headings): Fraunces variable, optical sizing on, weight 500
+- Body: Inter, weight 400 default, 500 for buttons and labels
+- Mono (citations): JetBrains Mono, weight 400
+
+Set the body background to bone, text colour to ink, default font to Inter. Headings should use Fraunces weight 500 with letter-spacing -0.02em.
+
+## Brand and design rules — bake these in everywhere
+
+Aesthetic direction: editorial magazine, not SaaS dashboard. Warm cream backgrounds (never pure white), charcoal text (never pure black), thick borders not shadows, no gradients ever, generous whitespace, headlines in Fraunces with occasional italic punch lines. Think calm, premium, confident — the same family of feeling as Granola, Linear, or Resend.
+
+Component rules:
+- Buttons: pill-shaped (border-radius 999px), 2px solid border, hover does `transform: scale(0.97)` press-in plus a colour wash. NEVER scale up on hover.
+- Cards: 1.5px solid border at the soft opacity, no drop shadow ever, border-radius 24px for large cards, 16px for small.
+- Card hover: `transform: scale(0.99)` and border tightens to medium opacity.
+- Trust strips and eyebrows: small uppercase Inter weight 500, letter-spacing 0.08em–0.12em, sage-coloured dot dividers using `·`.
+- Featured/dark cards: ink-blue background with cream text and pale-blue eyebrow.
+
+Compliance language — apply to ALL copy:
+- NEVER use: "you should", "you must", "this is illegal", "I recommend", "sue your landlord"
+- ALWAYS frame as: "this clause may", "things to be aware of", "consider asking…", and cite the actual law where relevant
+
+## Build the landing page (`app/page.tsx`)
+
+Top to bottom:
+
+### Top nav (sticky)
+- Left: wordmark "Check the Lease" in Fraunces 500, font-size 18px, letter-spacing -0.02em.
+- Right: pill button "Check my lease →" in outlined ghost style (transparent background, 1.5px ink border, hover fills with ink and inverts to bone text).
+- Padding 16px horizontal 28px, bottom hairline 1px solid border-subtle.
+
+### Hero (side-by-side at desktop, stacks on mobile)
+
+Left column (about 60% width):
+- Eyebrow: "FREE FOR RENTERS AND LANDLORDS" — small uppercase sage, weight 500, letter-spacing 0.12em.
+- H1: "Read your lease." then on a new line in italic Fraunces with ink-blue colour: "Before it reads you." Font-size around 56px desktop, 38px mobile, line-height 1.05, letter-spacing -0.025em.
+- Sub: "Upload your lease, pick your state, and we'll show what's in it, what might be risky, what protections might be missing, and what to ask before signing." Inter 16px, ink-muted, max-width 540px, line-height 1.55.
+- CTA: pill button "Check my lease →" — filled ink-blue background with bone text, 2px ink-blue border, hover ink-blue-dark plus scale(0.97). Links to `/upload` (which doesn't exist yet — that's fine, just set the href).
+
+Right column (about 40% width):
+- Place the `<DocumentMagnifyingIllustration />` component (provided below).
+
+Below both columns, full width:
+- Top border 1px solid border-subtle.
+- Trust strip: "FREE FOR RENTERS AND LANDLORDS · 50 STATES · INFORMATION NOT ADVICE" — small uppercase, separator dots in sage colour.
+
+### "What you'll see" features section
+
+Wrapping container: bone-dark background, border-radius 24px, margin `0 16px`, padding around `48px 32px`.
+
+- H2: "What you'll see" (Fraunces 500, 32px desktop)
+- Sub: "A four-part read of your lease — short, calm, useful before you sign anything."
+
+2×2 grid of 4 feature cards (gap 12px):
+
+1. **Card 1** — bone background, 1.5px soft border
+   - Eyebrow (Fraunces italic, 11px, sage colour, weight 500): "01 — Key Terms"
+   - H3 (Fraunces 500, 17px): "What it says, in plain English."
+   - Body (Inter, 12px, ink-muted, line-height 1.5): "Rent, deposit, late fee, renewal, repairs, entry, pets, termination — extracted clearly."
+
+2. **Card 2** — bone background
+   - "02 — Potential Issues"
+   - "Things to be aware of."
+   - "Clauses that may need a closer look, with a citation to your state's tenant law."
+
+3. **Card 3** — INK-BLUE featured background, cream text
+   - "03 — Missing Protections" (eyebrow in pale-blue colour)
+   - "What good leases often clarify."
+   - "Protections that aren't in your lease but help avoid disputes — for renters and landlords." (cream-on-dark colour)
+
+4. **Card 4** — bone background
+   - "04 — Questions to Ask"
+   - "Conversations worth having."
+   - "Tactful, specific questions to raise before signing — or notes to keep on hand."
+
+### Sample output section
+
+Padding around `48px 32px`.
+
+- Eyebrow: "SAMPLE OUTPUT" (sage uppercase)
+- H2: "Each issue is plain-English, state-aware, and cites the actual law." (Fraunces 500, ~26px, max-width 480px)
+
+One issue card (bone background, 1.5px soft border, border-radius 16px, padding 24px):
+- Severity badge: clay background, bone text, uppercase Inter 10px weight 500, letter-spacing 0.1em, 4px radius, padding `4px 10px` → "Medium"
+- H3 (Fraunces 500, 18px): "Entry rights are broad."
+- Body (Inter, 13px, ink, line-height 1.55): "This clause may allow the landlord to enter with limited notice. California law generally requires 24 hours' written notice for non-emergency entry."
+- Citation block: JetBrains Mono 11px ink-blue text, on `rgba(30,58,95,0.08)` background, 6px radius, padding `8px 12px`, inline-block → "Cal. Civ. Code § 1954"
+- Below the citation: link "View the original clause →" Inter 12px weight 500 ink-blue with underline-offset 3px
+
+### Footer
+
+Top hairline 1px solid border-subtle. Padding 32px 28px.
+- Disclaimer (Inter 12px ink-muted, line-height 1.55, max-width 540px): "Check the Lease provides legal information, not legal advice. We are not a law firm. No attorney-client relationship is formed by using this service."
+- Below it (Inter 10px uppercase ink-muted, weight 500, letter-spacing 0.08em): "BUILT FOR THE REPLIT 10 YEAR BUILDATHON · 2026"
+
+## The hero illustration component
+
+Create `components/DocumentMagnifyingIllustration.tsx` with this exact code:
+
+```tsx
+"use client";
+
+export function DocumentMagnifyingIllustration({ className = "" }: { className?: string }) {
+  return (
+    <div className={className} style={{ width: "100%" }}>
+      <svg viewBox="0 0 140 140" style={{ display: "block", maxWidth: 220, margin: "0 auto", width: "100%", height: "auto" }}>
+        <g transform="rotate(-6 70 70)">
+          <rect x="30" y="28" width="76" height="94" fill="#FBF8F1" stroke="#171717" strokeWidth="2.5" rx="3" />
+          <rect x="38" y="38" width="42" height="4" fill="#171717" />
+          <line x1="38" y1="52" x2="98" y2="52" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="60" x2="92" y2="60" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="68" x2="98" y2="68" stroke="#171717" strokeWidth="1.5" />
+          <rect x="38" y="74" width="58" height="6" fill="#C97A4A" opacity="0.45" />
+          <line x1="38" y1="80" x2="58" y2="80" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="88" x2="98" y2="88" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="96" x2="80" y2="96" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="104" x2="98" y2="104" stroke="#171717" strokeWidth="1.5" />
+          <line x1="38" y1="112" x2="76" y2="112" stroke="#171717" strokeWidth="1.5" />
+        </g>
+        <g className="ctl-magnify">
+          <circle cx="92" cy="78" r="22" fill="rgba(30,58,95,0.08)" stroke="#1E3A5F" strokeWidth="3" />
+          <line x1="108" y1="94" x2="124" y2="110" stroke="#1E3A5F" strokeWidth="4" strokeLinecap="round" />
+        </g>
+        <style>{`
+          @keyframes ctl-magnify-pulse { 0%, 100% { transform: rotate(0) scale(1); } 50% { transform: rotate(2deg) scale(1.04); } }
+          .ctl-magnify { animation: ctl-magnify-pulse 5s ease-in-out infinite; transform-origin: 92px 78px; }
+        `}</style>
+      </svg>
+    </div>
+  );
+}
+```
+
+## Out of scope for this round — do NOT build
+
+- The /upload (intake) page — Round 2
+- The /results page — Round 3
+- Real PDF parsing — Round 4
+- Claude API integration — Round 4
+- State tenant-law data — Round 4
+- Authentication, accounts, RevenueCat — later rounds
+
+## Deliverable
+
+A working Next.js project on Replit with the landing page above, running on Replit's preview URL. Mobile-responsive (stack the hero columns under 768px). Beautiful. Calm. Editorial.
+
+When you finish:
+1. Share the preview URL
+2. Tell me one creative choice you made along the way
+3. Note anything you weren't sure about
+
+Build it now. Take pride in this — it's going to be seen by judges and voters this weekend.

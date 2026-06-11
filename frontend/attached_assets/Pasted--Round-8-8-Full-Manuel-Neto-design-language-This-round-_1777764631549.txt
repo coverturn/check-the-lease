@@ -1,0 +1,321 @@
+# Round 8.8 — Full Manuel Neto design language
+
+This round applies Manuel Neto's design DNA across **everything**: icons, animations, graphic elements, colour blocking, and the colour palette itself. The goal is to take Wispr Flow's editorial calm and inject Manuel Neto's playful rubberhose energy throughout.
+
+Inspiration: **manuelneto on Dribbble** — tagged "2d animation · character design · flat illustration · motion · rubberhose · rig · vector." Brazilian motion designer known for bold black outlines, flat fills, springy elastic motion, friendly characters, and floating decorative shapes.
+
+---
+
+# Round 8.8 — Manuel Neto-influenced design system
+
+## Manuel Neto's signature, distilled
+
+| Principle | What it means | How we apply it |
+|---|---|---|
+| **Bold black outlines** | 2-3px ink-black strokes on every illustrated element | Every card, button, badge, icon gets the same outline weight |
+| **Flat fills, no gradients** | Solid colour blocks, never washes | All UI elements use flat fills |
+| **Vibrant accents** | Brighter pops of colour against neutral grounds | Add 3 brighter accent tones to the existing palette |
+| **Rubberhose motion** | Bouncy, elastic, springy with squash and stretch | Spring easing on all transitions, overshoot on appearance |
+| **Floating decorative shapes** | Small geometric or character elements scattered around the main subject | Every section gets 2-4 floating shapes |
+| **Hand-drawn quality** | Slight wobble, slight imperfection | Subtle rotation on cards, dashed lines for "drawn" feel |
+| **Character-led** | Friendly, playful tone — illustrations have personality | All icons get rounded, friendly shapes |
+| **Bold colour blocking** | Sections alternate between bold colour blocks, not subtle variations | Section backgrounds alternate colours decisively |
+
+## Part 1 — Extended colour palette
+
+Keep the existing 6 colours. **Add 3 brighter Manuel Neto-style accents** for energy moments.
+
+```js
+// existing
+'bone': '#FBF8F1',
+'bone-dark': '#F2EDE2',
+'ink': '#171717',
+'ink-blue': '#1E3A5F',
+'sage': '#5A8B7A',
+'clay': '#C97A4A',
+'wine': '#7A2C3D',
+
+// NEW Manuel Neto accents
+'sunshine': '#F5C547',   // warm bright yellow — highlights, sparkles, "free" emphasis
+'peach': '#F4A480',      // warm peach — decorative shapes, soft accents
+'lilac': '#D4B8E5',      // soft lilac — tertiary accents, secondary decorative shapes
+```
+
+**Where to use the new accents:**
+- **Sunshine `#F5C547`** — sparingly. The "Free" emphasis in stats, a star/sun decorative shape, the active state on the marquee.
+- **Peach `#F4A480`** — decorative shapes around hero, icon backgrounds in the "What you'll see" cards.
+- **Lilac `#D4B8E5`** — floating decorative shapes in mid-page sections, subtle background variations.
+
+**Severity colours stay muted** (clay/wine/sage). Never use the brights for severity — they'd undermine the calm legal tone.
+
+## Part 2 — Colour blocking pattern for sections
+
+Currently sections alternate bone → bone-dark. Make this **bolder**, not subtler. Manuel Neto uses decisive colour-block transitions, not subtle gradients.
+
+New section-by-section background pattern:
+
+| Section | Background | Reason |
+|---|---|---|
+| Hero | `#FBF8F1` (bone) | Calm entry |
+| Marquee divider | transparent | Threading |
+| The Problem | `#1E3A5F` (ink-blue, dark) | Grave, stops you scrolling |
+| What is Check the Lease | `#FBF8F1` (bone) | Reset to calm |
+| What you get | `#F2EDE2` (bone-dark) | Subtle cream variation |
+| How it works | `#FBF8F1` (bone) | Reset |
+| What you'll see | `#1E3A5F` (ink-blue) with cream cards | Bold contrast block |
+| State preview | `#FBF8F1` (bone) | Reset |
+| Who it's for | `#F2EDE2` (bone-dark) | Subtle variation |
+| Without us / With us | `#FBF8F1` (bone) | Reset |
+| Why we built this | `#1E3A5F` (ink-blue) | Mission moment |
+| FAQ | `#FBF8F1` (bone) | Reset |
+| Final CTA | `#1E3A5F` (ink-blue) | Closer |
+
+The pattern: **cream → DARK BLOCK → cream → cream-dark → cream → DARK BLOCK → ...** Every other section is a bold colour block. The dark blocks stop you scrolling and force attention.
+
+Each section transition is a sharp edge — no gradients, no fades. Bone meets ink-blue with a hard line.
+
+## Part 3 — Icon system overhaul
+
+Currently using Lucide icons. **Replace ALL of them** with custom SVG icons drawn in Manuel Neto's style:
+
+- 24×24 viewBox
+- 2px ink-black `#171717` outlines
+- Rounded line caps (`stroke-linecap="round"`)
+- Flat fills in brand colours
+- Slightly quirky, character-friendly shapes — not sterile
+
+### Specific icons to replace
+
+**FileUp** (Lucide currently used in upload zone) → Custom hand-drawn folded paper with one corner lifted:
+```svg
+<svg viewBox="0 0 24 24" width="28" height="28">
+  <path d="M6 4 L14 4 L18 8 L18 20 L6 20 Z" fill="#FBF8F1" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M14 4 L14 8 L18 8" fill="none" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M9 13 L12 11 L15 13" fill="none" stroke="#1E3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="12" y1="11" x2="12" y2="17" stroke="#1E3A5F" stroke-width="2" stroke-linecap="round"/>
+</svg>
+```
+
+**X (close/dismiss)** → Hand-drawn X with slight wobble:
+```svg
+<svg viewBox="0 0 24 24" width="20" height="20">
+  <path d="M6 7 L17 18" stroke="#171717" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M18 7 L7 18" stroke="#171717" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+```
+
+**MapPin (state selector)** → Friendly map pin with character:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <path d="M12 3 C8 3 5 6 5 10 C5 14 12 21 12 21 C12 21 19 14 19 10 C19 6 16 3 12 3 Z" fill="#5A8B7A" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="12" cy="10" r="2.5" fill="#FBF8F1" stroke="#171717" stroke-width="1.5"/>
+</svg>
+```
+
+**Sparkles (loading / "get the read")** → 4-point star:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <path d="M12 3 L13 10 L20 12 L13 14 L12 21 L11 14 L4 12 L11 10 Z" fill="#F5C547" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+</svg>
+```
+
+**Check (confirmation, ✓)** → Bouncy hand-drawn tick:
+```svg
+<svg viewBox="0 0 24 24" width="20" height="20">
+  <path d="M5 12 L10 17 L19 7" fill="none" stroke="#5A8B7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+```
+
+**Heart** (helping someone else card) → Rounded heart:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <path d="M12 21 C12 21 4 14 4 9 C4 6 6 4 9 4 C10.5 4 12 5 12 7 C12 5 13.5 4 15 4 C18 4 20 6 20 9 C20 14 12 21 12 21 Z" fill="#F4A480" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+</svg>
+```
+
+**Building/Home** (landlord card) → Friendly small house:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <path d="M4 11 L12 4 L20 11" fill="#C97A4A" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="6" y="11" width="12" height="9" fill="#FBF8F1" stroke="#171717" stroke-width="2"/>
+  <rect x="10" y="14" width="4" height="6" fill="#1E3A5F" stroke="#171717" stroke-width="1.5"/>
+</svg>
+```
+
+**User** (renter card) → Simple character bust:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <circle cx="12" cy="9" r="4" fill="#5A8B7A" stroke="#171717" stroke-width="2"/>
+  <path d="M5 21 C5 16 8 14 12 14 C16 14 19 16 19 21" fill="#5A8B7A" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+</svg>
+```
+
+**FileText (lease document)** → Document with hand-drawn lines:
+```svg
+<svg viewBox="0 0 24 24" width="24" height="24">
+  <path d="M6 3 L14 3 L18 7 L18 21 L6 21 Z" fill="#FBF8F1" stroke="#171717" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="9" y1="11" x2="15" y2="11" stroke="#171717" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="9" y1="14" x2="15" y2="14" stroke="#171717" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="9" y1="17" x2="13" y2="17" stroke="#171717" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+```
+
+Use these patterns. Keep the SAME visual language — 2px ink-black outline, rounded line caps, flat fills in brand colours, slightly quirky proportions.
+
+## Part 4 — Graphic elements (dividers, separators, accents)
+
+Replace all sterile horizontal-rule dividers with hand-drawn graphic elements:
+
+### Wavy divider (replace `<hr>` between sections)
+
+```tsx
+<svg viewBox="0 0 1200 24" width="100%" height="24" style={{ display: 'block' }}>
+  <path 
+    d="M 0 12 Q 75 2 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12" 
+    fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round"
+  />
+</svg>
+```
+
+### Hand-drawn arrow (replace → in CTAs)
+
+```tsx
+<svg viewBox="0 0 32 16" width="32" height="16" style={{ display: 'inline-block', marginLeft: 8, verticalAlign: 'middle' }}>
+  <path 
+    d="M 2 8 L 26 8 M 22 4 L 28 8 L 22 12" 
+    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+  />
+</svg>
+```
+
+(Use `currentColor` so it inherits the button's text colour.)
+
+### Section-corner stamps
+
+For featured cards, add a small SVG stamp in the corner — like a visa stamp or seal:
+
+```tsx
+<svg viewBox="0 0 40 40" width="40" height="40" style={{ position: 'absolute', top: 12, right: 12 }}>
+  <circle cx="20" cy="20" r="15" fill="none" stroke="#171717" stroke-width="2" stroke-dasharray="3 2"/>
+  <text x="20" y="24" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="10" fill="#171717">FREE</text>
+</svg>
+```
+
+## Part 5 — Floating decorative shape system
+
+Every major section gets 2-4 floating decorative shapes in the corners or empty space. This is what makes Manuel Neto's work feel alive.
+
+### Shape vocabulary (choose 4-6 base shapes)
+
+```tsx
+// Circle
+<svg width="32" height="32"><circle cx="16" cy="16" r="10" fill="#5A8B7A" stroke="#171717" stroke-width="2"/></svg>
+
+// Triangle
+<svg width="28" height="28"><path d="M14 4 L24 22 L4 22 Z" fill="#C97A4A" stroke="#171717" stroke-width="2" stroke-linejoin="round"/></svg>
+
+// Rotated square
+<svg width="24" height="24"><rect x="6" y="6" width="12" height="12" fill="#1E3A5F" stroke="#171717" stroke-width="2" transform="rotate(-15 12 12)"/></svg>
+
+// 4-point star (sunshine)
+<svg width="24" height="24"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="#F5C547" stroke="#171717" stroke-width="2" stroke-linejoin="round"/></svg>
+
+// Squiggly wave
+<svg width="40" height="16"><path d="M2 8 Q 8 2 14 8 T 26 8 T 38 8" fill="none" stroke="#1E3A5F" stroke-width="2.5" stroke-linecap="round"/></svg>
+
+// Spiral / lollipop
+<svg width="24" height="24"><circle cx="12" cy="12" r="6" fill="#F4A480" stroke="#171717" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="#FBF8F1"/></svg>
+
+// Cross / plus
+<svg width="20" height="20"><path d="M10 2 L10 18 M2 10 L18 10" stroke="#D4B8E5" stroke-width="3" stroke-linecap="round"/></svg>
+
+// Heart
+<svg width="22" height="20"><path d="M11 19 C11 19 3 12 3 7 C3 4 5 2 8 2 C9.5 2 11 3.5 11 5 C11 3.5 12.5 2 14 2 C17 2 19 4 19 7 C19 12 11 19 11 19 Z" fill="#F4A480" stroke="#171717" stroke-width="2" stroke-linejoin="round"/></svg>
+```
+
+### Where to place them
+
+Per section, scatter 2-4 of these absolute-positioned around the corners and edges. Each gets `drift-float` animation with a different duration (6s, 8s, 10s, 12s) so they move asynchronously. Different rotation offsets so they don't all wave in unison.
+
+Example placement around hero:
+- Top-left: green circle (2-3% from edge)
+- Top-right: clay triangle
+- Mid-right: yellow star
+- Bottom-left: lilac cross
+- Mid-left: ink-blue rotated square
+
+Vary the placement per section — don't repeat the same layout. Keep the shapes small (20-40px) so they're decoration, not focus.
+
+## Part 6 — Animation vocabulary (extends Round 8.7)
+
+All the keyframes from Round 8.7 still apply. Plus add:
+
+```css
+@keyframes wobble-idle {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes blob-bob {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.05); }
+}
+
+@keyframes card-tilt-on-hover {
+  /* Already covered by transform on :hover */
+}
+
+@keyframes star-twinkle {
+  0%, 100% { transform: scale(1) rotate(0); opacity: 1; }
+  50% { transform: scale(1.2) rotate(15deg); opacity: 0.7; }
+}
+```
+
+Apply:
+- **wobble-idle** to featured cards (subtle rotation back and forth, 4s)
+- **blob-bob** to the floating shapes that aren't already drifting (alternates with drift-float)
+- **star-twinkle** to all sunshine yellow stars (3s ease-in-out infinite)
+
+## Part 7 — Typography (light tweak only)
+
+Keep Fraunces + Inter + JetBrains Mono. **Do not add a 4th font.**
+
+But: **add slight rotation on the most editorial moments**. The big "Your lease was written by their lawyer." — apply `transform: rotate(-1deg)` so it looks hand-placed. Just one or two key moments per page. Don't over-do it.
+
+## Part 8 — What this round does NOT change
+
+- Copy from Round 8 (every line)
+- Page structure / section order (12 sections, locked)
+- Backend / analysis logic
+- Upload / Results pages' core layout
+- Accessibility (focus rings, skip link, ARIA, semantic HTML — keep all)
+- WCAG 2.2 AA score (must still pass)
+
+## Self-audit checklist
+
+- [ ] All Lucide icons replaced with custom hand-drawn SVG icons (file-up, x, map-pin, sparkles, check, heart, home, user, file-text — at minimum)
+- [ ] Every icon uses 2px ink-black outline, rounded line caps, brand-colour fills
+- [ ] All sterile `<hr>` dividers replaced with wavy hand-drawn SVG separators
+- [ ] All CTAs use the hand-drawn arrow SVG instead of `→` character
+- [ ] 3 new accent colours added to the design system: sunshine, peach, lilac
+- [ ] Section backgrounds alternate decisively (bone → ink-blue → bone → bone-dark — see table)
+- [ ] Each major section has 2-4 floating decorative shapes
+- [ ] Decorative shapes use 6+ different base shapes (circle, triangle, rotated square, star, squiggle, lollipop, cross, heart)
+- [ ] Shapes animate with drift-float, blob-bob, star-twinkle (varied timing 6-12s, asynchronous)
+- [ ] Featured cards wobble-idle subtly (1-2deg rotation oscillation)
+- [ ] One or two big editorial headlines are slightly rotated (-1deg or +1deg) for "hand-placed" feel
+- [ ] Severity colours stay muted (clay/wine/sage) — no bright accents on severity
+- [ ] All animations wrapped in `prefers-reduced-motion: no-preference`
+- [ ] WCAG 2.2 AA still passes Lighthouse 95+
+- [ ] Mobile responsive at 375px, 414px, 768px
+
+## Deliverable
+
+Take screenshots of:
+1. Hero (with floating decorative shapes around it)
+2. The Problem section (ink-blue colour block)
+3. What you'll see (cards with new icons)
+4. Who it's for (cards with custom illustrated icons)
+5. Footer (with hand-drawn divider above)
+
+Share back. We verify the Manuel Neto language is properly applied, then move to deploy + buildathon submission.

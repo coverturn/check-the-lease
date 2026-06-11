@@ -1,0 +1,104 @@
+# Round 14 — Hash anchor scroll-to-section
+
+Add hash-based scroll behaviour so external sites can deep-link to specific 
+sections of Check the Lease via URL hashes (e.g. /#state-coverage, /resources#find-aid).
+
+## Why this matters
+My portfolio embeds Check the Lease in iframes on case study pages and uses 
+URL hashes to deep-link to the state map and the legal-aid directory. 
+Browsers block cross-origin iframe scrolling, so the destination site (this one) 
+has to handle the hash on mount.
+
+## Part 1 — Verify section IDs exist
+
+Ensure these two sections have the exact IDs below. If they don't, add them.
+
+### Homepage (`/`)
+The section that contains the interactive US state map (50 states + DC + territories) 
+must be wrapped in an element with `id="state-coverage"`:
+
+```jsx
+<section id="state-coverage" aria-label="State coverage">
+  {/* the existing US state map component */}
+</section>
+```
+
+### Resources page (`/resources`)
+The section that contains the state picker for finding legal aid by state must 
+be wrapped in an element with `id="find-aid"`:
+
+```jsx
+<section id="find-aid" aria-label="Find legal aid in your state">
+  {/* the existing state picker for legal-aid services */}
+</section>
+```
+
+## Part 2 — Add the scroll-to-hash hook
+
+Create `src/hooks/useScrollToHash.ts`:
+
+```tsx
+import { useEffect } from 'react';
+
+/**
+ * Smoothly scrolls to the element matching window.location.hash on mount
+ * and on hashchange. Waits a tick so the destination element has time to
+ * mount (handles SPAs where content renders after route change).
+ */
+export function useScrollToHash() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+      // Defer until the next paint so React has rendered the target.
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 80);
+      });
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
+}
+```
+
+## Part 3 — Wire the hook into the root
+
+In the top-level layout / App component (likely `src/App.tsx` or `src/layouts/RootLayout.tsx`),
+import and call the hook:
+
+```tsx
+import { useScrollToHash } from './hooks/useScrollToHash';
+
+function App() {
+  useScrollToHash();
+  // rest of the app
+}
+```
+
+If the project uses route-based pages (Next.js, Wouter, React Router), call 
+the hook inside whichever component wraps every page. Both the homepage and 
+the resources page need it.
+
+## Part 4 — Self-audit checklist
+
+- [ ] `id="state-coverage"` exists on the homepage state map section
+- [ ] `id="find-aid"` exists on the resources page state picker section
+- [ ] `useScrollToHash` hook file created at `src/hooks/useScrollToHash.ts`
+- [ ] Hook imported and called in the root component
+- [ ] Test: visit `https://check-the-lease.replit.app/#state-coverage` in a fresh tab — page loads, then smoothly scrolls to the state map
+- [ ] Test: visit `https://check-the-lease.replit.app/resources#find-aid` — page loads, then smoothly scrolls to the legal-aid state picker
+- [ ] No regression: visiting the bare URL (no hash) still loads at the top of the page
+- [ ] No console errors
+
+## Part 5 — Optional polish
+
+If smooth scroll feels too fast/slow, replace `behavior: 'smooth'` with a 
+custom easing using `window.scrollTo` and a requestAnimationFrame loop. 
+For now the native smooth scroll is fine.

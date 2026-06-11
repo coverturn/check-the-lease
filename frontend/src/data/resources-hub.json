@@ -1,0 +1,393 @@
+{
+  "national": [
+    { "name": "LawHelp.org", "url": "https://www.lawhelp.org", "desc": "Find free legal aid in your state - covers housing, eviction, and tenant rights." },
+    { "name": "ABA Free Legal Answers", "url": "https://www.abafreelegalanswers.org", "desc": "Ask a lawyer your legal question online - free, for income-qualified users." },
+    { "name": "HUD Tenant Rights", "url": "https://www.hud.gov/topics/rental_assistance", "desc": "Federal rental assistance programs and fair housing information." },
+    { "name": "211.org", "url": "https://www.211.org", "desc": "Dial 2-1-1 or search online to find housing help, rent assistance, and legal resources near you." },
+    { "name": "Eviction Lab", "url": "https://evictionlab.org", "desc": "Data and resources on eviction across the US, including local legal aid contacts." },
+    { "name": "National Low Income Housing Coalition", "url": "https://nlihc.org", "desc": "Policy, data, and advocacy for affordable housing - with state-by-state resources." },
+    { "name": "NeighborWorks America", "url": "https://www.neighborworks.org", "desc": "Find local housing counselors approved by HUD to help with rental and homeownership questions." },
+    { "name": "AARP Foundation Housing", "url": "https://www.aarp.org/aarp-foundation/our-work/housing", "desc": "Legal aid and housing resources for renters and homeowners 50+." },
+    { "name": "National Disability Rights Network", "url": "https://www.ndrn.org", "desc": "Legal protection and advocacy for renters and homebuyers with disabilities." },
+    { "name": "National Housing Law Project", "url": "https://nhlp.org", "desc": "Advancing housing justice through litigation, policy, and technical assistance." }
+  ],
+  "states": {
+    "AL": {
+      "name": "Alabama",
+      "legal_aid": [
+        { "name": "Legal Services Alabama", "url": "https://legalservicesalabama.org", "desc": "Free civil legal assistance for low-income Alabamians, including tenant rights and eviction defense." },
+        { "name": "Alabama Law Foundation", "url": "https://alabamalawfoundation.org", "desc": "Funds legal aid programs statewide - includes a lawyer referral directory." }
+      ]
+    },
+    "AK": {
+      "name": "Alaska",
+      "legal_aid": [
+        { "name": "Alaska Legal Services Corporation", "url": "https://alaskalegalservices.org", "desc": "Free legal help for low-income Alaskans - housing, eviction, tenant rights across the state." },
+        { "name": "Alaska Court System Self-Help Center", "url": "https://courts.alaska.gov/shc", "desc": "Forms, guides, and resources for representing yourself in housing court." }
+      ]
+    },
+    "AZ": {
+      "name": "Arizona",
+      "legal_aid": [
+        { "name": "Community Legal Services", "url": "https://clsaz.org", "desc": "Free legal services for low-income residents of Maricopa County - housing a specialty." },
+        { "name": "Southern Arizona Legal Aid", "url": "https://www.sazlegalaid.org", "desc": "Serving Pima County and rural southern Arizona with free tenant rights assistance." },
+        { "name": "AZ Tenants Rights Hotline", "url": "https://www.azag.gov/civil-rights/housing", "desc": "Arizona Attorney General's housing resources and complaint filing." }
+      ]
+    },
+    "AR": {
+      "name": "Arkansas",
+      "legal_aid": [
+        { "name": "Legal Aid of Arkansas", "url": "https://arlegalaid.org", "desc": "Free civil legal help for low-income Arkansans - housing, eviction, landlord disputes." },
+        { "name": "Center for Arkansas Legal Services", "url": "https://arlegalservices.org", "desc": "Legal assistance for central and southern Arkansas including tenant rights." }
+      ]
+    },
+    "CA": {
+      "name": "California",
+      "legal_aid": [
+        { "name": "Tenants Together", "url": "https://www.tenantstogether.org", "desc": "California's statewide tenant rights organization - hotline, resources, local organizing." },
+        { "name": "Bay Area Legal Aid", "url": "https://baylegal.org", "desc": "Free legal services for low-income Bay Area residents including eviction defense." },
+        { "name": "Legal Aid Foundation of Los Angeles", "url": "https://lafla.org", "desc": "Free legal help across LA County - housing, eviction, habitability, and more." },
+        { "name": "California Courts Self-Help", "url": "https://selfhelp.courts.ca.gov", "desc": "Official California court guides for tenants facing eviction or landlord disputes." }
+      ]
+    },
+    "CO": {
+      "name": "Colorado",
+      "legal_aid": [
+        { "name": "Colorado Legal Services", "url": "https://coloradolegalservices.org", "desc": "Statewide free civil legal help - housing and eviction defense for low-income Coloradans." },
+        { "name": "Denver Metro Fair Housing Center", "url": "https://denvermetrofairhousing.org", "desc": "Fair housing investigations, education, and tenant advocacy in the Denver metro area." }
+      ]
+    },
+    "CT": {
+      "name": "Connecticut",
+      "legal_aid": [
+        { "name": "Connecticut Legal Services", "url": "https://connlegalservices.org", "desc": "Free legal help for low-income CT residents - housing, eviction, tenant rights." },
+        { "name": "Greater Hartford Legal Aid", "url": "https://ghla.org", "desc": "Free civil legal services to Hartford County residents including landlord-tenant disputes." }
+      ]
+    },
+    "DE": {
+      "name": "Delaware",
+      "legal_aid": [
+        { "name": "Community Legal Aid Society (CLASI)", "url": "https://declasi.org", "desc": "Free civil legal services statewide - housing a core practice area." },
+        { "name": "Delaware Volunteer Legal Services", "url": "https://dvls.org", "desc": "Pro bono legal help for low-income Delawareans including tenant rights." }
+      ]
+    },
+    "FL": {
+      "name": "Florida",
+      "legal_aid": [
+        { "name": "Bay Area Legal Services", "url": "https://bals.org", "desc": "Free legal help in the Tampa Bay area - eviction defense, habitability, and tenant rights." },
+        { "name": "Three Rivers Legal Services", "url": "https://trls.org", "desc": "Legal aid for north and central Florida, including eviction and housing disputes." },
+        { "name": "Legal Services of Greater Miami", "url": "https://legalservicesmiami.org", "desc": "Free civil legal services in Miami-Dade - housing and eviction a core area." }
+      ]
+    },
+    "GA": {
+      "name": "Georgia",
+      "legal_aid": [
+        { "name": "Atlanta Legal Aid Society", "url": "https://atlantalegalaid.org", "desc": "Free legal services across metro Atlanta - housing, eviction, and tenant rights." },
+        { "name": "Georgia Legal Aid", "url": "https://georgialegalaid.org", "desc": "Statewide directory of legal aid resources for Georgia residents." }
+      ]
+    },
+    "HI": {
+      "name": "Hawaii",
+      "legal_aid": [
+        { "name": "Legal Aid Society of Hawaii", "url": "https://legalaidhawaii.org", "desc": "Free legal help for low-income Hawaiians - housing, eviction, tenant rights across all islands." }
+      ]
+    },
+    "ID": {
+      "name": "Idaho",
+      "legal_aid": [
+        { "name": "Idaho Legal Aid Services", "url": "https://idaholegalaid.org", "desc": "Statewide free civil legal services - housing and eviction for low-income Idahoans." }
+      ]
+    },
+    "IL": {
+      "name": "Illinois",
+      "legal_aid": [
+        { "name": "Chicago Volunteer Legal Services", "url": "https://cvls.org", "desc": "Pro bono legal services in the Chicago area - housing and eviction defense." },
+        { "name": "Land of Lincoln Legal Aid", "url": "https://lollaf.org", "desc": "Free civil legal help for central and southern Illinois, including housing disputes." },
+        { "name": "Metropolitan Tenants Organization", "url": "https://mto.org", "desc": "Chicago tenant education, organizing, and rights information." }
+      ]
+    },
+    "IN": {
+      "name": "Indiana",
+      "legal_aid": [
+        { "name": "Indiana Legal Services", "url": "https://indianalegalservices.org", "desc": "Statewide free civil legal help - housing and eviction defense for low-income Hoosiers." }
+      ]
+    },
+    "IA": {
+      "name": "Iowa",
+      "legal_aid": [
+        { "name": "Iowa Legal Aid", "url": "https://iowalegalaid.org", "desc": "Free legal services statewide - housing, eviction, landlord-tenant disputes." }
+      ]
+    },
+    "KS": {
+      "name": "Kansas",
+      "legal_aid": [
+        { "name": "Kansas Legal Services", "url": "https://kansaslegalservices.org", "desc": "Free civil legal help for low-income Kansans - housing and eviction a core area." }
+      ]
+    },
+    "KY": {
+      "name": "Kentucky",
+      "legal_aid": [
+        { "name": "Legal Aid Society (Louisville)", "url": "https://legalaidky.org", "desc": "Free legal services in Louisville and Jefferson County - housing and eviction defense." },
+        { "name": "Appalachian Research & Defense Fund", "url": "https://www.ardfky.org", "desc": "Legal help for eastern Kentucky residents, including tenant rights in rural communities." }
+      ]
+    },
+    "LA": {
+      "name": "Louisiana",
+      "legal_aid": [
+        { "name": "Southeast Louisiana Legal Services", "url": "https://slls.org", "desc": "Free civil legal services for southeast Louisiana - housing and eviction a core practice." },
+        { "name": "Acadiana Legal Service Corporation", "url": "https://la-law.org", "desc": "Free legal help for south-central Louisiana, including tenant rights." }
+      ]
+    },
+    "ME": {
+      "name": "Maine",
+      "legal_aid": [
+        { "name": "Pine Tree Legal Assistance", "url": "https://ptla.org", "desc": "Statewide free legal help - housing, eviction, and tenant rights for Maine residents." }
+      ]
+    },
+    "MD": {
+      "name": "Maryland",
+      "legal_aid": [
+        { "name": "Maryland Legal Aid", "url": "https://mdlab.org", "desc": "Free civil legal services statewide - housing, eviction defense, and landlord disputes." },
+        { "name": "Public Justice Center", "url": "https://www.publicjustice.org", "desc": "Impact litigation and advocacy for tenants and low-income Marylanders." }
+      ]
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "legal_aid": [
+        { "name": "Greater Boston Legal Services", "url": "https://gbls.org", "desc": "Free civil legal services in Boston - housing and eviction defense for low-income residents." },
+        { "name": "Massachusetts Legal Aid", "url": "https://masslegalhelp.org", "desc": "Statewide directory of legal aid for housing, eviction, and tenant rights." }
+      ]
+    },
+    "MI": {
+      "name": "Michigan",
+      "legal_aid": [
+        { "name": "Michigan Legal Help", "url": "https://michiganlegalhelp.org", "desc": "Self-help center with guides, forms, and legal aid directory for Michigan renters." },
+        { "name": "Legal Aid of Western Michigan", "url": "https://lawestmi.org", "desc": "Free legal services in western Michigan - housing and eviction a core area." }
+      ]
+    },
+    "MN": {
+      "name": "Minnesota",
+      "legal_aid": [
+        { "name": "Mid-Minnesota Legal Aid", "url": "https://mnlegalaid.org", "desc": "Statewide free legal services - housing and eviction defense for low-income Minnesotans." },
+        { "name": "HOME Line Tenant Hotline", "url": "https://homelinemn.org", "desc": "Free tenant rights hotline and legal advice for Minnesota renters." }
+      ]
+    },
+    "MS": {
+      "name": "Mississippi",
+      "legal_aid": [
+        { "name": "Mississippi Center for Legal Services", "url": "https://mscls.org", "desc": "Free civil legal help for southern Mississippi - housing and eviction a key focus." },
+        { "name": "North Mississippi Rural Legal Services", "url": "https://nmrls.com", "desc": "Free legal services for rural northern Mississippi including tenant rights." }
+      ]
+    },
+    "MO": {
+      "name": "Missouri",
+      "legal_aid": [
+        { "name": "Legal Aid of Western Missouri", "url": "https://lawmo.org", "desc": "Free civil legal services in the Kansas City area - housing and eviction defense." },
+        { "name": "Legal Services of Eastern Missouri", "url": "https://lsem.org", "desc": "Free legal help in St. Louis and eastern Missouri, including tenant rights." }
+      ]
+    },
+    "MT": {
+      "name": "Montana",
+      "legal_aid": [
+        { "name": "Montana Legal Services Association", "url": "https://montanalegalservices.org", "desc": "Statewide free civil legal help for Montana residents - housing included." }
+      ]
+    },
+    "NE": {
+      "name": "Nebraska",
+      "legal_aid": [
+        { "name": "Legal Aid of Nebraska", "url": "https://legalaidofnebraska.org", "desc": "Statewide free civil legal services - eviction defense and tenant rights." }
+      ]
+    },
+    "NV": {
+      "name": "Nevada",
+      "legal_aid": [
+        { "name": "Nevada Legal Services", "url": "https://nevadalegalservices.org", "desc": "Free civil legal help across Nevada - housing and eviction defense." },
+        { "name": "Clark County Legal Aid Center", "url": "https://lacsn.org", "desc": "Legal advice and assistance for Las Vegas–area residents including renters." }
+      ]
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "legal_aid": [
+        { "name": "New Hampshire Legal Assistance", "url": "https://nhla.org", "desc": "Statewide free civil legal help - housing and eviction defense for NH residents." }
+      ]
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "legal_aid": [
+        { "name": "Legal Services of New Jersey", "url": "https://lsnj.org", "desc": "Statewide free civil legal help - housing, eviction defense, and habitability." },
+        { "name": "NJ Tenant Hotline (LSNJ)", "url": "https://www.lsnj.org/LegalTopics/Housing", "desc": "Free legal advice and information for New Jersey tenants." }
+      ]
+    },
+    "NM": {
+      "name": "New Mexico",
+      "legal_aid": [
+        { "name": "New Mexico Legal Aid", "url": "https://nmlegalaid.org", "desc": "Statewide free civil legal services - housing and eviction a primary focus." }
+      ]
+    },
+    "NY": {
+      "name": "New York",
+      "legal_aid": [
+        { "name": "Legal Aid Society", "url": "https://legalaidnyc.org", "desc": "NYC's largest free legal services provider - eviction defense, housing court representation." },
+        { "name": "Legal Services NYC", "url": "https://legalservicesnyc.org", "desc": "Free civil legal help for low-income New Yorkers across all five boroughs." },
+        { "name": "Housing Court Answers", "url": "https://housingcourtanswers.org", "desc": "Free advice and information for tenants in NYC Housing Court." }
+      ]
+    },
+    "NC": {
+      "name": "North Carolina",
+      "legal_aid": [
+        { "name": "Legal Aid of North Carolina", "url": "https://legalaidnc.org", "desc": "Statewide free civil legal help - housing, eviction, and tenant rights." }
+      ]
+    },
+    "ND": {
+      "name": "North Dakota",
+      "legal_aid": [
+        { "name": "Legal Aid of North Dakota", "url": "https://legalnd.org", "desc": "Statewide free civil legal services - housing and eviction for low-income North Dakotans." }
+      ]
+    },
+    "OH": {
+      "name": "Ohio",
+      "legal_aid": [
+        { "name": "Legal Aid Society of Columbus", "url": "https://columbuslegalaid.org", "desc": "Free legal services in Franklin County - housing and eviction defense." },
+        { "name": "Legal Aid of Western Ohio", "url": "https://lawolaw.org", "desc": "Free civil legal help for western Ohio residents including tenant rights." },
+        { "name": "Community Legal Aid", "url": "https://communitylegalaid.org", "desc": "Free legal help in northeast Ohio - housing court representation and eviction defense." }
+      ]
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "legal_aid": [
+        { "name": "Legal Aid Services of Oklahoma", "url": "https://legalaidok.org", "desc": "Statewide free civil legal services - housing and eviction for low-income Oklahomans." }
+      ]
+    },
+    "OR": {
+      "name": "Oregon",
+      "legal_aid": [
+        { "name": "Oregon Law Center", "url": "https://oregonlawcenter.org", "desc": "Free civil legal services for rural and low-income Oregonians - housing included." },
+        { "name": "Community Alliance of Tenants", "url": "https://communityallianceoftenants.org", "desc": "Oregon tenant rights education, a renter hotline, and local organizing." }
+      ]
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "legal_aid": [
+        { "name": "Community Legal Services (Philadelphia)", "url": "https://clsphila.org", "desc": "Free legal help for Philadelphia residents - eviction defense, habitability, landlord disputes." },
+        { "name": "MidPenn Legal Services", "url": "https://midpenn.org", "desc": "Free civil legal help in central Pennsylvania including housing and eviction." }
+      ]
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "legal_aid": [
+        { "name": "Rhode Island Legal Services", "url": "https://rils.org", "desc": "Statewide free civil legal services - housing, eviction defense, and tenant rights." }
+      ]
+    },
+    "SC": {
+      "name": "South Carolina",
+      "legal_aid": [
+        { "name": "South Carolina Legal Services", "url": "https://sclegal.org", "desc": "Statewide free civil legal help - housing and eviction for low-income South Carolinians." }
+      ]
+    },
+    "SD": {
+      "name": "South Dakota",
+      "legal_aid": [
+        { "name": "East River Legal Services", "url": "https://erlservices.org", "desc": "Free legal services in eastern South Dakota including tenant rights." },
+        { "name": "Dakota Plains Legal Services", "url": "https://dpls.org", "desc": "Free legal help for rural and tribal communities in South Dakota and surrounding states." }
+      ]
+    },
+    "TN": {
+      "name": "Tennessee",
+      "legal_aid": [
+        { "name": "Legal Aid Society of Middle Tennessee", "url": "https://las.org", "desc": "Free civil legal services for middle Tennessee - housing and eviction defense." },
+        { "name": "Memphis Area Legal Services", "url": "https://malsi.org", "desc": "Free legal help in Memphis and Shelby County, including tenant rights." }
+      ]
+    },
+    "TX": {
+      "name": "Texas",
+      "legal_aid": [
+        { "name": "Texas RioGrande Legal Aid", "url": "https://trla.org", "desc": "Free legal services for south and west Texas, including eviction defense and habitability." },
+        { "name": "Lone Star Legal Aid", "url": "https://lonestarlegal.org", "desc": "Free civil legal help for east and southeast Texas residents - housing a core area." },
+        { "name": "Austin Tenants Council", "url": "https://austintenants.org", "desc": "Tenant rights education, mediation, and a free phone counseling line for Austin renters." }
+      ]
+    },
+    "UT": {
+      "name": "Utah",
+      "legal_aid": [
+        { "name": "Utah Legal Services", "url": "https://utahlegalservices.org", "desc": "Statewide free civil legal help - housing and eviction for low-income Utah residents." }
+      ]
+    },
+    "VT": {
+      "name": "Vermont",
+      "legal_aid": [
+        { "name": "Vermont Legal Aid", "url": "https://vtlegalaid.org", "desc": "Statewide free civil legal services - housing, eviction, and tenant rights." }
+      ]
+    },
+    "VA": {
+      "name": "Virginia",
+      "legal_aid": [
+        { "name": "Central Virginia Legal Aid Society", "url": "https://cvlas.org", "desc": "Free legal services in the Richmond area - housing and eviction defense." },
+        { "name": "Blue Ridge Legal Services", "url": "https://brls.org", "desc": "Free civil legal help for the Shenandoah Valley and surrounding areas." }
+      ]
+    },
+    "WA": {
+      "name": "Washington",
+      "legal_aid": [
+        { "name": "Northwest Justice Project", "url": "https://nwjustice.org", "desc": "Statewide free civil legal services - housing and eviction defense for Washington residents." },
+        { "name": "Tenants Union of Washington State", "url": "https://tenantsunion.org", "desc": "Tenant rights education, a counseling hotline, and organizing support for WA renters." }
+      ]
+    },
+    "WV": {
+      "name": "West Virginia",
+      "legal_aid": [
+        { "name": "Legal Aid of West Virginia", "url": "https://lawv.net", "desc": "Statewide free civil legal services - housing, eviction, and tenant rights." }
+      ]
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "legal_aid": [
+        { "name": "Legal Action of Wisconsin", "url": "https://legalaction.org", "desc": "Free civil legal help in southeastern Wisconsin - housing and eviction defense." },
+        { "name": "Wisconsin Judicare", "url": "https://judicare.org", "desc": "Free legal services for rural and northern Wisconsin including tenant rights." }
+      ]
+    },
+    "WY": {
+      "name": "Wyoming",
+      "legal_aid": [
+        { "name": "Wyoming Center for Equality", "url": "https://wycenter.org", "desc": "Civil rights and housing advocacy for Wyoming residents." },
+        { "name": "Wyoming State Bar Referral Service", "url": "https://wyomingbar.org", "desc": "Find a licensed attorney in Wyoming through the state bar referral service." }
+      ]
+    },
+    "DC": {
+      "name": "Washington, D.C.",
+      "legal_aid": [
+        { "name": "DC Legal Aid", "url": "https://legalaiddc.org", "desc": "Free civil legal services for DC residents - housing and eviction defense." },
+        { "name": "DC Tenant Rights Center", "url": "https://dctenants.com", "desc": "Know your rights as a DC tenant - guides, hotline, and tenant organizing support." }
+      ]
+    },
+    "PR": {
+      "name": "Puerto Rico",
+      "legal_aid": [
+        { "name": "Servicios Legales de Puerto Rico", "url": "https://servicioslegales.org", "desc": "Free civil legal services for Puerto Rico residents - housing and tenant rights." }
+      ]
+    },
+    "GU": {
+      "name": "Guam",
+      "legal_aid": [
+        { "name": "Guam Legal Services Corporation", "url": "https://guamlsc.org", "desc": "Free civil legal help for Guam residents including housing and tenant rights." }
+      ]
+    },
+    "VI": {
+      "name": "U.S. Virgin Islands",
+      "legal_aid": [
+        { "name": "Legal Services of the Virgin Islands", "url": "https://lsvi.org", "desc": "Free civil legal services for VI residents - housing, eviction, and tenant rights." }
+      ]
+    },
+    "AS": {
+      "name": "American Samoa",
+      "legal_aid": [
+        { "name": "American Samoa Bar Association", "url": "https://asbar.org", "desc": "Find legal assistance and attorney referrals for American Samoa residents." }
+      ]
+    },
+    "MP": {
+      "name": "Northern Mariana Islands",
+      "legal_aid": [
+        { "name": "CNMI Office of the Public Defender", "url": "https://justice.gov.mp", "desc": "Legal resources for CNMI residents - contact for referrals to civil legal aid." }
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "state": "California",
+  "abbreviation": "CA",
+  "programs": [
+    {
+      "name": "CalWORKs Housing Support Program",
+      "description": "Rental assistance, security deposit help, and case management for CalWORKs-eligible families.",
+      "eligibility_summary": "Low-income families with children on CalWORKs",
+      "url": "https://www.cdss.ca.gov/inforesources/calworks-housing-support-program",
+      "filter_tags": ["parent", "low-income"]
+    },
+    {
+      "name": "Housing Choice Voucher Program (Section 8)",
+      "description": "Federally funded rental assistance - pay roughly 30% of household income toward rent.",
+      "eligibility_summary": "Low-income households; long waitlists in most counties",
+      "url": "https://www.hud.gov/program_offices/public_indian_housing/programs/hcv",
+      "filter_tags": ["low-income", "parent"]
+    },
+    {
+      "name": "California Emergency Rental Assistance Program",
+      "description": "Past-due rent and utility assistance for eligible households at risk of eviction.",
+      "eligibility_summary": "Households experiencing financial hardship; income below 80% of area median",
+      "url": "https://housing.ca.gov",
+      "filter_tags": ["low-income", "parent", "all"]
+    },
+    {
+      "name": "Project Roomkey / Project Homekey",
+      "description": "Interim and permanent housing for individuals and families experiencing homelessness or housing instability.",
+      "eligibility_summary": "Experiencing or at risk of homelessness",
+      "url": "https://homelesshousing.hcd.ca.gov",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "Bay Area Legal Aid",
+      "description": "Free legal help for low-income tenants - eviction defence, security deposit disputes, habitability claims.",
+      "eligibility_summary": "Low-income residents of the SF Bay Area",
+      "url": "https://baylegal.org",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "Legal Aid Foundation of Los Angeles",
+      "description": "Free legal services for tenants in LA County - including landlord-tenant disputes, eviction defence, fair housing.",
+      "eligibility_summary": "Low-income LA County residents",
+      "url": "https://lafla.org",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "California Tenant Protection Act (AB 1482)",
+      "description": "Caps annual rent increases at 5% + local CPI (max 10%) for many California tenancies. Worth knowing if your lease has rent increase language.",
+      "eligibility_summary": "Most California tenants in buildings 15+ years old",
+      "url": "https://landlordtenant.dre.ca.gov/tenant/tpa.html",
+      "filter_tags": ["all"]
+    },
+    {
+      "name": "Tenants Together",
+      "description": "Statewide nonprofit advocating for tenant rights - referrals to local legal aid and tenant unions.",
+      "eligibility_summary": "All California tenants",
+      "url": "https://www.tenantstogether.org",
+      "filter_tags": ["all", "parent", "low-income"]
+    },
+    {
+      "name": "California Veterans Cal-Vet Home Loan",
+      "description": "Low-interest home loan program for veterans transitioning out of renting.",
+      "eligibility_summary": "Honourably discharged California veterans",
+      "url": "https://www.calvet.ca.gov/HomeLoans",
+      "filter_tags": ["veteran"]
+    },
+    {
+      "name": "California Department of Aging - Senior Housing Information",
+      "description": "Information on senior-specific housing programs, rent caps, and elder abuse protections.",
+      "eligibility_summary": "California residents aged 60+",
+      "url": "https://aging.ca.gov",
+      "filter_tags": ["senior"]
+    }
+  ]
+}

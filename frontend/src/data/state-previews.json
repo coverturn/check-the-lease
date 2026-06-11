@@ -1,0 +1,903 @@
+{
+  "states": {
+    "AL": {
+      "name": "Alabama",
+      "rights": [
+        { "text": "Security deposit must be returned within 35 days of move-out with an itemised list of deductions.", "citation": "Ala. Code § 35-9A-201" },
+        { "text": "Landlord must maintain the premises in a safe, habitable condition - implied warranty applies.", "citation": "Ala. Code § 35-9A-204" },
+        { "text": "Landlord must give reasonable advance notice before entering - courts typically apply a 24-hour standard.", "citation": "Ala. Code § 35-9A-303" },
+        { "text": "Tenant may terminate for uninhabitable conditions after giving landlord 14 days' written notice to remedy.", "citation": "Ala. Code § 35-9A-401" }
+      ],
+      "programs": [
+        { "name": "AHFA Section 8 Housing Choice Vouchers", "org": "Alabama Housing Finance Authority", "who": "Low-income renters, families, seniors, disabled", "what": "Subsidises rent so you pay no more than 30% of your income. Vouchers are portable across Alabama.", "category": "rent-help" },
+        { "name": "Emergency Rental Assistance (ERA)", "org": "Alabama counties / ADECA", "who": "Renters facing eviction or utility shutoff due to hardship", "what": "Pays up to 12–18 months of overdue rent and utilities directly to landlords and utility companies.", "category": "emergency" },
+        { "name": "HOME Investment Partnerships Program", "org": "Alabama Department of Economic & Community Affairs", "who": "Low-income households, first-time renters, families", "what": "Funds affordable rental housing construction and tenant-based rental assistance statewide.", "category": "families" },
+        { "name": "USDA Section 515 Rural Rental Housing", "org": "USDA Rural Development – Alabama", "who": "Very low-income rural renters, seniors, disabled", "what": "Below-market rent in USDA-financed rural apartment communities across Alabama.", "category": "seniors" },
+        { "name": "Alabama's Low Income Home Energy Assistance (LIHEAP)", "org": "ADECA", "who": "Low-income renters struggling with utility costs", "what": "Covers heating and cooling costs - freeing up income for rent. Often paired with ERA funding.", "category": "income-based" }
+      ]
+    },
+    "AK": {
+      "name": "Alaska",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days (or 30 days if deductions are itemised) of move-out.", "citation": "Alaska Stat. § 34.03.070" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency repairs or inspections.", "citation": "Alaska Stat. § 34.03.140" },
+        { "text": "Landlord must keep the premises in habitable condition and make necessary repairs in a reasonable time.", "citation": "Alaska Stat. § 34.03.100" },
+        { "text": "Tenant may repair and deduct repair costs from rent for urgent issues after proper written notice.", "citation": "Alaska Stat. § 34.03.180" }
+      ],
+      "programs": [
+        { "name": "AHFC Rental Housing Programs", "org": "Alaska Housing Finance Corporation", "who": "Low-to-moderate income Alaskans, seniors, veterans", "what": "Section 8 vouchers, public housing, and workforce housing loans. AHFC is Alaska's primary affordable housing agency.", "category": "rent-help" },
+        { "name": "Weatherization & Cold Climate Housing Program", "org": "AHFC", "who": "Low-income Alaskan renters in cold rural areas", "what": "Free energy efficiency upgrades to rental units - saving renters hundreds per year on heating costs.", "category": "income-based" },
+        { "name": "Alaska Senior Housing Initiative", "org": "AHFC / Alaska Commission on Aging", "who": "Alaskans 60+, especially those in remote villages", "what": "Subsidised senior housing developments and home modification grants to help seniors age in place.", "category": "seniors" },
+        { "name": "Alaska Native Tribal Housing", "org": "Tribally Designated Housing Entities (TDHEs)", "who": "Alaska Native and American Indian tribal members", "what": "Tribally administered rental housing under NAHASDA - often the most affordable option in village communities.", "category": "minorities" },
+        { "name": "AHFC Veterans Mortgage Program", "org": "Alaska Housing Finance Corporation", "who": "Alaskan veterans and active duty military", "what": "Below-market mortgage rates for veterans; paired with rental bridge assistance for transitioning servicemembers.", "category": "veterans" }
+      ]
+    },
+    "AZ": {
+      "name": "Arizona",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out with an itemised deduction statement.", "citation": "A.R.S. § 33-1321" },
+        { "text": "Landlord must give at least 2 days' notice before entering for non-emergency access.", "citation": "A.R.S. § 33-1343" },
+        { "text": "Landlord must maintain fit and habitable premises and make repairs within 10 days of written notice.", "citation": "A.R.S. § 33-1324" },
+        { "text": "Tenant may terminate the lease for uninhabitable conditions after 5 days' notice if landlord fails to act.", "citation": "A.R.S. § 33-1368" }
+      ],
+      "programs": [
+        { "name": "Arizona Department of Housing Rental Assistance", "org": "ADOH", "who": "Low-income Arizona renters, families with children", "what": "Administers Section 8 vouchers and HOME-funded rental assistance. Over 30,000 Arizona households served.", "category": "rent-help" },
+        { "name": "Arizona Tribal HUD-VASH", "org": "HUD / VA", "who": "Native American veterans experiencing homelessness", "what": "Combines VA healthcare with HUD rental vouchers specifically designed for Native veterans on or near tribal lands.", "category": "veterans" },
+        { "name": "School of Choice Housing (Affordable Near Schools)", "org": "Various AZ nonprofits", "who": "Families with school-age children near high-quality public schools", "what": "Income-qualifying families receive priority placement in subsidised units near top-rated school districts.", "category": "families" },
+        { "name": "Area Agency on Aging – Senior Rental Assistance", "org": "Maricopa Association of Governments", "who": "Seniors 60+ in Maricopa County", "what": "Emergency rent and utility assistance for seniors at risk of homelessness; caseworker support included.", "category": "seniors" },
+        { "name": "Arizona SNAP Employment & Training Housing Bridge", "org": "DES Arizona", "who": "SNAP recipients entering workforce training programs", "what": "Short-term rental assistance while participants complete job training; priority for single parents.", "category": "income-based" }
+      ]
+    },
+    "AR": {
+      "name": "Arkansas",
+      "rights": [
+        { "text": "Security deposit must be returned within 60 days of lease termination.", "citation": "Ark. Code § 18-16-305" },
+        { "text": "Landlord must maintain the unit in a safe, habitable condition under implied warranty principles.", "citation": "Ark. Code § 18-17-601" },
+        { "text": "Landlord must provide reasonable advance notice before entering - no specific hours set by statute.", "citation": "Arkansas common law" },
+        { "text": "Tenant may withhold rent for habitability failures after providing the landlord written notice and opportunity to repair.", "citation": "Ark. Code § 18-17-701" }
+      ],
+      "programs": [
+        { "name": "ADFA Rental Assistance Programme", "org": "Arkansas Development Finance Authority", "who": "Low-income Arkansas renters, households below 80% AMI", "what": "Emergency rental assistance and LIHTC-funded affordable units. Apply through local Community Action Agencies.", "category": "rent-help" },
+        { "name": "Delta Regional Authority Housing Assistance", "org": "DRA / ADFA", "who": "Rural and Delta-region residents, predominantly Black communities historically underserved", "what": "Targeted affordable housing funds for the Arkansas Delta - one of America's most housing-stressed regions.", "category": "minorities" },
+        { "name": "Arkansas Senior Living Network", "org": "Arkansas Division of Aging & Adult Services", "who": "Arkansans 62+, low income", "what": "Connects seniors to subsidised senior apartments, Section 202 housing, and rent reduction programs.", "category": "seniors" },
+        { "name": "Veterans & Military Families Housing Grant", "org": "Arkansas Department of Veterans' Affairs", "who": "Arkansas veterans, especially those in rural areas", "what": "One-time housing stabilisation grants for veterans facing eviction or homelessness; pairs with VA case management.", "category": "veterans" },
+        { "name": "USDA 502 Direct Loan & Rental Assistance", "org": "USDA Rural Development", "who": "Very low-income rural Arkansas households", "what": "Below-market rural rental units and direct loans. Approximately 40% of Arkansas is USDA-eligible rural territory.", "category": "income-based" }
+      ]
+    },
+    "CA": {
+      "name": "California",
+      "rights": [
+        { "text": "Security deposit capped at 2 months' rent for unfurnished units; 3 months for furnished.", "citation": "Cal. Civ. Code § 1950.5" },
+        { "text": "Landlord must give 24 hours' written notice before non-emergency entry.", "citation": "Cal. Civ. Code § 1954" },
+        { "text": "Deposit must be returned within 21 days of move-out with an itemised statement.", "citation": "Cal. Civ. Code § 1950.5" },
+        { "text": "Annual rent increases capped at 5% + local CPI (max 10%) in buildings 15+ years old.", "citation": "AB 1482 (Tenant Protection Act)" }
+      ],
+      "programs": [
+        { "name": "CalHFA MyHome Assistance Programme", "org": "California Housing Finance Agency", "who": "First-time homebuyers earning under income limits; priority for renters transitioning to ownership", "what": "Deferred-payment second loan of up to 3.5% of purchase price for down payment. No interest while you live in the home.", "category": "families" },
+        { "name": "Housing Choice Voucher / Section 8 (HACLA, SHRA, etc.)", "org": "Local Housing Authorities statewide", "who": "Very low-income households (below 50% AMI), seniors, disabled, large families", "what": "Subsidises rent so tenant pays 30% of income. Waiting lists can be long - apply to multiple counties.", "category": "rent-help" },
+        { "name": "California Dream for All Shared Appreciation Loan", "org": "CalHFA", "who": "First-generation homebuyers, lower-income Californians", "what": "State pays 20% of home purchase price interest-free; you repay when you sell - designed to address generational wealth gaps.", "category": "minorities" },
+        { "name": "Senior Citizen Rent Stabilisation Exemptions", "org": "Local municipalities (LA, SF, Oakland etc.)", "who": "Low-income renters 62+ or disabled in rent-controlled units", "what": "Freezes rent for qualifying seniors and disabled tenants. Los Angeles SCRIE program is one of the strongest in the country.", "category": "seniors" },
+        { "name": "LGBTQ+ Housing Assistance (SF, LA, SD programs)", "org": "SF Human Rights Commission, LA LGBT Center, etc.", "who": "LGBTQ+ renters, youth, those fleeing family rejection", "what": "Emergency housing, transitional housing, and rental assistance specifically designed for LGBTQ+ individuals and families.", "category": "lgbtq" },
+        { "name": "UC/CSU Student Emergency Housing Funds", "org": "University of California, Cal State systems", "who": "Enrolled students experiencing housing insecurity", "what": "Emergency micro-grants for rent, deposits, and short-term housing. Most campuses have a Basic Needs Centre - apply there.", "category": "students" },
+        { "name": "California Veterans Housing & Homelessness Prevention", "org": "CalVet, HUD-VASH", "who": "California veterans, homeless or at risk", "what": "Rental assistance, transitional housing, and rapid rehousing - plus case management through the VA system.", "category": "veterans" }
+      ]
+    },
+    "CO": {
+      "name": "Colorado",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out (60 days if lease specifies).", "citation": "C.R.S. § 38-12-103" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency maintenance or inspection.", "citation": "C.R.S. § 38-12-1102" },
+        { "text": "Landlord must maintain a warranty of habitability - tenant may terminate if landlord fails to remedy.", "citation": "C.R.S. § 38-12-505" },
+        { "text": "Tenant may withhold rent or repair and deduct if landlord fails to address habitability issues within notice period.", "citation": "C.R.S. § 38-12-507" }
+      ],
+      "programs": [
+        { "name": "CHFA Affordable Rental Housing", "org": "Colorado Housing and Finance Authority", "who": "Low-to-moderate income Colorado renters and homebuyers", "what": "CHFA finances affordable apartments statewide; also offers down payment assistance for first-time buyers. Search CHFA's property map.", "category": "rent-help" },
+        { "name": "Colorado Emergency Rental Assistance Programme (ERAP)", "org": "CDHS", "who": "Renters at risk of eviction, households behind on rent", "what": "Covers past-due rent, prospective rent, and utilities. Apply through your county's Department of Human Services.", "category": "emergency" },
+        { "name": "Colorado Affordable Residences for Students (CARS)", "org": "Various universities / CHFA", "who": "College students in affordable rental housing near campus", "what": "Income-qualifying students receive access to below-market apartments near Colorado universities and community colleges.", "category": "students" },
+        { "name": "Section 202 Supportive Housing for the Elderly – Colorado", "org": "HUD / Colorado nonprofits", "who": "Very low-income Coloradans 62+", "what": "Subsidised apartment complexes with supportive services; many include transportation, meals, and social programming.", "category": "seniors" },
+        { "name": "Colorado Division of Housing Native American Housing", "org": "CDOH / Tribal Nations", "who": "Native American residents of Colorado's tribal communities", "what": "Funding for tribally-administered affordable housing on and near Colorado reservations.", "category": "minorities" }
+      ]
+    },
+    "CT": {
+      "name": "Connecticut",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days (15 days if no deductions are claimed).", "citation": "Conn. Gen. Stat. § 47a-21" },
+        { "text": "Deposit capped at 2 months' rent (1 month's rent for tenants 62 and older).", "citation": "Conn. Gen. Stat. § 47a-21" },
+        { "text": "Landlord must give reasonable notice - generally interpreted as 24 hours - before entering.", "citation": "Conn. Gen. Stat. § 47a-16" },
+        { "text": "Landlord must keep premises in a habitable condition; tenant may withhold rent for serious violations.", "citation": "Conn. Gen. Stat. § 47a-4a" }
+      ],
+      "programs": [
+        { "name": "CHFA Rental Assistance Programme", "org": "Connecticut Housing Finance Authority", "who": "Low-income Connecticut renters, families, elderly", "what": "Administers Section 8 vouchers and finances affordable rental properties; partners with local housing authorities.", "category": "rent-help" },
+        { "name": "UniteCT Emergency Rental Assistance", "org": "CT Department of Housing", "who": "CT renters behind on rent due to COVID or economic hardship", "what": "Up to 18 months of rent and utility assistance paid directly to landlords. Apply online at UniteCT.com.", "category": "emergency" },
+        { "name": "ConneCT Opportunity Youth Housing", "org": "CT Coalition to End Homelessness", "who": "Youth ages 16–24 who are homeless or aging out of foster care", "what": "Rapid rehousing, transitional housing, and host home programs specifically designed for young people.", "category": "youth" },
+        { "name": "Connecticut Elderly Renter Tax Credit", "org": "CT Department of Revenue Services", "who": "Renters 65+ or 50+ if surviving spouse of elderly renter", "what": "Annual tax credit of up to $900 to offset rental costs - apply on your state income tax return.", "category": "seniors" },
+        { "name": "African American Affairs Commission Housing Programme", "org": "CT African American Affairs Commission", "who": "Black Connecticut residents facing housing discrimination or hardship", "what": "Connects residents to fair housing legal aid, emergency funds, and affordable housing waitlists statewide.", "category": "minorities" }
+      ]
+    },
+    "DE": {
+      "name": "Delaware",
+      "rights": [
+        { "text": "Security deposit must be returned within 20 days of move-out with an itemised deduction statement.", "citation": "Del. Code tit. 25 § 5514" },
+        { "text": "Landlord must give 24 hours' notice before entering except in emergencies.", "citation": "Del. Code tit. 25 § 5509" },
+        { "text": "Landlord must maintain the dwelling in a safe and habitable condition throughout the tenancy.", "citation": "Del. Code tit. 25 § 5305" },
+        { "text": "Deposit capped at 1 month's rent for tenancies month-to-month; 2 months for longer leases.", "citation": "Del. Code tit. 25 § 5514" }
+      ],
+      "programs": [
+        { "name": "DSHA Section 8 / Housing Choice Vouchers", "org": "Delaware State Housing Authority", "who": "Very low-income Delawareans, including working families and seniors", "what": "Subsidy that lets you rent a private unit while paying only 30% of income. Apply at DSHA.Delaware.gov.", "category": "rent-help" },
+        { "name": "Delaware Emergency Rental Assistance Programme", "org": "DSHA", "who": "Renters impacted by income loss or pandemic-related hardship", "what": "Pays overdue rent and utilities directly to landlords and utility providers on the tenant's behalf.", "category": "emergency" },
+        { "name": "Delaware Hispanic Community Housing Initiative", "org": "La Esperanza / DSHA", "who": "Delaware's Hispanic and Latino renter community", "what": "Bilingual housing counselling, fair housing assistance, and connection to affordable rentals and homeownership programs.", "category": "minorities" },
+        { "name": "Home Modification Loan Programme – Renters", "org": "DSHA", "who": "Delaware renters with disabilities", "what": "Zero-interest loans for accessibility modifications (ramps, grab bars, widened doorways) in rented homes with landlord approval.", "category": "disability" },
+        { "name": "Delaware Farmworker Housing Grant", "org": "DE Department of Agriculture / USDA", "who": "Seasonal and migrant farmworkers and their families", "what": "Safe, affordable housing near agricultural worksites in rural Delaware; often Spanish-speaking staff available.", "category": "minorities" }
+      ]
+    },
+    "FL": {
+      "name": "Florida",
+      "rights": [
+        { "text": "Deposit must be returned within 15 days (or 30 days if deductions are claimed) of move-out.", "citation": "Fla. Stat. § 83.49" },
+        { "text": "Landlord must give at least 12 hours' notice before non-emergency entry.", "citation": "Fla. Stat. § 83.53" },
+        { "text": "Landlord must maintain premises in a fit and habitable condition throughout the tenancy.", "citation": "Fla. Stat. § 83.51" },
+        { "text": "Tenant may withhold rent if landlord fails to repair material defects after 7-day written notice.", "citation": "Fla. Stat. § 83.56" }
+      ],
+      "programs": [
+        { "name": "Florida Housing Finance Corporation – Rental Assistance", "org": "Florida Housing Finance Corporation (FHFC)", "who": "Low-income Florida renters, large families, seniors, farmworkers", "what": "Administers LIHTC affordable apartments and Section 8 vouchers statewide; search FloridaHousing.org for available units.", "category": "rent-help" },
+        { "name": "SHIP (State Housing Initiatives Partnership)", "org": "FHFC / local governments", "who": "Very low, low, and moderate income Floridians", "what": "Funded through doc stamp taxes - provides down payment assistance, rental subsidies, and repair grants through counties.", "category": "income-based" },
+        { "name": "Florida Farmworker Housing Initiative", "org": "FHFC / USDA", "who": "Agricultural workers and their families across rural Florida", "what": "Safe housing near work sites - often the most underserved population in Florida. Many units available in Immokalee, Belle Glade.", "category": "minorities" },
+        { "name": "Sadowski Housing Trust Fund – Elderly", "org": "FHFC", "who": "Florida seniors 62+ earning below 80% AMI", "what": "Funds senior housing construction and subsidised rent in senior-designated communities. Wait lists vary by county.", "category": "seniors" },
+        { "name": "FL Veterans Housing Assistance – VASH + State Grant", "org": "Florida Department of Veterans' Affairs + HUD", "who": "Florida veterans who are homeless or at risk", "what": "Combines HUD-VASH vouchers with Florida's own veterans housing grant - covers rent, deposits, and case management.", "category": "veterans" }
+      ]
+    },
+    "GA": {
+      "name": "Georgia",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of lease termination with itemised deductions.", "citation": "O.C.G.A. § 44-7-34" },
+        { "text": "Landlord must keep the premises in good repair and fit for habitation.", "citation": "O.C.G.A. § 44-7-13" },
+        { "text": "Landlord must give reasonable advance notice before entering - courts apply a reasonableness standard.", "citation": "Georgia common law" },
+        { "text": "Tenant may terminate the lease if landlord fails to keep property habitable after written notice.", "citation": "O.C.G.A. § 44-7-14" }
+      ],
+      "programs": [
+        { "name": "Georgia Department of Community Affairs – Rental Assistance", "org": "DCA Georgia", "who": "Low-income Georgia renters, households in crisis", "what": "Administers Section 8 vouchers, emergency rental assistance, and affordable housing development across Georgia.", "category": "rent-help" },
+        { "name": "Georgia Dream Homeownership Programme", "org": "DCA Georgia", "who": "First-time homebuyers below income limits; renters ready to transition", "what": "Down payment assistance of $7,500–$10,000 for qualifying buyers, including public servants, healthcare workers, and educators.", "category": "families" },
+        { "name": "HUD-VASH Georgia", "org": "Atlanta VA / local housing authorities", "who": "Georgia veterans experiencing homelessness", "what": "Rental vouchers combined with case management at VA facilities. Atlanta and Savannah have the largest programs.", "category": "veterans" },
+        { "name": "Georgia NAACP Fair Housing Legal Assistance", "org": "Georgia NAACP / Atlanta Legal Aid", "who": "Black and minority renters facing discrimination or eviction", "what": "Free legal representation in eviction cases, housing discrimination complaints, and lease disputes. Call 404-524-5286.", "category": "minorities" },
+        { "name": "APS (Atlanta Public Schools) Family Stability Housing", "org": "APS / City of Atlanta", "who": "Families with children enrolled in Atlanta public schools facing homelessness", "what": "Emergency housing stability funding ensuring school-age children maintain stable housing and school enrollment.", "category": "families" }
+      ]
+    },
+    "HI": {
+      "name": "Hawaii",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out with an itemised statement of deductions.", "citation": "Haw. Rev. Stat. § 521-44" },
+        { "text": "Landlord must give at least 2 days' notice before non-emergency entry.", "citation": "Haw. Rev. Stat. § 521-53" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make repairs within a reasonable time.", "citation": "Haw. Rev. Stat. § 521-42" },
+        { "text": "Tenant may repair and deduct costs if landlord fails to maintain essential services after proper notice.", "citation": "Haw. Rev. Stat. § 521-64" }
+      ],
+      "programs": [
+        { "name": "HHFDC Rental Housing Programme", "org": "Hawaii Housing Finance and Development Corporation", "who": "Low-to-moderate income Hawaii renters across all islands", "what": "Finances affordable rental housing and administers Section 8 vouchers. Hawaii's extremely high rents make this critical.", "category": "rent-help" },
+        { "name": "Native Hawaiian Housing Block Grant", "org": "Department of Hawaiian Home Lands (DHHL)", "who": "Native Hawaiians (50%+ Hawaiian ancestry) on or near homestead lands", "what": "Low-cost leases on Hawaiian homestead land; also rental assistance and homeownership support for Native Hawaiians.", "category": "minorities" },
+        { "name": "UH System Student Emergency Housing Fund", "org": "University of Hawaii", "who": "UH students experiencing housing insecurity", "what": "Emergency grants for rent and deposits; connections to affordable off-campus housing near each UH campus.", "category": "students" },
+        { "name": "Hawaii Kupuna Care – Senior Housing", "org": "Executive Office on Aging", "who": "Hawaii seniors 60+, especially Native Hawaiian elders", "what": "Subsidised senior housing and home repair assistance to help kupuna (elders) age in place in their communities.", "category": "seniors" },
+        { "name": "Section 8 Moderate Rehabilitation (Mod Rehab)", "org": "Housing Hawaii / HUD", "who": "Very low-income island residents", "what": "Project-based rental assistance in rehabilitated housing stock - particularly important on neighbour islands with limited stock.", "category": "income-based" }
+      ]
+    },
+    "ID": {
+      "name": "Idaho",
+      "rights": [
+        { "text": "Security deposit must be returned within 21 days of move-out with an itemised deduction list.", "citation": "Idaho Code § 6-321" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency maintenance.", "citation": "Idaho Code § 6-320A" },
+        { "text": "Landlord must maintain the dwelling in a habitable condition and make timely repairs.", "citation": "Idaho Code § 55-2004" },
+        { "text": "Tenant may withhold rent for landlord's failure to maintain habitability after proper written notice.", "citation": "Idaho common law" }
+      ],
+      "programs": [
+        { "name": "Idaho Housing and Finance Association – Rental Assistance", "org": "IHFA", "who": "Low-income Idaho renters, working families, seniors", "what": "Administers Section 8, HOME-funded units, and the Rental Assistance Programme. Apply at IdahoHousing.org.", "category": "rent-help" },
+        { "name": "Idaho Migrant & Seasonal Farmworker Housing", "org": "USDA / Community Action Partnership", "who": "Agricultural workers and their families - primarily Hispanic/Latino", "what": "Safe housing near work sites in the Magic Valley and Snake River Plain areas where Idaho agriculture is concentrated.", "category": "minorities" },
+        { "name": "IHFA Senior Affordable Housing", "org": "Idaho Housing and Finance Association", "who": "Idaho seniors 62+ earning below 60% AMI", "what": "LIHTC-financed senior apartment communities across Idaho with income-based rents.", "category": "seniors" },
+        { "name": "Idaho Veterans Services Housing Support", "org": "Idaho Division of Veterans Services + VA Boise", "who": "Idaho veterans facing homelessness or housing instability", "what": "Emergency housing grants, HUD-VASH vouchers, and transitional housing through the Boise and Idaho Falls VA.", "category": "veterans" },
+        { "name": "Community Action Partnership – Idaho Emergency Assistance", "org": "CAP agencies statewide", "who": "Low-income Idaho residents in crisis, including indigenous communities", "what": "Emergency rent, utility, and deposit assistance. Find your local CAP agency at IdahoCommunityAction.org.", "category": "emergency" }
+      ]
+    },
+    "IL": {
+      "name": "Illinois",
+      "rights": [
+        { "text": "Deposit must be returned within 30 days of move-out (45 days if deductions are claimed).", "citation": "765 ILCS 710/1" },
+        { "text": "Chicago landlords must give at least 2 days' notice before entering a unit.", "citation": "Chicago RLTO § 5-12-050" },
+        { "text": "If landlord fails to repair within 14 days of notice, tenant may withhold rent or repair and deduct.", "citation": "Chicago RLTO § 5-12-110" },
+        { "text": "Landlord must pay interest on security deposits held for more than 6 months (Chicago).", "citation": "Chicago RLTO § 5-12-080" }
+      ],
+      "programs": [
+        { "name": "IHDA Rental Housing Support Programme", "org": "Illinois Housing Development Authority", "who": "Very low-income Illinois renters, below 30% AMI", "what": "Pays the difference between market rent and 30% of income for the lowest-income renters statewide.", "category": "rent-help" },
+        { "name": "Chicago ERAP / Renters Assistance Fund", "org": "City of Chicago / IHDA", "who": "Chicago renters behind on rent or utilities", "what": "Emergency rental assistance up to 18 months; priority for households with children, seniors, and disabled individuals.", "category": "emergency" },
+        { "name": "Woodstock Institute – Fair Housing for Minority Renters", "org": "Woodstock Institute / Metropolitan Tenants Org", "who": "Black, Latino, and immigrant renters in Chicago metro", "what": "Legal aid, fair housing testing, and anti-displacement advocacy in Chicago's historically redlined neighborhoods.", "category": "minorities" },
+        { "name": "Illinois Student Assistance Commission – Housing Help", "org": "ISAC", "who": "Illinois college students with housing insecurity", "what": "Emergency financial grants covering rent and basic needs; each state-funded institution also has a Basic Needs centre.", "category": "students" },
+        { "name": "Illinois Veterans Supportive Living Programme", "org": "IDVA / IHDA", "who": "Illinois veterans - especially those with service-connected disabilities", "what": "Supportive housing with on-site services across Illinois; also rapid rehousing for veterans exiting homelessness.", "category": "veterans" }
+      ]
+    },
+    "IN": {
+      "name": "Indiana",
+      "rights": [
+        { "text": "Security deposit must be returned within 45 days of move-out with an itemised deduction statement.", "citation": "Ind. Code § 32-31-3-12" },
+        { "text": "Landlord must give reasonable notice before entering - statute does not specify hours but practice is 24 hours.", "citation": "Indiana common law" },
+        { "text": "Landlord must maintain the unit in a habitable condition compliant with health and safety codes.", "citation": "Ind. Code § 32-31-8-5" },
+        { "text": "Tenant may terminate lease for uninhabitable conditions after giving the landlord reasonable notice to cure.", "citation": "Ind. Code § 32-31-8-6" }
+      ],
+      "programs": [
+        { "name": "IHCDA Section 8 & Rental Assistance", "org": "Indiana Housing and Community Development Authority", "who": "Low-income Indiana renters, families, elderly, disabled", "what": "Section 8 vouchers administered through local housing authorities; search for available units at IndianaHousing.org.", "category": "rent-help" },
+        { "name": "Indiana Emergency Rental Assistance (IERA)", "org": "IHCDA", "who": "Indiana renters at risk of eviction due to COVID or economic hardship", "what": "Covers overdue rent and utilities; apply through INRentHelp.com.", "category": "emergency" },
+        { "name": "Indiana NAACP Fair Housing – Black Renter Assistance", "org": "Indiana NAACP", "who": "Black Indiana renters facing discrimination, eviction, or predatory leases", "what": "Free fair housing counselling, legal referrals, and connection to emergency resources in Indianapolis, Gary, and Fort Wayne.", "category": "minorities" },
+        { "name": "USDA Rural Development – Section 515 Indiana", "org": "USDA / IHCDA", "who": "Very low-income rural Indiana households", "what": "Below-market rentals in USDA-financed rural communities across Indiana's agricultural heartland.", "category": "income-based" },
+        { "name": "Indiana Veterans Home & VASH", "org": "Indiana DVA / HUD-VASH", "who": "Indiana veterans, particularly those with disabilities or homelessness history", "what": "HUD-VASH vouchers paired with VA case management; the Indiana Veterans Home in Lafayette provides residential care.", "category": "veterans" }
+      ]
+    },
+    "IA": {
+      "name": "Iowa",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Iowa Code § 562A.12" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency inspections or repairs.", "citation": "Iowa Code § 562A.19" },
+        { "text": "Landlord must maintain the premises in a fit and habitable condition and make repairs promptly.", "citation": "Iowa Code § 562A.15" },
+        { "text": "Tenant may repair and deduct up to $500 or ½ month's rent (whichever is less) if landlord fails to act.", "citation": "Iowa Code § 562A.16" }
+      ],
+      "programs": [
+        { "name": "Iowa Finance Authority – Rental Housing", "org": "Iowa Finance Authority (IFA)", "who": "Low-income Iowa renters, families, seniors", "what": "Administers Section 8 vouchers, HOME-funded rentals, and the State Housing Trust Fund. Apply at IowaFinanceAuthority.gov.", "category": "rent-help" },
+        { "name": "Iowa Emergency Rental Assistance (IERA)", "org": "IFA / Iowa counties", "who": "Iowa renters impacted by income loss or hardship", "what": "Covers rent and utility arrears; priority given to households at or below 80% AMI.", "category": "emergency" },
+        { "name": "Iowa Minority Homeownership & Renter Support", "org": "Iowa Department of Human Rights", "who": "Black, Latino, Native American, and immigrant Iowa renters", "what": "Fair housing investigations, legal referrals, and connection to affordable housing. Iowa's minority population faces above-average housing cost burdens.", "category": "minorities" },
+        { "name": "Iowa State University / UI / UNI Emergency Housing", "org": "Iowa Board of Regents institutions", "who": "Iowa university students facing housing instability", "what": "Emergency housing funds, campus food pantries, and off-campus housing navigation through each institution's Dean of Students.", "category": "students" },
+        { "name": "USDA Iowa Rural Housing Assistance", "org": "USDA Rural Development Iowa", "who": "Low-income rural Iowa households - over 60% of Iowa is USDA-eligible", "what": "Below-market rural apartments, Section 504 repair grants, and rental assistance in small towns and farm communities.", "category": "income-based" }
+      ]
+    },
+    "KS": {
+      "name": "Kansas",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out (30 days if deductions are itemised).", "citation": "Kan. Stat. § 58-2550" },
+        { "text": "Landlord must give reasonable notice before entering - statute does not fix hours but 24 hours is standard.", "citation": "Kan. Stat. § 58-2557" },
+        { "text": "Landlord must maintain the unit in a habitable condition complying with applicable codes.", "citation": "Kan. Stat. § 58-2553" },
+        { "text": "Tenant may terminate lease for uninhabitable conditions after providing the landlord 30 days' written notice.", "citation": "Kan. Stat. § 58-2559" }
+      ],
+      "programs": [
+        { "name": "KHRC Section 8 & Affordable Housing", "org": "Kansas Housing Resources Corporation", "who": "Low-income Kansas renters, families with children, elderly", "what": "Administers Section 8 vouchers and LIHTC properties statewide. Search at KHRC.net.", "category": "rent-help" },
+        { "name": "Kansas Emergency Rental Assistance (KERA)", "org": "KHRC", "who": "Kansas renters at risk of eviction", "what": "Pays overdue rent and utilities; priority for households with children, seniors, and those unemployed due to COVID.", "category": "emergency" },
+        { "name": "Kansas African American Affairs Commission Housing", "org": "KAAAC", "who": "Black Kansas renters and homebuyers", "what": "Connects residents to fair housing legal aid, affordable rentals, and homeownership programs; offices in Wichita and Kansas City.", "category": "minorities" },
+        { "name": "Kansas Rural Housing Incentive District", "org": "Kansas Department of Commerce", "who": "Renters and buyers in rural Kansas communities", "what": "Incentivises affordable housing construction in rural communities experiencing population decline and housing shortage.", "category": "income-based" },
+        { "name": "Ft Riley / McConnell AFB Military Housing Assistance", "org": "US Army / Air Force + KHRC", "who": "Active-duty military families stationed in Kansas", "what": "On-base and off-base affordable housing; Section 8 Military Housing Allowance (BAH) supplement for private market rentals.", "category": "veterans" }
+      ]
+    },
+    "KY": {
+      "name": "Kentucky",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out (60 days if deductions are claimed).", "citation": "Ky. Rev. Stat. § 383.580" },
+        { "text": "Landlord must give 2 days' notice before entering for non-emergency maintenance or inspection.", "citation": "Ky. Rev. Stat. § 383.615" },
+        { "text": "Landlord must maintain the premises in a fit and habitable condition and make timely repairs.", "citation": "Ky. Rev. Stat. § 383.595" },
+        { "text": "Tenant may terminate lease if landlord fails to remedy habitability defect within 14 days of written notice.", "citation": "Ky. Rev. Stat. § 383.645" }
+      ],
+      "programs": [
+        { "name": "Kentucky Housing Corporation – Rental Assistance", "org": "KHC", "who": "Low-income Kentucky renters, working families, disabled", "what": "Section 8 vouchers, HOME-funded rentals, and emergency rental assistance administered through KHC.org.", "category": "rent-help" },
+        { "name": "Kentucky Appalachian Housing Emergency Fund", "org": "KHC / Appalachian Regional Commission", "who": "Residents of eastern Kentucky's Appalachian counties - often coal country families", "what": "Emergency housing assistance for one of America's most economically distressed regions; covers rent, repairs, and utilities.", "category": "emergency" },
+        { "name": "Housing Opportunities Made Equal (HOME) – Kentucky", "org": "HOME of Kentucky (Louisville)", "who": "Minority renters facing discrimination in Louisville and surrounding counties", "what": "Fair housing testing, legal assistance, and anti-discrimination education for Kentucky's Black, Latino, and immigrant communities.", "category": "minorities" },
+        { "name": "Kentucky Senior Citizen Housing Network", "org": "Cabinet for Health & Family Services", "who": "Kentuckians 60+ on fixed income", "what": "Subsidised senior apartment program; also covers home repair and modification assistance to allow ageing in place.", "category": "seniors" },
+        { "name": "UK / UofL / WKU Student Emergency Housing", "org": "Kentucky public universities", "who": "Enrolled students experiencing housing insecurity or homelessness", "what": "Emergency micro-grants and temporary housing referrals through each institution's Student Affairs or Basic Needs office.", "category": "students" }
+      ]
+    },
+    "LA": {
+      "name": "Louisiana",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with written notice of any deductions.", "citation": "La. Rev. Stat. § 9:3252" },
+        { "text": "Landlord must maintain the leased premises in good order and repair throughout the tenancy.", "citation": "La. Civ. Code art. 2691" },
+        { "text": "Landlord must give reasonable advance notice before entering - reasonableness determined case by case.", "citation": "Louisiana common law" },
+        { "text": "Tenant may demand rent reduction or repair for conditions that make the premises unfit for use.", "citation": "La. Civ. Code art. 2693" }
+      ],
+      "programs": [
+        { "name": "Louisiana Housing Corporation – Rental Assistance", "org": "LHC", "who": "Low-income Louisiana renters, post-disaster households, seniors", "what": "Administers Section 8, LIHTC properties, and disaster recovery housing. Louisiana's Gulf coast makes disaster housing especially important.", "category": "rent-help" },
+        { "name": "Disaster Recovery Rental Assistance (CDBG-DR)", "org": "LHC / HUD", "who": "Louisiana renters displaced by hurricanes and flooding", "what": "Federal grants to replace housing lost in disasters - critical in a state that has experienced repeated catastrophic storms.", "category": "emergency" },
+        { "name": "New Orleans African American Renter Support", "org": "Greater New Orleans Fair Housing Action Center", "who": "Black renters in New Orleans and surrounding parishes", "what": "Fair housing legal assistance, discrimination testing, and anti-displacement advocacy in historically Black neighborhoods.", "category": "minorities" },
+        { "name": "Louisiana Veterans Homelessness Programme", "org": "LA DVA + HUD-VASH", "who": "Louisiana veterans - the state has one of the country's highest veteran homelessness rates", "what": "Rapid rehousing, HUD-VASH vouchers, and supportive services through VA facilities in New Orleans, Baton Rouge, and Shreveport.", "category": "veterans" },
+        { "name": "Affordable Housing Network for College Students", "org": "LSU, Tulane, and Louisiana community college systems", "who": "Low-income enrolled students at Louisiana colleges", "what": "Emergency grants, off-campus affordable housing navigation, and campus Basic Needs centres at all major institutions.", "category": "students" }
+      ]
+    },
+    "ME": {
+      "name": "Maine",
+      "rights": [
+        { "text": "Security deposit must be returned within 21 days of move-out (30 days for month-to-month tenancies).", "citation": "Me. Rev. Stat. tit. 14 § 6033" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency access.", "citation": "Me. Rev. Stat. tit. 14 § 6025" },
+        { "text": "Landlord must maintain the premises in a safe and habitable condition.", "citation": "Me. Rev. Stat. tit. 14 § 6021" },
+        { "text": "Tenant may repair and deduct costs if landlord fails to address urgent habitability issues after notice.", "citation": "Me. Rev. Stat. tit. 14 § 6026" }
+      ],
+      "programs": [
+        { "name": "MaineHousing Section 8 & Rental Assistance", "org": "Maine State Housing Authority (MaineHousing)", "who": "Low-income Maine renters, seniors, disabled, working families", "what": "Section 8 vouchers and HOME-funded affordable rentals. Maine has one of the most accessible state housing programs in the Northeast.", "category": "rent-help" },
+        { "name": "Maine Tribal Housing / Wabanaki Nations", "org": "Tribal Housing Entities (Penobscot, Passamaquoddy, Maliseet)", "who": "Members of Maine's four federally recognized Wabanaki tribes", "what": "Tribally administered housing under NAHASDA on tribal lands; also connections to off-reservation affordable housing.", "category": "minorities" },
+        { "name": "Maine Emergency Rental Assistance Programme (ERAP)", "org": "MaineHousing", "who": "Maine renters at risk of eviction due to hardship", "what": "Pays overdue rent and utilities directly to landlords. Apply at MaineHousing.org.", "category": "emergency" },
+        { "name": "Maine Senior Housing Programme", "org": "MaineHousing / Maine Office of Aging", "who": "Maine residents 62+; Maine has one of the oldest populations of any US state", "what": "Subsidised senior apartment communities, home repair loans, and ageing-in-place support programs.", "category": "seniors" },
+        { "name": "USM / UMaine Student Housing Emergency Fund", "org": "University of Maine system", "who": "Maine college students experiencing homelessness or housing insecurity", "what": "Emergency grants, food pantry access, and referrals to affordable off-campus housing through Basic Needs offices.", "category": "students" }
+      ]
+    },
+    "MD": {
+      "name": "Maryland",
+      "rights": [
+        { "text": "Security deposit must be returned within 45 days of move-out with an itemised deduction statement.", "citation": "Md. Code, Real Prop. § 8-203" },
+        { "text": "Deposit capped at 2 months' rent regardless of lease length.", "citation": "Md. Code, Real Prop. § 8-203.1" },
+        { "text": "Landlord must maintain the dwelling in a habitable condition and comply with applicable codes.", "citation": "Md. Code, Real Prop. § 8-211" },
+        { "text": "Landlord must give reasonable notice before entering - typically 24 hours is the accepted standard.", "citation": "Maryland common law" }
+      ],
+      "programs": [
+        { "name": "Maryland DHCD Rental Housing Works", "org": "MD Department of Housing & Community Development", "who": "Low-income Maryland renters, seniors, large families", "what": "Finances affordable rental properties and administers Section 8. Maryland has one of the most robust state housing programs on the East Coast.", "category": "rent-help" },
+        { "name": "Montgomery County MPDU Programme", "org": "Montgomery County DHCA", "who": "Moderate-income renters in one of America's wealthiest counties", "what": "Moderately Priced Dwelling Units - 15% of new developments must be set aside at below-market rents for qualifying households.", "category": "income-based" },
+        { "name": "Maryland Affordable Housing Coalition – Minority Access", "org": "MAHC + Baltimore Renters United", "who": "Black, Latino, and immigrant Maryland renters - Baltimore has deep housing segregation legacy", "what": "Fair housing legal aid, anti-displacement advocacy, and connection to affordable housing in the Baltimore metro.", "category": "minorities" },
+        { "name": "Maryland Veterans' Trust – Housing Stabilisation", "org": "Maryland Department of Veterans Affairs", "who": "Maryland veterans in housing crisis", "what": "Emergency grants, HUD-VASH coordination, and connection to veteran-specific affordable apartments near Fort Meade and Aberdeen.", "category": "veterans" },
+        { "name": "Maryland Senior Property Tax Credit & Rent Relief", "org": "MD DHCD / local jurisdictions", "who": "Maryland renters 65+ or disabled with fixed income", "what": "Annual rent credit up to $1,000; application submitted with state tax return or through local jurisdictions.", "category": "seniors" }
+      ]
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Mass. Gen. Laws ch. 186 § 15B" },
+        { "text": "Deposit capped at 1 month's rent; landlord must pay annual interest on the deposit.", "citation": "Mass. Gen. Laws ch. 186 § 15B" },
+        { "text": "Landlord must maintain the premises in habitable condition; tenant may withhold rent for serious violations.", "citation": "Mass. Gen. Laws ch. 111 § 127L" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before non-emergency entry.", "citation": "Massachusetts common law" }
+      ],
+      "programs": [
+        { "name": "MassHousing Rental Assistance", "org": "MassHousing", "who": "Low-income Massachusetts renters, large families, seniors", "what": "Section 8 vouchers, LIHTC affordable apartments, and the Rental Assistance Programme. Boston's housing crisis makes this especially critical.", "category": "rent-help" },
+        { "name": "RAFT (Residential Assistance for Families in Transition)", "org": "DHCD Massachusetts", "who": "Families at risk of eviction or homelessness", "what": "Up to $7,000 in emergency housing assistance per year - one of the most generous state emergency programs in the country.", "category": "families" },
+        { "name": "Boston Tenant Organising Project – Minority Renter Rights", "org": "City Life / Vida Urbana", "who": "Black, Latino, and Cape Verdean renters in Boston facing displacement", "what": "Community organizing, legal support, and eviction defence specifically for communities of color in gentrifying Boston neighborhoods.", "category": "minorities" },
+        { "name": "Massachusetts LGBTQ+ Elder Housing Initiative", "org": "SAGE / Mass. Elder Affairs", "who": "LGBTQ+ seniors 60+ - Massachusetts has a strong LGBTQ+ elder housing program", "what": "LGBTQ+-affirming senior housing developments and counselling; LGBTQ+ seniors face higher rates of isolation and housing insecurity.", "category": "lgbtq" },
+        { "name": "Campus Housing Stability Fund – MA Public Colleges", "org": "Massachusetts Department of Higher Education", "who": "Students at UMass, Bridgewater, Worcester State, and other public colleges", "what": "Emergency housing grants and referrals for housing-insecure students - applies to all 29 campuses in the MA public higher ed system.", "category": "students" }
+      ]
+    },
+    "MI": {
+      "name": "Michigan",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with itemised deductions.", "citation": "MCL § 554.613" },
+        { "text": "Tenant has 7 days to dispute deductions after receiving the itemised statement.", "citation": "MCL § 554.614" },
+        { "text": "Landlord must keep premises fit for the use intended and in reasonable repair.", "citation": "MCL § 554.139" },
+        { "text": "Landlord must give 24 hours' advance notice before non-emergency entry for repairs or inspection.", "citation": "Michigan common law" }
+      ],
+      "programs": [
+        { "name": "MSHDA Section 8 & Rental Assistance", "org": "Michigan State Housing Development Authority", "who": "Low-income Michigan renters, especially Detroit metro and Flint households", "what": "Section 8 vouchers, LIHTC properties, and the MI-HOPE emergency rental program. Michigan's post-industrial cities have acute need.", "category": "rent-help" },
+        { "name": "Detroit Eviction Prevention & Housing Stability Fund", "org": "City of Detroit / United Way", "who": "Detroit renters - Detroit has one of the highest eviction rates of any US city", "what": "Emergency rental assistance, free legal representation in eviction court, and housing stability case management.", "category": "emergency" },
+        { "name": "Michigan Tribal Housing – NAHASDA", "org": "Twelve federally recognized Michigan tribes", "who": "Members of Michigan's 12 tribal nations", "what": "Affordable tribal housing on tribal lands and connections to off-reservation programs; tribally administered and culturally appropriate.", "category": "minorities" },
+        { "name": "Michigan Veterans Trust Fund", "org": "Michigan Veterans Affairs Agency", "who": "Michigan veterans in emergency housing need", "what": "Emergency grants for rent, mortgage, and utilities - one of the few state-funded veteran emergency housing grants in the Midwest.", "category": "veterans" },
+        { "name": "Michigan Senior Affordable Housing Coalition", "org": "MSHDA / MI Office of Services to the Aging", "who": "Michigan seniors 62+ on fixed income", "what": "Subsidised senior apartments statewide; also Section 202 housing and home repair loans to help seniors remain in their homes.", "category": "seniors" }
+      ]
+    },
+    "MN": {
+      "name": "Minnesota",
+      "rights": [
+        { "text": "Security deposit must be returned within 21 days of move-out with an itemised deduction statement.", "citation": "Minn. Stat. § 504B.178" },
+        { "text": "Landlord must keep the unit in reasonable repair and compliant with applicable codes.", "citation": "Minn. Stat. § 504B.161" },
+        { "text": "Landlord must give reasonable notice - typically 24 hours - before entering the unit.", "citation": "Minn. Stat. § 504B.211" },
+        { "text": "Tenant may withhold rent, terminate, or repair and deduct if landlord fails to maintain habitability.", "citation": "Minn. Stat. § 504B.385" }
+      ],
+      "programs": [
+        { "name": "Minnesota Housing Finance Agency – Rental Assistance", "org": "MHFA", "who": "Very low-income Minnesota renters, large families, seniors", "what": "Section 8 vouchers, affordable apartment financing, and the Homework Starts with Home program linking housing stability to school success.", "category": "rent-help" },
+        { "name": "Minnesota Emergency Housing Assistance Programme", "org": "DHS Minnesota", "who": "Minnesota households at imminent risk of eviction", "what": "Emergency rent and utility assistance; administered through county social services offices statewide.", "category": "emergency" },
+        { "name": "American Indian Housing Assistance – Minneapolis/St. Paul", "org": "MHFA / Urban Indian organizations", "who": "Native Americans living in the Twin Cities - one of the largest urban Native populations in the US", "what": "Culturally specific housing programs through organizations like the American Indian Community Development Corporation and Ain Dah Yung Center.", "category": "minorities" },
+        { "name": "Somali, Hmong & East African Renter Support", "org": "CommonBond / CAPI USA / others", "who": "Hmong, Somali, and East African immigrant and refugee renters in the Twin Cities", "what": "Multilingual housing navigation, deposit assistance, and affordable apartments in culturally vibrant communities.", "category": "minorities" },
+        { "name": "Minnesota Disability Housing & Waiver Programmes", "org": "DHS Minnesota / Metropolitan Council", "who": "Minnesotans with physical or developmental disabilities", "what": "Section 811 housing, disability-specific LIHTC units, and Medicaid waiver programs that pay for housing support services.", "category": "disability" }
+      ]
+    },
+    "MS": {
+      "name": "Mississippi",
+      "rights": [
+        { "text": "Security deposit must be returned within 45 days of move-out with itemised deduction notice.", "citation": "Miss. Code § 89-8-21" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make necessary repairs.", "citation": "Miss. Code § 89-8-23" },
+        { "text": "Landlord must give reasonable advance notice before entering - no fixed hours set by statute.", "citation": "Mississippi common law" },
+        { "text": "Tenant may terminate the lease if the unit becomes uninhabitable and landlord fails to repair after notice.", "citation": "Miss. Code § 89-8-15" }
+      ],
+      "programs": [
+        { "name": "Mississippi Home Corporation – Rental Assistance", "org": "MHC", "who": "Low-income Mississippi renters; Mississippi has one of America's lowest median incomes", "what": "Section 8 vouchers, HOME-funded rentals, and the Emergency Rental Assistance Programme. Apply at MissiisippiHome.com.", "category": "rent-help" },
+        { "name": "Mississippi Delta Housing Initiative", "org": "Hope Credit Union / MHC", "who": "Delta region residents - predominantly rural Black communities facing persistent poverty", "what": "Affordable housing loans, deposit assistance, and rental subsidies in one of America's most economically challenged regions.", "category": "minorities" },
+        { "name": "Mississippi Disaster Recovery Housing (CDBG-DR)", "org": "MHC / HUD", "who": "Renters displaced by hurricanes, tornadoes, or flooding", "what": "Federal disaster recovery funds administered through MHC for renters whose homes are damaged or destroyed by natural disasters.", "category": "emergency" },
+        { "name": "Mississippi Senior Affordable Housing Network", "org": "MS Division of Ageing & Adult Services", "who": "Mississippi seniors 62+, particularly in rural communities", "what": "Subsidised senior housing, home repair grants, and ageing-in-place support across Mississippi's many rural counties.", "category": "seniors" },
+        { "name": "USDA Rural Development – Mississippi Rental Assistance", "org": "USDA Rural Development", "who": "Very low-income rural Mississippi households", "what": "Section 515 rural rental housing with income-based rents; critical in a state where over 50% of residents live in USDA-eligible rural areas.", "category": "income-based" }
+      ]
+    },
+    "MO": {
+      "name": "Missouri",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of lease end; no deductions without itemised statement.", "citation": "Mo. Rev. Stat. § 535.300" },
+        { "text": "Landlord must maintain the premises in a habitable condition complying with applicable codes.", "citation": "Mo. Rev. Stat. § 441.234" },
+        { "text": "Landlord must give reasonable advance notice before non-emergency entry.", "citation": "Missouri common law" },
+        { "text": "Tenant may withhold rent or terminate for serious habitability failures after written notice and reasonable time to cure.", "citation": "Mo. Rev. Stat. § 441.234" }
+      ],
+      "programs": [
+        { "name": "Missouri Housing Development Commission – Rental Housing", "org": "MHDC", "who": "Low-income Missouri renters across Kansas City, St. Louis, and rural areas", "what": "Section 8 vouchers, LIHTC affordable apartments, and HOME-funded projects. Apply through local housing authorities.", "category": "rent-help" },
+        { "name": "Kansas City & St. Louis Emergency Rental Assistance", "org": "MHDC / city governments", "who": "Missouri renters at risk of eviction - St. Louis has one of the nation's highest eviction rates", "what": "Emergency rental assistance up to 18 months; legal aid referrals for eviction defence through the St. Louis Eviction Prevention Network.", "category": "emergency" },
+        { "name": "Missouri Black Renter Advocacy (St. Louis & KCMO)", "org": "Metropolitan St. Louis Equal Housing & Opportunity Council", "who": "Black renters in St. Louis and Kansas City facing discrimination", "what": "Fair housing investigations, legal assistance, and advocacy in cities with histories of exclusionary housing practices.", "category": "minorities" },
+        { "name": "Missouri Veterans Commission Housing Grant", "org": "Missouri Veterans Commission", "who": "Missouri veterans in housing crisis", "what": "One-time emergency grants for rent and utilities; also transitional housing at Missouri Veterans Homes in Cameron, Mexico, and St. Louis.", "category": "veterans" },
+        { "name": "USDA Missouri Heartland Rural Housing", "org": "USDA Rural Development", "who": "Rural Missouri households - large portions of Ozarks and Boot Heel are USDA-eligible", "what": "Below-market rural rental housing and home repair loans in Missouri's economically distressed rural communities.", "category": "income-based" }
+      ]
+    },
+    "MT": {
+      "name": "Montana",
+      "rights": [
+        { "text": "Security deposit must be returned within 10 days of move-out (30 days if deductions are itemised).", "citation": "Mont. Code § 70-25-202" },
+        { "text": "Landlord must give 24 hours' notice before non-emergency entry.", "citation": "Mont. Code § 70-24-312" },
+        { "text": "Landlord must maintain the unit in a habitable condition and keep all systems in good working order.", "citation": "Mont. Code § 70-24-303" },
+        { "text": "Tenant may repair and deduct for urgent repairs if landlord fails to act within reasonable notice period.", "citation": "Mont. Code § 70-24-406" }
+      ],
+      "programs": [
+        { "name": "Montana Board of Housing – Section 8 & Rental Assistance", "org": "Montana Board of Housing (MBOH)", "who": "Low-income Montana renters, particularly in Billings, Missoula, and Great Falls", "what": "Section 8 vouchers and LIHTC affordable apartments. Montana's housing market has tightened dramatically - apply early.", "category": "rent-help" },
+        { "name": "Montana Tribal Housing (Crow, Blackfeet, Fort Peck, and others)", "org": "Eight Montana tribal housing authorities", "who": "Members of Montana's federally recognized tribes - among the most housing-cost-burdened residents in the state", "what": "Tribally administered NAHASDA housing on Montana's seven reservations; income-based rents and priority for tribal members.", "category": "minorities" },
+        { "name": "Montana Emergency Rental Assistance (ERAP)", "org": "MBOH / Montana DPHHS", "who": "Montana renters at risk of eviction", "what": "Pays overdue rent and utilities; apply through local Community Action Agencies.", "category": "emergency" },
+        { "name": "Montana Veterans Housing Support Network", "org": "MBOH / MT DVA", "who": "Montana veterans, especially those in rural and isolated areas", "what": "HUD-VASH vouchers, transitional housing, and rapid rehousing for veterans across Montana's vast geography.", "category": "veterans" },
+        { "name": "Montana Senior & Disability Housing Programme", "org": "Montana Department of Public Health & Human Services", "who": "Montanans 65+ or with disabilities", "what": "Subsidised senior apartments, home modification grants, and ageing-in-place support in a state where 40% of counties are rural.", "category": "seniors" }
+      ]
+    },
+    "NE": {
+      "name": "Nebraska",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out with an itemised deduction statement.", "citation": "Neb. Rev. Stat. § 76-1416" },
+        { "text": "Landlord must give 24 hours' notice before entering for maintenance or inspection.", "citation": "Neb. Rev. Stat. § 76-1423" },
+        { "text": "Landlord must maintain the dwelling in a habitable condition complying with health and safety codes.", "citation": "Neb. Rev. Stat. § 76-1419" },
+        { "text": "Tenant may terminate lease for uninhabitable conditions after giving landlord 14 days' written notice.", "citation": "Neb. Rev. Stat. § 76-1431" }
+      ],
+      "programs": [
+        { "name": "Nebraska Investment Finance Authority (NIFA) – Rental Housing", "org": "NIFA", "who": "Low-income Nebraska renters, families, seniors", "what": "Section 8 vouchers and LIHTC affordable properties statewide. Apply through local public housing authorities.", "category": "rent-help" },
+        { "name": "Nebraska Emergency Rental Assistance Programme", "org": "NIFA / DHHS", "who": "Nebraska renters at risk of eviction", "what": "Pays overdue rent and utilities; Omaha and Lincoln have the highest demand but all 93 counties are served.", "category": "emergency" },
+        { "name": "Latino Centre of the Midlands – Housing Assistance", "org": "Latino Centre of the Midlands", "who": "Nebraska's growing Latino population - Nebraska has one of the fastest-growing Hispanic communities in the Midwest", "what": "Bilingual housing navigation, deposit assistance, fair housing counselling, and connection to affordable units in Omaha and Lincoln.", "category": "minorities" },
+        { "name": "Omaha Tribe / Winnebago / Santee Sioux Tribal Housing", "org": "Nebraska tribal housing authorities", "who": "Members of Nebraska's recognized Native American tribes", "what": "Tribally administered affordable housing on Nebraska reservations; NAHASDA-funded with income-based rents.", "category": "minorities" },
+        { "name": "USDA Rural Nebraska Housing Assistance", "org": "USDA Rural Development Nebraska", "who": "Rural Nebraska households - over 80% of Nebraska counties are USDA-eligible", "what": "Below-market rural rental housing, Section 504 repair grants, and homebuying loans in Nebraska's agricultural heartland.", "category": "income-based" }
+      ]
+    },
+    "NV": {
+      "name": "Nevada",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Nev. Rev. Stat. § 118A.242" },
+        { "text": "Landlord must give 24 hours' notice before entering - entry must occur during normal business hours.", "citation": "Nev. Rev. Stat. § 118A.330" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make repairs within 14 days of notice.", "citation": "Nev. Rev. Stat. § 118A.290" },
+        { "text": "Tenant may terminate lease for habitability failures after 30-day written notice if landlord does not remedy.", "citation": "Nev. Rev. Stat. § 118A.360" }
+      ],
+      "programs": [
+        { "name": "Nevada Housing Division – Section 8 & Rental Assistance", "org": "Nevada Housing Division", "who": "Low-income Nevada renters - Las Vegas and Reno have severe affordability crises", "what": "Section 8 vouchers, LIHTC properties, and the Nevada Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Culinary Union Housing Assistance (Las Vegas)", "org": "Culinary Workers Union Local 226", "who": "Hospitality and casino workers - the backbone of Las Vegas's economy", "what": "Union-negotiated affordable housing access, emergency rental assistance, and housing navigation for hotel and casino employees.", "category": "income-based" },
+        { "name": "Urban League of Southern Nevada – Black Renter Resources", "org": "Urban League of Southern Nevada", "who": "Black Nevada renters facing housing insecurity and discrimination", "what": "Fair housing assistance, emergency rental funds, homeownership counselling, and anti-eviction legal referrals.", "category": "minorities" },
+        { "name": "UNLV / UNR Student Housing Stability Programme", "org": "Nevada System of Higher Education", "who": "Nevada college students experiencing housing insecurity", "what": "Emergency grants and temporary housing for students at UNLV, UNR, and Nevada community colleges.", "category": "students" },
+        { "name": "Nevada Native Nations Housing Assistance", "org": "Nevada tribal housing authorities", "who": "Members of Nevada's 27 federally recognized tribes including Paiute, Shoshone, and Washoe nations", "what": "NAHASDA-funded housing on Nevada's reservations and colonies; income-based rents and priority for enrolled members.", "category": "minorities" }
+      ]
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of lease end with an itemised deduction statement.", "citation": "N.H. Rev. Stat. § 540-A:7" },
+        { "text": "Landlord must maintain the premises in a safe and healthy condition complying with applicable codes.", "citation": "N.H. Rev. Stat. § 48-A:14" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before non-emergency entry.", "citation": "N.H. Rev. Stat. § 540-A:3" },
+        { "text": "Tenant may withhold rent for landlord's failure to maintain habitability after written notice.", "citation": "N.H. Rev. Stat. § 540-A:3" }
+      ],
+      "programs": [
+        { "name": "NHHFA Section 8 & Affordable Housing", "org": "New Hampshire Housing Finance Authority", "who": "Low-income NH renters - NH has high rents relative to incomes outside major cities", "what": "Section 8 vouchers and LIHTC affordable apartments. Apply through local housing authorities or NHHFA.org.", "category": "rent-help" },
+        { "name": "NH Emergency Rental Assistance (NHERA)", "org": "NHHFA", "who": "New Hampshire renters at risk of eviction", "what": "Covers overdue rent and utilities; priority for households with children, seniors, and those with disabilities.", "category": "emergency" },
+        { "name": "NH Veterans Home & Community-Based Housing", "org": "NH State Veterans Home / DVA NH", "who": "New Hampshire veterans who are elderly, disabled, or facing homelessness", "what": "State Veterans Home in Tilton; also rapid rehousing and HUD-VASH vouchers for veterans returning to the community.", "category": "veterans" },
+        { "name": "NH Senior Housing Initiative", "org": "NHHFA / NH Bureau of Elderly & Adult Services", "who": "New Hampshire seniors 62+ - NH has one of the highest proportions of elderly residents", "what": "Subsidised senior apartments, home repair loans, and the NH Elderly Exemption program reducing housing costs.", "category": "seniors" },
+        { "name": "UNH / NHCC Student Emergency Housing Fund", "org": "University System of New Hampshire", "who": "Enrolled students at UNH, Keene State, Plymouth State, and community colleges", "what": "Emergency housing grants and food assistance; each campus has a Basic Needs coordinator - ask your Dean of Students.", "category": "students" }
+      ]
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "rights": [
+        { "text": "Security deposit capped at 1.5 months' rent; must be returned within 30 days of move-out.", "citation": "N.J. Stat. § 46:8-19" },
+        { "text": "Landlord must give at least 12 hours' notice before entering for non-emergency inspections.", "citation": "N.J. Stat. § 5:10-5.1" },
+        { "text": "Landlord must maintain the premises in a habitable condition under the implied warranty.", "citation": "Marini v. Ireland (1970)" },
+        { "text": "Tenant cannot be evicted for complaining to code enforcement - anti-retaliation protection applies.", "citation": "N.J. Stat. § 2A:42-10.10" }
+      ],
+      "programs": [
+        { "name": "NJHMFA Section 8 & Affordable Rental Programmes", "org": "NJ Housing and Mortgage Finance Agency", "who": "Low-income NJ renters - NJ has some of the highest rents in the US outside NYC", "what": "Section 8 vouchers, LIHTC properties, and the NJ Special Needs Housing Trust Fund for disabled residents.", "category": "rent-help" },
+        { "name": "NJ ANCHOR Property Tax & Rent Benefit", "org": "NJ Division of Taxation", "who": "NJ renters earning under $150,000", "what": "Annual benefit of up to $450 for renters to offset high housing costs - one of the most generous state renter tax relief programs.", "category": "income-based" },
+        { "name": "NJ Fair Housing Act Enforcement & Black Renter Rights", "org": "NJ Division on Civil Rights", "who": "Minority renters - NJ has documented histories of housing discrimination in many municipalities", "what": "State civil rights enforcement of fair housing; legal hotline for discrimination claims at 1-800-LAW-SUIT.", "category": "minorities" },
+        { "name": "Rutgers / NJ City University Student Emergency Housing", "org": "NJ public university system", "who": "NJ college students experiencing housing insecurity", "what": "Emergency grants and campus housing referrals; Rutgers New Brunswick has the New Jersey Community Development Corporation as a partner.", "category": "students" },
+        { "name": "NJ Veterans Haven / VASH", "org": "NJ Department of Military and Veterans Affairs", "who": "New Jersey veterans experiencing homelessness", "what": "NJ-run transitional housing at Veterans Haven North and South; also HUD-VASH vouchers through NJ housing authorities.", "category": "veterans" }
+      ]
+    },
+    "NM": {
+      "name": "New Mexico",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "N.M. Stat. § 47-8-18" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency maintenance or inspections.", "citation": "N.M. Stat. § 47-8-24" },
+        { "text": "Landlord must maintain the unit in a habitable condition complying with health and safety codes.", "citation": "N.M. Stat. § 47-8-20" },
+        { "text": "Tenant may withhold rent or repair and deduct if landlord fails to repair after 7-day written notice.", "citation": "N.M. Stat. § 47-8-27.1" }
+      ],
+      "programs": [
+        { "name": "New Mexico Mortgage Finance Authority – Rental Assistance", "org": "NMMFA", "who": "Low-income New Mexico renters, families, seniors", "what": "Section 8 vouchers, HOME-funded rentals, and emergency rental assistance. NM has high poverty and significant affordable housing need.", "category": "rent-help" },
+        { "name": "New Mexico Indigenous Housing Assistance", "org": "19 Pueblos, Navajo Nation, Mescalero Apache, Jicarilla Apache", "who": "Members of New Mexico's tribal nations and pueblos", "what": "Tribally administered housing on pueblo lands; also urban Indian housing assistance for Native residents in Albuquerque.", "category": "minorities" },
+        { "name": "Colonias Infrastructure Fund – Affordable Housing", "org": "NMMFA / NM Finance Authority", "who": "Residents of New Mexico's colonias - rural unincorporated communities near the border, often Hispanic and low-income", "what": "Infrastructure and housing improvements in colonias; subsidised rentals and homeownership for qualifying households.", "category": "minorities" },
+        { "name": "NM Veterans Services Emergency Housing", "org": "NM Department of Veterans Services", "who": "New Mexico veterans, including Native American veterans and those in rural areas", "what": "Emergency housing grants, HUD-VASH coordination, and transitional housing. NM has a large veteran population relative to state size.", "category": "veterans" },
+        { "name": "UNM / NMSU Student Housing Emergency Fund", "org": "University of New Mexico / NMSU", "who": "NM college students experiencing homelessness - NM has high rates of student housing insecurity", "what": "Emergency grants, food pantry access, and off-campus housing navigation through Basic Needs offices at each campus.", "category": "students" }
+      ]
+    },
+    "NY": {
+      "name": "New York",
+      "rights": [
+        { "text": "Security deposit capped at 1 month's rent for most residential tenancies.", "citation": "NY Gen. Oblig. Law § 7-108" },
+        { "text": "Deposit must be returned with itemised deductions within 14 days of vacating.", "citation": "NY Gen. Oblig. Law § 7-108" },
+        { "text": "Warranty of habitability is implied by law in every residential lease.", "citation": "NY RPL § 235-b" },
+        { "text": "Landlord must give 24 hours' advance notice before non-emergency entry.", "citation": "NYC Admin. Code § 27-2008" }
+      ],
+      "programs": [
+        { "name": "NYCHA Housing Choice Voucher & Public Housing", "org": "New York City Housing Authority", "who": "Very low-income NYC residents - NYCHA is the largest public housing authority in the US", "what": "Public housing and Section 8 vouchers; waiting lists are long but NYCHA serves over 400,000 households. Apply at HousingConnect NYC.", "category": "rent-help" },
+        { "name": "SCRIE & DRIE (Rent Freeze for Seniors & Disabled)", "org": "NYC Department of Finance", "who": "NYC rent-stabilised tenants who are 62+ or receiving disability benefits", "what": "Freezes rent permanently for qualifying seniors and disabled tenants in rent-stabilised units - one of the strongest programs in the country.", "category": "seniors" },
+        { "name": "New York State OTDA Emergency Rental Assistance", "org": "NY Office of Temporary & Disability Assistance", "who": "NY renters at risk of eviction", "what": "Emergency rental and utility assistance; apply through local DSS offices or HousingAssistance.ny.gov.", "category": "emergency" },
+        { "name": "LGBTQ+ Affirming Housing – NYC & Albany", "org": "SAGE / Ali Forney Center / Brooklyn Community Pride Center", "who": "LGBTQ+ New Yorkers - especially youth, elders, and trans individuals", "what": "The Ali Forney Center houses homeless LGBTQ+ youth; SAGE provides LGBTQ+-affirming senior housing. NYC has the most robust LGBTQ+ housing infrastructure in the US.", "category": "lgbtq" },
+        { "name": "CUNY / SUNY Student Emergency Housing", "org": "CUNY and SUNY systems", "who": "Students at NY's 64 CUNY and 64 SUNY campuses", "what": "Emergency housing grants, campus food pantries, and Basic Needs programs; many campuses have a dedicated homeless student liaison.", "category": "students" },
+        { "name": "HUD-VASH + NYC Veterans Alliance Housing", "org": "NYC DVA / Veterans' Alliance", "who": "New York veterans - NYC has one of the largest veteran homeless populations in the US", "what": "HUD-VASH vouchers, rapid rehousing, and veteran-specific supportive housing across all five boroughs.", "category": "veterans" }
+      ]
+    },
+    "NC": {
+      "name": "North Carolina",
+      "rights": [
+        { "text": "Security deposit capped at 2 months' rent for month-to-month tenancies.", "citation": "N.C.G.S. § 42-51" },
+        { "text": "Deposit must be returned within 30 days (60 days if itemised deductions apply) of lease end.", "citation": "N.C.G.S. § 42-52" },
+        { "text": "Landlord must maintain the dwelling in a fit and habitable condition throughout the tenancy.", "citation": "N.C.G.S. § 42-42" },
+        { "text": "Landlord must give reasonable notice - typically 24 hours - before non-emergency entry.", "citation": "N.C.G.S. § 42-26" }
+      ],
+      "programs": [
+        { "name": "NCHFA Section 8 & Rental Housing", "org": "NC Housing Finance Agency", "who": "Low-income NC renters, families, elderly - Charlotte and Raleigh have severe affordability issues", "what": "Section 8 vouchers, LIHTC properties, and the NC Rental Assistance Programme. Apply at NCHousing.org.", "category": "rent-help" },
+        { "name": "NC Healthy Homes & Weatherisation Programme", "org": "NCHFA / DHHS", "who": "Low-income NC renters with health conditions worsened by poor housing conditions", "what": "Free repairs to address mould, lead, pest infestations, and heating/cooling issues in rented homes - requires landlord cooperation.", "category": "income-based" },
+        { "name": "NC African American Community Housing Support", "org": "NC NAACP / Emancipate NC", "who": "Black North Carolina renters - NC has some of the highest eviction filing rates in the South", "what": "Free legal representation in eviction court, tenant organizing, and connection to emergency housing funds.", "category": "minorities" },
+        { "name": "UNC / NC State / HBCU Student Emergency Housing", "org": "UNC System / HBCU systems", "who": "Students at NC's public universities and HBCUs (including NCCU, NCCA&T, Fayetteville State)", "what": "Emergency housing grants and Basic Needs support at all public campuses; HBCUs have specific community-linked emergency resources.", "category": "students" },
+        { "name": "NC Veteran Supportive Housing Programme", "org": "NC Division of Veterans Affairs", "who": "North Carolina veterans - Fort Liberty (formerly Bragg) makes NC one of the largest veteran states", "what": "HUD-VASH vouchers, transitional housing, and veteran-specific affordable apartments near major military installations.", "category": "veterans" }
+      ]
+    },
+    "ND": {
+      "name": "North Dakota",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "N.D. Cent. Code § 47-16-07.1" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make repairs within a reasonable time.", "citation": "N.D. Cent. Code § 47-16-13.1" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before non-emergency entry.", "citation": "North Dakota common law" },
+        { "text": "Tenant may withhold rent or terminate for habitability failures after written notice and landlord's failure to cure.", "citation": "N.D. Cent. Code § 47-16-13.3" }
+      ],
+      "programs": [
+        { "name": "ND Housing Finance Agency – Section 8 & Rentals", "org": "North Dakota Housing Finance Agency (NDHFA)", "who": "Low-income North Dakota renters - oil-boom areas like Williston have extremely high rents", "what": "Section 8 vouchers and LIHTC affordable apartments statewide. Apply at NDHousing.com.", "category": "rent-help" },
+        { "name": "North Dakota Tribal Nations Housing", "org": "Five tribal housing authorities (Standing Rock, Turtle Mountain, etc.)", "who": "Members of North Dakota's five federally recognized tribes", "what": "NAHASDA-funded housing on ND reservations; income-based rents for enrolled tribal members.", "category": "minorities" },
+        { "name": "Energy Workers Housing Assistance (Bakken Region)", "org": "NDHFA / Workforce Safety & Insurance", "who": "Oilfield workers and families in the Williston Basin - housing is scarce and expensive due to oil booms", "what": "Workforce housing assistance helping working families afford housing in western ND's boom-and-bust economy.", "category": "income-based" },
+        { "name": "ND Emergency Rental Assistance", "org": "NDHFA / Community Action agencies", "who": "North Dakota renters facing eviction or utility shutoff", "what": "Emergency rent and utility assistance; administered through local Community Action Partnership agencies.", "category": "emergency" },
+        { "name": "ND Veteran Housing Assistance", "org": "ND Dept. of Veterans Affairs", "who": "North Dakota veterans - Minot Air Force Base creates significant veteran housing need", "what": "HUD-VASH vouchers, transitional housing, and emergency grants for veterans across North Dakota.", "category": "veterans" }
+      ]
+    },
+    "OH": {
+      "name": "Ohio",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with itemised deductions.", "citation": "Ohio Rev. Code § 5321.16" },
+        { "text": "Landlord must give 24 hours' notice before non-emergency entry.", "citation": "Ohio Rev. Code § 5321.05" },
+        { "text": "Landlord must maintain property in compliance with applicable housing and health codes.", "citation": "Ohio Rev. Code § 5321.04" },
+        { "text": "Tenant may withhold rent if landlord fails to address habitability issues after 30-day notice.", "citation": "Ohio Rev. Code § 5321.07" }
+      ],
+      "programs": [
+        { "name": "OHFA Section 8 & Affordable Rental Housing", "org": "Ohio Housing Finance Agency", "who": "Low-income Ohio renters - Cleveland, Columbus, and Cincinnati have deep affordability crises", "what": "Section 8 vouchers, LIHTC properties, and the Ohio Housing Trust Fund. Apply at OhioHousingSearch.org.", "category": "rent-help" },
+        { "name": "Ohio Emergency Rental Assistance Programme (ERAP)", "org": "OHFA / county administrations", "who": "Ohio renters at risk of eviction", "what": "Covers rent and utilities; Cleveland and Columbus have dedicated programs with additional emergency legal aid.", "category": "emergency" },
+        { "name": "Cleveland NAACP / Fair Housing Centre of Greater Cleveland", "org": "FHCGC", "who": "Black Ohio renters - Cleveland and Cincinnati have documented legacies of housing discrimination", "what": "Fair housing testing, legal assistance, and anti-displacement advocacy. Call 216-361-9240 for Cleveland Fair Housing.", "category": "minorities" },
+        { "name": "Ohio Appalachian Community Housing Initiative", "org": "OHFA / ARC", "who": "Residents of Ohio's 32 Appalachian counties - among the most economically distressed in the state", "what": "Affordable housing development and emergency assistance in southeastern Ohio's coal and rural communities.", "category": "income-based" },
+        { "name": "Ohio Veterans Housing Assistance", "org": "Ohio DVA / HUD-VASH", "who": "Ohio veterans - Ohio has one of the largest veteran populations in the Midwest", "what": "HUD-VASH vouchers, transitional housing, and the Ohio Veterans Home in Georgetown and Sandusky.", "category": "veterans" }
+      ]
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "rights": [
+        { "text": "Security deposit must be returned within 45 days of move-out with an itemised deduction statement.", "citation": "Okla. Stat. tit. 41 § 115" },
+        { "text": "Landlord must give 1 day's notice before entering for non-emergency repairs or inspections.", "citation": "Okla. Stat. tit. 41 § 128" },
+        { "text": "Landlord must maintain the dwelling in a habitable condition complying with health and safety codes.", "citation": "Okla. Stat. tit. 41 § 118" },
+        { "text": "Tenant may terminate the lease after 30 days' written notice if landlord fails to repair habitability issues.", "citation": "Okla. Stat. tit. 41 § 121" }
+      ],
+      "programs": [
+        { "name": "OHFA Section 8 & Affordable Rental Housing", "org": "Oklahoma Housing Finance Agency", "who": "Low-income Oklahoma renters, families, seniors", "what": "Section 8 vouchers and LIHTC properties statewide. Apply at OklahomaHousing.org.", "category": "rent-help" },
+        { "name": "Oklahoma Tribal Nations Housing (Cherokee, Choctaw, Chickasaw, etc.)", "org": "Five Civilised Tribes + other tribal housing entities", "who": "Members of Oklahoma's 39 federally recognized tribes - Oklahoma has the largest Native population of any state", "what": "Tribally administered NAHASDA housing on tribal lands across Oklahoma; many Nations also assist urban Indian residents.", "category": "minorities" },
+        { "name": "Oklahoma Emergency Rental Assistance Programme", "org": "OHFA / Oklahoma counties", "who": "Oklahoma renters facing eviction - Tulsa and OKC have significant eviction rates", "what": "Emergency rent and utility assistance; apply through local Community Action agencies or your county DHS office.", "category": "emergency" },
+        { "name": "Oklahoma Veterans Center Housing Network", "org": "Oklahoma Department of Veterans Affairs", "who": "Oklahoma veterans - Fort Sill creates significant military housing need in southwest Oklahoma", "what": "Six state veterans centres, HUD-VASH vouchers, and transitional housing across Oklahoma's military-heavy population.", "category": "veterans" },
+        { "name": "Oklahoma Homeownership for Native Americans", "org": "HUD / Section 184 Indian Home Loan", "who": "Native American renters in Oklahoma transitioning to homeownership", "what": "HUD Section 184 loans with 1.5% down payment - specifically designed for Native Americans. Oklahoma has over 300,000 eligible residents.", "category": "minorities" }
+      ]
+    },
+    "OR": {
+      "name": "Oregon",
+      "rights": [
+        { "text": "Security deposit must be returned within 31 days of move-out with an itemised deduction statement.", "citation": "ORS § 90.300" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency repairs or inspections.", "citation": "ORS § 90.322" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make timely repairs.", "citation": "ORS § 90.320" },
+        { "text": "Annual rent increases require 90 days' written notice; no-cause evictions require 30–90 days depending on tenancy length.", "citation": "ORS § 90.600" }
+      ],
+      "programs": [
+        { "name": "OHCS Rental Housing Assistance", "org": "Oregon Housing and Community Services", "who": "Low-income Oregon renters - Portland is one of the most expensive rental markets in the western US", "what": "Section 8 vouchers, Oregon Affordable Housing Tax Credit properties, and the Stable Homes Programme for households near homelessness.", "category": "rent-help" },
+        { "name": "Oregon Emergency Rental Assistance Programme (OERAP)", "org": "OHCS", "who": "Oregon renters at risk of eviction", "what": "Covers past-due rent and utilities; priority for households with children, seniors, and those impacted by COVID or wildfire.", "category": "emergency" },
+        { "name": "Native American Rehabilitation Assoc. – Housing Services", "org": "NARA Northwest", "who": "Native Americans living in Portland metro area - one of the largest urban Native communities in the Pacific Northwest", "what": "Culturally specific housing services, transitional housing, and connection to affordable rentals for Native Portlanders.", "category": "minorities" },
+        { "name": "Q Center / Oregon LGBTQ+ Housing Initiative", "org": "Q Center / OHCS", "who": "LGBTQ+ Oregonians - particularly youth, seniors, and trans individuals", "what": "Emergency housing, transitional housing, and LGBTQ+-affirming senior housing options across the Portland metro area.", "category": "lgbtq" },
+        { "name": "Oregon Wildfire Survivor Housing Assistance", "org": "OHCS / FEMA", "who": "Oregon renters displaced by wildfires - western Oregon sees increasing wildfire displacement each year", "what": "Emergency housing funds, FEMA transitional sheltering assistance, and state rental recovery grants for wildfire survivors.", "category": "emergency" }
+      ]
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "rights": [
+        { "text": "Security deposit capped at 2 months' rent in year one, 1 month's rent thereafter.", "citation": "68 Pa. C.S. § 250.511a" },
+        { "text": "Deposit must be returned within 30 days of lease end with written itemised deductions.", "citation": "68 Pa. C.S. § 250.512" },
+        { "text": "Landlord must maintain fit and habitable premises - implied warranty of habitability applies.", "citation": "Commonwealth v. Monumental Properties" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before non-emergency entry.", "citation": "Pennsylvania common law" }
+      ],
+      "programs": [
+        { "name": "PHFA Section 8 & Affordable Rental Housing", "org": "Pennsylvania Housing Finance Agency", "who": "Low-income PA renters - Philadelphia has one of the nation's highest eviction rates", "what": "Section 8 vouchers, LIHTC properties, and the Rental Assistance Programme. Apply through your local housing authority.", "category": "rent-help" },
+        { "name": "Philadelphia Emergency Housing Assistance", "org": "City of Philadelphia / PHFA", "who": "Philadelphia renters at risk of eviction - Philly's eviction crisis is one of the worst in the US", "what": "Emergency rental assistance, free eviction legal defence through Legal Aid of PA, and housing stability case management.", "category": "emergency" },
+        { "name": "Pittsburgh URA / Homewood & Hill District Anti-Displacement", "org": "Pittsburgh URA / Action Housing", "who": "Black Pittsburgh renters in historically redlined neighborhoods facing gentrification", "what": "Affordable housing development, anti-displacement grants, and homeownership support in communities with deep historical housing injustice.", "category": "minorities" },
+        { "name": "PA Veterans Temporary Housing Programme", "org": "PA Department of Military and Veterans Affairs", "who": "Pennsylvania veterans experiencing homelessness", "what": "Six PA veterans homes and HUD-VASH vouchers through Philadelphia, Pittsburgh, and Wilkes-Barre VA facilities.", "category": "veterans" },
+        { "name": "PA Senior Housing Assistance (PACENET/PACE)", "org": "PA DPHS", "who": "PA seniors 65+ with income up to $33,500", "what": "PACE/PACENET programs subsidise prescription costs, freeing up income for rent; also connection to subsidised senior apartments.", "category": "seniors" }
+      ]
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "rights": [
+        { "text": "Security deposit must be returned within 20 days of move-out with an itemised deduction statement.", "citation": "R.I. Gen. Laws § 34-18-19" },
+        { "text": "Landlord must give at least 2 days' notice before entering for non-emergency access.", "citation": "R.I. Gen. Laws § 34-18-26" },
+        { "text": "Landlord must maintain the premises in a safe, clean, habitable condition complying with codes.", "citation": "R.I. Gen. Laws § 34-18-22" },
+        { "text": "Tenant may withhold rent or repair and deduct if landlord fails to repair after 20-day written notice.", "citation": "R.I. Gen. Laws § 34-18-30" }
+      ],
+      "programs": [
+        { "name": "RIHousing Section 8 & Affordable Rental Programme", "org": "Rhode Island Housing", "who": "Low-income Rhode Island renters - Providence has severe affordability issues", "what": "Section 8 vouchers and LIHTC affordable apartments; RIHousing also administers the state's emergency rental assistance.", "category": "rent-help" },
+        { "name": "Rhode Island Emergency Rental & Mortgage Assistance", "org": "RIHousing", "who": "RI renters at risk of eviction due to COVID or economic hardship", "what": "Up to 18 months of rent and utility assistance; apply at RentHelp.ri.gov.", "category": "emergency" },
+        { "name": "Providence Latino/Hispanic Housing Network", "org": "Progreso Latino / Amos House", "who": "Rhode Island's growing Latino community - Providence has a substantial Puerto Rican and Dominican population", "what": "Bilingual housing navigation, emergency funds, and connection to affordable rentals in the Providence metro area.", "category": "minorities" },
+        { "name": "URI / CCRI / RIC Student Emergency Housing", "org": "Rhode Island public colleges", "who": "Students at URI, Rhode Island College, and Community College of RI", "what": "Emergency housing grants, campus food pantries, and off-campus housing navigation through Basic Needs offices.", "category": "students" },
+        { "name": "Rhode Island Veterans Supportive Housing", "org": "RI State Veterans Home / HUD-VASH", "who": "Rhode Island veterans experiencing homelessness or housing instability", "what": "HUD-VASH vouchers through the Providence VA, transitional housing, and the RI Veterans Home in Bristol.", "category": "veterans" }
+      ]
+    },
+    "SC": {
+      "name": "South Carolina",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "S.C. Code § 27-40-410" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency inspections or repairs.", "citation": "S.C. Code § 27-40-530" },
+        { "text": "Landlord must maintain the unit in a habitable condition complying with applicable codes.", "citation": "S.C. Code § 27-40-440" },
+        { "text": "Tenant may withhold rent or terminate lease if landlord fails to remedy habitability issues within 14 days.", "citation": "S.C. Code § 27-40-610" }
+      ],
+      "programs": [
+        { "name": "SC Housing Section 8 & Affordable Rental Housing", "org": "South Carolina State Housing Finance and Development Authority", "who": "Low-income SC renters - Charleston and Hilton Head have extreme housing cost burdens driven by tourism and migration", "what": "Section 8 vouchers, HOME-funded rentals, and the SC Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Lowcountry Housing Trust – Minority Renter Support", "org": "Lowcountry Housing Trust", "who": "Black South Carolina renters - SC's Lowcountry Gullah Geechee communities face severe displacement pressure", "what": "Anti-displacement housing assistance, legal aid, and cultural preservation housing for Gullah Geechee communities facing rapid gentrification.", "category": "minorities" },
+        { "name": "SC Emergency Rental Assistance (CARES Act / ERA2)", "org": "SC Housing", "who": "SC renters at risk of eviction due to income loss", "what": "Emergency rent and utility assistance; apply through SC Housing or your county's Department of Social Services.", "category": "emergency" },
+        { "name": "Fort Jackson / Shaw AFB Military Housing Assistance", "org": "US Army / Air Force + SC Housing", "who": "Active military families stationed at SC's major installations", "what": "On-base housing options and BAH-supplemented private market rentals for military families near Fort Jackson, Shaw, Parris Island.", "category": "veterans" },
+        { "name": "SC Senior Living Network", "org": "SC Department on Aging", "who": "South Carolina residents 60+ - SC is one of the fastest-ageing states in the Southeast", "what": "Subsidised senior housing, home repair grants, and connection to Section 202 senior apartments across the state.", "category": "seniors" }
+      ]
+    },
+    "SD": {
+      "name": "South Dakota",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out with itemised deductions.", "citation": "S.D. Codified Laws § 43-32-24" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make necessary repairs in reasonable time.", "citation": "S.D. Codified Laws § 43-32-8" },
+        { "text": "Landlord must give reasonable advance notice before entering - courts apply a 24-hour standard.", "citation": "South Dakota common law" },
+        { "text": "Tenant may deduct repair costs from rent if landlord fails to maintain essential services after written notice.", "citation": "S.D. Codified Laws § 43-32-9" }
+      ],
+      "programs": [
+        { "name": "South Dakota Housing Development Authority – Section 8", "org": "SDHDA", "who": "Low-income South Dakota renters, families, elderly", "what": "Section 8 vouchers and LIHTC affordable apartments. South Dakota has limited affordable stock - apply early at SDHDA.com.", "category": "rent-help" },
+        { "name": "Sioux Nation Tribal Housing Assistance", "org": "Oglala, Rosebud, Cheyenne River, and other tribal housing authorities", "who": "Members of South Dakota's Lakota/Sioux tribal nations - Pine Ridge is one of America's most impoverished areas", "what": "Tribally administered NAHASDA housing; conditions on reservations represent some of the most severe housing shortages in the US.", "category": "minorities" },
+        { "name": "SD Emergency Rental Assistance", "org": "SDHDA / SD Department of Social Services", "who": "South Dakota renters facing eviction or utility shutoff", "what": "Emergency rent and utility assistance administered through local Community Action agencies and county DSS offices.", "category": "emergency" },
+        { "name": "SD Veterans Home & HUD-VASH", "org": "SD Veterans Affairs / Sioux Falls VA", "who": "South Dakota veterans experiencing homelessness", "what": "SD Veterans Home in Hot Springs; HUD-VASH vouchers through the Sioux Falls VA for veterans reintegrating into community.", "category": "veterans" },
+        { "name": "USDA Rural SD Housing Assistance", "org": "USDA Rural Development South Dakota", "who": "Very low-income rural South Dakota households - 80% of SD is USDA-eligible rural territory", "what": "Below-market rural rental housing and home repair loans in SD's vast, sparsely populated agricultural landscape.", "category": "income-based" }
+      ]
+    },
+    "TN": {
+      "name": "Tennessee",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Tenn. Code § 66-28-301" },
+        { "text": "Landlord must give reasonable notice - minimum 24 hours - before entering for non-emergency access.", "citation": "Tenn. Code § 66-28-403" },
+        { "text": "Landlord must maintain the premises in a fit and habitable condition complying with codes.", "citation": "Tenn. Code § 66-28-304" },
+        { "text": "Tenant may withhold up to 1 month's rent if landlord fails to repair after 14-day written notice.", "citation": "Tenn. Code § 66-28-502" }
+      ],
+      "programs": [
+        { "name": "THDA Section 8 & Affordable Rental Housing", "org": "Tennessee Housing Development Agency", "who": "Low-income Tennessee renters - Nashville has seen explosive rent growth; Memphis has deep housing poverty", "what": "Section 8 vouchers, LIHTC properties, and the Tennessee Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Memphis Fair Housing Centre – Black Renter Advocacy", "org": "Memphis Area Legal Services / Fair Housing Council", "who": "Black Tennessee renters - Memphis has some of the highest eviction rates in the US", "what": "Free eviction legal defence, fair housing testing, and anti-discrimination advocacy for Memphis's predominantly Black renter community.", "category": "minorities" },
+        { "name": "Tennessee Emergency Rental Assistance (TERA)", "org": "THDA", "who": "Tennessee renters at risk of eviction", "what": "Covers overdue rent and utilities; apply online at HousingHelp.TN.gov.", "category": "emergency" },
+        { "name": "UT / Vanderbilt / MTSU Student Emergency Housing", "org": "Tennessee public and private universities", "who": "Enrolled students experiencing housing insecurity", "what": "Emergency housing grants and Basic Needs support at all major campuses; MTSU and UT Knoxville have well-funded programs.", "category": "students" },
+        { "name": "Tennessee Veterans Transition Housing", "org": "TN DVA / HUD-VASH", "who": "Tennessee veterans - Fort Campbell (Clarksville) creates significant veteran housing need", "what": "HUD-VASH vouchers through Nashville and Memphis VA; transitional housing for veterans at risk of homelessness.", "category": "veterans" }
+      ]
+    },
+    "TX": {
+      "name": "Texas",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of lease termination.", "citation": "Tex. Prop. Code § 92.103" },
+        { "text": "Landlord must make habitability repairs within 7 days of written notice.", "citation": "Tex. Prop. Code § 92.056" },
+        { "text": "Tenant may repair and deduct up to 1 month's rent for urgent unaddressed repairs.", "citation": "Tex. Prop. Code § 92.0561" },
+        { "text": "Landlord must change door locks on request following domestic violence incidents.", "citation": "Tex. Prop. Code § 92.0081" }
+      ],
+      "programs": [
+        { "name": "TDHCA Rental Assistance & Section 8", "org": "Texas Department of Housing and Community Affairs", "who": "Low-income Texas renters - Texas has extremely high eviction filing rates; Houston and Dallas top national lists", "what": "Section 8 vouchers, HOME-funded rentals, and the Texas Rent Relief program. Apply at TexasRentRelief.com.", "category": "rent-help" },
+        { "name": "Texas Colonia Housing Assistance", "org": "TDHCA / USDA / TWDB", "who": "Residents of Texas colonias - unincorporated border communities, mostly Hispanic, without basic services", "what": "Housing improvement loans, utility connections, and rental subsidies in the hundreds of Texas colonias along the Rio Grande.", "category": "minorities" },
+        { "name": "Texas Veterans Land Board Housing Assistance", "org": "Texas Veterans Land Board", "who": "Texas veterans - Texas has the second-largest veteran population of any state", "what": "Land and housing loans at below-market rates; also rental assistance for veterans at risk of homelessness through 10 state veterans homes.", "category": "veterans" },
+        { "name": "UT / Texas A&M / HBCU Student Emergency Housing", "org": "UT System / TAMU System / Prairie View A&M", "who": "Texas college students - Prairie View and Huston-Tillotson serve majority Black student bodies with strong emergency aid", "what": "Emergency housing grants, campus food pantries, and off-campus housing navigation at all public Texas universities.", "category": "students" },
+        { "name": "Texas Fair Housing Coalition – Minority Tenant Rights", "org": "TFHC / Lone Star Legal Aid", "who": "Black and Latino Texas renters facing discrimination or wrongful eviction", "what": "Free legal assistance, fair housing testing, and anti-eviction advocacy in Houston, Dallas, San Antonio, and Austin.", "category": "minorities" }
+      ]
+    },
+    "UT": {
+      "name": "Utah",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Utah Code § 57-17-3" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency inspections or repairs.", "citation": "Utah Code § 57-22-4" },
+        { "text": "Landlord must maintain the premises in a habitable condition and comply with applicable codes.", "citation": "Utah Code § 57-22-3" },
+        { "text": "Tenant may terminate the lease for habitability failures after providing 3 days' written notice.", "citation": "Utah Code § 57-22-6" }
+      ],
+      "programs": [
+        { "name": "Utah Housing Corporation – Rental Assistance", "org": "Utah Housing Corporation (UHC)", "who": "Low-income Utah renters - Salt Lake City has seen dramatic rent increases in recent years", "what": "Section 8 vouchers, LIHTC properties, and the Utah Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Navajo Nation & Ute Tribe Housing Assistance", "org": "Utah tribal housing entities", "who": "Members of Utah's federally recognized tribes - Navajo Nation, Ute, Goshute, Paiute, Shoshone", "what": "Tribally administered NAHASDA housing on tribal lands in southern and eastern Utah.", "category": "minorities" },
+        { "name": "Utah Emergency Rental Assistance", "org": "UHC / Utah counties", "who": "Utah renters at risk of eviction - Salt Lake and Utah County have the greatest need", "what": "Emergency rent and utility assistance; apply through Utah's 211 helpline or RentRelief.utah.gov.", "category": "emergency" },
+        { "name": "BYU / UofU / USU Student Emergency Housing", "org": "Utah System of Higher Education", "who": "Enrolled students at Utah's colleges and universities", "what": "Emergency housing grants and basic needs support at Utah's major campuses - all public universities have Basic Needs offices.", "category": "students" },
+        { "name": "Utah Veterans Supportive Housing", "org": "Utah DVA / HUD-VASH", "who": "Utah veterans - Hill AFB makes Utah a significant military state", "what": "HUD-VASH vouchers through the Salt Lake City VA, transitional housing, and rapid rehousing for veterans.", "category": "veterans" }
+      ]
+    },
+    "VT": {
+      "name": "Vermont",
+      "rights": [
+        { "text": "Security deposit must be returned within 14 days of move-out with itemised deductions.", "citation": "9 V.S.A. § 4461" },
+        { "text": "Landlord must give 48 hours' notice before entering for non-emergency purposes.", "citation": "9 V.S.A. § 4460" },
+        { "text": "Landlord must maintain the dwelling in a habitable and safe condition throughout the tenancy.", "citation": "9 V.S.A. § 4457" },
+        { "text": "Tenant may withhold rent for habitability failures after providing landlord notice and a reasonable time to cure.", "citation": "9 V.S.A. § 4458" }
+      ],
+      "programs": [
+        { "name": "VHFA Rental Housing Assistance", "org": "Vermont Housing Finance Agency", "who": "Low-income Vermont renters - Vermont has the second-highest renter cost burden in New England relative to income", "what": "Section 8 vouchers, LIHTC affordable apartments, and the Vermont Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Vermont Emergency Rental Assistance Programme", "org": "Vermont Agency of Human Services", "who": "Vermont renters at risk of eviction", "what": "Emergency rent and utility assistance; apply through Vermont's 211 helpline or Helpline.vermont.gov.", "category": "emergency" },
+        { "name": "Vermont LGBTQ+ Housing Advocacy (Pride Center VT)", "org": "Pride Center of Vermont", "who": "LGBTQ+ Vermonters - Vermont has one of the highest per-capita LGBTQ+ populations in the US", "what": "Emergency housing assistance, housing navigation, and LGBTQ+-affirming supportive housing referrals statewide.", "category": "lgbtq" },
+        { "name": "UVM / Vermont State University Student Emergency Housing", "org": "Vermont higher education system", "who": "Enrolled students at UVM and Vermont State University campuses", "what": "Emergency housing grants, campus food pantries, and Basic Needs support through Student Affairs offices.", "category": "students" },
+        { "name": "Vermont Agricultural Worker Housing Initiative", "org": "Vermont Housing Conservation Board", "who": "Dairy farm workers and agricultural workers - Vermont's dairy industry relies heavily on migrant labour", "what": "Safe and affordable housing for Vermont's agricultural workforce, many of whom are Latino migrant workers.", "category": "minorities" }
+      ]
+    },
+    "VA": {
+      "name": "Virginia",
+      "rights": [
+        { "text": "Security deposit must be returned within 45 days of move-out with an itemised deduction statement.", "citation": "Va. Code § 55.1-1226" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency access.", "citation": "Va. Code § 55.1-1229" },
+        { "text": "Landlord must maintain the premises in a habitable condition in compliance with applicable codes.", "citation": "Va. Code § 55.1-1220" },
+        { "text": "Tenant may terminate for habitability failures or repair and deduct after 30-day written notice.", "citation": "Va. Code § 55.1-1234" }
+      ],
+      "programs": [
+        { "name": "VHDA Rental Assistance & Section 8", "org": "Virginia Housing Development Authority", "who": "Low-income Virginia renters - Northern Virginia has some of the highest rents in the Southeast", "what": "Section 8 vouchers, LIHTC properties, and the Virginia Rent Relief Programme. Apply at RentRelief.virginia.gov.", "category": "rent-help" },
+        { "name": "Virginia Rent Relief Programme (RRP)", "org": "DHCD Virginia", "who": "Virginia renters behind on rent due to COVID or economic hardship", "what": "One of the most well-funded state emergency rental assistance programs; covers up to 15 months of rent and utilities.", "category": "emergency" },
+        { "name": "Virginia Fair Housing Office – Minority Renter Rights", "org": "Virginia Fair Housing Office", "who": "Minority Virginia renters - Northern Virginia has large Black, Latino, and Asian American renter populations", "what": "State-level fair housing investigations, legal referrals, and anti-discrimination advocacy. File complaints at FairHousing.virginia.gov.", "category": "minorities" },
+        { "name": "Virginia Military Housing Assistance (JBLE, Fort Gregg-Adams)", "org": "Virginia DVS / DoD", "who": "Active military and veteran families near Virginia's major installations", "what": "BAH supplements, transitional housing assistance, and veteran rapid rehousing through Virginia's 11 major military bases.", "category": "veterans" },
+        { "name": "Virginia Senior Affordable Housing", "org": "VHDA / Virginia Department for Aging & Rehabilitative Services", "who": "Virginia seniors 62+ - Northern Virginia's high costs place seniors under extreme housing pressure", "what": "Section 202 senior housing, LIHTC senior apartments, and the Senior Homeowner Emergency Loan Programme.", "category": "seniors" }
+      ]
+    },
+    "WA": {
+      "name": "Washington",
+      "rights": [
+        { "text": "Security deposit must be returned within 21 days of move-out with a full itemised statement.", "citation": "RCW § 59.18.280" },
+        { "text": "Landlord must give at least 2 days' notice before entering for non-emergency repairs or inspections.", "citation": "RCW § 59.18.150" },
+        { "text": "Landlord must maintain the premises in a habitable condition and make repairs within a reasonable time.", "citation": "RCW § 59.18.060" },
+        { "text": "Tenant may repair and deduct for urgent repairs if landlord fails to act within 10 days of written notice.", "citation": "RCW § 59.18.100" }
+      ],
+      "programs": [
+        { "name": "WSHFC Section 8 & Affordable Rental Housing", "org": "Washington State Housing Finance Commission", "who": "Low-income Washington renters - Seattle is one of the most expensive rental markets in the US", "what": "Section 8 vouchers, LIHTC properties, and the Washington Eviction Rental Assistance Programme (ERAP).", "category": "rent-help" },
+        { "name": "Washington Tribal Housing Assistance (Puyallup, Tulalip, etc.)", "org": "29 Washington tribal housing authorities", "who": "Members of Washington's 29 federally recognized tribal nations", "what": "NAHASDA-funded tribal housing on reservations; also urban Indian housing assistance in Seattle and Spokane.", "category": "minorities" },
+        { "name": "Seattle LGBTQ+ Housing Initiative", "org": "Lambert House / Pride Foundation / City of Seattle", "who": "LGBTQ+ Washingtonians - Seattle has one of the largest LGBTQ+ communities in the US", "what": "Emergency housing, LGBTQ+-affirming senior housing, and youth transitional housing across the Puget Sound region.", "category": "lgbtq" },
+        { "name": "UW / WSU / Community College Student Emergency Housing", "org": "Washington State Board of Community and Technical Colleges", "who": "Enrolled students experiencing housing insecurity - WA community colleges serve many first-generation and low-income students", "what": "Emergency housing grants at all 34 WA community and technical colleges; UW and WSU also have robust Basic Needs programs.", "category": "students" },
+        { "name": "Washington Veterans Housing Assistance", "org": "WDVA / HUD-VASH", "who": "Washington veterans - Joint Base Lewis-McChord is one of the largest military installations in the US", "what": "HUD-VASH vouchers, transitional housing, and rapid rehousing for veterans through VA Puget Sound and Spokane VA.", "category": "veterans" }
+      ]
+    },
+    "WV": {
+      "name": "West Virginia",
+      "rights": [
+        { "text": "Security deposit must be returned within 60 days of move-out with itemised deduction information.", "citation": "W. Va. Code § 37-6A-2" },
+        { "text": "Landlord must maintain the premises in a habitable condition complying with applicable codes.", "citation": "W. Va. Code § 37-6-30" },
+        { "text": "Landlord must give reasonable advance notice before entering - courts typically apply a 24-hour standard.", "citation": "West Virginia common law" },
+        { "text": "Tenant may withhold rent for landlord's failure to maintain habitability after proper written notice.", "citation": "W. Va. Code § 37-6A-1" }
+      ],
+      "programs": [
+        { "name": "WVHDF Section 8 & Affordable Rental Housing", "org": "West Virginia Housing Development Fund", "who": "Low-income West Virginia renters - WV has one of the country's lowest median incomes", "what": "Section 8 vouchers, HOME-funded rentals, and the WV Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "West Virginia Appalachian Housing Emergency Fund", "org": "WVHDF / Appalachian Regional Commission", "who": "WV residents in coalfield communities - among America's most economically distressed", "what": "Emergency housing assistance, home repair grants, and affordable housing development in WV's Appalachian counties.", "category": "emergency" },
+        { "name": "WV Native American (Cherokee/Tuscarora) Housing Support", "org": "WV Indigenous communities", "who": "Native American residents of West Virginia", "what": "Community-based housing assistance and connections to federal Native housing programs for WV's indigenous community members.", "category": "minorities" },
+        { "name": "WV Veterans Housing & Soldiers Assistance Fund", "org": "WV Division of Veterans Assistance", "who": "West Virginia veterans - WV has high military service rates relative to population", "what": "Emergency housing grants from the Soldiers Assistance Fund; HUD-VASH vouchers through the Clarksburg VA.", "category": "veterans" },
+        { "name": "WV Senior Affordable Housing & Home Repair", "org": "WV Department of Senior Services / WVHDF", "who": "West Virginia seniors 60+ - WV is one of the oldest states in the US by age", "what": "Subsidised senior apartments, home repair grants, and ageing-in-place support across WV's largely rural geography.", "category": "seniors" }
+      ]
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "rights": [
+        { "text": "Security deposit must be returned within 21 days of move-out with an itemised deduction statement.", "citation": "Wis. Stat. § 704.28" },
+        { "text": "Landlord must give at least 12 hours' advance notice before non-emergency entry.", "citation": "Wis. Stat. § 704.05(2)" },
+        { "text": "Landlord must maintain the premises in a habitable condition complying with applicable codes.", "citation": "Wis. Stat. § 704.07" },
+        { "text": "Tenant may make urgent repairs and deduct costs if landlord fails to act within a reasonable period.", "citation": "Wis. Stat. § 704.07(4)" }
+      ],
+      "programs": [
+        { "name": "WHEDA Section 8 & Affordable Rental Housing", "org": "Wisconsin Housing and Economic Development Authority", "who": "Low-income Wisconsin renters - Milwaukee has some of the nation's highest eviction rates", "what": "Section 8 vouchers, LIHTC properties, and the Wisconsin Emergency Rental Assistance Programme.", "category": "rent-help" },
+        { "name": "Milwaukee Emergency Rental Assistance & Eviction Prevention", "org": "City of Milwaukee / Milwaukee County", "who": "Milwaukee renters - Milwaukee has been called the most eviction-prone large city in the US", "what": "Emergency rental assistance, free eviction legal defence through Legal Aid Society of Milwaukee, and housing stability case management.", "category": "emergency" },
+        { "name": "Wisconsin Tribal Housing (Ho-Chunk, Ojibwe, Oneida, Menominee)", "org": "11 Wisconsin tribal housing authorities", "who": "Members of Wisconsin's 11 federally recognized tribes", "what": "NAHASDA-funded housing on Wisconsin reservations; Menominee and Oneida nations have particularly well-developed housing programs.", "category": "minorities" },
+        { "name": "UW System / WTCS Student Emergency Housing", "org": "University of Wisconsin System / WI Technical College System", "who": "Students at UW schools and Wisconsin technical colleges", "what": "Emergency housing grants at all 26 UW campuses and 16 technical colleges; Milwaukee, Madison, and Green Bay have dedicated coordinators.", "category": "students" },
+        { "name": "Wisconsin Veterans Home & HUD-VASH", "org": "Wisconsin DVA", "who": "Wisconsin veterans - Wisconsin has veterans homes in Chippewa Falls, King, and Union Grove", "what": "State veterans homes and HUD-VASH vouchers through the Milwaukee and Madison VA for veterans returning to the community.", "category": "veterans" }
+      ]
+    },
+    "WY": {
+      "name": "Wyoming",
+      "rights": [
+        { "text": "Security deposit must be returned within 15 days (30 days if deductions are itemised) of move-out.", "citation": "Wyo. Stat. § 1-21-1208" },
+        { "text": "Landlord must maintain the premises in a safe and habitable condition throughout the tenancy.", "citation": "Wyo. Stat. § 1-21-1202" },
+        { "text": "Landlord must give reasonable advance notice before entering - courts apply a 24-hour standard.", "citation": "Wyoming common law" },
+        { "text": "Tenant may withhold rent for landlord's failure to maintain habitability after written notice.", "citation": "Wyo. Stat. § 1-21-1203" }
+      ],
+      "programs": [
+        { "name": "Wyoming Community Development Authority – Section 8", "org": "WCDA", "who": "Low-income Wyoming renters - Wyoming's energy economy creates boom-and-bust housing price swings", "what": "Section 8 vouchers and LIHTC affordable apartments across Wyoming's small cities and towns.", "category": "rent-help" },
+        { "name": "Wyoming Tribal Housing (Eastern Shoshone & Northern Arapaho)", "org": "Wind River Tribal Housing Authority", "who": "Members of Wyoming's two federally recognized tribes on the Wind River Reservation", "what": "NAHASDA-funded housing on the Wind River Reservation - Wyoming's only federally recognized reservation.", "category": "minorities" },
+        { "name": "Wyoming Emergency Rental Assistance", "org": "WCDA / Wyoming DFS", "who": "Wyoming renters at risk of eviction or utility shutoff", "what": "Emergency rent and utility assistance; apply through local Community Action agencies or Wyoming 211.", "category": "emergency" },
+        { "name": "Wyoming Veterans Assistance Programme", "org": "Wyoming Veterans' Commission", "who": "Wyoming veterans - F.E. Warren AFB in Cheyenne creates significant military community housing need", "what": "Emergency housing grants, HUD-VASH coordination, and transitional housing for Wyoming veterans.", "category": "veterans" },
+        { "name": "USDA Rural Wyoming Housing Assistance", "org": "USDA Rural Development Wyoming", "who": "Rural Wyoming households - nearly all of Wyoming outside Cheyenne and Casper is USDA-eligible", "what": "Below-market rural rental housing, home repair loans, and agricultural worker housing in Wyoming's vast open spaces.", "category": "income-based" }
+      ]
+    },
+    "DC": {
+      "name": "Washington DC",
+      "rights": [
+        { "text": "Security deposit capped at 1 month's rent; must be returned within 45 days of move-out.", "citation": "D.C. Code § 42-3502.17" },
+        { "text": "Rent increases are strictly regulated under DC's Rent Stabilization Program (rent control).", "citation": "D.C. Code § 42-3502.08" },
+        { "text": "Landlord must give 48 hours' notice before non-emergency entry.", "citation": "D.C. Code § 42-3505.01" },
+        { "text": "Evictions require court orders; self-help evictions - changing locks, removing belongings - are illegal.", "citation": "D.C. Code § 42-3505.01" }
+      ],
+      "programs": [
+        { "name": "DC Housing Authority Section 8 & Public Housing", "org": "DC Housing Authority (DCHA)", "who": "Very low-income DC residents - DC has one of the nation's most severe housing cost crises", "what": "Section 8 vouchers and public housing; DC Spending on housing assistance is among the highest per capita of any jurisdiction.", "category": "rent-help" },
+        { "name": "DC Emergency Rental Assistance Programme (ERAP)", "org": "DC Department of Human Services", "who": "DC renters at risk of eviction - DC's high rents mean even middle-income renters face crisis", "what": "Up to 4 months of emergency rental assistance; apply at DHSmatch.dc.gov.", "category": "emergency" },
+        { "name": "DC LGBTQ+ Affirming Housing (Casa Ruby, SMYAL)", "org": "Casa Ruby / SMYAL / Trans Housing Coalition", "who": "LGBTQ+ DC residents - DC has the highest per-capita LGBTQ+ population of any US jurisdiction", "what": "Emergency housing, transitional housing for LGBTQ+ youth, and LGBTQ+-affirming supportive housing for adults and seniors.", "category": "lgbtq" },
+        { "name": "DC Income-Based Affordable Housing (IZ Programme)", "org": "DC Office of Planning", "who": "Moderate-income DC renters earning 50–80% AMI - people who earn too much for subsidised housing but too little for the market", "what": "Inclusionary Zoning requires developers to set aside 8–10% of units at below-market rates. Apply at DCHousingSearch.org.", "category": "income-based" },
+        { "name": "DC Veterans Affairs Supportive Housing (VASH)", "org": "DC VA Medical Centre / DCHA", "who": "DC-area veterans experiencing homelessness", "what": "HUD-VASH vouchers through the DC VA; DC has one of the most resourced veteran housing programs in the country.", "category": "veterans" }
+      ]
+    },
+    "PR": {
+      "name": "Puerto Rico",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "P.R. Laws tit. 31 § 4066" },
+        { "text": "Landlord must maintain the premises in a condition suitable for habitation and make timely repairs.", "citation": "P.R. Laws tit. 31 § 4053" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before entering the unit.", "citation": "Puerto Rico common law" },
+        { "text": "Tenant receives strong anti-eviction protections; landlords generally cannot evict without just cause.", "citation": "P.R. Laws tit. 31 § 4063" }
+      ],
+      "programs": [
+        { "name": "CDBG-DR Hurricane Recovery Housing Assistance", "org": "Puerto Rico PRDOH / HUD", "who": "Puerto Rico renters displaced by Hurricanes Maria, Irma, and Fiona - millions of Puerto Ricans were affected", "what": "Federal disaster recovery grants to rebuild and restore rental housing; also rental assistance for displaced households.", "category": "emergency" },
+        { "name": "Puerto Rico Public Housing Authority (PRPHA)", "org": "PRPHA", "who": "Very low-income Puerto Rico residents", "what": "Public housing and Section 8 vouchers; Puerto Rico has one of the highest poverty rates of any US jurisdiction.", "category": "rent-help" },
+        { "name": "Puerto Rico Agricultural Worker Housing", "org": "PR Department of Agriculture", "who": "Agricultural and coffee plantation workers in rural Puerto Rico's mountainous interior", "what": "Safe, affordable housing near agricultural worksites in PR's interior municipalities.", "category": "minorities" },
+        { "name": "UPR / Interamericana Student Emergency Housing", "org": "University of Puerto Rico system", "who": "Puerto Rico college students experiencing housing insecurity", "what": "Emergency housing grants at UPR's 11 campuses and Puerto Rico's private institutions; ask your Student Affairs office.", "category": "students" },
+        { "name": "Puerto Rico Veterans Emergency Housing", "org": "San Juan VA Medical Centre / HUD-VASH", "who": "Puerto Rico veterans - Puerto Ricans serve in the US military at among the highest per-capita rates of any group", "what": "HUD-VASH vouchers and rapid rehousing through the San Juan VA; transitional housing for homeless veterans.", "category": "veterans" }
+      ]
+    },
+    "GU": {
+      "name": "Guam",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised deduction statement.", "citation": "Guam Code Ann. tit. 21 § 3107" },
+        { "text": "Landlord must maintain the premises in a habitable, safe condition and make necessary repairs.", "citation": "Guam Code Ann. tit. 21 § 3103" },
+        { "text": "Landlord must give 24 hours' notice before entering for non-emergency inspections or repairs.", "citation": "Guam Code Ann. tit. 21 § 3109" },
+        { "text": "Tenant may terminate the lease if landlord fails to remedy habitability violations after written notice.", "citation": "Guam Code Ann. tit. 21 § 3115" }
+      ],
+      "programs": [
+        { "name": "Guam Housing and Urban Renewal Authority (GHURA) Section 8", "org": "GHURA", "who": "Low-income Guam residents - Guam's housing market is extremely tight due to military presence and limited land", "what": "Section 8 vouchers and public housing; military buildup has significantly reduced affordable housing availability for Chamorros.", "category": "rent-help" },
+        { "name": "CHamoru Land Trust Commission Housing", "org": "Guam Legislature / CLT Commission", "who": "Native CHamoru people of Guam - the indigenous people of Guam have land rights under the CLT", "what": "Residential land leases and housing assistance specifically for CHamoru descendants, addressing historic dispossession.", "category": "minorities" },
+        { "name": "Military Buildup Impact Housing Assistance", "org": "GHURA / US DoD", "who": "Guam residents displaced by US military expansion", "what": "Housing assistance for Guam residents whose communities are impacted by the ongoing US military buildup, especially in northern Guam.", "category": "emergency" },
+        { "name": "University of Guam Student Emergency Housing", "org": "UOG", "who": "UOG students experiencing housing insecurity", "what": "Emergency housing grants and off-campus housing navigation through UOG's Student Services office.", "category": "students" },
+        { "name": "Guam Veterans Affairs Housing", "org": "Guam DVA / HUD-VASH Guam", "who": "Guam veterans - Guam residents serve in the US military at higher rates than most US states", "what": "HUD-VASH vouchers and transitional housing for homeless Guam veterans through the VA Pacific Islands Health Care System.", "category": "veterans" }
+      ]
+    },
+    "VI": {
+      "name": "US Virgin Islands",
+      "rights": [
+        { "text": "Security deposit must be returned within 30 days of move-out with an itemised list of any deductions.", "citation": "V.I. Code tit. 28 § 313" },
+        { "text": "Landlord must maintain the premises in a safe and habitable condition throughout the tenancy.", "citation": "V.I. Code tit. 28 § 302" },
+        { "text": "Landlord must give reasonable advance notice - typically 24 hours - before non-emergency entry.", "citation": "USVI common law" },
+        { "text": "Evictions must follow formal court proceedings; landlords cannot remove a tenant without a court order.", "citation": "V.I. Code tit. 28 § 781" }
+      ],
+      "programs": [
+        { "name": "Virgin Islands Housing Authority (VIHA) Section 8", "org": "VIHA", "who": "Low-income USVI residents - hurricane damage has severely reduced available affordable housing", "what": "Section 8 vouchers and public housing on St. Croix, St. Thomas, and St. John.", "category": "rent-help" },
+        { "name": "USVI Hurricane Recovery Housing Assistance (CDBG-DR)", "org": "USVI Housing Finance Authority / HUD", "who": "USVI renters displaced by Hurricanes Irma and Maria (2017) - USVI was among the hardest-hit US jurisdictions", "what": "Ongoing federal disaster recovery grants to rebuild rental housing and assist displaced households.", "category": "emergency" },
+        { "name": "Virgin Islands Black Community Housing Support", "org": "USVI Human Rights Commission", "who": "Afro-Caribbean USVI residents - the majority population - facing housing discrimination", "what": "Fair housing enforcement, legal referrals, and anti-discrimination advocacy in a jurisdiction with unique racial dynamics.", "category": "minorities" },
+        { "name": "UVI Student Emergency Housing Fund", "org": "University of the Virgin Islands", "who": "UVI students on St. Croix and St. Thomas campuses experiencing housing insecurity", "what": "Emergency housing grants and housing referrals through UVI Student Services.", "category": "students" },
+        { "name": "USVI Veterans Housing Assistance", "org": "USVI DVA / VA Caribbean Healthcare System", "who": "USVI veterans - island veterans face unique challenges due to limited local VA services and high housing costs", "what": "HUD-VASH vouchers and housing stabilisation assistance through the VA Caribbean Healthcare System.", "category": "veterans" }
+      ]
+    },
+    "AS": {
+      "name": "American Samoa",
+      "rights": [
+        { "text": "Security deposit terms are governed by the lease agreement; landlords must return unused deposits after move-out.", "citation": "A.S.C.A. § 37.0101 et seq." },
+        { "text": "Landlord must maintain the premises in a habitable condition suitable for its intended use.", "citation": "American Samoa common law" },
+        { "text": "Landlord must provide reasonable advance notice before entering the leased premises.", "citation": "American Samoa common law" },
+        { "text": "Disputes between landlords and tenants may be resolved through the American Samoa courts.", "citation": "A.S.C.A. § 3.0201" }
+      ],
+      "programs": [
+        { "name": "American Samoa Housing Authority (ASHA)", "org": "ASHA", "who": "Low-income American Samoa residents - AS has limited land and high costs for construction materials shipped from the mainland", "what": "Public housing and limited Section 8 vouchers for qualifying American Samoa residents.", "category": "rent-help" },
+        { "name": "Samoan Extended Family (Aiga) Housing System", "org": "Traditional Samoan community structures", "who": "Samoan residents following fa'asamoa (Samoan way) - extended family housing is the primary social safety net", "what": "While not a government program, understanding that traditional aiga networks provide housing support for community members in need is essential.", "category": "minorities" },
+        { "name": "FEMA Disaster Housing Assistance – American Samoa", "org": "FEMA Region 9", "who": "AS residents displaced by cyclones, tsunamis, or other disasters", "what": "Federal disaster housing assistance for US nationals in American Samoa during and after declared disasters.", "category": "emergency" },
+        { "name": "ASCC (American Samoa Community College) Student Housing", "org": "ASCC", "who": "ASCC students from outer islands or remote villages", "what": "Limited on-campus housing and emergency housing assistance for students experiencing instability at American Samoa's only community college.", "category": "students" },
+        { "name": "AS Veterans Assistance (National Guard & Reservists)", "org": "AS Veterans Affairs Office", "who": "American Samoa veterans - AS has the highest per-capita military enlistment rate of any US territory", "what": "Housing assistance referrals and connection to mainland VA services; AS veterans often face unique challenges accessing mainland benefits.", "category": "veterans" }
+      ]
+    },
+    "MP": {
+      "name": "Northern Mariana Islands",
+      "rights": [
+        { "text": "Security deposit must be returned within a reasonable time after move-out with itemised deductions.", "citation": "CNMI common law" },
+        { "text": "Landlord must keep the premises in a safe and habitable condition throughout the tenancy.", "citation": "1 CMC § 3401 et seq." },
+        { "text": "Landlord must give reasonable advance notice before entering the unit for non-emergency purposes.", "citation": "CNMI common law" },
+        { "text": "Eviction proceedings must follow formal court process under CNMI Superior Court rules.", "citation": "CNMI Rules of Civil Procedure" }
+      ],
+      "programs": [
+        { "name": "CNMI Housing Authority Public Housing & Section 8", "org": "Commonwealth of the Northern Mariana Islands Housing Authority", "who": "Low-income CNMI residents - the CNMI has extremely limited affordable housing stock", "what": "Limited public housing and Section 8 vouchers for qualifying CNMI residents on Saipan, Tinian, and Rota.", "category": "rent-help" },
+        { "name": "CHamoru & Carolinian Indigenous Housing Rights", "org": "CNMI indigenous communities", "who": "Indigenous CHamoru and Carolinian residents of the CNMI - the indigenous peoples have special land rights", "what": "Indigenous land rights and housing protections under CNMI law; community-based housing support for indigenous residents.", "category": "minorities" },
+        { "name": "FEMA Disaster Housing – CNMI (Super Typhoon Recovery)", "org": "FEMA Region 9", "who": "CNMI residents displaced by super typhoons - the CNMI is in one of the most typhoon-active regions on earth", "what": "Federal disaster housing assistance during and after catastrophic typhoons; the CNMI experienced major destruction from Typhoon Yutu in 2018.", "category": "emergency" },
+        { "name": "NMC (Northern Marianas College) Student Housing", "org": "Northern Marianas College", "who": "NMC students from outer islands of Tinian and Rota", "what": "On-campus and emergency housing assistance for students at the CNMI's main higher education institution.", "category": "students" },
+        { "name": "CNMI Veterans Housing Assistance", "org": "CNMI Veterans Affairs Office", "who": "CNMI veterans and National Guard members", "what": "Housing referrals and connection to mainland VA services; CNMI veterans may access services through the VA Pacific Islands Health Care System.", "category": "veterans" }
+      ]
+    }
+  }
+}

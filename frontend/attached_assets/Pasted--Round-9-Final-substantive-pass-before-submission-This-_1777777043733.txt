@@ -1,0 +1,332 @@
+# Round 9 — Final substantive pass before submission
+
+This bundles Round 8.95 (CTA copy + colour + logo + favicon) with the seven honest weaknesses identified in the audit. Surgical fixes that lift the page from "good" to "memorable."
+
+---
+
+# Round 9 — Bundle: brand swap + audit fixes
+
+## What's locked from previous rounds (do not regress)
+
+- 11-section structure
+- Cream + ink + ink-blue + sage + clay + wine palette
+- All copy from Round 8 (with the small tweaks below)
+- Real Claude API analysis backend
+- Interactive US state map
+- Marquee curving italic divider
+- Floating decorative shapes
+- "What's actually in there" three-clause section
+- For renters / for landlords cards
+- WCAG 2.2 AA accessibility work
+- prefers-reduced-motion handling
+
+## Tasks (in order of impact)
+
+### 1. Brand swap (the original Round 8.95)
+
+#### CTA copy
+Find every instance and replace:
+- `Check my lease` → `Read my lease`
+- `Check my lease →` → `Read my lease →`
+
+DO NOT change brand-name mentions of "Check the Lease" — only the action verb in buttons.
+
+#### CTA colour — sage green
+Every primary CTA goes from ink-blue to sage:
+
+```css
+.btn-primary {
+  background: #5A8B7A;
+  color: #FBF8F1;
+  border: 2.5px solid #171717;
+  border-radius: 999px;
+  padding: 14px 28px;          /* slightly bigger than before */
+  font-weight: 600;             /* bumped from 500 — passes contrast at large-text threshold */
+  font-size: 15px;              /* large-text qualifier */
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 #171717;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s;
+}
+.btn-primary:hover {
+  background: #3D5F50;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 #171717;
+}
+.btn-primary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 #171717;
+}
+```
+
+Ghost CTA gets a sage shadow (instead of black) so the pair reads as a system:
+
+```css
+.btn-ghost {
+  background: transparent;
+  color: #171717;
+  border: 2.5px solid #171717;
+  border-radius: 999px;
+  padding: 14px 28px;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 #5A8B7A;
+}
+.btn-ghost:hover {
+  background: #171717;
+  color: #FBF8F1;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 #5A8B7A;
+}
+```
+
+#### Favicon
+Drop this into `public/favicon.svg`:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="3" y="3" width="58" height="58" fill="#F5C547" stroke="#171717" stroke-width="3" rx="8" transform="rotate(-2 32 32)"/>
+  <g transform="rotate(-4 30 30)">
+    <rect x="14" y="12" width="26" height="34" fill="#FBF8F1" stroke="#171717" stroke-width="2.5" rx="2"/>
+    <line x1="18" y1="18" x2="34" y2="18" stroke="#171717" stroke-width="1.5"/>
+    <line x1="18" y1="24" x2="32" y2="24" stroke="#171717" stroke-width="1.5"/>
+    <line x1="18" y1="30" x2="34" y2="30" stroke="#171717" stroke-width="1.5"/>
+    <line x1="18" y1="36" x2="30" y2="36" stroke="#171717" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(24 24) rotate(8)">
+    <path d="M0 14 L11 25 L33 0" fill="none" stroke="#5A8B7A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
+```
+
+Wire in `index.html`:
+```html
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+```
+
+#### Wordmark — sticker treatment in nav
+
+Replace plain text "Check the Lease" in the nav with this React component:
+
+```tsx
+function Wordmark({ size = 'md' }: { size?: 'sm' | 'md' }) {
+  const padding = size === 'sm' ? '4px 12px 6px' : '6px 16px 8px';
+  const fontSize = size === 'sm' ? 14 : 18;
+  const shadow = size === 'sm' ? '3px 3px 0 0 #171717' : '4px 4px 0 0 #171717';
+  return (
+    <div style={{
+      display: 'inline-block',
+      background: '#F5C547',
+      border: '2.5px solid #171717',
+      padding,
+      transform: 'rotate(-1deg)',
+      boxShadow: shadow,
+    }}>
+      <span style={{
+        fontFamily: "'Fraunces', Georgia, serif",
+        fontWeight: 600,
+        fontSize: `${fontSize}px`,
+        letterSpacing: '-0.02em',
+        color: '#171717'
+      }}>Check the </span>
+      <span style={{
+        fontFamily: "'Fraunces', Georgia, serif",
+        fontStyle: 'italic',
+        fontWeight: 600,
+        fontSize: `${fontSize}px`,
+        letterSpacing: '-0.02em',
+        color: '#171717'
+      }}>Lease</span>
+    </div>
+  );
+}
+```
+
+Use `<Wordmark size="md" />` in nav.
+
+### 2. Push display typography harder
+
+Current H1 sits around 60–64px desktop. Push to **80–96px desktop**. Make it commanding, magazine-cover scale.
+
+```css
+.h1-display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+}
+```
+
+Apply to:
+- Hero H1 ("Your lease, in plain English.")
+- The Problem H2 ("Your lease was written by their lawyer.")
+- "A complete read. Four parts."
+- "Works for anyone with a lease..."
+- "Know your rights — wherever you are."
+- The big italic footer quote ("Reading a lease shouldn't require a law degree.")
+
+Section H2s on smaller bands stay around 36–48px. Just the dominant headlines get the magazine-scale push.
+
+### 3. Tighten the hero density
+
+Hero currently has: H1 + 4-line sub + dual CTA + stats. Too dense.
+
+**New hero structure:**
+- Eyebrow badge (sage pulse dot) — keep
+- H1 (now 80–96px) — keep
+- Sub — **shorten to ONE line max:**
+  > "We read it so you don't have to. Free for renters and landlords."
+- Dual CTAs — keep but with new sage colour (per task 1)
+- Stats row — keep, but **slightly bigger numbers** (Fraunces 28px instead of current size)
+- Trust strip below stats — DROP (redundant with the stats labels)
+
+The visual on the right (dark "FROM YOUR LEASE" card → wine HIGH RISK card) does most of the work. The text supports.
+
+### 4. Tie the four-part read cards to brand semantics
+
+Currently the four "complete read" cards have arbitrary coloured top borders (orange / red / brown / blue). Replace with brand-meaningful colours:
+
+| Card | Top border colour | Why |
+|---|---|---|
+| **Key Terms** | Sage `#5A8B7A` | Calm, factual extraction |
+| **Risk Flags** | Wine `#7A2C3D` | Matches the high-severity palette throughout |
+| **Missing Protections** | Clay `#C97A4A` | Matches medium-severity |
+| **Questions to Raise** | Ink-blue `#1E3A5F` | Matches actionable, primary-action colour |
+
+The colours now SAY something — they preview the severity language used inside the actual analysis output.
+
+### 5. Add a visual thread — consistent section numbering
+
+Every major section gets a numbered eyebrow:
+
+| Section | Eyebrow |
+|---|---|
+| Hero | (no number — it's the entry) |
+| The Problem | `01 — THE PROBLEM` |
+| What's actually in there | `02 — WHAT'S ACTUALLY IN THERE` |
+| How it works | `03 — HOW IT WORKS` |
+| A complete read | `04 — A COMPLETE READ` |
+| Who it's for | `05 — WHO IT'S FOR` |
+| US State Coverage | `06 — STATE & TERRITORY COVERAGE` |
+| Final CTA + Founder note | (no number — closing moment) |
+
+Eyebrows render in: Inter 11px weight 500, letter-spacing 0.12em, uppercase, sage colour.
+
+The numbers create a magazine-style chapter rhythm — visitors feel the structure even on a fast scroll.
+
+### 6. Add a hero "demo in motion" — CSS-only animation
+
+To replace what would normally be a video, animate the hero's right-side product preview. The flow:
+
+1. Page loads. The dark "FROM YOUR LEASE" card is visible with the lease quote.
+2. After 1.5 seconds, a small `↓` arrow animates between the cards (drift down + fade).
+3. Then the wine "HIGH RISK" card slides up from below with `spring-pop` easing.
+4. Loop with a subtle 4-second pause between cycles, so it feels alive but not nervous.
+
+```css
+@keyframes ctl-cycle-arrow {
+  0%, 30%, 100% { opacity: 0; transform: translateY(-4px); }
+  40%, 70%      { opacity: 1; transform: translateY(0); }
+}
+@keyframes ctl-cycle-result {
+  0%, 35%       { opacity: 0; transform: translateY(20px) scale(0.9); }
+  50%, 95%      { opacity: 1; transform: translateY(0) scale(1); }
+  100%          { opacity: 0; transform: translateY(20px) scale(0.9); }
+}
+
+.hero-arrow {
+  animation: ctl-cycle-arrow 8s ease-in-out infinite;
+}
+.hero-result-card {
+  animation: ctl-cycle-result 8s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+```
+
+Wrap in `@media (prefers-reduced-motion: no-preference)`. Reduced motion = static state where both cards are visible always.
+
+This is the "show the product working" move. A real autoplay demo without needing a video file.
+
+### 7. Patch the small inconsistencies
+
+- **"Try a sample" / "Try the sample lease"** — pick **"Try a sample lease →"** everywhere it currently appears
+- **Footer copyright** — change `© 2026 CHECK THE LEASE · ALL RIGHTS RESERVED` to sentence case: `© 2026 Check the Lease. All rights reserved.`
+- **Hero stats text** — bump from current size to Inter 12px on labels, Fraunces 28px on numbers (slightly bigger than now)
+
+### 8. Mobile responsiveness audit
+
+Open the dev preview at the following widths and fix any issues:
+- 375px (iPhone SE)
+- 414px (iPhone Pro Max)
+- 768px (iPad portrait)
+
+For each:
+- [ ] Hero stacks vertically (text → product preview), no horizontal scroll
+- [ ] H1 scales down via `clamp()` from 96px → 48px
+- [ ] Dual CTAs stack vertically, full-width, with proper gap
+- [ ] Stats row stays single line if possible, otherwise wraps cleanly
+- [ ] The Problem 4-stat grid stacks 2-up at 414px, 1-up at 375px
+- [ ] "What's actually in there" 3 cards stack
+- [ ] Four-part read cards stack, top borders still visible
+- [ ] Renter/Landlord dual cards stack
+- [ ] US map scales down or scroll-zooms gracefully
+- [ ] Final CTA buttons stack
+- [ ] Founder note avatar + body stays readable
+- [ ] Footer 3-column nav stacks
+- [ ] Sticky bottom CTA bar shows on mobile (sage primary, full-width minus 16px padding)
+
+### 9. Final sticker — small "BUILT FOR THE BUILDATHON" tag
+
+The "Built For" footer block is good. To match the sticker brand language, render the "Replit 10 Year Buildathon" credit as a tiny yellow sticker matching the wordmark style — small, tilted, comic-shadowed.
+
+```tsx
+<div style={{
+  display: 'inline-block',
+  background: '#F5C547',
+  border: '2px solid #171717',
+  padding: '4px 10px',
+  transform: 'rotate(-1.5deg)',
+  boxShadow: '3px 3px 0 0 #171717',
+  fontFamily: "'Fraunces', Georgia, serif",
+  fontWeight: 600,
+  fontSize: '12px',
+  color: '#171717',
+}}>
+  Built for the Replit Buildathon
+</div>
+```
+
+Place it in the "Built For" footer column. Replaces the existing plain-text label.
+
+## Self-audit checklist
+
+- [ ] All "Check my lease" actions → "Read my lease"
+- [ ] All primary CTAs are sage `#5A8B7A` with cream text + ink-black border + ink-black hard shadow
+- [ ] All ghost CTAs have a sage shadow (not ink-black)
+- [ ] Favicon SVG is in `public/` and wired in `index.html`
+- [ ] Browser tab shows yellow sticker with document + tick favicon
+- [ ] Nav uses the new yellow sticker `<Wordmark>` component
+- [ ] Display H1s use `clamp(48px, 8vw, 96px)` font-size — magazine scale
+- [ ] Hero sub-copy is single line ("We read it so you don't have to. Free for renters and landlords.")
+- [ ] Hero trust strip removed (redundant with stats)
+- [ ] Four-part read card top borders use sage / wine / clay / ink-blue (not arbitrary)
+- [ ] All major sections have numbered eyebrows (01, 02, 03, 04, 05, 06)
+- [ ] Hero product preview cycles via CSS animation (arrow → result card pop) every 8s
+- [ ] `prefers-reduced-motion` honoured — animation pauses
+- [ ] All "Try a sample" instances unified to "Try a sample lease →"
+- [ ] Footer copyright sentence case
+- [ ] "Built for the Replit Buildathon" rendered as yellow sticker tag
+- [ ] Mobile pass at 375px, 414px, 768px — all checks above
+- [ ] Lighthouse Accessibility 95+
+- [ ] No console errors
+
+## Deliverable
+
+Take screenshots of:
+1. Hero (showing new tighter copy + sage CTA + yellow sticker wordmark + animated demo cycle frozen frame)
+2. The Problem section (with `01 — THE PROBLEM` eyebrow)
+3. Four-part read (with new colour-coded top borders)
+4. Final CTA + Founder note (with yellow sticker buildathon credit in footer)
+5. Mobile at 375px (key sections — hero, problem, footer)
+
+Share back. After this, the only remaining work is video + social post + submit.

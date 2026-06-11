@@ -1,0 +1,629 @@
+Using full autonomy and higher power usage. This is critical priority work — apply full context window, deepest reasoning, and complete iteration. Treat this as a senior copywriter audit + rewrite, not a quick find-replace pass. Read the entire prompt before starting any edits.**
+
+---
+
+# Mission
+
+Every line of customer-facing copy on Check the Lease must pass a senior copywriter's audit. The current site has nine recurring violations of professional copywriting principles — they accumulate across the page and read as "competent but not elite." This round elevates every word to elite standard.
+
+You are a senior brand copywriter. Apply the rules below to every text node on the site. Do not skip any. Do not summarize. Read carefully and execute precisely.
+
+---
+
+# Part 1 — The non-negotiable copywriting rules
+
+These are the locked principles. Every edit you make must respect every rule.
+
+## Rule 1 — Forward-looking framing (LOCKED)
+
+**Never imply the reader is missing something. Always describe what we deliver.**
+
+| ❌ Hidden criticism | ✅ Forward-looking |
+|---|---|
+| "Your lease is full of risks" | "Things to be aware of in your lease" |
+| "You don't know what you're signing" | "We help you know exactly what you're signing" |
+| "Your landlord is taking advantage of you" | "Some clauses favour landlords more than renters" |
+| "You need a lawyer" | "We do the lawyer-level read for you" |
+
+**The test:** Read each sentence. Does it point out something the reader DOESN'T have? If yes, rewrite. Does it describe something we deliver? If yes, ship it.
+
+## Rule 2 — Customer-as-hero (StoryBrand framework)
+
+The customer is the hero of the story. Check the Lease is the guide. Never position the product as the star.
+
+| ❌ Product-as-hero | ✅ Customer-as-hero |
+|---|---|
+| "Check the Lease analyses every clause" | "Read every clause of your lease in plain English" |
+| "Our AI catches risky language" | "Catch the clauses that could cost you" |
+| "We have the most comprehensive state coverage" | "Know what your state actually requires" |
+
+## Rule 3 — Plain English at Grade 6 reading level
+
+Test every sentence against the Hemingway app standard:
+- Sentence length: 8–14 words average
+- Avoid passive voice
+- Avoid adverbs that don't add meaning ("really", "very", "actually")
+- Avoid legal / SaaS jargon
+
+| ❌ Jargon | ✅ Plain |
+|---|---|
+| "statute" | "law" |
+| "habitability" | "living conditions" |
+| "tenant protection statutes" | "tenant rules" |
+| "implied warranty" | "the protection you're entitled to" → rewrite to remove "entitled to" → "the protection your state guarantees" |
+| "unenforceable" | "won't hold up in court" |
+| "right of entry" | "when the landlord can come in" |
+| "indemnification clause" | "who pays if something goes wrong" |
+| "non-refundable deposit" | "deposit you can't get back" |
+| "automatically" | "on its own" (in conversational context) |
+
+## Rule 4 — Banned phrases (compliance-critical)
+
+These phrases must appear NOWHERE in user-facing copy:
+
+- "you should"
+- "you must"
+- "this is illegal"
+- "I recommend"
+- "sue your landlord"
+- "you are entitled to"
+- "you have the right to" (passive — instead use "California law gives you the right to")
+
+Allowed alternatives:
+
+| Banned | Replace with |
+|---|---|
+| "you should ask" | "consider asking" |
+| "you must check" | "worth checking" |
+| "this is illegal" | "this may be unenforceable" or "courts have ruled this unenforceable" |
+| "I recommend" | "consider" or "worth knowing" |
+| "you are entitled to" | "California law gives you the right to" or "your state requires" |
+
+## Rule 5 — Three-claim limit per section (Cialdini overload threshold)
+
+Beyond 3 positive claims in any section, perception of manipulation increases. Audit every section. If there are more than 3 specific claims being made, cut to 3.
+
+## Rule 6 — Audience balance (dual-audience pattern)
+
+This product serves **renters AND landlords equally**. Every general section must speak to both, OR explicitly label which audience it addresses.
+
+❌ Don't write copy that paints landlords as villains. The landlord using Check the Lease is on your side — they want a fair, compliant lease too.
+
+The single root cause of most copy issues on this site: **the page evolved with renter-first writing, then landlord copy was added later without refactoring the early sections.** Apply the dual-audience pattern from the existing "Who It's For" section to every other general section.
+
+## Rule 7 — American spellings (US product, US audience)
+
+Find and replace globally:
+
+| British | American |
+|---|---|
+| programmes | programs |
+| programme | program |
+| organisations | organizations |
+| organisation | organization |
+| optimised | optimized |
+| analysed | analyzed |
+| analyser | analyzer |
+| behaviour | behavior |
+| colour | color |
+| centre | center |
+| favourite | favorite |
+| whilst | while |
+| realise | realize |
+| recognised | recognized |
+| prioritised | prioritized |
+| summarised | summarized |
+| tokenised | tokenized |
+| neighbour | neighbor |
+| labour | labor |
+| utilised | utilized |
+
+Search every `.tsx`, `.ts`, `.md`, `.json`, `.html`, `.css`, `.txt` file in the codebase.
+
+## Rule 8 — CTA button copy (specific rules)
+
+- Maximum 2–5 words
+- First-person ("My" not "Your") — converts 124% better per industry data
+- Action verb first
+- Outcome-focused (what they GET, not what they DO)
+
+Locked CTAs across the site:
+- Primary: **"Read my lease →"**
+- Secondary: **"Try a sample lease →"**
+- "Analyse another lease →" → **"Read another lease →"** (if anywhere)
+
+## Rule 9 — Specificity over generic
+
+Vague claims trigger BS detectors. Specific claims build trust.
+
+| ❌ Vague | ✅ Specific |
+|---|---|
+| "We help you understand your lease" | "Plain-English read with citations to your state's actual law" |
+| "Many leases have problems" | "40% of US leases contain unenforceable clauses" |
+| "Save money on your deposit" | "Spot the clauses that could cost you your deposit" |
+| "Used by many renters" | "45 million US renters could use this" |
+
+---
+
+# Part 2 — Section-by-section line-by-line edits
+
+The following are the exact find-and-replace operations. Apply them precisely. Do not paraphrase. Do not skip any.
+
+## Nav
+
+No copy changes. Verify "Read my lease →" is the CTA text.
+
+## Hero section
+
+### Sub copy
+
+**Find** (exact match):
+> *"We read it so you don't have to. Free for renters and landlords."*
+
+**Replace with**:
+> *"Catch the clauses that could cost you. Cited to your state's law. Free for renters and landlords."*
+
+**Why:** "We read it so you don't have to" is generic SaaS cliché. The replacement is specific (catch the clauses), credibility-led (cited), and uses three-claim limit (catch / cited / free).
+
+### Stat labels
+
+| Find | Replace |
+|---|---|
+| `50 US states` | `All 50 states` |
+| `Free always` | `Always free` |
+| `<15s per lease` | `15-second read` |
+
+## Photographic section #1 (above The Problem)
+
+**Find sub-caption** (exact match):
+> *"Whether you're turning that key for the first time, or issuing a new tenancy — a well-read lease protects everyone."*
+
+**Replace with**:
+> *"Whether you're signing one or issuing one — a well-read lease protects everyone."*
+
+**Why:** Tighter. Same inclusive frame, fewer words.
+
+## Section 01 — The Problem (CRITICAL — currently renter-only)
+
+This section is the worst offender for the dual-audience principle. Currently written as "your lease was written by their lawyer" — which villainises landlords (who are also our customers). Rewrite to acknowledge both sides face the same broken system.
+
+### H2
+
+**Find** (exact match):
+> *"Your lease was written by their lawyer."*
+
+**Replace with**:
+> *"Most leases aren't written for the people signing them."*
+
+**Why:** Inclusive — neither side is the villain. The system is the villain. Both renters and landlords have the same root problem.
+
+### Body paragraph
+
+**Find** (exact match):
+> *"The average American rental agreement is 35 pages of dense legal language, drafted by your landlord's property management company or their attorneys. Their job was to protect landlord interests and transfer risk to you."*
+
+**Replace with**:
+> *"The average US lease is 35 pages of dense legal language. Renters sign in good faith — without a lawyer, often without time. Landlords inherit templates from property managers — full of clauses courts have already voided. Both sides end up with paperwork that doesn't reflect what they actually agreed to."*
+
+**Why:** Acknowledges both sides. Shorter sentences (mobile-friendly per skill rules). Removes adversarial framing. Adds specificity (35 pages, courts have voided).
+
+### Closing line
+
+**Find** (exact match):
+> *"Your job was to sign before someone else got the apartment."*
+
+**Replace with**:
+> *"A fair lease should protect both signatures. Most don't."*
+
+**Why:** Inclusive. Punchy two-sentence rhythm.
+
+### Add source citations under each stat
+
+Below each of the 4 stat numbers, add a small italic Fraunces citation in `#6B6B6B` ink-muted color, font-size 10px, line-height 1.4, margin-top 4px. Render as a separate text element below the stat label.
+
+| Stat | Add citation |
+|---|---|
+| **45M** renter households in the US | *Source: Harvard JCHS, 2024* |
+| **40%** of leases contain unenforceable clauses | *Source: Penn Law / Massachusetts study* |
+| **41%** of renters dispute their deposit | *Source: Zillow Renter Survey, 2024* |
+| **1 in 13** households faced eviction in 2023 | *Source: Eviction Lab, Princeton* |
+
+## Section 02 — What's actually in there
+
+### H2 split
+
+**Find** (exact match):
+> *"Clauses that appear in millions of US leases. Most are unenforceable. Few renters push back."*
+
+**Replace with two elements**:
+- H2: *"Clauses that appear in millions of US leases."*
+- Sub (below H2, before body): *"Most are unenforceable. Few people push back."*
+
+**Why:** Three sentences in one H2 reads as bad hierarchy. Splitting into H2 + sub fixes hierarchy and removes the "renters" mention (applies to both — landlords also "push back" through legal challenges).
+
+### Card labels (legal jargon → plain English)
+
+| Find | Replace |
+|---|---|
+| `RIGHT TO NOTICE` | `ENTERING WITHOUT WARNING` |
+| `HABITABILITY` | `LIVING CONDITIONS` |
+
+(`SECURITY DEPOSIT` is already plain — keep.)
+
+### Card sub-labels
+
+**Find** (every instance):
+> `WHAT THIS COSTS YOU`
+
+**Replace with**:
+> `WHAT THIS COSTS`
+
+**Why:** Drop "you" — applies to both audiences. Landlords also lose money on these clauses through lawsuits.
+
+### Closing line
+
+**Find**:
+> *"Check the Lease flags these automatically — and tells you exactly which statute they violate."*
+
+**Replace with**:
+> *"Check the Lease flags these automatically — and tells you exactly which law they break."*
+
+**Why:** "statute" → "law" (Grade 6 plain English).
+
+## Section 03 — How it works
+
+### Step 01 body
+
+**Find**:
+> *"Drop the PDF you received. Any length, any state, any landlord's template."*
+
+**Replace with**:
+> *"Drop the PDF. Any length, any state, any template."*
+
+**Why:** Removes "you received" (renter-assumption). Landlords drop the PDF they're drafting. Inclusive.
+
+### Step 02 body
+
+**Find**:
+> *"Every flag and citation is tailored to your state's actual tenant protection statutes."*
+
+**Replace with**:
+> *"We check it against your state's actual tenant rules — and the obligations on landlords."*
+
+**Why:** "statutes" → "rules". Adds landlord-side framing. Customer-led ("we check it" not "every flag is tailored").
+
+## Section 04 — A complete read
+
+### RISK FLAGS body
+
+**Find**:
+> *"Clauses that conflict with state law — each cited to the specific statute. So both sides know exactly where they stand."*
+
+**Replace with**:
+> *"Clauses that conflict with state law — each cited to the specific rule. So both sides know exactly where they stand."*
+
+**Why:** "statute" → "rule".
+
+## Photographic section #2
+
+**Find**:
+> *"Whether you're turning that key for the first time, or issuing a new tenancy — a well-read lease protects everyone."*
+
+**Replace with**:
+> *"Where a fair lease ends and a fair tenancy begins."*
+
+**Why:** Photo #2 currently duplicates Photo #1's caption. New caption gives the section its own angle.
+
+## Section 06 — State & Territory Coverage
+
+### H2
+
+**Find**:
+> *"Know your rights — wherever you are."*
+
+**Replace with**:
+> *"Know what your state requires — wherever you are."*
+
+**Why:** "Your rights" assumes renter perspective. "What your state requires" works for both — renters know their rights, landlords know their obligations.
+
+### Body
+
+**Find**:
+> *"Click any state or territory to see the laws that protect every renter there — plus housing support programmes for seniors, veterans, students, families, and more."*
+
+**Replace with**:
+> *"Click any state to see the laws that protect renters and the obligations on landlords — plus housing programs for seniors, veterans, students, and families."*
+
+**Why:** Dual-audience. American spelling (programmes → programs). Removes "and more" (vague filler).
+
+## Founder note section (becomes mission moment, "I" voice, no buildathon mention)
+
+**Find** (exact match):
+> *"Built in 24 hours for the Replit Buildathon. Reading a lease shouldn't require a law degree — and the technology to fix that has been here for a while."*
+> 
+> *— Ishmael, May 2026*
+
+**Replace with**:
+> *"I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords deserve a fair read — and the technology to deliver it has been here for years. Now it's free."*
+> 
+> *— Ishmael*
+
+**Why:** 
+- Customer-led not internal-led (no buildathon mention on homepage — that goes on /about)
+- "I" voice (authentic solo founder, per Ishmael's direction)
+- Drop the date — brand should feel ongoing, not snapshot
+- Specific opening hook ("35 pages of legal language without help")
+- Three claims: outcome / who / cost
+
+## Footer
+
+### Big quote
+
+**Find** (currently duplicates founder note):
+> *"Reading a lease shouldn't require a law degree."*
+
+**Replace with**:
+> *"A fair lease protects everyone who signs it."*
+
+**Why:** Avoids duplication with founder note. Reinforces dual-audience theme one more time as the page closer.
+
+### Copyright
+
+**Find**:
+> `© 2026 CHECK THE LEASE · ALL RIGHTS RESERVED`
+
+**Replace with**:
+> `© 2026 Check the Lease. All rights reserved.`
+
+**Why:** Sentence case is editorial. ALL CAPS is shouty.
+
+---
+
+# Part 3 — Loading state messages
+
+The rotating loading messages while analysis runs. Update to:
+
+1. *"Reading your lease."*
+2. *"Checking your state's law."*
+3. *"Finding what matters."*
+4. *"Almost there."*
+
+Drop "Surfacing" (overused word). "Finding" is plainer.
+
+---
+
+# Part 4 — Error state copy
+
+### Generic 500 error
+
+**Find** (current copy, similar to):
+> *"Something went wrong. Try again."*
+
+**Replace with**:
+> Title: *"Something went wrong."*
+> Body: *"Our analysis engine had a hiccup. Try once more — usually it works second time."*
+> Button: *"Try again"*
+
+### 429 rate limit
+
+**Find** (current copy):
+> *"Rate limit exceeded..."*
+
+**Replace with**:
+> Title: *"Take a quick breather."*
+> Body: *"Free analysis is capped at 2 per hour. Try the sample lease — that's unlimited and shows what we can do."*
+> Button: *"Try the sample"*
+
+### PDF unreadable
+
+> Title: *"This PDF didn't open cleanly."*
+> Body: *"Likely a scanned document without OCR. Run it through a free OCR tool first (Adobe Acrobat or Google Drive both work), then re-upload."*
+> Button: *"Try again"*
+
+### File too large
+
+> Title: *"That file is over the 25MB limit."*
+> Body: *"Try compressing it first (Adobe, Smallpdf, ilovepdf are all free), then re-upload."*
+> Button: *"Try again"*
+
+---
+
+# Part 5 — Meta tags + social sharing
+
+### Page title
+
+**Find**: current page title (likely *"Check the Lease — Sign without surprises."* or similar)
+
+**Replace with**:
+> `Check the Lease — Read your lease in plain English.`
+
+### Meta description
+
+**Replace with**:
+> `Free AI lease reader for US renters and landlords. Catch the clauses that could cost you, cited to your state's actual law. Information, not legal advice.`
+
+### Open Graph title
+
+> `Check the Lease — Read your lease in plain English.`
+
+### Open Graph description
+
+> `Free for renters and landlords. Catch the clauses that could cost you. Cited to your state's actual law.`
+
+### Twitter card title
+
+> `Check the Lease`
+
+### Twitter card description
+
+> `Read your lease in plain English. Free for US renters and landlords.`
+
+---
+
+# Part 6 — British → American spellings (find-and-replace globally)
+
+Run these find-and-replace operations across every `.tsx`, `.ts`, `.md`, `.json`, `.html`, `.css`, `.txt` file in the codebase. Be CAREFUL — only replace as whole words (don't replace partial matches inside other words).
+
+| Find (case-insensitive, whole word) | Replace |
+|---|---|
+| programmes | programs |
+| programme | program |
+| organisations | organizations |
+| organisation | organization |
+| optimised | optimized |
+| optimise | optimize |
+| analysed | analyzed |
+| analyser | analyzer |
+| analyse | analyze |
+| behaviour | behavior |
+| colour | color |
+| coloured | colored |
+| centre | center |
+| favourite | favorite |
+| whilst | while |
+| realise | realize |
+| realised | realized |
+| recognised | recognized |
+| recognise | recognize |
+| prioritised | prioritized |
+| prioritise | prioritize |
+| summarised | summarized |
+| summarise | summarize |
+| tokenised | tokenized |
+| neighbour | neighbor |
+| labour | labor |
+| utilised | utilized |
+| utilise | utilize |
+
+---
+
+# Part 7 — Banned phrases sweep
+
+Search every file for the banned phrases below. If found in user-facing copy, replace per the table:
+
+| Banned phrase | Replace with |
+|---|---|
+| "you should" | "consider" / "worth" |
+| "you must" | "you'll need to" / "[state] requires" |
+| "this is illegal" | "this may be unenforceable" / "courts have ruled this unenforceable" |
+| "I recommend" | "consider" / "worth knowing" |
+| "you are entitled to" | "[state] law gives you" / "[state] requires" |
+| "sue your landlord" | "consider talking to a tenant lawyer" / "find legal aid in your state" |
+
+---
+
+# Part 8 — Plain English jargon sweep
+
+Search for these legal jargon terms. Replace with plain English unless the term is part of an official statute citation:
+
+| Jargon | Plain English |
+|---|---|
+| statute | law |
+| statutes | laws |
+| statutory | required by law |
+| habitability | living conditions |
+| right of entry | when the landlord can come in |
+| implied warranty | the protection your state guarantees |
+| unenforceable | won't hold up in court |
+| automatic renewal | renews on its own |
+| holdover tenancy | staying on month-to-month after the lease ends |
+| indemnification | who pays if something goes wrong |
+| non-refundable deposit | deposit you can't get back |
+
+---
+
+# Part 9 — Self-audit checklist (RUN BEFORE DECLARING DONE)
+
+Verify every item:
+
+## Forward-looking framing
+
+- [ ] No sentence implies the reader is missing something
+- [ ] Every claim describes what we deliver, not what they lack
+
+## Customer-as-hero
+
+- [ ] No section makes the product the star
+- [ ] The customer (renter or landlord) is always positioned as the one who acts
+
+## Plain English
+
+- [ ] Reading level Grade 6 throughout (test with hemingwayapp.com)
+- [ ] Sentences average 8–14 words
+- [ ] No legal jargon as user-facing labels
+- [ ] No SaaS jargon ("leverage", "synergy", "ecosystem", "platform" used carefully)
+
+## Banned phrases
+
+- [ ] No instance of "you should", "you must", "this is illegal", "I recommend", "sue your landlord", "you are entitled to" in user-facing copy
+
+## Three-claim limit
+
+- [ ] Every section makes at most 3 specific claims
+- [ ] If more, the weakest were cut
+
+## Audience balance
+
+- [ ] Every general section addresses both renters AND landlords (or explicitly labels which one)
+- [ ] No section villainises landlords
+- [ ] The Problem section uses inclusive framing ("Most leases aren't written for the people signing them")
+
+## American spellings
+
+- [ ] All British spellings replaced (programmes → programs, etc.)
+- [ ] No "whilst", "behaviour", "colour" remaining
+
+## CTAs
+
+- [ ] All primary CTAs say "Read my lease →"
+- [ ] All secondary CTAs say "Try a sample lease →"
+- [ ] All CTAs are 2–5 words, first-person, action-verb-first
+
+## Specificity
+
+- [ ] No vague claims — every claim is concrete and verifiable
+- [ ] Stats have source citations
+
+## Section-specific
+
+- [ ] Hero sub copy replaced with new version
+- [ ] Stats labels updated (All 50 states / Always free / 15-second read)
+- [ ] Photo #1 sub-caption shortened
+- [ ] The Problem H2 + body + closing rewritten to dual-audience
+- [ ] All 4 stats in The Problem have source citations
+- [ ] Section 02 H2 split into H2 + sub
+- [ ] Card labels updated (HABITABILITY → LIVING CONDITIONS, RIGHT TO NOTICE → ENTERING WITHOUT WARNING)
+- [ ] "WHAT THIS COSTS YOU" → "WHAT THIS COSTS"
+- [ ] Step 01 of How It Works generalised ("Drop the PDF" not "PDF you received")
+- [ ] Step 02 generalised (mentions both renter and landlord)
+- [ ] Photo #2 caption rewritten
+- [ ] State Coverage H2 + body generalised
+- [ ] Founder note replaced with mission paragraph in "I" voice (no buildathon mention)
+- [ ] Footer big quote varied (no longer duplicates founder note)
+- [ ] Copyright sentence-cased
+- [ ] Loading messages updated
+- [ ] All error states updated
+- [ ] Meta tags + OG + Twitter card updated
+
+---
+
+# Part 10 — Deliverable
+
+After applying every edit, share back:
+
+1. Screenshot of the homepage hero (showing new sub copy)
+2. Screenshot of The Problem section (with new dual-audience H2 + body + source citations)
+3. Screenshot of Section 02 with new card labels
+4. Screenshot of the mission paragraph (replacing founder note)
+5. Screenshot of the footer (with sentence-case copyright + new big quote)
+6. Confirmation that Lighthouse Accessibility still scores 95+
+7. Confirmation that no console errors appeared
+8. A list of any sentences you weren't sure how to rewrite — flag them rather than guess
+
+After this round, the copy is genuinely submission-ready. Then video + social post + submit.
+
+---
+
+# Reminder on autonomy
+
+Treat this as deep copywriting work. Read every existing copy element on every page (homepage, /upload, /results, /about, /resources). Apply every find-and-replace operation precisely. Do not paraphrase. Do not skip any. The copy quality of this site is the difference between "competent buildathon entry" and "elite portfolio piece" — apply full Agent reasoning capacity throughout.

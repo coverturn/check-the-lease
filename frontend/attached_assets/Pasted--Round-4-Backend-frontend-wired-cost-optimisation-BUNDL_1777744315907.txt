@@ -1,0 +1,559 @@
+# Round 4 — Backend + frontend wired + cost optimisation (BUNDLED)
+
+Paste this AFTER Round 3 is verified AND `ANTHROPIC_API_KEY` is in Replit Secrets.
+
+This round delivers the full upload-to-analysis flow: user uploads a PDF, picks state, clicks Analyse, and sees real Claude-generated analysis on the results page.
+
+---
+
+# Round 4 — Build the analysis backend AND wire the frontend
+
+This is a bundled round. We're shipping:
+
+1. Express backend with `/api/analyze` endpoint
+2. PDF parsing via pdf-parse
+3. Claude Haiku 4.5 integration with prompt caching for cost savings
+4. California tenant law JSON as the data backbone
+5. Demo lease result pre-cached as static JSON (free for demo runs)
+6. IP-based rate limiting (2 real analyses per IP per hour)
+7. Frontend `/upload` submit handler wired to the API
+8. Results page reads real analysis from sessionStorage
+
+## Install dependencies
+
+```
+npm install express cors multer @anthropic-ai/sdk pdf-parse zod express-rate-limit dotenv
+npm install -D @types/express @types/cors @types/multer tsx concurrently
+```
+
+## File structure to add
+
+```
+server/
+  index.ts                # Express server entry
+  routes/analyze.ts       # POST /api/analyze
+  lib/
+    extractPdfText.ts     # PDF → text
+    runAnalysis.ts        # Claude call with caching
+    schema.ts             # Zod schemas
+    demoCache.ts          # Demo lease pre-compute logic
+data/
+  states/california.json  # CA tenant law (provided below)
+  cached-demo-result.json # Generated on first demo run, then served forever
+```
+
+## Configure dev workflow
+
+Update `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "concurrently \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "vite",
+    "build": "tsc && vite build",
+    "start": "node dist/server/index.js"
+  }
+}
+```
+
+Update `vite.config.ts`:
+
+```ts
+export default defineConfig({
+  // existing config preserved
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
+});
+```
+
+## `server/lib/schema.ts`
+
+```ts
+import { z } from 'zod';
+
+export const IntakeSchema = z.object({
+  state: z.string(),
+  stage: z.enum(['before', 'already']),
+  perspective: z.enum(['renter', 'landlord', 'both']),
+  isParent: z.boolean().default(false),
+  receivesHousingAid: z.boolean().default(false),
+  isStudent: z.boolean().default(false),
+  reviewingForSomeoneElse: z.boolean().default(false),
+});
+export type Intake = z.infer<typeof IntakeSchema>;
+
+export const SeveritySchema = z.enum(['low', 'medium', 'high']);
+
+export const KeyTermSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  original_quote: z.string().optional(),
+});
+
+export const PotentialIssueSchema = z.object({
+  severity: SeveritySchema,
+  title: z.string(),
+  explanation: z.string(),
+  citation: z.string().optional(),
+  original_quote: z.string().optional(),
+});
+
+export const MissingProtectionSchema = z.object({
+  title: z.string(),
+  explanation: z.string(),
+  helps: z.enum(['renter', 'landlord', 'both']),
+});
+
+export const AnalysisResultSchema = z.object({
+  key_terms: z.array(KeyTermSchema),
+  potential_issues: z.array(PotentialIssueSchema),
+  missing_protections: z.object({
+    renter: z.array(MissingProtectionSchema),
+    landlord: z.array(MissingProtectionSchema),
+  }),
+  questions: z.array(z.string()),
+  stats: z.object({
+    potential_issues: z.number(),
+    missing_protections: z.number(),
+    questions: z.number(),
+  }),
+});
+export type AnalysisResult = z.infer<typeof AnalysisResultSchema>;
+```
+
+## `server/lib/extractPdfText.ts`
+
+```ts
+import pdf from 'pdf-parse';
+
+export async function extractPdfText(buffer: Buffer): Promise<string> {
+  const data = await pdf(buffer);
+  return data.text.replace(/\s+/g, ' ').trim();
+}
+```
+
+## `server/lib/runAnalysis.ts` — uses prompt caching for cost savings
+
+```ts
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'fs/promises';
+import path from 'path';
+import { AnalysisResult, AnalysisResultSchema, Intake } from './schema';
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+const STATE_FILE_MAP: Record<string, string> = {
+  'California': 'california.json',
+  'CA': 'california.json',
+};
+
+async function loadStateRules(state: string) {
+  const filename = STATE_FILE_MAP[state];
+  if (!filename) return null;
+  try {
+    const raw = await fs.readFile(path.join(process.cwd(), 'data', 'states', filename), 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+const SYSTEM_PROMPT = `You are an editorial AI lease reader for "Check the Lease". You analyse US residential leases and produce structured plain-English information about what the lease says, what may be risky, what protections are missing, and what to ask.
+
+YOU PROVIDE LEGAL INFORMATION, NEVER LEGAL ADVICE.
+
+Strict rules — break ANY of these and the response is invalid:
+1. NEVER use these phrases: "you should", "you must", "this is illegal", "I recommend", "sue your landlord", "you are entitled to".
+2. ALWAYS frame as: "this clause may", "California law generally requires", "things to be aware of", "consider asking", "may be unenforceable".
+3. ALWAYS cite the specific statute when stating a rule of law (e.g., "Cal. Civ. Code § 1950.5").
+4. NEVER fabricate citations. If unsure, don't cite.
+5. Surface ALL relevant issues — don't summarise to fewer than what's actually there.
+6. Plain English at a 6th-grade reading level.
+
+Tailor output to the perspective the user picked:
+- "renter": surface risks, costs, surprises, illegal-against-tenant clauses, missing tenant protections.
+- "landlord": surface compliance gaps, dispute risks, missing landlord protections.
+- "both": balanced — both sides.
+
+Return ONLY valid JSON matching the schema. No prose outside the JSON. No markdown fences.`;
+
+export async function runAnalysis(leaseText: string, intake: Intake): Promise<AnalysisResult> {
+  const stateRules = await loadStateRules(intake.state);
+
+  const personalContext: string[] = [];
+  if (intake.isParent) personalContext.push('parent or guardian');
+  if (intake.receivesHousingAid) personalContext.push('receives housing aid');
+  if (intake.isStudent) personalContext.push('student or young renter');
+  if (intake.reviewingForSomeoneElse) personalContext.push('reviewing for someone else');
+
+  const stateContext = stateRules
+    ? `STATE-SPECIFIC LAW (use these rules and citations precisely):\n${JSON.stringify(stateRules, null, 2)}`
+    : `STATE: ${intake.state}. No deep state data — use general state-aware guidance and recommend the reader confirm with a local tenant lawyer.`;
+
+  // Cached portion: system prompt + state context (reused across many leases)
+  const cachedPreamble = `${stateContext}
+
+JSON SCHEMA TO RETURN:
+{
+  "key_terms": [{ "label": "Rent", "value": "$X/month", "original_quote": "..." }],
+  "potential_issues": [{ "severity": "low|medium|high", "title": "...", "explanation": "...", "citation": "...", "original_quote": "..." }],
+  "missing_protections": { "renter": [{ "title": "...", "explanation": "...", "helps": "renter" }], "landlord": [...] },
+  "questions": ["..."],
+  "stats": { "potential_issues": N, "missing_protections": N, "questions": N }
+}
+
+Include 6-10 key terms (Rent, Security Deposit, Late Fee, Lease Term, Renewal, Entry Notice, Pets, Termination, Repairs, Utilities). Include all material issues. Missing protections: 2-5 per side. Questions: 5-8.`;
+
+  // Per-lease portion: not cached
+  const userMessage = `CONTEXT:
+- State: ${intake.state}
+- Stage: ${intake.stage === 'before' ? 'reviewing before signing' : 'already signed'}
+- Perspective: ${intake.perspective}
+- Personal context: ${personalContext.length ? personalContext.join(', ') : 'none provided'}
+
+LEASE TEXT:
+"""
+${leaseText}
+"""
+
+Return ONLY the JSON.`;
+
+  const response = await anthropic.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 4096,
+    system: [
+      {
+        type: 'text',
+        text: SYSTEM_PROMPT,
+        cache_control: { type: 'ephemeral' },
+      },
+      {
+        type: 'text',
+        text: cachedPreamble,
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
+    messages: [{ role: 'user', content: userMessage }],
+  });
+
+  const textBlock = response.content.find((b: any) => b.type === 'text');
+  if (!textBlock || textBlock.type !== 'text') {
+    throw new Error('No text in Claude response');
+  }
+  const cleaned = textBlock.text.replace(/^```json\s*/i, '').replace(/\s*```\s*$/, '').trim();
+  return AnalysisResultSchema.parse(JSON.parse(cleaned));
+}
+```
+
+## `server/lib/demoCache.ts` — pre-compute the demo lease analysis
+
+```ts
+import fs from 'fs/promises';
+import path from 'path';
+import crypto from 'crypto';
+import { AnalysisResult } from './schema';
+
+const CACHE_PATH = path.join(process.cwd(), 'data', 'cached-demo-result.json');
+
+// SHA-256 of the demo lease PDF text (first 200 chars used to identify)
+// We compute this on first upload of the demo and store it.
+
+export async function getCachedDemoResult(): Promise<AnalysisResult | null> {
+  try {
+    const raw = await fs.readFile(CACHE_PATH, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export async function saveCachedDemoResult(result: AnalysisResult, leaseTextHash: string) {
+  await fs.writeFile(CACHE_PATH, JSON.stringify({ ...result, _hash: leaseTextHash }, null, 2));
+}
+
+export function hashLeaseText(text: string): string {
+  return crypto.createHash('sha256').update(text.slice(0, 2000)).digest('hex').slice(0, 16);
+}
+
+// Demo lease detection: matches if filename or first 200 chars of text match known patterns
+export function isDemoLease(filename: string, leaseText: string): boolean {
+  const lowerName = filename.toLowerCase();
+  if (lowerName.includes('sample-lease') || lowerName.includes('demo-lease')) return true;
+  // Or match by content fingerprint
+  if (leaseText.includes('Apex Property Management') && leaseText.includes('Hollywood Heights')) return true;
+  return false;
+}
+```
+
+## `server/routes/analyze.ts`
+
+```ts
+import { Request, Response } from 'express';
+import multer from 'multer';
+import rateLimit from 'express-rate-limit';
+import { extractPdfText } from '../lib/extractPdfText';
+import { runAnalysis } from '../lib/runAnalysis';
+import { IntakeSchema } from '../lib/schema';
+import { getCachedDemoResult, saveCachedDemoResult, hashLeaseText, isDemoLease } from '../lib/demoCache';
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024 } });
+
+// Rate limit: 2 real analyses per IP per hour. Demo runs are exempt (skipped via skip).
+const limiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 2,
+  message: { error: 'Rate limit exceeded. Free analysis is capped at 2 per hour. Try the sample lease for unlimited demos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const analyzeRoute = [
+  upload.single('lease'),
+  async (req: Request, res: Response, next: any) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: 'No lease file uploaded' });
+
+      const intakeRaw = JSON.parse(req.body.intake || '{}');
+      const intake = IntakeSchema.parse(intakeRaw);
+
+      const leaseText = await extractPdfText(req.file.buffer);
+      if (leaseText.length < 200) {
+        return res.status(400).json({ error: 'Lease text too short — likely a scan without OCR or a corrupt PDF.' });
+      }
+
+      // Demo path — free, cached, no rate limit
+      if (isDemoLease(req.file.originalname, leaseText)) {
+        const cached = await getCachedDemoResult();
+        if (cached) {
+          delete (cached as any)._hash;
+          return res.json({ ok: true, analysis: cached, fromCache: true });
+        }
+        // First demo run ever — compute and cache
+        const fresh = await runAnalysis(leaseText, intake);
+        await saveCachedDemoResult(fresh, hashLeaseText(leaseText));
+        return res.json({ ok: true, analysis: fresh, fromCache: false });
+      }
+
+      // Real path — rate limited
+      // Apply limiter manually here so demo path bypasses it
+      return (limiter as any)(req, res, async () => {
+        const analysis = await runAnalysis(leaseText, intake);
+        res.json({ ok: true, analysis });
+      });
+    } catch (err: any) {
+      console.error('[analyze] error:', err);
+      res.status(500).json({ error: err?.message || 'Internal server error' });
+    }
+  },
+];
+```
+
+## `server/index.ts`
+
+```ts
+import express from 'express';
+import cors from 'cors';
+import { analyzeRoute } from './routes/analyze';
+
+const app = express();
+const PORT = Number(process.env.PORT) || 3001;
+
+app.set('trust proxy', 1); // for express-rate-limit behind Replit's proxy
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+
+app.post('/api/analyze', analyzeRoute);
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
+
+app.listen(PORT, () => console.log(`[server] listening on :${PORT}`));
+```
+
+## `data/states/california.json` — full California tenant law
+
+```json
+{
+  "state": "California",
+  "abbreviation": "CA",
+  "rules": {
+    "security_deposit": {
+      "max_months_unfurnished": 2,
+      "max_months_furnished": 3,
+      "citation": "Cal. Civ. Code § 1950.5",
+      "return_timeline_days": 21,
+      "must_provide_itemised_statement": true,
+      "interest_required": false
+    },
+    "entry_notice": {
+      "minimum_hours": 24,
+      "form": "written",
+      "permitted_purposes": ["necessary repairs", "showings", "inspections", "court-ordered"],
+      "exceptions": ["emergency", "tenant_consent", "tenant abandonment"],
+      "citation": "Cal. Civ. Code § 1954"
+    },
+    "late_fees": {
+      "must_be_reasonable_estimate_of_damages": true,
+      "vague_clauses_unenforceable": true,
+      "citation": "Cal. Civ. Code § 1671",
+      "note": "Late fees stated as 'as determined by Landlord' or unspecified amounts are typically unenforceable in California."
+    },
+    "habitability": {
+      "implied_warranty": true,
+      "landlord_responsible_for": ["plumbing", "heating", "electrical", "structural soundness", "weatherproofing", "hot/cold water", "sanitation", "trash receptacles"],
+      "tenant_cannot_be_required_to_repair_landlord_responsibilities": true,
+      "citation": "Cal. Civ. Code § 1941, 1941.1"
+    },
+    "self_help_eviction": {
+      "allowed": false,
+      "prohibited_actions": ["lockouts", "utility shutoffs", "removing possessions", "intimidation"],
+      "must_use_unlawful_detainer": true,
+      "citation": "Cal. Civ. Code § 789.3"
+    },
+    "jury_waiver": {
+      "enforceable_in_residential_lease": false,
+      "citation": "Grafton Partners L.P. v. Superior Court (2005) 36 Cal.4th 944"
+    },
+    "negligence_waiver": {
+      "enforceable": false,
+      "citation": "Cal. Civ. Code § 1953"
+    },
+    "attorney_fees_clause": {
+      "automatically_reciprocal": true,
+      "citation": "Cal. Civ. Code § 1717"
+    },
+    "rent_increase_cap": {
+      "applies_to_most_tenancies": true,
+      "annual_max_percent": "5% + local CPI",
+      "absolute_max_percent": 10,
+      "exemptions": ["single-family homes if not corporate-owned (with notice)", "buildings less than 15 years old"],
+      "citation": "Cal. Civ. Code § 1947.12 (Tenant Protection Act of 2019)"
+    },
+    "retaliation_protection": {
+      "exists": true,
+      "waivable": false,
+      "presumption_of_retaliation_window_days": 180,
+      "citation": "Cal. Civ. Code § 1942.5"
+    },
+    "required_disclosures": [
+      { "name": "Megan's Law database notice", "citation": "Cal. Civ. Code § 2079.10a" },
+      { "name": "Lead-based paint disclosure (pre-1978)", "citation": "42 U.S.C. § 4852d" },
+      { "name": "Bedbug disclosure", "citation": "Cal. Civ. Code § 1954.603" },
+      { "name": "Mold disclosure (if known)", "citation": "Cal. Health & Safety Code § 26147" }
+    ]
+  },
+  "legal_aid_orgs": [
+    { "name": "Bay Area Legal Aid", "url": "https://baylegal.org" },
+    { "name": "Legal Aid Foundation of Los Angeles", "url": "https://lafla.org" },
+    { "name": "Tenants Together", "url": "https://www.tenantstogether.org" }
+  ]
+}
+```
+
+## Frontend wiring
+
+### Update the `/upload` page submit handler
+
+When the user clicks "Analyse my lease →":
+
+```ts
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  if (!file || !state) return;
+
+  setIsAnalysing(true);
+  setError(null);
+
+  try {
+    const formData = new FormData();
+    formData.append('lease', file);
+    formData.append('intake', JSON.stringify({
+      state, stage, perspective, isParent, receivesHousingAid, isStudent, reviewingForSomeoneElse
+    }));
+
+    const response = await fetch('/api/analyze', { method: 'POST', body: formData });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.error || 'Analysis failed');
+
+    // Save to sessionStorage so the results page can read it
+    sessionStorage.setItem('ctl-intake', JSON.stringify({
+      state, stage, perspective, isParent, receivesHousingAid, isStudent, reviewingForSomeoneElse
+    }));
+    sessionStorage.setItem('ctl-analysis', JSON.stringify(data.analysis));
+
+    // Generate a short id for the URL
+    const id = Math.random().toString(36).slice(2, 10);
+    navigate(`/results/${id}`);
+  } catch (err: any) {
+    setError(err.message);
+    setIsAnalysing(false);
+  }
+}
+```
+
+### Show a loading state during analysis
+
+While `isAnalysing` is true, show a calm loading panel:
+- Replace the form with a centred card
+- Fraunces italic 24px: "Reading your lease."
+- Inter 13px ink-muted: "We're checking against California law and surfacing what matters. Usually 5–15 seconds."
+- A subtle CSS-only pulse animation on a sage dot
+
+### Update the results page
+
+The results page at `/results/[id]` (or `/results/:id`) should:
+1. Read `ctl-analysis` from sessionStorage on mount
+2. If found: render real data into the existing 5 sections
+3. If NOT found (someone navigated directly): keep the placeholder data so the page still demos
+4. Replace the placeholder values:
+   - Snapshot stats from `analysis.stats`
+   - Key Terms grid from `analysis.key_terms`
+   - Potential Issues from `analysis.potential_issues` (with severity-coloured badges)
+   - Missing Protections renter tab from `analysis.missing_protections.renter`, landlord tab from `analysis.missing_protections.landlord`
+   - Questions from `analysis.questions`
+
+### Add a "Try with sample lease" button on /upload
+
+Above the file uploader card, add a small calm button:
+
+```tsx
+<button onClick={loadSampleLease}>Try the sample California lease →</button>
+```
+
+`loadSampleLease` fetches the sample lease PDF from `/sample-lease.pdf` (host the file in `public/` — provided in /Users/ishmaelmccalla/Downloads/CoverTurn/check-the-lease/sample-leases/sample-lease-california.pdf, just drop it into the project's public folder), creates a File object, and pre-fills state to "California".
+
+### Error handling
+
+If `/api/analyze` returns 429 (rate limit) or 500, show a calm error card on the upload page:
+- Fraunces italic title: "Something went wrong."
+- Inter body: the error message
+- Sage button: "Try again" (resets the form state)
+
+## Test the flow
+
+After Agent finishes:
+
+```
+curl -X POST http://localhost:3001/api/health
+```
+
+Should return `{"ok": true}`.
+
+Then:
+1. Open the dev URL
+2. Click "Try the sample California lease" on the /upload page
+3. Wait 5–15 seconds
+4. Results page should render with REAL Claude-generated analysis (NOT the placeholder data)
+
+## Deliverable
+
+Full upload-to-analysis flow working. Demo runs free (cached). Real uploads cost ~$0.03 each, capped at 2 per IP per hour. California analysis cites real statutes.
+
+When done, share the preview URL and tell me:
+1. Did the sample-lease demo render real analysis?
+2. Any errors during install or first run?
+3. Any creative choices Agent made along the way?

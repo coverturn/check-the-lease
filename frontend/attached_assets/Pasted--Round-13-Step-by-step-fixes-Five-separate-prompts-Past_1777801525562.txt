@@ -1,0 +1,307 @@
+# Round 13 — Step-by-step fixes
+
+Five separate prompts. Paste them into Replit Agent **one at a time, in order**. Wait for each to finish before pasting the next. Each one is self-contained and includes the throttle bypass prefix.
+
+---
+
+## STEP 1 — Fix the /build-log 404 (DO THIS FIRST)
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+The footer link "See how it came together →" currently points to `/build-log` and that page returns 404. This is actively damaging credibility. Build the page now.
+
+Create a new route at `/build-log` that renders a single-column editorial page in the same brand language as the rest of the site (cream `#FBF8F1` background, ink `#171717` text, Fraunces italic for emphasis, Inter for body, sage `#5A8B7A` for accents).
+
+Use the same Nav and Footer components as the homepage. No floating decorations. Plain editorial layout.
+
+### Page structure
+
+**Header (centered, 80px top padding):**
+- Eyebrow: `BUILD LOG` (Inter, 12px, uppercase, letter-spacing 1.5px, ink-muted)
+- H1: *"How I built Check the Lease in 24 hours."* (Fraunces italic, 56px desktop / 36px mobile)
+- Sub-heading: *"For the Replit 10 Year Buildathon, May 2-3 2026."* (Inter, 18px, ink-muted)
+
+**Body (max-width 720px, centered, 64px top margin from header):**
+
+Render the four hour-by-hour blocks below. Each block is:
+- A small section label like `HOUR 0 — 4` (Inter, 11px, uppercase, letter-spacing 1.5px, sage)
+- A short H3 (Fraunces italic, 28px, ink) — see below
+- One paragraph of body copy (Inter, 17px, line-height 1.6, ink)
+- 32px vertical spacing between blocks
+- A subtle 1px hairline divider (rgba(23,23,23,0.08)) between blocks
+
+#### Block 1
+**Label:** `HOUR 0 — 4`
+**Heading:** *The first ugly version.*
+**Body:** "I started with a single Replit Agent prompt: 'Build a free AI lease reader for US renters that cites the actual state law.' The first version was ugly — a dropzone, a paste field, and a wall of text output. Functional, but not something a renter would trust enough to upload a real lease into. It was the proof that Agent could read a PDF, send it to Claude, and get structured output back. Everything after that was making it actually feel like a product."
+
+#### Block 2
+**Label:** `HOUR 4 — 10`
+**Heading:** *Brand from scratch.*
+**Body:** "I rebuilt the look from the ground up. Cream, sage, clay, and a Fraunces italic so the whole thing didn't feel like another Tailwind hackathon site. I hand-coded SVG illustrations — keys, a moving box, a magnifier, a document — because the AI image generators couldn't get the rubberhose flat-illustration look I wanted. The brand had to do real work. A renter signing a lease has to feel like the tool was built carefully, not in a weekend."
+
+#### Block 3
+**Label:** `HOUR 10 — 18`
+**Heading:** *Eleven rounds of prompts.*
+**Body:** "The hard part was the analysis output. I ran Replit Agent through eleven rounds of iteration to get the results page right — four tabs (action plan, key terms, issues, gaps), severity grouping, statute citations, an action plan checklist with concrete questions to ask the landlord. Most lease readers give you a wall of red flags. I wanted a punch list. Something a renter could literally walk into a conversation with."
+
+#### Block 4
+**Label:** `HOUR 18 — 24`
+**Heading:** *The bits that matter most.*
+**Body:** "I added a 50-state legal aid directory because the renters most likely to get burned by a bad lease are the ones least likely to have a lawyer's number on speed dial. Then I built a chatbot that knows your state's tenant rules and answers questions in plain English. Free, no account, never stored. The last hours were copy passes — getting every line to work for both renters AND landlords, because a fair lease protects whoever signs it."
+
+**Sign-off block (after the last divider, 48px top margin):**
+- *"Built with Replit Agent. May 2-3 2026."*
+- *"— Ishmael McCalla"*
+- (Both Fraunces italic, 18px, ink-muted, centered)
+
+**CTA strip (96px bottom margin):**
+- A single sage button: `See the live site →` linking to `/`
+- A secondary text link below: `Try the demo result →` linking to `/results/demo`
+
+### Accessibility
+- `<html lang="en">` already set globally
+- `<h1>` is the page title
+- Hairline dividers are `<hr aria-hidden="true">` styled
+- Page passes Lighthouse Accessibility 95+
+
+### Self-audit before deploy
+- [ ] /build-log loads (no 404)
+- [ ] Same Nav and Footer as homepage
+- [ ] Cream background, brand colours, Fraunces italic for headings
+- [ ] All four hour blocks render in order
+- [ ] Sign-off attribution to Ishmael
+- [ ] CTA at bottom links to `/` and `/results/demo`
+- [ ] Mobile (375px) — single column, readable, no overflow
+- [ ] No console errors
+
+---
+
+## STEP 2 — Dedupe hero CTAs
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+The homepage hero currently has two competing primary CTAs ("Read my lease →" and "See a real result →") plus the same "Read my lease →" appears in the nav. Audit the hero region and lock the hierarchy.
+
+### What the hero CTA row should be (after this fix)
+
+Exactly two buttons in the hero:
+
+**Primary:**
+- Label: `See a real result →`
+- Link: `/results/demo`
+- Style: existing primary button style (sage background, cream text, ink hard offset shadow)
+
+**Secondary:**
+- Label: `Or read your own lease →`
+- Link: `/upload`
+- Style: ghost/outline button — transparent background, ink border, ink text, NO offset shadow. Hover: cream-dark background.
+
+**Remove from the hero region:**
+- Any duplicate "Read my lease →" button
+- Any inline "Try a sample lease →" link (the demo is now the primary CTA, so this link is redundant)
+
+### Nav (unchanged)
+The nav top-right "Read my lease" button can stay — that's the persistent CTA across the whole site, separate from the hero hierarchy.
+
+### Final CTA strip at the bottom of the page (Section 09 or so)
+The closing "Read your lease. Before it reads you." section also has a CTA row. Audit it too:
+
+**Primary:** `See a real result →` → `/results/demo`
+**Secondary:** `Or read your own lease →` → `/upload`
+
+Same hierarchy as hero.
+
+### Self-audit
+- [ ] Hero has exactly two visible CTAs: "See a real result →" (primary) + "Or read your own lease →" (secondary)
+- [ ] No "Try a sample lease →" link in the hero
+- [ ] Final CTA strip mirrors the hero hierarchy
+- [ ] Nav top-right "Read my lease" button is unchanged (persistent CTA)
+- [ ] On the page as a whole, `/results/demo` is now linked from at least 2 places (hero + final CTA), not just 1
+- [ ] Mobile — buttons stack cleanly with 12px gap
+
+---
+
+## STEP 3 — Swap section 01 and 02
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+Currently the homepage section order is:
+- 01 — THE PROBLEM (4 market stats)
+- 02 — WHAT'S ACTUALLY IN THERE (3 real clause examples — entry, habitability, deposit)
+
+The clause examples are the strongest concrete proof of what the product actually does. They should land first while attention is highest.
+
+### What to do
+
+Swap these two sections so the order becomes:
+- 01 — WHAT'S ACTUALLY IN THERE (the three example clauses)
+- 02 — THE PROBLEM (the four market stats)
+- 03 onward — keep existing order (How it works, A complete read, Who it's for, State coverage, etc.)
+
+### Things to update during the swap
+
+- Renumber the eyebrow labels (`01 — WHAT'S ACTUALLY IN THERE`, `02 — THE PROBLEM`)
+- Update the Jump-to navigation strip (the row of anchor links near the top: "The problem · How it works · Who it's for · State coverage") — re-order so "What's actually in there" appears first if it has an anchor, otherwise leave it
+- Update any anchor IDs that reference these sections (e.g., `#problem`, `#whats-in-there`) — re-point so deep-links still work
+- No copy changes inside the sections themselves — only the order and the section numbers change
+
+### Self-audit
+- [ ] Section 01 H2 reads: "Clauses that appear in millions of US leases."
+- [ ] Section 02 H2 reads: "Most leases aren't written for the people signing them."
+- [ ] Eyebrow labels updated (01 — WHAT'S ACTUALLY IN THERE, 02 — THE PROBLEM)
+- [ ] Anchor links / jump-to nav still work
+- [ ] No broken section numbering anywhere downstream
+
+---
+
+## STEP 4 — Compress the State Coverage section
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+The current State Coverage section uses an interactive US map that eats ~1500px of vertical space. The page is now ~8900px tall. We need to bring it back under 7500px. Replace the interactive map with a compressed hero strip.
+
+### What to build
+
+In the section currently titled `06 — STATE & TERRITORY COVERAGE` (or similar), replace the entire interactive map block with this layout:
+
+**Layout (centered, max-width 1080px):**
+
+```
+[ Eyebrow: STATE & TERRITORY COVERAGE ]
+[ H2: Know what your state requires — wherever you are. ]
+[ Body paragraph (existing copy, kept) ]
+
+[ Big number block, centered:                   ]
+[                                               ]
+[              50 + DC + 6                      ]
+[                                               ]
+[      Every US state and territory.            ]
+[                                               ]
+[       [ Pick your state → ]   ← single CTA    ]
+
+[ Marquee of state abbreviations scrolling slowly across the full width ]
+```
+
+### Detailed specs
+
+**Big number:** 
+- Display: `50 + DC + 6`
+- Font: Big Shoulders Display (or Fraunces italic if Big Shoulders isn't loaded — pick the most attention-grabbing display font already in use)
+- Size: 96px desktop / 64px mobile
+- Colour: ink `#171717`
+- Letter-spacing: -1px
+- Margin: 32px below the body paragraph, 24px above the sub
+
+**Sub:**
+- Text: *"Every US state and territory."*
+- Font: Fraunces italic, 22px desktop / 18px mobile
+- Colour: ink-muted `#6B6B6B`
+- Margin: 24px below big number, 32px above CTA
+
+**CTA:**
+- Label: `Pick your state →`
+- Style: same as homepage primary button (sage bg, cream text, ink hard-offset shadow)
+- On click: opens a modal/dropdown containing the state picker. The picker is just a vertical list of all 50 states + DC + 6 territories with a search input at the top. Clicking a state navigates to `/resources?state=XX` (since /resources already exists with state-aware data per Round 9.8).
+
+**Marquee strip (below CTA, full-width):**
+- Text scrolling left-to-right at slow speed (animation-duration: 80s, linear, infinite)
+- Content: `AL · AK · AZ · AR · CA · CO · CT · DE · FL · GA · HI · ID · IL · IN · IA · KS · KY · LA · ME · MD · MA · MI · MN · MS · MO · MT · NE · NV · NH · NJ · NM · NY · NC · ND · OH · OK · OR · PA · RI · SC · SD · TN · TX · UT · VT · VA · WA · WV · WI · WY · DC · PR · GU · VI · AS · MP ·` (repeated twice for seamless loop)
+- Font: Fraunces italic, 16px, ink-muted `#6B6B6B`
+- Border-top + border-bottom: 1px hairline `rgba(23,23,23,0.08)`
+- Padding: 16px vertical
+- Background: cream-dark `#F2EDE2`
+- Disable on `prefers-reduced-motion: reduce`
+
+### What to delete
+
+- The entire interactive `<USStateMap>` component invocation in this section
+- The accompanying 6-territory chip grid (DC, PR, GU, VI, AS, MP) — those abbreviations are now in the marquee
+- Any related decoration that only existed to dress up the map
+
+### Keep (don't delete)
+- The `USStateMap.tsx` component file itself — `/resources` may still use it
+- Any state-data JSON files
+
+### Self-audit
+- [ ] Interactive US map no longer renders on the homepage
+- [ ] Big `50 + DC + 6` number is the visual anchor of the section
+- [ ] Single `Pick your state →` CTA opens a state picker modal
+- [ ] Marquee scrolls all 50 + DC + 6 abbreviations
+- [ ] Marquee respects `prefers-reduced-motion: reduce`
+- [ ] Doc height drops below 7500px (was ~8900px)
+- [ ] /resources still uses the map if it was using it before
+- [ ] Mobile — number scales down, CTA still tappable, marquee still scrolls
+
+---
+
+## STEP 5 — Run Lighthouse and fix anything below 90
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+After Steps 1-4 are deployed, run Lighthouse on the homepage in incognito mode (Chrome DevTools → Lighthouse → Performance + Accessibility + Best Practices + SEO + Mobile). Target: **90+ on all four scores.**
+
+### Most likely failures + surgical fixes
+
+**Performance below 90:**
+- Add `loading="lazy"` to any image-like SVG that's below the fold
+- Defer the chatbot script: don't load the chatbot bundle until the user scrolls past 50% of the viewport OR clicks a "Chat" trigger
+- Add explicit `width` and `height` attributes to all illustration SVGs to prevent CLS
+- Audit hero illustrations — if any are SVGs being rendered at sizes much smaller than their viewBox, the rasterisation cost is higher than needed
+- Wrap the new state-coverage marquee animation in `will-change: transform` (allows GPU acceleration)
+- Check for any `@keyframes` animations running on every paint — pause them when offscreen
+
+**Accessibility below 95:**
+- Verify `<html lang="en">` is set
+- Verify every interactive element has a visible focus ring (sage outline at minimum)
+- Audit colour contrast on the new big `50 + DC + 6` block — ink on cream should pass AAA easily
+- Floating decorative SVGs all need `aria-hidden="true"`
+- Marquee text scroll needs `prefers-reduced-motion` support (already specced in Step 4 — verify)
+- Skip-to-main-content link present and functional
+
+**Best Practices below 95:**
+- Open the console — no errors, no warnings
+- All resources loaded over HTTPS (auto on Replit deploy)
+- No deprecated APIs in use
+- No browser-storage usage if running in a strict environment
+
+**SEO below 90:**
+- `<title>` is unique and descriptive (it is)
+- Meta description present (it is)
+- Robots meta tag set to `index, follow` (NOT `noindex` — check this!)
+- All links have descriptive text (no "click here" anchors)
+- All images have meaningful alt text
+- Add a sitemap.xml at the root if missing (just listing /, /upload, /how-it-works, /resources, /about, /build-log, /privacy, /terms is enough)
+
+### Run order
+1. Deploy Steps 1-4 first
+2. Open the live URL in Chrome incognito
+3. Open DevTools → Lighthouse tab
+4. Select Performance + Accessibility + Best Practices + SEO + Mobile
+5. Click "Generate report"
+6. Identify any score below 90 and fix the specific items it flags
+7. Re-run Lighthouse to confirm
+8. Repeat until all four scores are 90+
+
+### Self-audit
+- [ ] Lighthouse Performance ≥ 90
+- [ ] Lighthouse Accessibility ≥ 95
+- [ ] Lighthouse Best Practices ≥ 95
+- [ ] Lighthouse SEO ≥ 90
+- [ ] Console clean (no errors, no warnings)
+- [ ] Mobile audit also passes (run the mobile profile separately)
+- [ ] Screenshot the final scores for the build log / portfolio
+
+---
+
+## Total estimated time
+
+- Step 1 (build-log page): **20-25 min**
+- Step 2 (CTA dedupe): **5-10 min**
+- Step 3 (section swap): **10 min**
+- Step 4 (compress state coverage): **20-25 min**
+- Step 5 (Lighthouse): **20-30 min**
+
+**Total: ~75-100 min.** Leaves you 60-75 min after for video + social post + final submission.
+
+**Order is non-negotiable.** Step 1 first (the 404 is actively damaging right now). Step 5 last (it depends on the other changes being deployed).

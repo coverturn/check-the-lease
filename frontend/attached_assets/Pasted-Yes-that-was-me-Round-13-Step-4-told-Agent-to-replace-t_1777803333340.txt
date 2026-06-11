@@ -1,0 +1,85 @@
+Yes — that was me. Round 13 Step 4 told Agent to replace the interactive map with a number block + button. **Wrong call. The map IS the moat.** It's the single most impressive visual on the page, the actual proof of "all 50 states," and removing it for page-length reasons was bad judgement.
+
+**Quick fix — restore the map, compress it properly without killing it.** Paste this into Replit Agent right now:
+
+---
+
+# REVERT-AND-COMPRESS: Bring back the interactive US state map
+
+**Critical priority — apply full context window and deepest reasoning. Use full autonomy and higher power usage.**
+
+The previous instruction told you to remove the interactive US state map from the homepage State Coverage section. **That was wrong. Restore it.** The interactive map is a key visual differentiator and the strongest proof of "all 50 states + DC + territories" coverage.
+
+## What to do
+
+1. **Restore the `<USStateMap>` component invocation** in the State Coverage section on the homepage. The component file `src/components/USStateMap.tsx` still exists and is being used by `/resources` — re-import and re-mount it on the homepage exactly where it was before.
+
+2. **Restore the territories chip grid** (DC, PR, GU, VI, AS, MP) below the map.
+
+3. **Keep the map fully interactive** — clicking a state still navigates / opens info, exactly as it did before the previous edit.
+
+## Compress it WITHOUT removing it
+
+The original problem was page length. Solve it by shrinking the map's footprint, not deleting it:
+
+- Constrain the map's max-width to **900px** (was wider). Centre it.
+- Reduce the map's container `aspect-ratio` from whatever it was to **`16 / 9`** (it was probably 4/3 or similar). This makes it shorter without distorting the geography.
+- Move the territories chip grid (DC, PR, GU, VI, AS, MP) into a single horizontal row directly under the map (instead of a 2x3 grid). Use `flex-wrap` so it stacks on mobile.
+- Reduce vertical padding inside the section from whatever it was to **48px top / 64px bottom** (was probably 80-120px each).
+- The H2 + intro paragraph stay where they were. Don't touch them.
+
+## Add a thin marquee strip BELOW the map (new, cheap real estate)
+
+A slowly scrolling state-abbreviation marquee. This adds atmosphere and reinforces the coverage claim without adding height:
+
+```tsx
+<div style={{
+  marginTop: 32,
+  borderTop: '1px solid rgba(23,23,23,0.08)',
+  borderBottom: '1px solid rgba(23,23,23,0.08)',
+  padding: '14px 0',
+  background: '#F2EDE2',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+}}>
+  <div style={{
+    display: 'inline-block',
+    animation: 'marquee 80s linear infinite',
+    fontFamily: 'Fraunces, serif',
+    fontStyle: 'italic',
+    fontSize: 16,
+    color: '#6B6B6B',
+  }}>
+    AL · AK · AZ · AR · CA · CO · CT · DE · FL · GA · HI · ID · IL · IN · IA · KS · KY · LA · ME · MD · MA · MI · MN · MS · MO · MT · NE · NV · NH · NJ · NM · NY · NC · ND · OH · OK · OR · PA · RI · SC · SD · TN · TX · UT · VT · VA · WA · WV · WI · WY · DC · PR · GU · VI · AS · MP &nbsp;·&nbsp; AL · AK · AZ · AR · CA · CO · CT · DE · FL · GA · HI · ID · IL · IN · IA · KS · KY · LA · ME · MD · MA · MI · MN · MS · MO · MT · NE · NV · NH · NJ · NM · NY · NC · ND · OH · OK · OR · PA · RI · SC · SD · TN · TX · UT · VT · VA · WA · WV · WI · WY · DC · PR · GU · VI · AS · MP
+  </div>
+</div>
+```
+
+Add to the global stylesheet if not present:
+
+```css
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="animation: marquee"] { animation: none; }
+}
+```
+
+## Self-audit
+
+- [ ] Interactive US state map is BACK on the homepage and clicking states still works
+- [ ] Territory chips (DC, PR, GU, VI, AS, MP) are present in a single row
+- [ ] Map max-width 900px, aspect-ratio 16/9, centred
+- [ ] Section padding reduced
+- [ ] Marquee strip scrolls all 50 + DC + 6 below the map
+- [ ] Marquee respects `prefers-reduced-motion`
+- [ ] Mobile (375px) — map still interactive, territory chips wrap, marquee still scrolls
+- [ ] Doc height shorter than before the previous edit but the map is FULLY restored
+
+---
+
+That brings the map back, makes it more compact than the original, AND adds the marquee atmosphere I should have just added in the first place. Net: shorter page, map preserved, atmosphere added.
+
+Sorry — that was a misjudgement on my part. The map is staying.

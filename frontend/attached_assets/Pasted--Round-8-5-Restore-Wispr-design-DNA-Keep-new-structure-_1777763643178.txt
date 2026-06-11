@@ -1,0 +1,201 @@
+# Round 8.5 — Restore Wispr design DNA. Keep new structure.
+
+This round fixes a design regression. The latest copy + structure improvements are good — keep them. But the Wispr editorial design language we locked in Round 7 has been lost. We restore it without disturbing the structural work.
+
+---
+
+# Round 8.5 — Surgical design restoration
+
+## What's gone wrong (regression diagnosis)
+
+The previous polish round drifted away from the Wispr Flow editorial design language we locked in Round 7. Specifically:
+
+| What we had (Round 7 locked) | What's currently rendering |
+|---|---|
+| Warm cream background `#FBF8F1` (Lumen) | Pink-blue gradient on hero — wrong vibe |
+| Calm muted severity colors — clay `#C97A4A` (medium), wine `#7A2C3D` (high) | Aggressive RED ALERT cards with "HIGH RISK" — too alarmist |
+| Marquee curving italic SVG `textPath` divider | Appears to be missing |
+| Four contextually-placed illustrations (MoveBox, ReadDocument, KeyHome, HomeFinal) | Only 2 small decorative illustrations visible, lost their contextual placement |
+| Editorial calm — thick borders, no shadows, no gradients | Floating cards with shadows, gradient backgrounds |
+| Wispr Flow editorial energy | Generic SaaS feel |
+
+## What to KEEP (do not touch)
+
+The structural and copy work from this latest round is good. Keep:
+
+- The new hero H1 *"Your lease, in plain English."* and the punchy sub *"The lease sitting in your inbox was written by a lawyer. Not yours..."*
+- The product-demo block on the right of hero (the "FROM YOUR LEASE" quote → analysis card pattern) — this is the strongest move on the page
+- The Problem section with statistics — keep it
+- All new section additions (What is it, What you get, Who it's for, Why we built this)
+- The Founder note
+- All the copy improvements
+
+DO NOT rewrite the copy. DO NOT change the structure. Surgical design restoration only.
+
+## What to RESTORE (the Wispr design DNA)
+
+### 1. Background colour
+
+Hero and all sections must use **cream `#FBF8F1`** (Lumen) as the page background. Section variation uses `#F2EDE2` (Lumen Dark) for alternating bands.
+
+NO gradients on backgrounds. NO pink-to-blue washes. NO mesh. Just flat cream surfaces.
+
+The dark sections (Problem, final CTA, Founder note's accent block) use **ink-blue `#1E3A5F`** with cream text. Never a gradient.
+
+### 2. Severity colour palette — MUTE IT
+
+The current "HIGH RISK" red card is too aggressive. Replace with the Wispr-calmer palette:
+
+- **High severity:** wine `#7A2C3D` background with cream text (NOT bright red)
+- **Medium severity:** clay `#C97A4A` background with cream text
+- **Low severity:** sage `#5A8B7A` background with cream text
+
+These are MUTED tones. The energy is "things to watch for" not "DANGER ALERT." Editorial, not panicked.
+
+The hero demo block right side — the small severity badge on the response card — should use these muted tones, not red.
+
+### 3. Restore the marquee curving italic SVG textPath divider
+
+Below the hero, before the Problem section, render the marquee:
+
+```tsx
+<svg viewBox="0 0 1200 80" width="100%" height="80">
+  <path id="marquee-path" d="M 0,40 Q 300,5 600,35 T 1200,32" fill="none"/>
+  <text style={{
+    fontFamily: "'Fraunces', Georgia, serif",
+    fontStyle: 'italic',
+    fontSize: '20px',
+    fill: '#1E3A5F',
+    letterSpacing: '-0.01em'
+  }}>
+    <textPath href="#marquee-path" startOffset="0">
+      we read your lease · so everyone gets a fair deal · free for renters · free for landlords · we read your lease ·
+    </textPath>
+  </text>
+</svg>
+```
+
+Optional: animate `startOffset` from 0% to 100% over 30s linear infinite for slow scroll. Disable if `prefers-reduced-motion: reduce`.
+
+### 4. Restore the four illustrations contextually
+
+The four SVG illustrations (MoveBox, ReadDocument, KeyHome, HomeFinal) need to be back in their proper places, not as small floating decorations.
+
+| Illustration | Where it goes |
+|---|---|
+| **ReadDocument** (magnifying glass over document) | Already in hero — keep |
+| **MoveBox** | Above the upload form on `/upload` page, size 120 |
+| **KeyHome** | Top of `/results/[id]` page (above snapshot card), size 100 |
+| **HomeFinal** | Bottom of `/results/[id]` page, size 140, with caption "now go make it home." |
+
+If they exist as React components from Round 6 (`src/components/illustrations/*.tsx`), they're still in the codebase — reposition them to these contexts.
+
+If they don't exist, recreate from the Round 6 spec.
+
+### 5. Remove all gradients and shadows
+
+Audit every component. Remove:
+
+- Background gradients (replace with flat cream)
+- `box-shadow` on cards (replace with `border: 1.5px solid rgba(23,23,23,0.1)`)
+- Glassmorphism or backdrop-filter
+- Any drop shadow
+
+The Wispr design DNA: **definition comes from thick borders + huge radius + flat surfaces. Never shadows.**
+
+Card spec to enforce everywhere:
+```css
+background: #FBF8F1; /* or #F2EDE2 for variation */
+border: 1.5px solid rgba(23,23,23,0.1);
+border-radius: 16px; /* small cards */ or 24px /* large sections */
+box-shadow: none;
+transition: transform 0.2s, border-color 0.2s;
+```
+
+Hover state:
+```css
+transform: scale(0.99);
+border-color: rgba(23,23,23,0.25);
+```
+
+### 6. Restore press-in button hover (NOT scale up)
+
+Audit every button. Replace `:hover { transform: scale(1.05) }` (lift-up) with:
+
+```css
+:hover { 
+  background: #15294a; /* darker variant */
+  transform: scale(0.97); /* press-in */
+}
+transition: transform 0.15s, background 0.2s;
+```
+
+Press-in is the Wispr signature. Lifting up reads as generic SaaS.
+
+### 7. Typography enforcement
+
+Verify all headings use **Fraunces 500** with `font-optical-sizing: auto`. All body uses **Inter 400/500**. All citations use **JetBrains Mono 400**.
+
+Italic Fraunces is reserved for editorial moments only:
+- The italic word inside H1 (e.g., the "in plain" in "Your lease, in plain English.")
+- The marquee text
+- Pull quotes
+- Captions
+
+If anywhere is using a non-Fraunces font for headings, fix it. If anywhere is using bold instead of italic for the editorial moments, fix that too.
+
+### 8. Kill the bright RED — soften to wine
+
+Find every instance of bright red (`#FF0000`, `red`, Tailwind `red-500`, etc.) and replace with:
+
+- Wine `#7A2C3D` for "high severity" backgrounds
+- Wine-on-cream text for "high severity" labels (cream `#FBF8F1` text on wine `#7A2C3D` background)
+
+The product is calm. Even when flagging dangerous clauses, the visual stays editorial.
+
+### 9. Check the 4 problem-section stats
+
+Verify what stats are currently there. Some may be invented. Replace with these verified ones:
+
+| Stat | Source |
+|---|---|
+| **45M** US renter households | Harvard JCHS State of the Nation's Housing 2024 |
+| **40%** of leases contain unenforceable or illegal clauses | Penn Law / Massachusetts study |
+| **41%** of renters dispute their move-out deposit | Zillow 2024 survey |
+| **1 in 13** US renter households had an eviction filed in 2025 | Eviction Lab |
+
+If Agent used "$2,300 deposits kept" or "90% sign without understanding," replace those — they're not verifiable. Add a small grey citation under each stat (Inter 9px, ink-muted, italicised).
+
+## What this round does NOT touch
+
+- Hero copy (keep "Your lease, in plain English.")
+- Section structure
+- Any new section additions
+- Backend / analysis logic
+- Upload page form
+- Results page sections
+- Accessibility work (focus rings, aria-labels, semantic HTML, prefers-reduced-motion)
+
+## Self-audit checklist
+
+- [ ] Page background is flat cream `#FBF8F1` everywhere (no gradients)
+- [ ] Section variation uses flat cream-dark `#F2EDE2` (no gradients)
+- [ ] No `box-shadow` on any card or section
+- [ ] No `backdrop-filter` or glassmorphism
+- [ ] All cards use `1.5px solid rgba(23,23,23,0.1)` borders
+- [ ] All severity colours are muted (sage / clay / wine — no bright red)
+- [ ] All button hovers are press-in `scale(0.97)` not lift-up
+- [ ] Marquee curving italic SVG `textPath` divider is rendering below hero
+- [ ] All four illustrations placed contextually (ReadDocument hero, MoveBox upload, KeyHome results top, HomeFinal results bottom)
+- [ ] All headings use Fraunces 500 with proper letter-spacing
+- [ ] Italic Fraunces used only for editorial moments
+- [ ] All stats verified (45M, 40%, 41%, 1 in 13 — see above)
+- [ ] Citations rendered under each stat in small grey italics
+- [ ] Mobile responsiveness still passing
+- [ ] WCAG accessibility still passing
+
+## Deliverable
+
+Take screenshots of the home page after the fixes — full top, mid, and bottom of the page. Share back so we can verify the design DNA is restored.
+
+Then we move to deploy + buildathon submission.

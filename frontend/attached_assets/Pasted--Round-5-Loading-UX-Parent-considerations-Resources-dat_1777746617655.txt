@@ -1,0 +1,248 @@
+# Round 5 — Loading UX + Parent considerations + Resources data
+
+Paste this AFTER Round 4 is verified working (sample lease analysis returns real Claude data).
+
+This round adds three functional additions. Email post-analysis is deferred until the `checkthelease.com` domain is purchased and verified in Resend — adding it post-buildathon.
+
+---
+
+# Round 5 — Add Loading UX, Parent considerations, Resources data
+
+Build on the existing project. Use the same design tokens and brand language. Don't rebuild what's already there.
+
+## Tasks (in this order)
+
+### 1. Improve the loading state on `/upload`
+
+When the user clicks "Analyse my lease" or "Try the sample California lease" and analysis is in progress, replace the form area with a centred loading card. The current state has no animation and users get confused.
+
+Loading card spec:
+- Replaces the form area entirely (don't render the form during analysis)
+- Centred horizontally, padding 48px 32px, border-radius 24px
+- Background: bone-dark (`#F2EDE2`)
+- Border: 1.5px soft (rgba(23,23,23,0.1))
+- Inside: a sage dot (12px diameter, `#5A8B7A`) at the top, pulsing
+- Below the dot: Fraunces italic 28px ink: rotating message
+- Below the message: Inter 13px ink-muted: "California law check · about 5–15 seconds"
+
+Pulse animation (CSS):
+```css
+@keyframes ctl-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+}
+.ctl-loading-dot { animation: ctl-pulse 1.5s ease-in-out infinite; }
+```
+
+Rotating messages (cycle every 3 seconds while `isAnalysing` is true):
+1. "Reading your lease."
+2. "Checking California law."
+3. "Surfacing what matters."
+4. "Almost there."
+
+Use `useEffect` with `setInterval` to rotate the message index. Clear the interval when `isAnalysing` becomes false.
+
+When the user clicks "Try the sample California lease," set `isAnalysing` to true IMMEDIATELY before the fetch starts. Don't wait for the fetch to begin — set it on click, then start the fetch. Even if the cached demo result returns in 1ms, the user should see at least the loading card flash for ~600ms (set a `setTimeout` to delay navigation by 600ms after the fetch resolves, so the loading state is visible).
+
+### 2. Extend the analysis schema to include parent considerations
+
+Update `server/lib/schema.ts` to add a new optional field on `AnalysisResultSchema`:
+
+```ts
+export const ParentConsiderationSchema = z.object({
+  title: z.string(),
+  explanation: z.string(),
+});
+
+export const AnalysisResultSchema = z.object({
+  key_terms: z.array(KeyTermSchema),
+  potential_issues: z.array(PotentialIssueSchema),
+  missing_protections: z.object({
+    renter: z.array(MissingProtectionSchema),
+    landlord: z.array(MissingProtectionSchema),
+  }),
+  parent_considerations: z.array(ParentConsiderationSchema).optional(),
+  questions: z.array(z.string()),
+  stats: z.object({
+    potential_issues: z.number(),
+    missing_protections: z.number(),
+    questions: z.number(),
+  }),
+});
+```
+
+### 3. Update the Claude system prompt to surface parent considerations
+
+In `server/lib/runAnalysis.ts`, update the user prompt builder. When `intake.isParent` is true, instruct Claude to also populate a `parent_considerations` array in the response.
+
+Add this conditionally to the user prompt when `intake.isParent` is true:
+
+```
+Because the user marked themselves as a parent or guardian, ALSO populate a parent_considerations field in your JSON response. Include 3-5 items relevant to family stability:
+
+- Occupancy/guest limits that may affect children
+- Renewal language affecting school stability
+- Habitability with children in mind (heating, hot water, mold)
+- Retaliation protections if reporting code violations
+- Repair urgency for essential services
+- Any clauses that may have specific implications for households with children
+
+Format each as: { "title": "Short plain-English title", "explanation": "Why this matters as a parent." }
+
+Use the same compliance language rules — never legal advice, frame as information.
+```
+
+When `intake.isParent` is false, do NOT include the parent_considerations array in the response.
+
+Also update the JSON SCHEMA section in the user prompt to include the new field conditionally.
+
+You will also need to invalidate the cached demo result if the schema changes — delete `data/cached-demo-result.json` so the next demo run regenerates it.
+
+### 4. Add the Resources data file
+
+Create `data/resources/california.json` with curated housing aid programs:
+
+```json
+{
+  "state": "California",
+  "abbreviation": "CA",
+  "programs": [
+    {
+      "name": "CalWORKs Housing Support Program",
+      "description": "Rental assistance, security deposit help, and case management for CalWORKs-eligible families.",
+      "eligibility_summary": "Low-income families with children on CalWORKs",
+      "url": "https://www.cdss.ca.gov/inforesources/calworks-housing-support-program",
+      "filter_tags": ["parent", "low-income", "housing-aid"]
+    },
+    {
+      "name": "Housing Choice Voucher Program (Section 8)",
+      "description": "Federally funded rental assistance — pay roughly 30% of household income toward rent.",
+      "eligibility_summary": "Low-income households; long waitlists in most counties",
+      "url": "https://www.hud.gov/program_offices/public_indian_housing/programs/hcv",
+      "filter_tags": ["low-income", "housing-aid", "parent"]
+    },
+    {
+      "name": "California Emergency Rental Assistance Program",
+      "description": "Past-due rent and utility assistance for eligible households at risk of eviction.",
+      "eligibility_summary": "Households experiencing financial hardship; income below 80% of area median",
+      "url": "https://housing.ca.gov",
+      "filter_tags": ["low-income", "parent", "all"]
+    },
+    {
+      "name": "Project Roomkey / Project Homekey",
+      "description": "Interim and permanent housing for individuals and families experiencing homelessness or housing instability.",
+      "eligibility_summary": "Experiencing or at risk of homelessness",
+      "url": "https://homelesshousing.hcd.ca.gov",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "Bay Area Legal Aid",
+      "description": "Free legal help for low-income tenants — eviction defence, security deposit disputes, habitability claims.",
+      "eligibility_summary": "Low-income residents of the SF Bay Area",
+      "url": "https://baylegal.org",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "Legal Aid Foundation of Los Angeles",
+      "description": "Free legal services for tenants in LA County — including landlord-tenant disputes, eviction defence, fair housing.",
+      "eligibility_summary": "Low-income LA County residents",
+      "url": "https://lafla.org",
+      "filter_tags": ["low-income", "all"]
+    },
+    {
+      "name": "California Tenant Protection Act (AB 1482)",
+      "description": "Caps annual rent increases at 5% + local CPI (max 10%) for many California tenancies. Worth knowing if your lease has rent increase language.",
+      "eligibility_summary": "Most California tenants in buildings 15+ years old",
+      "url": "https://landlordtenant.dre.ca.gov/tenant/tpa.html",
+      "filter_tags": ["all"]
+    },
+    {
+      "name": "Tenants Together",
+      "description": "Statewide nonprofit advocating for tenant rights — referrals to local legal aid and tenant unions.",
+      "eligibility_summary": "All California tenants",
+      "url": "https://www.tenantstogether.org",
+      "filter_tags": ["all", "parent", "low-income"]
+    },
+    {
+      "name": "California Veterans Cal-Vet Home Loan",
+      "description": "Low-interest home loan program for veterans transitioning out of renting.",
+      "eligibility_summary": "Honourably discharged California veterans",
+      "url": "https://www.calvet.ca.gov/HomeLoans",
+      "filter_tags": ["veteran"]
+    },
+    {
+      "name": "California Department of Aging — Senior Housing Information",
+      "description": "Information on senior-specific housing programs, rent caps, and elder abuse protections.",
+      "eligibility_summary": "California residents aged 60+",
+      "url": "https://aging.ca.gov",
+      "filter_tags": ["senior"]
+    }
+  ]
+}
+```
+
+### 5. Wire the Resources section on the results page
+
+The results page already has a Resources section shell from Round 3 (placeholder data). Replace with real data from `data/resources/california.json`.
+
+Logic:
+- If user is in California (`intake.state === 'California' || intake.state === 'CA'`), import the CA resources file directly into the page (Vite's static asset import, or a small `/api/resources/:state` endpoint — your call, prefer the simpler import).
+- Add filter pills above the cards: "Show all" (default) · "Parent" · "Low-income" · "Senior" · "Veteran"
+- Filter logic: a program shows if its `filter_tags` includes the active filter. If the active filter is "all", show all programs.
+- Smart default for the filter: if `intake.isParent` is true → default to "Parent". Else if `intake.receivesHousingAid` is true → default to "Low-income". Else → "Show all".
+- Render the existing dark ink-blue panel design from Round 3.
+
+### 6. Render the Parent considerations section
+
+In the results page, between Missing Protections and Resources, add a new section that ONLY renders if `analysis.parent_considerations` exists AND has items:
+
+```tsx
+{analysis.parent_considerations && analysis.parent_considerations.length > 0 && (
+  <section className="ctl-section">
+    <div className="ctl-eyebrow">04A — PARENT CONSIDERATIONS</div>
+    <h2 className="ctl-h2">Things worth a closer look as a parent.</h2>
+    <p className="ctl-sub">Items in your lease that may have specific implications for households with children.</p>
+    <div className="ctl-cards-stack">
+      {analysis.parent_considerations.map((item, i) => (
+        <div key={i} className="ctl-card-bone">
+          <div className="ctl-eyebrow-italic-sage">CONSIDERATION</div>
+          <h3 className="ctl-h3">{item.title}</h3>
+          <p className="ctl-body">{item.explanation}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+```
+
+Use the existing card classes that match Missing Protection cards — bone background, soft border, calm typography.
+
+### 7. Test flow
+
+After Agent finishes:
+
+1. Open `/upload`, click "Try the sample California lease"
+2. **Loading state should be visible** for 600ms+ (even on cached demo). Sage dot pulses, message rotates.
+3. **Results render** with Resources section showing CA programs
+4. **Filter pills work** — clicking "Parent" filters programs tagged "parent"
+5. Go back to /upload, **tick the parent checkbox** on the Optional context card, click "Try the sample California lease" again
+6. Wait for fresh analysis (the demo cache should regenerate because the schema changed). 
+7. **Parent considerations section appears** between Missing Protections and Resources
+8. Resources section auto-defaults to "Parent" filter
+
+## Out of scope this round
+
+- Email post-analysis (deferred until `checkthelease.com` is bought and verified in Resend)
+- RevenueCat paywall — Round 6
+- Animation polish on the page itself — Round 6
+- Meta tags / OG image — Round 6
+- Favicon — Round 6
+- Deploy — Round 6
+
+## Deliverable
+
+When done, share:
+1. Did the loading state appear during the demo? Was it calm and clear?
+2. Did the Resources section render with CA programs and working filters?
+3. Did the Parent considerations section render when you ticked the parent checkbox?
+4. Any errors during the build?
