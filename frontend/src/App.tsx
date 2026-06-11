@@ -9,6 +9,9 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Upload from "@/pages/upload";
 import Results from "@/pages/results";
+import Example from "@/pages/example";
+import Pricing from "@/pages/pricing";
+import Checkout from "@/pages/checkout";
 import About from "@/pages/about";
 import BuildLog from "@/pages/build-log";
 import HowItWorks from "@/pages/how-it-works";
@@ -24,6 +27,10 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/upload" component={Upload} />
       <Route path="/results/:id" component={Results} />
+      <Route path="/results" component={Results} />
+      <Route path="/example" component={Example} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/checkout" component={Checkout} />
       <Route path="/about" component={About} />
       <Route path="/build-log" component={BuildLog} />
       <Route path="/how-it-works" component={HowItWorks} />

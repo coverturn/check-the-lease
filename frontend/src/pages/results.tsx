@@ -202,7 +202,7 @@ function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => voi
   );
 }
 
-export default function Results() {
+export default function Results({ demo = false }: { demo?: boolean }) {
   const { lang } = useLanguage();
   const t = useT(lang);
   const { setChatCtx } = useChatContext();
@@ -215,7 +215,16 @@ export default function Results() {
   const [previewExpanded, setPreviewExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState("section-action");
   const [noData, setNoData] = useState<boolean>(() => {
+    if (demo) return false;
     try { return !sessionStorage.getItem("ctl-analysis"); } catch { return false; }
+  });
+  const [paid, setPaid] = useState<boolean>(() => {
+    if (demo) return true;
+    try {
+      const u = new URLSearchParams(window.location.search);
+      if (u.get("paid") === "1" || u.get("unlocked") === "1") return true;
+      return sessionStorage.getItem("ctl-paid") === "1";
+    } catch { return false; }
   });
 
   useEffect(() => {
@@ -235,6 +244,7 @@ export default function Results() {
   }, []);
 
   useEffect(() => {
+    if (demo) return; // example report: keep placeholder analysis, forced-unlocked
     try {
       const rawIntake = sessionStorage.getItem("ctl-intake");
       const parsedIntake: IntakeState = rawIntake ? { ...DEFAULT_INTAKE, ...JSON.parse(rawIntake) } : DEFAULT_INTAKE;
@@ -264,7 +274,7 @@ export default function Results() {
         analysisResult: rawAnalysis ? parsedAnalysis : null,
       });
     } catch { /* keep defaults */ }
-  }, [setChatCtx]);
+  }, [setChatCtx, demo]);
 
   const stateAbbr = intake.state || "CA";
   const stateLabel = STATE_NAMES[stateAbbr] || stateAbbr;
@@ -305,6 +315,25 @@ export default function Results() {
   const medIssues = analysis.potential_issues.filter(i => i.severity === "medium");
   const lowIssues = analysis.potential_issues.filter(i => i.severity === "low");
 
+  // ── Freemium gating ──────────────────────────────────────────────
+  // Free quick scan = verdict + score + key terms + top 3 flags.
+  // Everything else (full issue list, action plan, missing protections,
+  // negotiation toolkit, financial impact) is unlocked with the $9.99 report.
+  const LOCKED = !paid;
+  const PREVIEW_LIMIT = 3;
+  const orderedIssues = [...highIssues, ...medIssues, ...lowIssues];
+  const previewIssues = orderedIssues.slice(0, PREVIEW_LIMIT);
+  const totalIssueCount = analysis.potential_issues.length;
+  const dispHigh = LOCKED ? previewIssues.filter(i => i.severity === "high") : highIssues;
+  const dispMed  = LOCKED ? previewIssues.filter(i => i.severity === "medium") : medIssues;
+  const dispLow  = LOCKED ? previewIssues.filter(i => i.severity === "low") : lowIssues;
+
+  useEffect(() => {
+    if (paid) { try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ } }
+  }, [paid]);
+
+  const goCheckout = () => { window.location.href = "/checkout"; };
+
   if (noData) {
     return (
       <div className="ctl-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--color-bone)", color: "var(--color-ink)" }}>
@@ -335,6 +364,19 @@ export default function Results() {
     <div className="ctl-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--color-bone)", color: "var(--color-ink)" }}>
       <SkipLink />
       <Nav showAnalyseAnother={true} />
+
+      {demo && (
+        <div style={{ backgroundColor: "#5A8B7A", color: "#FBF8F1", padding: "10px 24px", textAlign: "center" }}>
+          <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 600 }}>
+              {lang === "es" ? "Informe de ejemplo — así se ve el informe completo." : "Example report — this is what the full $9.99 report looks like."}
+            </span>
+            <a href="/upload" style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 700, color: "#FBF8F1", textDecoration: "underline", textUnderlineOffset: 2 }}>
+              {lang === "es" ? "Escanea el tuyo gratis →" : "Scan your own lease free →"}
+            </a>
+          </div>
+        </div>
+      )}
 
       <main id="main" style={{ flex: 1, width: "100%" }} role="main" aria-live="polite" aria-atomic="false">
 
@@ -444,7 +486,7 @@ export default function Results() {
               { id: "section-terms", label: lang === "es" ? "Términos" : "Key terms" },
               { id: "section-issues", label: lang === "es" ? "Riesgos" : "Issues" },
               { id: "section-protections", label: lang === "es" ? "Vacíos" : "Gaps" },
-            ].map(({ id, label }) => {
+            ].filter(({ id }) => paid || (id !== "section-action" && id !== "section-protections")).map(({ id, label }) => {
               const isActive = activeSection === id;
               return (
                 <a
@@ -472,6 +514,7 @@ export default function Results() {
 
         <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 clamp(24px,4vw,48px) clamp(48px,6vw,80px)" }}>
 
+          {!LOCKED && (<>
           <div id="section-action" style={{ scrollMarginTop: 110 }} />
           <section aria-labelledby="action-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
@@ -517,6 +560,7 @@ export default function Results() {
               })}
             </div>
           </section>
+          </>)}
 
           {(intake.perspective === "landlord" || intake.perspective === "both") && (
             <>
@@ -581,9 +625,9 @@ export default function Results() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { severity: "high" as const, issues: highIssues },
-                { severity: "medium" as const, issues: medIssues },
-                { severity: "low" as const, issues: lowIssues },
+                { severity: "high" as const, issues: dispHigh },
+                { severity: "medium" as const, issues: dispMed },
+                { severity: "low" as const, issues: dispLow },
               ].map(({ severity, issues }) => issues.length > 0 && (
                 <div key={severity}>
                   <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: SEV_COLORS[severity].color, marginBottom: 10 }}>
@@ -642,7 +686,49 @@ export default function Results() {
             </div>
           </section>
 
-          {allProts.length > 0 && (
+          {LOCKED && (
+            <section aria-labelledby="paywall-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
+              <div style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 20, overflow: "hidden", boxShadow: "8px 8px 0 0 #171717" }}>
+                <div style={{ padding: "clamp(28px,4vw,44px)" }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: "rgba(251,248,241,0.1)", border: "1.5px solid rgba(251,248,241,0.25)", borderRadius: 999, padding: "6px 14px", marginBottom: 18 }}>
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#FBF8F1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FBF8F1" }}>
+                      {lang === "es" ? `Viendo ${previewIssues.length} de ${totalIssueCount} problemas` : `You're seeing ${previewIssues.length} of ${totalIssueCount} issues`}
+                    </span>
+                  </div>
+                  <h2 id="paywall-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.6vw,40px)", color: "#FBF8F1", letterSpacing: "-0.03em", lineHeight: 1.05, margin: "0 0 12px" }}>
+                    {lang === "es" ? "Desbloquea el informe completo." : "Unlock your full lease report."}
+                  </h2>
+                  <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.7)", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 520 }}>
+                    {lang === "es"
+                      ? `Tu escaneo gratuito encontró ${totalIssueCount} problemas. Obtén cada cláusula marcada, protecciones que faltan, el impacto económico y guiones de negociación que puedes enviar hoy.`
+                      : `Your free scan found ${totalIssueCount} issue${totalIssueCount === 1 ? "" : "s"}. Get every flagged clause, missing protections, the financial impact, and negotiation scripts you can send today.`}
+                  </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "8px 24px", marginBottom: 28 }}>
+                    {(lang === "es"
+                      ? ["Cada cláusula marcada, sin límite", "Severidad por cláusula", "Protecciones que faltan", "Estimación de impacto económico", "Correo y guiones de negociación", "Exportar a PDF y enviar por correo"]
+                      : ["Every flagged clause, no cap", "Severity score per clause", "Missing protections analysis", "Financial impact estimate", "Negotiation email + scripts", "PDF export + email to self"]
+                    ).map((b) => (
+                      <div key={b} style={{ display: "flex", alignItems: "flex-start", gap: 9 }}>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: 3 }}><path d="M2 7.2L5.5 10.5L12 3" stroke="#9DBEB0" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13.5, color: "rgba(251,248,241,0.85)", lineHeight: 1.45 }}>{b}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+                    <button onClick={goCheckout} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1E3A5F", backgroundColor: "#FBF8F1", border: "2.5px solid #FBF8F1", borderRadius: 999, padding: "16px 30px", cursor: "pointer", boxShadow: "5px 5px 0 0 rgba(251,248,241,0.25)" }}>
+                      {lang === "es" ? "Desbloquear por $9.99 →" : "Unlock full report · $9.99 →"}
+                    </button>
+                    <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12.5, color: "rgba(251,248,241,0.6)", lineHeight: 1.5 }}>
+                      {lang === "es" ? "Pago único · Sin suscripción · Nunca guardamos tu contrato" : "One-time payment · No subscription · Your lease is never stored"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {!LOCKED && allProts.length > 0 && (
             <>
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px,5vw,48px)", marginTop: "clamp(48px,7vw,80px)" }}>
                 <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />
@@ -683,7 +769,7 @@ export default function Results() {
             </>
           )}
 
-          {(analysis.parent_considerations?.length ?? 0) > 0 && (
+          {!LOCKED && (analysis.parent_considerations?.length ?? 0) > 0 && (
             <>
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px,5vw,48px)", marginTop: "clamp(48px,7vw,80px)" }}>
                 <div style={{ flex: 1, height: "1.5px", backgroundColor: "rgba(23,23,23,0.1)" }} />

@@ -186,7 +186,7 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.22s ${EASE} both`,
                 }}
               >
-                Reads any lease in 15 seconds. Shows you the law behind every issue. Free for renters and landlords. Always.
+                Get a free scan that names the red flags in seconds. Unlock the full report — every clause, the law behind it, and what to say — for $9.99. No subscription.
               </p>
 
               {/* Coverage badge */}
@@ -225,9 +225,9 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.36s ${EASE} both`,
                 }}
               >
-                {/* Primary CTA - demo link */}
+                {/* Primary CTA - start free scan */}
                 <Link
-                  href="/results/demo"
+                  href="/upload"
                   className="mn-btn"
                   onMouseEnter={() => setCtaHover(true)}
                   onMouseLeave={() => setCtaHover(false)}
@@ -236,28 +236,28 @@ export default function Home() {
                     alignItems: "center",
                     gap: 10,
                     borderRadius: 999,
-                    padding: "12px 22px",
+                    padding: "15px 28px",
                     fontFamily: "var(--app-font-sans)",
-                    fontWeight: 600,
-                    fontSize: 15,
+                    fontWeight: 700,
+                    fontSize: 16,
                     letterSpacing: "-0.01em",
                     textDecoration: "none",
                     background: ctaHover ? "#3D5F50" : "#5A8B7A",
                     color: "#FBF8F1",
                     border: "2.5px solid #171717",
-                    boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "4px 4px 0 0 #171717",
+                    boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "5px 5px 0 0 #171717",
                     transform: ctaHover ? "translate(2px, 2px)" : "translate(0, 0)",
                     transition: "background 0.2s, transform 0.12s ease, box-shadow 0.12s ease",
-                    minHeight: 48,
+                    minHeight: 52,
                   }}
                 >
-                  See a real result
+                  Start free scan
                   <IconChevronRight size={16} style={{ transform: ctaHover ? "translateX(4px)" : "translateX(0)", transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1)" }} aria-hidden={true} />
                 </Link>
 
-                {/* Ghost CTA - upload link */}
+                {/* Ghost CTA - example report */}
                 <Link
-                  href="/upload"
+                  href="/example"
                   className="mn-btn-ghost"
                   onMouseEnter={() => setSampleHover(true)}
                   onMouseLeave={() => setSampleHover(false)}
@@ -266,7 +266,7 @@ export default function Home() {
                     alignItems: "center",
                     gap: 8,
                     borderRadius: 999,
-                    padding: "12px 22px",
+                    padding: "15px 24px",
                     fontFamily: "var(--app-font-sans)",
                     fontWeight: 500,
                     fontSize: 15,
@@ -277,12 +277,22 @@ export default function Home() {
                     boxShadow: sampleHover ? "2px 2px 0 0 #5A8B7A" : "4px 4px 0 0 #5A8B7A",
                     transform: sampleHover ? "translate(2px, 2px)" : "translate(0, 0)",
                     transition: "all 0.15s ease",
-                    minHeight: 48,
+                    minHeight: 52,
                   }}
                 >
-                  Or read your own lease
+                  See example report
                   <IconChevronRight size={14} style={{ transform: sampleHover ? "translateX(3px)" : "translateX(0)", transition: "transform 0.2s ease" }} aria-hidden={true} />
                 </Link>
+              </div>
+
+              {/* Trust row */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, animation: `ctl-fade-up 0.7s 0.44s ${EASE} both` }}>
+                {["Free scan", "No account", "Never stored", "No subscription"].map((t) => (
+                  <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)" }}>
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden={true}><path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {t}
+                  </span>
+                ))}
               </div>
 
               {/* Stats - Fraunces 28px numbers */}
@@ -296,7 +306,7 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.5s ${EASE} both`,
                 }}
               >
-                {[{ n: "All 50", l: "states", icon: IconMapPin }, { n: "Always", l: "free", icon: IconSparkle }, { n: "15s", l: "per lease", icon: IconClock }].map(({ n, l, icon: Icon }) => (
+                {[{ n: "All 50", l: "states", icon: IconMapPin }, { n: "$9.99", l: "full report", icon: IconSparkle }, { n: "15s", l: "per scan", icon: IconClock }].map(({ n, l, icon: Icon }) => (
                   <div key={l} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <Icon size={14} aria-hidden={true} />
                     <div>
@@ -430,7 +440,7 @@ export default function Home() {
             <path id="ctl-marquee-path" d="M 0,36 Q 300,8 600,32 T 1200,30" fill="none" />
             <text style={{ fontFamily: "'Fraunces', Georgia, serif", fontStyle: "italic", fontSize: "18px", fill: "#1E3A5F", opacity: 0.55, letterSpacing: "-0.01em" }}>
               <textPath href="#ctl-marquee-path" startOffset="0%">
-                we read your lease · so everyone gets a fair deal · free for renters · free for landlords · we read your lease · so everyone gets a fair deal · free for renters ·
+                we read your lease · so everyone gets a fair deal · free scan for renters · free scan for landlords · we read your lease · so everyone gets a fair deal · free scan ·
               </textPath>
             </text>
           </svg>
@@ -954,7 +964,7 @@ export default function Home() {
               {/* Corner stamp */}
               <svg aria-hidden={true} viewBox="0 0 44 44" width="52" height="52" style={{ position: "absolute", top: 18, right: 22, zIndex: 1 }}>
                 <circle cx="22" cy="22" r="17" fill="none" stroke="rgba(251,248,241,0.28)" strokeWidth="2" strokeDasharray="3 2.5"/>
-                <text x="22" y="26" textAnchor="middle" style={{ fontFamily: "Fraunces, serif", fontStyle: "italic", fontSize: "10px", fill: "rgba(251,248,241,0.45)" }}>FREE</text>
+                <text x="22" y="26" textAnchor="middle" style={{ fontFamily: "Fraunces, serif", fontStyle: "italic", fontSize: "9px", fill: "rgba(251,248,241,0.45)" }}>SCAN</text>
               </svg>
 
               {/* Sunshine star */}
@@ -991,32 +1001,32 @@ export default function Home() {
                   position: "relative",
                 }}
               >
-                Free. No account required. Works for renters and landlords in all 50 states.
+                Free scan, no account required. Unlock the full report for $9.99 — one-time, no subscription. Renters and landlords, all 50 states.
               </p>
 
               <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", position: "relative" }}>
                 <Link
-                  href="/results/demo"
+                  href="/upload"
                   className="mn-btn"
                   style={{
                     display: "inline-block",
                     borderRadius: 999,
-                    padding: "16px 36px",
+                    padding: "16px 40px",
                     fontFamily: "var(--app-font-sans)",
-                    fontWeight: 600,
-                    fontSize: 15,
+                    fontWeight: 700,
+                    fontSize: 16,
                     textDecoration: "none",
                     backgroundColor: "#5A8B7A",
                     color: "#FBF8F1",
                     border: "2.5px solid #171717",
-                    boxShadow: "4px 4px 0 0 #171717",
+                    boxShadow: "5px 5px 0 0 #171717",
                     minHeight: 44,
                   }}
                 >
-                  Try the sample →
+                  Start free scan →
                 </Link>
                 <Link
-                  href="/upload"
+                  href="/example"
                   className="mn-btn-ghost"
                   style={{
                     display: "inline-block",
@@ -1033,7 +1043,7 @@ export default function Home() {
                     minHeight: 44,
                   }}
                 >
-                  Or read your own lease →
+                  See example report →
                 </Link>
               </div>
             </div>
@@ -1057,7 +1067,7 @@ export default function Home() {
                   id="founder-heading"
                   style={{ margin: 0, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px, 1.8vw, 16px)", color: "var(--color-ink)", lineHeight: 1.75 }}
                 >
-                  "I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords both deserve a fair read - and the technology to deliver it has been here for years. Now it's free."
+                  "I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords both deserve a fair read - and the technology to deliver it has been here for years. The scan is free; the full report costs less than lunch."
                 </blockquote>
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 12 }}>- Ishmael</p>
               </div>

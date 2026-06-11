@@ -107,6 +107,7 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
             {navLink("/#landlord-card", lang === "es" ? "Para propietarios" : "For landlords")}
             <span aria-hidden={true} style={{ width: 1, height: 20, backgroundColor: "rgba(23,23,23,0.08)", display: "inline-block" }} />
             {navLink("/how-it-works", lang === "es" ? "Cómo funciona" : "How it works")}
+            {navLink("/pricing", lang === "es" ? "Precio" : "Pricing")}
             {navLink("/resources", lang === "es" ? "Recursos" : "Resources")}
           </div>
 

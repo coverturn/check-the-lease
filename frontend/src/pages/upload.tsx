@@ -251,7 +251,7 @@ export default function Upload() {
                 <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.35)" }}>Know it completely.</em>
               </h1>
               <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.5vw,16px)", color: "rgba(251,248,241,0.5)", lineHeight: 1.75, maxWidth: 420, margin: 0 }}>
-                Your lease stays in your browser. No account. No email. Results in under 15 seconds.
+                Analyzed in seconds, then discarded — your lease is never stored. No account, no email. Free scan, full report $9.99.
               </p>
             </div>
             <div style={{ width: 140, height: 180, borderRadius: 16, overflow: "hidden", border: "2px solid rgba(251,248,241,0.15)", flexShrink: 0, boxShadow: "4px 4px 0 0 rgba(251,248,241,0.08)" }} className="ctl-upload-photo">
