@@ -3,7 +3,6 @@ import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { HomeFinal } from "@/components/illustrations/HomeFinal";
-import PhotoPacking from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2721_1777779569757.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useT } from "@/lib/translations";
 import { useChatContext } from "@/contexts/ChatContext";
@@ -215,6 +214,9 @@ export default function Results() {
   const [expandedCitations, setExpandedCitations] = useState<Record<string, boolean>>({});
   const [previewExpanded, setPreviewExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState("section-action");
+  const [noData, setNoData] = useState<boolean>(() => {
+    try { return !sessionStorage.getItem("ctl-analysis"); } catch { return false; }
+  });
 
   useEffect(() => {
     const sectionIds = ["section-action", "section-terms", "section-issues", "section-protections"];
@@ -238,6 +240,7 @@ export default function Results() {
       const parsedIntake: IntakeState = rawIntake ? { ...DEFAULT_INTAKE, ...JSON.parse(rawIntake) } : DEFAULT_INTAKE;
       setIntake(parsedIntake);
       const rawAnalysis = sessionStorage.getItem("ctl-analysis");
+      setNoData(!rawAnalysis);
       const parsedAnalysis: AnalysisResult = rawAnalysis ? JSON.parse(rawAnalysis) : PLACEHOLDER_ANALYSIS;
       if (rawAnalysis) setAnalysis(parsedAnalysis);
       const rawLeaseText = sessionStorage.getItem("ctl-lease-text");
@@ -302,6 +305,32 @@ export default function Results() {
   const medIssues = analysis.potential_issues.filter(i => i.severity === "medium");
   const lowIssues = analysis.potential_issues.filter(i => i.severity === "low");
 
+  if (noData) {
+    return (
+      <div className="ctl-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--color-bone)", color: "var(--color-ink)" }}>
+        <SkipLink />
+        <Nav />
+        <main id="main" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "clamp(48px,8vw,96px) 24px" }} role="main">
+          <div style={{ maxWidth: 460, textAlign: "center" }}>
+            <div aria-hidden="true" style={{ marginBottom: 28, display: "flex", justifyContent: "center" }}><HomeFinal size={120} /></div>
+            <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4vw,40px)", letterSpacing: "-0.03em", lineHeight: 1.05, margin: "0 0 14px" }}>
+              {lang === "es" ? "No hay análisis todavía." : "No analysis yet."}
+            </h1>
+            <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "var(--color-ink-muted)", lineHeight: 1.6, margin: "0 0 28px" }}>
+              {lang === "es"
+                ? "Sube un contrato y te mostraremos lo que dice — en segundos, y nunca lo guardamos."
+                : "Upload a lease and we'll show you what's in it — in seconds, and we never store it."}
+            </p>
+            <a href="/upload" style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FBF8F1", backgroundColor: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 999, padding: "16px 32px", textDecoration: "none", boxShadow: "4px 4px 0 0 #171717" }}>
+              {lang === "es" ? "Leer mi contrato →" : "Read my lease →"}
+            </a>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="ctl-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--color-bone)", color: "var(--color-ink)" }}>
       <SkipLink />
@@ -310,10 +339,6 @@ export default function Results() {
       <main id="main" style={{ flex: 1, width: "100%" }} role="main" aria-live="polite" aria-atomic="false">
 
         <div style={{ background: "#1E3A5F", position: "relative", overflow: "hidden" }}>
-          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" style={{ position: "absolute", top: "8%", right: "4%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none" }}>
-            <path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z" fill="#F5C547" stroke="#171717" strokeWidth="1.5" strokeLinejoin="round"/>
-          </svg>
-
           <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(24px,4vw,48px) clamp(32px,5vw,48px)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
               <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.5)" }}>
@@ -335,26 +360,21 @@ export default function Results() {
               {verdictSub}
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, maxWidth: 700 }} className="results-stats-grid">
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 10, maxWidth: 720 }} className="results-stats-grid">
               {[
                 { n: analysis.stats.potential_issues, label: t("results_stat_issues"), color: analysis.stats.potential_issues > 0 ? "#7A2C3D" : "#5A8B7A" },
                 { n: analysis.stats.missing_protections, label: t("results_stat_missing"), color: "#C97A4A" },
                 { n: analysis.stats.questions, label: intake.stage === "before" ? t("results_stat_q_before") : t("results_stat_q_after"), color: "#1E3A5F" },
-              ].map((statTile, i) => (
-                <div key={i} style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(16px,2.5vw,24px)", boxShadow: `4px 4px 0 0 ${statTile.color}` }}>
-                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(42px,7vw,64px)", color: statTile.color, letterSpacing: "-0.04em", lineHeight: 1 }}>{statTile.n}</div>
-                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, color: "var(--color-ink-muted)", marginTop: 6, lineHeight: 1.45, whiteSpace: "pre-line" }}>{statTile.label}</div>
-                </div>
-              ))}
+              ].map((statTile, i) => {
+                const hero = i === 0;
+                return (
+                  <div key={i} style={{ background: hero ? statTile.color : "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(16px,2.5vw,24px)", boxShadow: `4px 4px 0 0 ${hero ? "#171717" : statTile.color}` }}>
+                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: hero ? "clamp(52px,9vw,82px)" : "clamp(36px,6vw,54px)", color: hero ? "#FBF8F1" : statTile.color, letterSpacing: "-0.04em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{statTile.n}</div>
+                    <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, color: hero ? "rgba(251,248,241,0.78)" : "var(--color-ink-muted)", marginTop: 6, lineHeight: 1.45, whiteSpace: "pre-line" }}>{statTile.label}</div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        </div>
-
-        <div style={{ width: "100%", height: "clamp(140px,16vw,220px)", overflow: "hidden", position: "relative", borderBottom: "2.5px solid #171717" }}>
-          <img src={PhotoPacking} alt="Boxes and belongings mid-move, the moment of transition" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", display: "block" }} />
-          <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(251,248,241,0.85) 0%, transparent 45%)" }} />
-          <div style={{ position: "absolute", left: "clamp(24px,4vw,48px)", top: "50%", transform: "translateY(-50%)", fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px,1.8vw,19px)", color: "var(--color-ink)", letterSpacing: "-0.02em", maxWidth: 360 }}>
-            {t("results_photo_caption")}
           </div>
         </div>
 
