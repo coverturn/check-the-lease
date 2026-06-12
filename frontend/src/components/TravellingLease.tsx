@@ -34,7 +34,7 @@ const WAYPOINTS: Way[] = [
   { id: "problem", at: "top", x: 0.89, y: 0.34, r: 6, s: 0.8, stage: 3 },
   { id: "how-it-works", at: "top", x: 0.16, y: 0.3, r: -4, s: 0.8, stage: 4 },
   { id: "how-it-works", at: "bottom", x: 0.8, y: 0.28, r: 5, s: 0.8, stage: 4 },
-  { id: "who-its-for", at: "center", x: 0.5, y: 0.26, r: 0, s: 0.85, stage: 5 },
+  { id: "who-its-for", at: "center", x: 0.5, y: 0.11, r: 0, s: 0.85, stage: 5 },
   { id: "final-cta", at: "center", x: 0.5, y: 0.3, r: -3, s: 0.9, stage: 6 },
 ];
 
@@ -63,8 +63,10 @@ export function TravellingLease() {
     const el = wrapRef.current;
     if (!el) return;
 
-    // Current (lerped) pose.
+    // Current (lerped) pose. Snapped to the first computed target so the
+    // document fades in at its anchor instead of swooping in from off-screen.
     let cx = -200, cy = -200, cr = 0, cs = 1, co = 0;
+    let snapped = false;
     let raf = 0;
     let alive = true;
 
@@ -117,6 +119,7 @@ export function TravellingLease() {
         const targetO = lastD < -vh * 0.55 ? 0 : 1;
 
         // Lerp toward the target pose for a soft, springy follow.
+        if (!snapped) { cx = tx * vw; cy = ty * vh; cr = tr; cs = ts; snapped = true; }
         const k = 0.11;
         cx += (tx * vw - cx) * k;
         cy += (ty * vh - cy) * k;
