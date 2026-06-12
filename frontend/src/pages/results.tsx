@@ -329,7 +329,12 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   const verdictBg = highCount > 0 ? "#FDF0F2" : medCount > 0 ? "#FDF6F0" : "#F0F6F4";
   const verdictLabel = highCount > 0 ? t("results_verdict_bad") : medCount > 0 ? t("results_verdict_mid") : t("results_verdict_good");
   const verdictBadge = highCount > 0 ? t("results_verdict_badge_bad") : medCount > 0 ? t("results_verdict_badge_mid") : t("results_verdict_badge_good");
-  const verdictSub = highCount > 0 ? t("results_verdict_sub_bad", highCount) : medCount > 0 ? t("results_verdict_sub_mid") : t("results_verdict_sub_good");
+  const issueTotal = analysis.potential_issues.length;
+  const verdictSub = highCount > 0
+    ? (lang === "es"
+        ? `Encontramos ${issueTotal} problema${issueTotal === 1 ? "" : "s"} — ${highCount} de alto riesgo. Léelos con cuidado antes de firmar.`
+        : `We found ${issueTotal} issue${issueTotal === 1 ? "" : "s"} — ${highCount} high-risk. Read them carefully before you sign.`)
+    : medCount > 0 ? t("results_verdict_sub_mid") : t("results_verdict_sub_good");
 
   const AFTER_QUESTIONS_EN = [
     "Keep written copies of any maintenance requests and replies.",
@@ -369,6 +374,12 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   const orderedIssues = [...highIssues, ...medIssues, ...lowIssues];
   const previewIssues = orderedIssues.slice(0, PREVIEW_LIMIT);
   const totalIssueCount = analysis.potential_issues.length;
+
+  // Lease health score (0–100) — promised on the homepage and pricing page.
+  // Same deduction weights as the landlord compliance panel, with gaps
+  // counted from the viewer's perspective.
+  const healthScore = Math.max(0, 100 - highIssues.length * 15 - medIssues.length * 8 - lowIssues.length * 3 - allProts.length * 5);
+  const healthColor = healthScore >= 75 ? "#5A8B7A" : healthScore >= 50 ? "#C97A4A" : "#7A2C3D";
   const dispHigh = LOCKED ? previewIssues.filter(i => i.severity === "high") : highIssues;
   const dispMed  = LOCKED ? previewIssues.filter(i => i.severity === "medium") : medIssues;
   const dispLow  = LOCKED ? previewIssues.filter(i => i.severity === "low") : lowIssues;
@@ -447,8 +458,9 @@ export default function Results({ demo = false }: { demo?: boolean }) {
               {verdictSub}
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 10, maxWidth: 720 }} className="results-stats-grid">
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 10, maxWidth: 880 }} className="results-stats-grid">
               {[
+                { n: healthScore, label: lang === "es" ? "puntuación de salud\ndel contrato (de 100)" : "lease health score\n(out of 100)", color: healthColor },
                 { n: analysis.stats.potential_issues, label: t("results_stat_issues"), color: analysis.stats.potential_issues > 0 ? "#7A2C3D" : "#5A8B7A" },
                 { n: analysis.stats.missing_protections, label: t("results_stat_missing"), color: "#C97A4A" },
                 { n: analysis.stats.questions, label: intake.stage === "before" ? t("results_stat_q_before") : t("results_stat_q_after"), color: "#1E3A5F" },
@@ -731,6 +743,42 @@ export default function Results({ demo = false }: { demo?: boolean }) {
             </div>
           </section>
 
+          {LOCKED && (orderedIssues.length > PREVIEW_LIMIT || allProts.length > 0) && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: "clamp(28px,4vw,44px)" }}>
+              {orderedIssues.slice(PREVIEW_LIMIT).map((issue, i) => (
+                <button
+                  key={`locked-issue-${i}`}
+                  onClick={goCheckout}
+                  aria-label={lang === "es" ? `Desbloquear: ${issue.title}` : `Unlock: ${issue.title}`}
+                  style={{ display: "flex", alignItems: "center", gap: 14, textAlign: "left", width: "100%", backgroundColor: "rgba(23,23,23,0.025)", border: "2px dashed rgba(23,23,23,0.22)", borderRadius: 14, padding: "16px 20px", cursor: "pointer" }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#7A2C3D" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <SevDot color={issue.severity === "high" ? "#7A2C3D" : issue.severity === "medium" ? "#C97A4A" : "#5A8B7A"} size={10} />
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(15px,2vw,18px)", color: "var(--color-ink)", letterSpacing: "-0.02em" }}>{issue.title}</span>
+                    <span aria-hidden="true" style={{ display: "block", fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", filter: "blur(4px)", userSelect: "none", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{issue.explanation.slice(0, 90)}</span>
+                  </span>
+                  <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#7A2C3D", flexShrink: 0 }}>{lang === "es" ? "Desbloquear →" : "Unlock →"}</span>
+                </button>
+              ))}
+              {allProts.map((p, i) => (
+                <button
+                  key={`locked-prot-${i}`}
+                  onClick={goCheckout}
+                  aria-label={lang === "es" ? `Desbloquear protección faltante: ${p.title}` : `Unlock missing protection: ${p.title}`}
+                  style={{ display: "flex", alignItems: "center", gap: 14, textAlign: "left", width: "100%", backgroundColor: "rgba(201,122,74,0.04)", border: "2px dashed rgba(201,122,74,0.45)", borderRadius: 14, padding: "16px 20px", cursor: "pointer" }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#C97A4A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#C97A4A", marginBottom: 3 }}>{lang === "es" ? "Protección que falta" : "Missing protection"}</span>
+                    <span style={{ display: "block", fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(15px,2vw,18px)", color: "var(--color-ink)", letterSpacing: "-0.02em" }}>{p.title}</span>
+                  </span>
+                  <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#C97A4A", flexShrink: 0 }}>{lang === "es" ? "Desbloquear →" : "Unlock →"}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
           {LOCKED && (
             <section aria-labelledby="paywall-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
               <div style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 20, overflow: "hidden", boxShadow: "8px 8px 0 0 #171717" }}>
@@ -981,13 +1029,37 @@ export default function Results({ demo = false }: { demo?: boolean }) {
               {lang === "es" ? "ahora ve a hacer de ese lugar tu hogar." : "now go make it home."}
             </p>
             <div aria-hidden="true"><HomeFinal size={140} /></div>
-            <a href="/upload" style={{ marginTop: 28, display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FBF8F1", backgroundColor: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 999, padding: "16px 32px", textDecoration: "none", boxShadow: "4px 4px 0 0 #171717", transition: "transform 0.1s ease" }}>
-              {lang === "es" ? "Analizar otro contrato →" : "Check another lease →"}
-            </a>
+            {LOCKED ? (
+              <>
+                <button onClick={goCheckout} style={{ marginTop: 28, display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FBF8F1", backgroundColor: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 999, padding: "16px 32px", cursor: "pointer", boxShadow: "4px 4px 0 0 #171717", transition: "transform 0.1s ease" }}>
+                  {lang === "es" ? "Desbloquear el informe completo · $9.99 →" : "Unlock the full report · $9.99 →"}
+                </button>
+                <a href="/upload" style={{ marginTop: 16, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", textDecoration: "underline", textUnderlineOffset: 3 }}>
+                  {lang === "es" ? "o analizar otro contrato" : "or check another lease"}
+                </a>
+              </>
+            ) : (
+              <a href="/upload" style={{ marginTop: 28, display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FBF8F1", backgroundColor: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 999, padding: "16px 32px", textDecoration: "none", boxShadow: "4px 4px 0 0 #171717", transition: "transform 0.1s ease" }}>
+                {lang === "es" ? "Analizar otro contrato →" : "Check another lease →"}
+              </a>
+            )}
           </div>
 
         </div>
       </main>
+
+      {LOCKED && (
+        <div role="complementary" aria-label={lang === "es" ? "Desbloquear informe completo" : "Unlock full report"} style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 60, backgroundColor: "#1E3A5F", borderTop: "2.5px solid #171717", padding: "10px clamp(16px,3vw,24px)", boxShadow: "0 -4px 16px rgba(23,23,23,0.18)" }}>
+          <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.78)" }}>
+              {lang === "es" ? `Tu escaneo encontró ${totalIssueCount} problema${totalIssueCount === 1 ? "" : "s"} — ve el informe completo` : `Your scan found ${totalIssueCount} issue${totalIssueCount === 1 ? "" : "s"} — see the full report`}
+            </span>
+            <button onClick={goCheckout} style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, color: "#171717", backgroundColor: "#F5C547", border: "2.5px solid #171717", borderRadius: 999, padding: "11px 22px", cursor: "pointer", boxShadow: "3px 3px 0 0 #171717", whiteSpace: "nowrap" }}>
+              {lang === "es" ? "Desbloquear · $9.99 →" : "Unlock full report · $9.99 →"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {!bannerDismissed && (
         <div role="complementary" aria-label="Legal disclaimer" style={{ backgroundColor: "rgba(23,23,23,0.04)", borderTop: "1.5px solid rgba(23,23,23,0.1)", padding: "14px 24px" }}>
@@ -1003,6 +1075,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
       )}
 
       <Footer />
+      {LOCKED && <div aria-hidden="true" style={{ height: 76 }} />}
     </div>
   );
 }
