@@ -7,7 +7,6 @@ import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { IconChevronRight, IconMapPin, IconSparkle, IconClock, IconWarning, IconUpload, IconKey, IconDocumentSmall, IconShield, IconHelp, IconUser, IconHouseSmall, IconPlus, IconFlag, IconBox, IconSearchSmall } from "@/components/icons/Icon";
 import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
-import PhotoDoorKey from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.jpg";
 import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
 
 function useScrollReveal() {
@@ -34,11 +33,12 @@ const STEPS = [
   { n: "03", title: "Read what it actually says", body: "Plain English. Every risky clause named. Every legal citation sourced. In under 15 seconds.", borderRight: false },
 ];
 
+/* The four parts of every read — folded into How It Works as a compact strip */
 const FEATURES = [
-  { label: "Key terms", desc: "Rent, deposit, late fees, entry rights, lease term. The numbers that matter most, pulled out and explained in plain English.", color: "#5A8B7A", right: true },
-  { label: "Risk flags", desc: "Clauses that conflict with state law or create liability. Each flagged with the specific rule it violates. Renters know what to push back on. Landlords know what courts will void.", color: "#7A2C3D", right: true },
-  { label: "Cited where it matters", desc: "Every flagged clause links back to the actual law your state has on the books. Other AI lease readers tell you 'this might be illegal.' We tell you which statute, and where to read it.", color: "#C97A4A", right: true },
-  { label: "Questions to raise", desc: "Renters: ask before signing. Landlords: fix before issuing. A checklist to ensure both sides understand exactly where they stand.", color: "#1E3A5F", right: false },
+  { label: "Key terms", desc: "Rent, deposit, late fees, entry rights — pulled out and explained.", color: "#5A8B7A", right: true },
+  { label: "Risk flags", desc: "Clauses that conflict with your state's law, each named and rated.", color: "#7A2C3D", right: true },
+  { label: "Cited to the law", desc: "Every flag links to the actual statute — not “this might be illegal.”", color: "#C97A4A", right: true },
+  { label: "Questions to raise", desc: "What to ask before signing. Or fix before issuing.", color: "#1E3A5F", right: false },
 ];
 
 /* Numbered section eyebrow - sage, uppercase, magazine chapter style */
@@ -116,24 +116,24 @@ export default function Home() {
             <source src={`${import.meta.env.BASE_URL}hero-video.mp4`} type="video/mp4" />
           </video>
 
-          {/* ── Floating illustrations ── */}
-          <div aria-hidden={true} style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
+          {/* ── Floating illustrations (hidden on mobile via .ctl-float-decor) ── */}
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
 
-          {/* ── Decorative shapes ── */}
-          <div style={{ position: "absolute", top: "9%", left: "44%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none", zIndex: 0, color: "#F5C547" }}>
-            <IconSparkle size={26} aria-hidden={true} />
+          {/* ── Decorative shapes (hidden on mobile via .ctl-float-decor) ── */}
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", top: "9%", left: "44%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none", zIndex: 0, color: "#F5C547" }}>
+            <IconSparkle size={26} />
           </div>
-          <div style={{ position: "absolute", bottom: "22%", left: "40%", animation: "blob-bob 7s ease-in-out infinite 2.5s", pointerEvents: "none", zIndex: 0, color: "#5A8B7A" }}>
-            <IconPlus size={20} aria-hidden={true} />
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", bottom: "22%", left: "40%", animation: "blob-bob 7s ease-in-out infinite 2.5s", pointerEvents: "none", zIndex: 0, color: "#5A8B7A" }}>
+            <IconPlus size={20} />
           </div>
-          <div style={{ position: "absolute", top: "38%", right: "46%", animation: "blob-bob 9s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 0, color: "#C97A4A" }}>
-            <IconFlag size={22} aria-hidden={true} />
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", top: "38%", right: "46%", animation: "blob-bob 9s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 0, color: "#C97A4A" }}>
+            <IconFlag size={22} />
           </div>
-          <div style={{ position: "absolute", top: "14%", right: "43%", animation: "blob-bob 6.5s ease-in-out infinite 4s", pointerEvents: "none", zIndex: 0, color: "#D4B8E5" }}>
-            <IconPlus size={20} aria-hidden={true} />
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", top: "14%", right: "43%", animation: "blob-bob 6.5s ease-in-out infinite 4s", pointerEvents: "none", zIndex: 0, color: "#D4B8E5" }}>
+            <IconPlus size={20} />
           </div>
 
           <div
@@ -152,6 +152,9 @@ export default function Home() {
             <style>{`
               @media (min-width: 768px) {
                 .hero-grid { grid-template-columns: 1fr 1fr !important; }
+              }
+              @media (max-width: 767px) {
+                .ctl-float-decor { display: none !important; }
               }
             `}</style>
 
@@ -174,7 +177,7 @@ export default function Home() {
               >
                 Your lease,
                 <br />
-                <em style={{ fontStyle: "italic", color: "var(--color-ink-blue)" }}>in plain<br />English.</em>
+                <em style={{ fontStyle: "italic", color: "var(--color-ink-blue)", backgroundImage: "linear-gradient(to top, rgba(245,197,71,0.5) 0%, rgba(245,197,71,0.5) 34%, transparent 34%)", WebkitBoxDecorationBreak: "clone", boxDecorationBreak: "clone" }}>in plain<br />English.</em>
               </h1>
 
               <p
@@ -418,6 +421,8 @@ export default function Home() {
           <img
             src={PhotoMovingSteps}
             alt="A person carries a moving box marked FRAGILE up the front steps of a brownstone building"
+            loading="lazy"
+            decoding="async"
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", display: "block" }}
           />
           <div aria-hidden={true} style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(23,23,23,0.55) 0%, rgba(23,23,23,0.15) 60%, transparent 100%)" }} />
@@ -439,13 +444,13 @@ export default function Home() {
           style={{ padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", background: "var(--color-bone)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} style={{ position: "absolute", left: "clamp(30px, 5vw, 100px)", top: "clamp(40px, 12vh, 120px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.2)" }}><IconDocumentSmall size={260} /></div>
-          
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "clamp(30px, 5vw, 100px)", top: "clamp(40px, 12vh, 120px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.2)" }}><IconDocumentSmall size={260} /></div>
+
           {/* ── Shapes ── */}
-          <div style={{ position: "absolute", top: "5%", right: "2%", animation: "star-twinkle 5s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", top: "5%", right: "2%", animation: "star-twinkle 5s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
             <IconSparkle size={30} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", bottom: "12%", left: "0.5%", animation: "blob-bob 9s ease-in-out infinite 3s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", bottom: "12%", left: "0.5%", animation: "blob-bob 9s ease-in-out infinite 3s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
             <IconPlus size={24} aria-hidden={true} />
           </div>
           <div style={{ maxWidth: 1160, margin: "0 auto" }}>
@@ -456,34 +461,31 @@ export default function Home() {
             >
               Clauses that appear in millions of US leases.
             </h2>
-            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(16px,2vw,22px)", color: "var(--color-ink-muted)", margin: "0 0 16px", letterSpacing: "-0.01em" }}>
+            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(16px,2vw,22px)", color: "var(--color-ink-muted)", margin: "0 0 clamp(32px,5vw,52px)", letterSpacing: "-0.01em" }}>
               Most are unenforceable. Few people push back.
-            </p>
-            <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "var(--color-ink-muted)", lineHeight: 1.7, margin: "0 0 clamp(32px,5vw,52px)", maxWidth: 560 }}>
-              Courts reject these all the time. But you have to know they're there.
             </p>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px,1fr))", gap: 14 }}>
               {[
                 {
                   tag: "Entering Without Warning",
-                  clause: '"Landlord may enter the premises at any time, for any reason, without prior notice to Tenant."',
-                  cost: "Illegal in 48 states. Most require 24–48 hours written notice for non-emergency entry. You can refuse only if you know you have the right.",
+                  clause: '"Landlord may enter the premises at any time, for any reason, without prior notice."',
+                  cost: "Illegal in 48 states — most require 24–48 hours written notice. You can refuse, if you know you have the right.",
                   law: "e.g. Cal. Civ. Code § 1954 · NY RPL § 235-b",
                 },
                 {
                   tag: "Living Conditions",
-                  clause: '"Tenant waives all right to repair, to withhold rent, or to seek any remedy for any defect or condition of the premises."',
-                  cost: "The implied warranty of habitability cannot be waived in any US state. Courts routinely void this - for tenants who actually challenge it.",
-                  law: "Implied Warranty of Habitability - all 50 states",
+                  clause: '"Tenant waives all right to repair, to withhold rent, or to seek any remedy for any defect."',
+                  cost: "The warranty of habitability can't be waived in any US state. Courts void this — for tenants who challenge it.",
+                  law: "Implied Warranty of Habitability — all 50 states",
                 },
                 {
                   tag: "Security Deposit",
-                  clause: '"Security deposit is non-refundable under all circumstances and will not be returned to Tenant for any reason."',
-                  cost: 'Every state limits what landlords can legally deduct. "Non-refundable deposit" is not a legal category. Most tenants walk away from thousands of dollars they were legally owed.',
+                  clause: '"Security deposit is non-refundable under all circumstances."',
+                  cost: '"Non-refundable deposit" is not a legal category. Every state limits deductions — most tenants walk away from money they were owed.',
                   law: "Security deposit laws vary by state",
                 },
-              ].map(({ tag, clause, cost }) => (
+              ].map(({ tag, clause, cost, law }) => (
                 <div
                   key={tag}
                   className="mn-shadow-clay"
@@ -502,9 +504,10 @@ export default function Home() {
                       {clause}
                     </p>
                   </div>
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", padding: "16px 20px 20px" }}>
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", padding: "16px 20px 18px" }}>
                     <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#F4A480", marginBottom: 8 }}>What this costs</div>
-                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.9)", lineHeight: 1.65, margin: 0 }}>{cost}</p>
+                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.9)", lineHeight: 1.65, margin: "0 0 10px" }}>{cost}</p>
+                    <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, color: "#F5C547", letterSpacing: "0.04em" }}>{law}</div>
                   </div>
                 </div>
               ))}
@@ -525,13 +528,13 @@ export default function Home() {
           style={{ background: "#1E3A5F", padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} style={{ position: "absolute", right: "clamp(40px, 8vw, 120px)", bottom: "clamp(20px, 8vh, 80px)", opacity: 0.18, pointerEvents: "none", zIndex: 0, color: "rgba(251,248,241,0.3)" }}><IconWarning size={240} /></div>
-          
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "clamp(40px, 8vw, 120px)", bottom: "clamp(20px, 8vh, 80px)", opacity: 0.18, pointerEvents: "none", zIndex: 0, color: "rgba(251,248,241,0.3)" }}><IconWarning size={240} /></div>
+
           {/* ── Shapes ── */}
-          <div style={{ position: "absolute", top: "10%", right: "6%", animation: "star-twinkle 3.5s ease-in-out infinite", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", top: "10%", right: "6%", animation: "star-twinkle 3.5s ease-in-out infinite", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
             <IconSparkle size={30} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", bottom: "14%", left: "4%", animation: "blob-bob 8s ease-in-out infinite 1.5s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", bottom: "14%", left: "4%", animation: "blob-bob 8s ease-in-out infinite 1.5s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
             <IconPlus size={22} aria-hidden={true} />
           </div>
           <div style={{ maxWidth: 1160, margin: "0 auto" }}>
@@ -556,6 +559,16 @@ export default function Home() {
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: 0, maxWidth: 460 }}>
                   A fair lease protects everyone. Most don't.
                 </p>
+                <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                  <Link
+                    href="/upload"
+                    className="mn-btn"
+                    style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "13px 26px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "#F5C547", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}
+                  >
+                    Scan yours free →
+                  </Link>
+                  <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.45)" }}>15 seconds · no account</span>
+                </div>
               </div>
 
               {/* Right: stat grid */}
@@ -595,13 +608,13 @@ export default function Home() {
           aria-labelledby="how-heading"
           style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(48px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
         >
-          <div aria-hidden={true} style={{ position: "absolute", right: -60, top: "32%", opacity: 0.22, pointerEvents: "none", animation: "ctl-illus-float-b 12s ease-in-out infinite 2s", zIndex: 0, color: "#F4A480" }}><IconBox size={195} /></div>
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: -60, top: "32%", opacity: 0.22, pointerEvents: "none", animation: "ctl-illus-float-b 12s ease-in-out infinite 2s", zIndex: 0, color: "#F4A480" }}><IconBox size={195} /></div>
           <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
 
-            <div style={{ display: "flex", alignItems: "baseline", gap: 20, paddingBottom: 0, marginBottom: 0 }}>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
               <div>
                 <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--color-sage)", display: "block", marginBottom: 8 }}>
-                  03 - HOW IT WORKS
+                  03. HOW IT WORKS
                 </span>
                 <h2
                   id="how-heading"
@@ -610,6 +623,12 @@ export default function Home() {
                   Three steps. <em style={{ fontStyle: "italic", color: "var(--color-ink-blue)" }}>Under a minute.</em>
                 </h2>
               </div>
+              <Link
+                href="/upload"
+                style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, fontWeight: 600, color: "var(--color-sage)", textDecoration: "underline", textUnderlineOffset: 3, flexShrink: 0 }}
+              >
+                Read my lease →
+              </Link>
             </div>
 
             <div
@@ -680,144 +699,40 @@ export default function Home() {
               })}
             </div>
 
-          </div>
-        </section>
-
-        {/* ═══════════════ FEATURES - four-part read ═══════════════ */}
-        <section
-          data-reveal
-          className="ctl-reveal"
-          aria-labelledby="features-heading"
-          style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(48px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
-        >
-          {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} style={{ position: "absolute", right: "clamp(30px, 6vw, 110px)", top: "clamp(50px, 15vh, 140px)", opacity: 0.07, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.15)" }}><IconKey size={280} /></div>
-          
-          <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
-
-            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
-              <div>
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--color-sage)", display: "block", marginBottom: 8 }}>
-                  04 - A COMPLETE READ
-                </span>
-                <h2
-                  id="features-heading"
-                  style={{
-                    fontFamily: "var(--app-font-serif)",
-                    fontWeight: 500,
-                    fontSize: "clamp(24px, 3.5vw, 36px)",
-                    letterSpacing: "-0.025em",
-                    color: "var(--color-ink)",
-                    margin: 0,
-                  }}
-                >
-                  A complete read. <em style={{ fontStyle: "italic", color: "var(--color-ink-blue)" }}>Four parts.</em>
-                </h2>
-              </div>
-              <Link
-                href="/upload"
-                style={{
-                  fontFamily: "var(--app-font-sans)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: "var(--color-sage)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: 3,
-                  flexShrink: 0,
-                }}
+            {/* ── The four parts of every read (folded from the old Features section) ── */}
+            <div style={{ marginTop: "clamp(28px, 4vw, 44px)" }}>
+              <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(15px, 1.8vw, 18px)", color: "var(--color-ink-muted)", margin: "0 0 16px", letterSpacing: "-0.01em" }}>
+                Every read comes back in four parts:
+              </p>
+              <div
+                className="features-grid"
+                style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}
               >
-                Read my lease →
-              </Link>
-            </div>
-
-            {/* 4-column strip - brand-semantic top borders */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                borderTop: "1px solid var(--border-subtle)",
-              }}
-              className="features-grid"
-            >
-              {FEATURES.map((f, i) => {
-                const featureIcons = [IconKey, IconWarning, IconShield, IconHelp];
-                const FeatureIcon = featureIcons[i];
-                return (
-                  <div
-                    key={f.label}
-                    className="mn-shadow-only"
-                    style={{
-                      padding: "clamp(20px, 3vw, 32px) clamp(14px, 2vw, 24px)",
-                      borderTop: `4px solid ${f.color}`,
-                      borderRight: f.right ? "1px solid var(--border-subtle)" : "none",
-                      marginTop: "-1px",
-                      }}
-                  >
-                    <div style={{ marginBottom: 16 }}>
-                      <FeatureIcon size={28} aria-hidden={true} />
-                    </div>
+                {FEATURES.map((f, i) => {
+                  const featureIcons = [IconKey, IconWarning, IconShield, IconHelp];
+                  const FeatureIcon = featureIcons[i];
+                  return (
                     <div
-                      style={{
-                        fontFamily: "var(--app-font-sans)",
-                        fontWeight: 600,
-                        fontSize: 11,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                        color: f.color,
-                        marginBottom: 12,
-                      }}
+                      key={f.label}
+                      style={{ background: "var(--color-bone-dark)", border: "1.5px solid rgba(23,23,23,0.12)", borderTop: `4px solid ${f.color}`, borderRadius: 12, padding: "16px 18px" }}
                     >
-                      {f.label}
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                        <FeatureIcon size={18} aria-hidden={true} />
+                        <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: f.color }}>
+                          {f.label}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", lineHeight: 1.55, margin: 0 }}>
+                        {f.desc}
+                      </p>
                     </div>
-                    <p
-                      style={{
-                        fontFamily: "var(--app-font-sans)",
-                        fontSize: 14,
-                        color: "var(--color-ink-muted)",
-                        lineHeight: 1.65,
-                        margin: 0,
-                      }}
-                    >
-                      {f.desc}
-                    </p>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
 
           </div>
         </section>
-
-        {/* ═══════════════ EDITORIAL - Door & Audience ═══════════════ */}
-        <div style={{ padding: "0 clamp(24px,4vw,48px) clamp(32px,5vw,56px)" }}>
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0,5fr) minmax(0,7fr)", gap: 0, border: "2.5px solid #171717", borderRadius: 24, overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }} className="ctl-door-editorial door-editorial-grid">
-              <div style={{ position: "relative", minHeight: 260 }}>
-                <img
-                  src={PhotoDoorKey}
-                  alt="A hand unlocking an ornate antique door handle with keys"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", display: "block", position: "absolute", inset: 0 }}
-                />
-              </div>
-              <div style={{ padding: "clamp(28px,4vw,52px)", background: "#1E3A5F", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(90,139,122,0.75)", marginBottom: 16 }}>
-                  From either side of the door
-                </div>
-                <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(17px,2.2vw,24px)", color: "var(--color-bone)", lineHeight: 1.4, margin: "0 0 18px", letterSpacing: "-0.02em" }}>
-                  Whether you're signing one or issuing one - a well-read lease protects everyone.
-                </p>
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.7)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: "#5A8B7A" }}>→</span> For renters
-                  </div>
-                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.7)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: "#C97A4A" }}>→</span> For landlords
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* ═══════════════ WHO IT'S FOR ═══════════════ */}
         <section
@@ -828,17 +743,17 @@ export default function Home() {
           style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(56px, 7vw, 88px)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} style={{ position: "absolute", left: "clamp(20px, 4vw, 80px)", bottom: "clamp(30px, 10vh, 100px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.18)" }}><IconHouseSmall size={250} /></div>
-          
+          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "clamp(20px, 4vw, 80px)", bottom: "clamp(30px, 10vh, 100px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.18)" }}><IconHouseSmall size={250} /></div>
+
           {/* ── Shapes ── */}
-          <div style={{ position: "absolute", top: "8%", right: "1%", animation: "star-twinkle 4.5s ease-in-out infinite 2s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", top: "8%", right: "1%", animation: "star-twinkle 4.5s ease-in-out infinite 2s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
             <IconSparkle size={28} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", bottom: "6%", left: "0.5%", animation: "blob-bob 7.5s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 1, color: "#C97A4A" }}>
+          <div className="ctl-float-decor" style={{ position: "absolute", bottom: "6%", left: "0.5%", animation: "blob-bob 7.5s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 1, color: "#C97A4A" }}>
             <IconFlag size={22} aria-hidden={true} />
           </div>
           <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <SectionEyebrow num="05" label="WHO IT'S FOR" />
+            <SectionEyebrow num="04" label="WHO IT'S FOR" />
             <h2
               id="who-heading"
               style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px,3.5vw,40px)", letterSpacing: "-0.025em", lineHeight: 1.1, color: "var(--color-ink)", margin: "0 0 clamp(28px,4vw,48px)" }}
@@ -851,7 +766,7 @@ export default function Home() {
 
               {/* Renters panel */}
               <div id="renter-card" className="mn-shadow-clay" style={{ background: "#1E3A5F", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden" }}>
-                <img src={PhotoMomBaby} aria-hidden={true} alt="" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
+                <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
                 <div style={{ marginBottom: 24 }}>
                   <IconUser size={52} aria-hidden={true} />
                 </div>
@@ -905,7 +820,9 @@ export default function Home() {
         </section>
 
         {/* ═══════════════ STATE COVERAGE ═══════════════ */}
-        <StatePreviews />
+        <div id="state-coverage">
+          <StatePreviews />
+        </div>
 
         {/* ═══════════════ FINAL CTA ═══════════════ */}
         <section
