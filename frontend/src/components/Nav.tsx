@@ -103,9 +103,6 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
             className="hidden md:flex"
             style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 32 }}
           >
-            {navLink("/#renter-card", lang === "es" ? "Para inquilinos" : "For renters")}
-            {navLink("/#landlord-card", lang === "es" ? "Para propietarios" : "For landlords")}
-            <span aria-hidden={true} style={{ width: 1, height: 20, backgroundColor: "rgba(23,23,23,0.08)", display: "inline-block" }} />
             {navLink("/how-it-works", lang === "es" ? "Cómo funciona" : "How it works")}
             {navLink("/pricing", lang === "es" ? "Precio" : "Pricing")}
             {navLink("/resources", lang === "es" ? "Recursos" : "Resources")}
@@ -201,7 +198,6 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
                 padding: "8px 10px", 
                 minHeight: 48, 
                 minWidth: 48, 
-                display: "flex",
                 alignItems: "center", 
                 justifyContent: "center",
                 transition: "background-color 0.2s ease, box-shadow 0.2s ease",
@@ -251,13 +247,9 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
           </div>
 
           {[
-            { href: "/#renter-card", label: lang === "es" ? "Para inquilinos" : "For renters" },
-            { href: "/#landlord-card", label: lang === "es" ? "Para propietarios" : "For landlords" },
             { href: "/how-it-works", label: lang === "es" ? "Cómo funciona" : "How it works" },
+            { href: "/pricing", label: lang === "es" ? "Precio" : "Pricing" },
             { href: "/resources", label: lang === "es" ? "Recursos" : "Resources" },
-            { href: "/about", label: lang === "es" ? "Acerca de" : "About" },
-            { href: "/privacy", label: lang === "es" ? "Privacidad" : "Privacy" },
-            { href: "/terms", label: lang === "es" ? "Términos" : "Terms" },
           ].map(({ href, label }) => (
             <a
               key={label}

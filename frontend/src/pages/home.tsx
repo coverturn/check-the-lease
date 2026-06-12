@@ -5,7 +5,7 @@ import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
-import { IconChevronRight, IconMapPin, IconSparkle, IconClock, IconWarning, IconUpload, IconKey, IconDocumentSmall, IconShield, IconHelp, IconUser, IconHouseSmall, IconPlus, IconFlag, IconBox, IconSearchSmall } from "@/components/icons/Icon";
+import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
 import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
 import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
 
@@ -27,18 +27,11 @@ function useScrollReveal() {
 
 const EASE = "cubic-bezier(0.16,1,0.3,1)";
 
-const STEPS = [
-  { n: "01", title: "Upload your lease", body: "Drop the PDF. Any length, any state, any template.", borderRight: true },
-  { n: "02", title: "Pick your state", body: "We check it against your state's actual tenant protection rules.", borderRight: true },
-  { n: "03", title: "Read what it actually says", body: "Plain English. Every risky clause named. Every legal citation sourced. In under 15 seconds.", borderRight: false },
-];
-
-/* The four parts of every read — folded into How It Works as a compact strip */
-const FEATURES = [
-  { label: "Key terms", desc: "Rent, deposit, late fees, entry rights — pulled out and explained.", color: "#5A8B7A", right: true },
-  { label: "Risk flags", desc: "Clauses that conflict with your state's law, each named and rated.", color: "#7A2C3D", right: true },
-  { label: "Cited to the law", desc: "Every flag links to the actual statute — not “this might be illegal.”", color: "#C97A4A", right: true },
-  { label: "Questions to raise", desc: "What to ask before signing. Or fix before issuing.", color: "#1E3A5F", right: false },
+type Step = { n: string; title: string; body: string; bg: string; ticks?: string[] };
+const STEPS: Step[] = [
+  { n: "01", title: "Upload your lease", body: "Drop the PDF. Any length, any state, any template.", bg: "#1E3A5F" },
+  { n: "02", title: "Pick your state", body: "We check it against your state's actual tenant protection rules.", bg: "#C97A4A" },
+  { n: "03", title: "Read what it actually says", body: "Plain English, in 15 seconds:", bg: "#5A8B7A", ticks: ["Key terms, pulled out and explained", "Risk flags, rated by severity", "Every flag cited to the actual law", "Questions to raise before signing"] },
 ];
 
 /* Numbered section eyebrow - sage, uppercase, magazine chapter style */
@@ -161,6 +154,28 @@ export default function Home() {
             {/* ── Left: Text ── */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
 
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "7px 14px",
+                  background: "#F5C547",
+                  border: "2px solid #171717",
+                  boxShadow: "3px 3px 0 0 #171717",
+                  borderRadius: 999,
+                  fontFamily: "var(--app-font-sans)",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#171717",
+                  marginBottom: "clamp(18px, 2.5vw, 26px)",
+                  animation: `ctl-fade-up 0.7s 0s ${EASE} both`,
+                }}
+              >
+                For renters · For landlords · All 50 states
+              </div>
+
               <h1
                 id="hero-heading"
                 className="hero-h1"
@@ -192,37 +207,11 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.22s ${EASE} both`,
                 }}
               >
-                A free scan names every red flag in 15 seconds. The full report — the law behind each one, and what to say — is $9.99. No subscription.
+                Signing one or issuing one — a free scan shows you what won't hold up in court, in 15 seconds. Full report $9.99. No subscription.
               </p>
 
-              {/* Coverage badge */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "8px 16px",
-                  background: "rgba(90,139,122,0.08)",
-                  border: "1.5px solid rgba(90,139,122,0.25)",
-                  borderRadius: 999,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  color: "#3D5F50",
-                  marginTop: "clamp(20px, 3vw, 28px)",
-                  marginBottom: "clamp(24px, 3.5vw, 36px)",
-                  animation: `ctl-fade-up 0.7s 0.28s ${EASE} both`,
-                }}
-              >
-                <span style={{ fontWeight: 700 }}>50</span>
-                <span style={{ opacity: 0.6 }}>·</span>
-                <span>DC</span>
-                <span style={{ opacity: 0.6 }}>·</span>
-                <span>6 territories</span>
-                <span style={{ marginLeft: 4, fontFamily: "var(--app-font-serif)", fontStyle: "italic", opacity: 0.7 }}>covered</span>
-              </div>
-
               {/* Hero action: pick your state → start free scan (the first step, surfaced) */}
-              <div style={{ animation: `ctl-fade-up 0.7s 0.36s ${EASE} both` }}>
+              <div style={{ marginTop: "clamp(24px, 3.5vw, 36px)", animation: `ctl-fade-up 0.7s 0.36s ${EASE} both` }}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "stretch", maxWidth: 480 }}>
                   <select
                     aria-label="Your state or territory"
@@ -258,7 +247,7 @@ export default function Home() {
 
               {/* Trust row */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, animation: `ctl-fade-up 0.7s 0.44s ${EASE} both` }}>
-                {["Free scan", "No account", "Never stored", "No subscription"].map((t) => (
+                {["Free scan", "No account", "No subscription", "Never stored", "15-second scan"].map((t) => (
                   <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)" }}>
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden={true}><path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     {t}
@@ -266,126 +255,124 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Stats - Fraunces 28px numbers */}
-              <div
-                style={{
-                  display: "flex",
-                  gap: "clamp(16px, 3vw, 28px)",
-                  marginTop: "clamp(32px, 4vw, 48px)",
-                  paddingTop: "clamp(20px, 3vw, 32px)",
-                  borderTop: "1px solid var(--border-subtle)",
-                  animation: `ctl-fade-up 0.7s 0.5s ${EASE} both`,
-                }}
-              >
-                {[{ n: "All 50", l: "states", icon: IconMapPin }, { n: "$9.99", l: "full report", icon: IconSparkle }, { n: "15s", l: "per scan", icon: IconClock }].map(({ n, l, icon: Icon }) => (
-                  <div key={l} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <Icon size={14} aria-hidden={true} />
-                    <div>
-                      <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: 28, color: "var(--color-ink)", letterSpacing: "-0.03em", lineHeight: 1 }}>{n}</div>
-                      <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 4, letterSpacing: "0.02em" }}>{l}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
 
-            {/* ── Right: Animated Before → After demo ── */}
+            {/* ── Right: mini report card — the product at a glance ── */}
             <div
               className="hero-aside"
-              aria-label="Example: a scary lease clause, decoded"
+              aria-label="Example free scan result: lease health score with flagged clauses"
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 0,
+                maxWidth: 440,
+                width: "100%",
+                justifySelf: "center",
                 animation: `ctl-float-card 7s ease-in-out infinite, ctl-fade-up 0.9s 0.28s ${EASE} both`,
               }}
             >
-              {/* BEFORE: the scary clause - always visible */}
-              <div
-                style={{
-                  background: "#141414",
-                  borderRadius: 20,
-                  padding: "clamp(20px, 2.5vw, 28px)",
-                  border: "2px solid #171717",
-                  boxShadow: "6px 6px 0 0 #171717",
-                  marginBottom: 10,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "rgba(255,100,100,0.7)" }} />
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "rgba(255,200,50,0.5)" }} />
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "rgba(80,200,80,0.4)" }} />
-                  <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.65)", marginLeft: 8 }}>
-                    FROM YOUR LEASE
+              <div style={{ background: "var(--color-bone)", borderRadius: 16, border: "2.5px solid #171717", boxShadow: "8px 8px 0 0 #171717", overflow: "hidden" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "12px 18px", borderBottom: "2px solid #171717", background: "#F5C547" }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", border: "1.5px solid #171717", background: "var(--color-bone)" }} />
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", border: "1.5px solid #171717", background: "var(--color-bone)" }} />
+                  <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#171717", marginLeft: 8 }}>
+                    Your free scan · 15 seconds
                   </span>
                 </div>
-                <p style={{ fontFamily: "var(--app-font-mono)", fontSize: "clamp(12px, 1.5vw, 14px)", color: "rgba(251,248,241,0.95)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
-                  "Tenant waives the right to notice of entry. Landlord may enter the premises at any time for any purpose."
-                </p>
-              </div>
-
-              {/* Animated arrow - cycles via CSS class */}
-              <div
-                aria-hidden={true}
-                className="hero-cycle-arrow"
-                style={{
-                  textAlign: "center",
-                  fontSize: 20,
-                  color: "rgba(122,44,61,0.5)",
-                  padding: "6px 0",
-                  lineHeight: 1,
-                }}
-              >
-                ↓
-              </div>
-
-              {/* AFTER: wine - HIGH RISK result card - springs up via CSS class */}
-              <div
-                className="hero-cycle-result"
-                style={{
-                  background: "#7A2C3D",
-                  borderRadius: 20,
-                  padding: "clamp(20px, 2.5vw, 28px)",
-                  marginTop: 10,
-                  border: "2px solid #171717",
-                  boxShadow: "8px 8px 0 0 #171717",
-                }}
-              >
-                <div className="mn-badge"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 7,
-                    backgroundColor: "rgba(255,255,255,0.18)",
-                    borderRadius: 6,
-                    padding: "5px 12px",
-                    marginBottom: 16,
-                  }}
-                >
-                  <IconWarning size={14} aria-hidden={true} />
-                  <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.13em", color: "rgba(255,255,255,0.95)" }}>High Risk</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "20px 22px", borderBottom: "1.5px solid rgba(23,23,23,0.1)" }}>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,5vw,56px)", letterSpacing: "-0.04em", lineHeight: 1, color: "#7A2C3D" }}>
+                    41<span style={{ fontSize: "0.45em", color: "var(--color-ink-muted)" }}>/100</span>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-ink)" }}>Lease health score</div>
+                    <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "var(--color-ink-muted)", marginTop: 3 }}>4 issues found — 1 high-risk</div>
+                  </div>
                 </div>
-
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(16px, 2vw, 20px)", color: "#FBF8F1", letterSpacing: "-0.02em", margin: "0 0 10px", lineHeight: 1.25 }}>
-                  Your landlord can enter without any notice.
-                </h3>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(12px, 1.4vw, 14px)", color: "rgba(251,248,241,0.92)", lineHeight: 1.65, margin: 0 }}>
-                  In most states, landlords must give written notice before entering. This clause tries to waive that right entirely.
-                </p>
+                {[
+                  { sev: "#7A2C3D", tag: "High risk", text: "Landlord can enter without notice" },
+                  { sev: "#C97A4A", tag: "Medium", text: "“Non-refundable” deposit — not a legal category" },
+                  { sev: "#5A8B7A", tag: "What to say", text: "The exact lines to get both fixed" },
+                ].map((f) => (
+                  <div key={f.text} style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 22px", borderBottom: "1.5px solid rgba(23,23,23,0.08)" }}>
+                    <span style={{ width: 9, height: 9, borderRadius: "50%", background: f.sev, border: "1.5px solid #171717", flexShrink: 0 }} />
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: f.sev, flexShrink: 0, width: 84 }}>{f.tag}</span>
+                    <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.4 }}>{f.text}</span>
+                  </div>
+                ))}
+                <div style={{ padding: "12px 22px", background: "#1E3A5F" }}>
+                  <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.85)" }}>…every clause checked against your state's law.</span>
+                </div>
               </div>
-
-              <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--color-ink-muted)", textAlign: "center", marginTop: 14 }}>
-                This is what you get for every clause worth flagging.
-              </p>
             </div>
 
           </div>
         </section>
 
         {/* ═══════════════ STATE COVERAGE — the product, interactive, straight after the hero ═══════════════ */}
-        <div id="state-coverage">
+        <div id="state-coverage" style={{ background: "#EAF2EE", borderTop: "2.5px solid #171717", borderBottom: "2.5px solid #171717" }}>
           <StatePreviews />
         </div>
+
+        {/* ═══════════════ 01 · THE PROBLEM — stat-led, merged ═══════════════ */}
+        <section
+          id="problem"
+          data-reveal
+          className="ctl-reveal"
+          aria-labelledby="problem-heading"
+          style={{ background: "#1E3A5F", padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
+        >
+          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(90,139,122,0.85)" }}>
+              01. THE PROBLEM
+            </span>
+            <h2
+              id="problem-heading"
+              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,52px)", letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--color-bone)", margin: "16px 0 clamp(36px,5vw,56px)", transform: "rotate(-1deg)", transformOrigin: "left center", maxWidth: 720 }}
+            >
+              Most leases aren't written{" "}
+              <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.38)" }}>for the people signing them.</em>
+            </h2>
+
+            {/* The two stats that matter — huge */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(24px,4vw,56px)", alignItems: "end", marginBottom: "clamp(40px,6vw,64px)" }}>
+              <div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(96px,14vw,180px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "#F5C547" }}>40%</div>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", color: "var(--color-bone)", marginTop: 12, maxWidth: 340, lineHeight: 1.5 }}>of leases contain clauses that are illegal in their own state.</div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.4)", marginTop: 6 }}>Source: Penn Law / Massachusetts study</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,120px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "var(--color-bone)" }}>41%</div>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.8)", marginTop: 12, maxWidth: 320, lineHeight: 1.5 }}>of renters end up disputing their deposit.</div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.4)", marginTop: 6 }}>Source: Zillow Renter Survey, 2024</div>
+              </div>
+            </div>
+
+            {/* Three clauses you'll recognise — one line each */}
+            <div style={{ borderTop: "1.5px solid rgba(251,248,241,0.15)", marginBottom: "clamp(32px,5vw,48px)" }}>
+              {[
+                { q: "“Landlord may enter at any time, without notice.”", a: "Illegal in 48 states." },
+                { q: "“Tenant waives all right to repair or remedy.”", a: "Can't be waived in any US state." },
+                { q: "“The security deposit is non-refundable.”", a: "Not a legal category — every state limits deductions." },
+              ].map(({ q, a }) => (
+                <div key={q} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "16px 0", borderBottom: "1.5px solid rgba(251,248,241,0.12)", flexWrap: "wrap" }}>
+                  <span aria-hidden="true" style={{ width: 9, height: 9, borderRadius: "50%", background: "#7A2C3D", border: "1.5px solid rgba(251,248,241,0.5)", flexShrink: 0, alignSelf: "center" }} />
+                  <span style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: "clamp(13px,1.5vw,15px)", color: "rgba(251,248,241,0.92)", flex: "1 1 300px" }}>{q}</span>
+                  <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: "clamp(12px,1.4vw,14px)", color: "#F5C547" }}>{a}</span>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+              <Link
+                href="/upload"
+                className="mn-btn"
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "13px 26px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "#F5C547", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}
+              >
+                Scan yours free →
+              </Link>
+              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.45)" }}>15 seconds · no account</span>
+            </div>
+          </div>
+        </section>
 
         {/* ═══════════════ EDITORIAL PHOTO - Moving Day ═══════════════ */}
         <div style={{ position: "relative", overflow: "hidden", height: "clamp(260px, 38vw, 480px)", borderTop: "2px solid #171717", borderBottom: "2px solid #171717" }}>
@@ -406,158 +393,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-
-        {/* ═══════════════ WHAT'S ACTUALLY IN THERE ═══════════════ */}
-        <section
-          data-reveal
-          className="ctl-reveal"
-          aria-labelledby="clauses-heading"
-          style={{ padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", background: "var(--color-bone)", position: "relative", overflow: "hidden" }}
-        >
-          {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "clamp(30px, 5vw, 100px)", top: "clamp(40px, 12vh, 120px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.2)" }}><IconDocumentSmall size={260} /></div>
-
-          {/* ── Shapes ── */}
-          <div className="ctl-float-decor" style={{ position: "absolute", top: "5%", right: "2%", animation: "star-twinkle 5s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
-            <IconSparkle size={30} aria-hidden={true} />
-          </div>
-          <div className="ctl-float-decor" style={{ position: "absolute", bottom: "12%", left: "0.5%", animation: "blob-bob 9s ease-in-out infinite 3s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
-            <IconPlus size={24} aria-hidden={true} />
-          </div>
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <SectionEyebrow num="01" label="WHAT'S ACTUALLY IN THERE" />
-            <h2
-              id="clauses-heading"
-              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px,3.5vw,42px)", letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--color-ink)", margin: "0 0 10px", maxWidth: 700 }}
-            >
-              Clauses that appear in millions of US leases.
-            </h2>
-            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(16px,2vw,22px)", color: "var(--color-ink-muted)", margin: "0 0 clamp(32px,5vw,52px)", letterSpacing: "-0.01em" }}>
-              Most are unenforceable. Few people push back.
-            </p>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px,1fr))", gap: 14 }}>
-              {[
-                {
-                  tag: "Entering Without Warning",
-                  clause: '"Landlord may enter the premises at any time, for any reason, without prior notice."',
-                  cost: "Illegal in 48 states — most require 24–48 hours written notice. You can refuse, if you know you have the right.",
-                  law: "e.g. Cal. Civ. Code § 1954 · NY RPL § 235-b",
-                },
-                {
-                  tag: "Living Conditions",
-                  clause: '"Tenant waives all right to repair, to withhold rent, or to seek any remedy for any defect."',
-                  cost: "The warranty of habitability can't be waived in any US state. Courts void this — for tenants who challenge it.",
-                  law: "Implied Warranty of Habitability — all 50 states",
-                },
-                {
-                  tag: "Security Deposit",
-                  clause: '"Security deposit is non-refundable under all circumstances."',
-                  cost: '"Non-refundable deposit" is not a legal category. Every state limits deductions — most tenants walk away from money they were owed.',
-                  law: "Security deposit laws vary by state",
-                },
-              ].map(({ tag, clause, cost, law }) => (
-                <div
-                  key={tag}
-                  className="mn-shadow-clay"
-                  style={{ background: "#141414", border: "2px solid #171717", borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column" }}
-                >
-                  <div style={{ padding: "13px 20px", borderBottom: "1px solid rgba(255,255,255,0.12)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.82)" }}>{tag}</span>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,100,100,0.65)" }} />
-                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,200,50,0.4)" }} />
-                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(80,200,80,0.3)" }} />
-                    </div>
-                  </div>
-                  <div style={{ padding: "20px 20px 16px", flex: 1 }}>
-                    <p style={{ fontFamily: "var(--app-font-mono)", fontSize: "clamp(11px,1.1vw,13px)", color: "rgba(251,248,241,0.95)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-                      {clause}
-                    </p>
-                  </div>
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", padding: "16px 20px 18px" }}>
-                    <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#F4A480", marginBottom: 8 }}>What this costs</div>
-                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.9)", lineHeight: 1.65, margin: "0 0 10px" }}>{cost}</p>
-                    <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, color: "#F5C547", letterSpacing: "0.04em" }}>{law}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px,1.5vw,16px)", color: "var(--color-ink-muted)", textAlign: "center", marginTop: "clamp(28px,4vw,48px)" }}>
-              Check the Lease finds these and shows you the law that breaks them.
-            </p>
-          </div>
-        </section>
-
-        {/* ══════════════════ THE PROBLEM ═══════════════════════════ */}
-        <section
-          id="problem"
-          data-reveal
-          className="ctl-reveal"
-          aria-labelledby="problem-heading"
-          style={{ background: "#1E3A5F", padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
-        >
-          {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "clamp(40px, 8vw, 120px)", bottom: "clamp(20px, 8vh, 80px)", opacity: 0.18, pointerEvents: "none", zIndex: 0, color: "rgba(251,248,241,0.3)" }}><IconWarning size={240} /></div>
-
-          {/* ── Shapes ── */}
-          <div className="ctl-float-decor" style={{ position: "absolute", top: "10%", right: "6%", animation: "star-twinkle 3.5s ease-in-out infinite", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
-            <IconSparkle size={30} aria-hidden={true} />
-          </div>
-          <div className="ctl-float-decor" style={{ position: "absolute", bottom: "14%", left: "4%", animation: "blob-bob 8s ease-in-out infinite 1.5s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
-            <IconPlus size={22} aria-hidden={true} />
-          </div>
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))", gap: "clamp(40px,7vw,80px)", alignItems: "center" }} className="problem-section-grid">
-
-              {/* Left: the case */}
-              <div>
-                {/* 02 eyebrow - on dark background, sage still reads */}
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(90,139,122,0.85)" }}>
-                  02. THE PROBLEM
-                </span>
-                <h2
-                  id="problem-heading"
-                  style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,52px)", letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--color-bone)", margin: "16px 0 24px", transform: "rotate(-1deg)", transformOrigin: "left center" }}
-                >
-                  Most leases aren't written{" "}
-                  <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.38)" }}>for the people signing them.</em>
-                </h2>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: 0, maxWidth: 460 }}>
-                  35 pages of legal writing, signed without a lawyer. A fair lease protects everyone. Most don't.
-                </p>
-                <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-                  <Link
-                    href="/upload"
-                    className="mn-btn"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "13px 26px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "#F5C547", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}
-                  >
-                    Scan yours free →
-                  </Link>
-                  <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.45)" }}>15 seconds · no account</span>
-                </div>
-              </div>
-
-              {/* Right: stat grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, minHeight: "auto" }} className="problem-stats-grid">
-                {[
-                  { n: "45M", l: "renter households in the US", src: "Harvard JCHS, 2024" },
-                  { n: "40%", l: "of leases contain illegal clauses", src: "Penn Law / Massachusetts study" },
-                  { n: "41%", l: "of renters dispute their deposit", src: "Zillow Renter Survey, 2024" },
-                  { n: "1 in 13", l: "households faced eviction in 2023", src: "Eviction Lab, Princeton" },
-                ].map(({ n, l, src }) => (
-                  <div key={n} style={{ background: "var(--color-bone)", border: "2px solid #171717", padding: "clamp(16px,2.5vw,26px)", boxShadow: "4px 4px 0 0 #F5C547" }}>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4vw,48px)", color: "var(--color-ink)", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>{n}</div>
-                    <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.5, marginBottom: 6 }}>{l}</div>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 10, color: "#6B6B6B", lineHeight: 1.4 }}>Source: {src}</div>
-                  </div>
-                ))}
-              </div>
-
-            </div>
-          </div>
-        </section>
 
         {/* ── Wavy section divider ── */}
         <div aria-hidden={true} style={{ padding: "0 clamp(24px,4vw,48px)" }}>
@@ -582,7 +417,7 @@ export default function Home() {
             <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
               <div>
                 <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--color-sage)", display: "block", marginBottom: 8 }}>
-                  03. HOW IT WORKS
+                  02. HOW IT WORKS
                 </span>
                 <h2
                   id="how-heading"
@@ -603,7 +438,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                borderTop: "1px solid var(--border-subtle)",
+                gap: 14,
                 marginTop: 28,
               }}
               className="steps-grid"
@@ -614,89 +449,27 @@ export default function Home() {
                 return (
                   <div
                     key={step.n}
-                    style={{
-                      padding: "clamp(28px, 4vw, 48px) clamp(16px, 2.5vw, 36px)",
-                      borderRight: step.borderRight ? "1px solid var(--border-subtle)" : "none",
-                    }}
+                    style={{ background: step.bg, border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)", color: "var(--color-bone)" }}
                   >
-                    <div style={{ marginBottom: 20 }}>
-                      <StepIcon size={32} aria-hidden={true} />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+                      <StepIcon size={30} aria-hidden={true} />
+                      <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(40px,5vw,56px)", lineHeight: 1, letterSpacing: "-0.05em", color: "rgba(251,248,241,0.3)" }}>{step.n}</span>
                     </div>
-                    <div
-                      aria-hidden={true}
-                      style={{
-                        fontFamily: "var(--app-font-serif)",
-                        fontStyle: "italic",
-                        fontWeight: 400,
-                        fontSize: "clamp(56px, 8vw, 80px)",
-                        lineHeight: 1,
-                        letterSpacing: "-0.05em",
-                        color: "var(--color-ink-blue)",
-                        opacity: 0.25,
-                        marginBottom: 20,
-                        userSelect: "none",
-                      }}
-                    >
-                      {step.n}
-                    </div>
-                    <h3
-                      style={{
-                        fontFamily: "var(--app-font-serif)",
-                        fontWeight: 500,
-                        fontSize: "clamp(18px, 2.2vw, 24px)",
-                        letterSpacing: "-0.02em",
-                        color: "var(--color-ink)",
-                        marginBottom: 10,
-                      }}
-                    >
-                      {step.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "var(--app-font-sans)",
-                        fontSize: 14,
-                        color: "var(--color-ink-muted)",
-                        lineHeight: 1.65,
-                        margin: 0,
-                      }}
-                    >
-                      {step.body}
-                    </p>
+                    <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.2vw,24px)", letterSpacing: "-0.02em", color: "var(--color-bone)", marginBottom: 8 }}>{step.title}</h3>
+                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "rgba(251,248,241,0.78)", lineHeight: 1.6, margin: 0 }}>{step.body}</p>
+                    {step.ticks && (
+                      <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0", display: "flex", flexDirection: "column", gap: 7 }}>
+                        {step.ticks.map((tk) => (
+                          <li key={tk} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.92)", lineHeight: 1.45 }}>
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: 4 }}><path d="M2 7.2L5.5 10.5L12 3" stroke="#F5C547" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                            {tk}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 );
               })}
-            </div>
-
-            {/* ── The four parts of every read (folded from the old Features section) ── */}
-            <div style={{ marginTop: "clamp(28px, 4vw, 44px)" }}>
-              <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(15px, 1.8vw, 18px)", color: "var(--color-ink-muted)", margin: "0 0 16px", letterSpacing: "-0.01em" }}>
-                Every read comes back in four parts:
-              </p>
-              <div
-                className="features-grid"
-                style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}
-              >
-                {FEATURES.map((f, i) => {
-                  const featureIcons = [IconKey, IconWarning, IconShield, IconHelp];
-                  const FeatureIcon = featureIcons[i];
-                  return (
-                    <div
-                      key={f.label}
-                      style={{ background: "var(--color-bone-dark)", border: "1.5px solid rgba(23,23,23,0.12)", borderTop: `4px solid ${f.color}`, borderRadius: 12, padding: "16px 18px" }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                        <FeatureIcon size={18} aria-hidden={true} />
-                        <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: f.color }}>
-                          {f.label}
-                        </span>
-                      </div>
-                      <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", lineHeight: 1.55, margin: 0 }}>
-                        {f.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
 
           </div>
@@ -721,7 +494,7 @@ export default function Home() {
             <IconFlag size={22} aria-hidden={true} />
           </div>
           <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <SectionEyebrow num="04" label="WHO IT'S FOR" />
+            <SectionEyebrow num="03" label="WHO IT'S FOR" />
             <h2
               id="who-heading"
               style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px,3.5vw,40px)", letterSpacing: "-0.025em", lineHeight: 1.1, color: "var(--color-ink)", margin: "0 0 clamp(28px,4vw,48px)" }}
@@ -733,7 +506,7 @@ export default function Home() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: 16 }} className="who-its-for-grid">
 
               {/* Renters panel */}
-              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#1E3A5F", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden" }}>
+              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden" }}>
                 <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
                 <div style={{ marginBottom: 24 }}>
                   <IconUser size={52} aria-hidden={true} />
@@ -742,7 +515,7 @@ export default function Home() {
                 <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
                   Know your rights.<br />Sign with confidence.
                 </h3>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.6)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.8)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
                   {["Clauses that violate your state's law - and what to do about them", "Rights the law gives you that no lease can take away", "What to ask before you put pen to paper"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <span style={{ color: "rgba(90,139,122,0.9)", marginTop: 1, flexShrink: 0 }}>→</span>
@@ -756,23 +529,23 @@ export default function Home() {
               </div>
 
               {/* Landlords panel */}
-              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#2a1f14", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)" }}>
+              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#C97A4A", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)" }}>
                 <div style={{ marginBottom: 24 }}>
                   <IconHouseSmall size={52} aria-hidden={true} />
                 </div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.45)", marginBottom: 12 }}>FOR LANDLORDS</div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(23,23,23,0.6)", marginBottom: 12 }}>FOR LANDLORDS</div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#171717", margin: "0 0 16px" }}>
                   Stay compliant.<br />Stay rock solid in court.
                 </h3>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.6)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(23,23,23,0.8)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
                   {["Language courts have already ruled unenforceable", "State-specific compliance gaps that expose you to liability", "What to fix before you issue - not after a dispute starts"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ color: "rgba(201,122,74,0.9)", marginTop: 1, flexShrink: 0 }}>→</span>
+                      <span style={{ color: "#171717", marginTop: 1, flexShrink: 0 }}>→</span>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#3a2a18", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}>
+                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}>
                   Read my lease →
                 </Link>
               </div>
@@ -792,7 +565,7 @@ export default function Home() {
             <div
               style={{
                 background: "#1E3A5F",
-                borderRadius: 28,
+                borderRadius: 16,
                 padding: "clamp(56px, 8vw, 96px) clamp(32px, 5vw, 72px)",
                 textAlign: "center",
                 position: "relative",

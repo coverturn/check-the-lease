@@ -174,41 +174,6 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Attribution divider */}
-        <div style={{
-          borderTop: "1px solid rgba(251,248,241,0.08)",
-          paddingTop: 24,
-          marginBottom: "clamp(24px,3vw,36px)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 16,
-        }}>
-          <p style={{
-            fontFamily: "var(--app-font-serif)",
-            fontStyle: "italic",
-            fontSize: 13,
-            color: "#6B6B6B",
-            margin: 0,
-          }}>
-            Built in 24 hours with Replit Agent for the 10 Year Buildathon.
-          </p>
-          <Link
-            href="/build-log"
-            style={{
-              fontSize: 12,
-              fontWeight: 500,
-              color: "#FBF8F1",
-              textDecoration: "none",
-              borderBottom: "1.5px solid #5A8B7A",
-              paddingBottom: 1,
-            }}
-          >
-            See how it came together →
-          </Link>
-        </div>
-
         {/* Bottom row */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, paddingBottom: "clamp(32px,4vw,48px)", flexWrap: "wrap" }}>
           <p style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 400, letterSpacing: "0.06em", color: DIM, margin: 0 }}>
