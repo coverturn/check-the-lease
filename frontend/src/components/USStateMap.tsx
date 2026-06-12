@@ -53,14 +53,61 @@ const STATE_FILL: Record<string, string> = {
   DE: "#7A5A8B", MD: "#C97A4A", DC: "#5A8B7A",
 };
 
-const TERRITORY_INFO: { abbr: string; fill: string; flag: string }[] = [
-  { abbr: "DC", fill: "#5A8B7A",  flag: "🏛️" },
-  { abbr: "PR", fill: "#2A5A8F",  flag: "🌴" },
-  { abbr: "GU", fill: "#7A5A8B",  flag: "🌺" },
-  { abbr: "VI", fill: "#C97A4A",  flag: "🏝️" },
-  { abbr: "AS", fill: "#7A2C3D",  flag: "🌊" },
-  { abbr: "MP", fill: "#3D6A8B",  flag: "🌏" },
+const TERRITORY_INFO: { abbr: string; fill: string }[] = [
+  { abbr: "DC", fill: "#5A8B7A" },
+  { abbr: "PR", fill: "#2A5A8F" },
+  { abbr: "GU", fill: "#7A5A8B" },
+  { abbr: "VI", fill: "#C97A4A" },
+  { abbr: "AS", fill: "#7A2C3D" },
+  { abbr: "MP", fill: "#3D6A8B" },
 ];
+
+/* Hand-coded brand glyphs (comic line-art) — replace OS emoji for on-brand consistency.
+   DC = capitol · PR = palm · GU = hibiscus · VI = island + sun · AS = waves · MP = globe */
+function TerritoryGlyph({ abbr, color, size = 20 }: { abbr: string; color: string; size?: number }) {
+  const p = { fill: "none", stroke: color, strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  return (
+    <svg width={size} height={size} viewBox="0 0 22 22" aria-hidden="true" style={{ display: "block" }}>
+      {abbr === "DC" && (<>
+        <path d="M6.5 9 Q11 4 15.5 9" {...p} />
+        <path d="M11 4 V2.7" {...p} />
+        <path d="M5.5 9.2 H16.5" {...p} />
+        <path d="M7 9.7 V15.3 M9 9.7 V15.3 M11 9.7 V15.3 M13 9.7 V15.3 M15 9.7 V15.3" {...p} />
+        <path d="M5 15.6 H17" {...p} />
+      </>)}
+      {abbr === "PR" && (<>
+        <path d="M11 17 C10.6 13 10.8 11.5 11 10.4" {...p} />
+        <path d="M11 10.4 C8 8.8 5.6 9.2 4.2 10.8" {...p} />
+        <path d="M11 10.4 C14 8.8 16.4 9.2 17.8 10.8" {...p} />
+        <path d="M11 10.4 C9.4 7.4 8.6 6.2 7.2 5.4" {...p} />
+        <path d="M11 10.4 C12.6 7.4 13.8 7 15.4 6" {...p} />
+        <path d="M8 17 Q11 16 14 17" {...p} />
+      </>)}
+      {abbr === "GU" && (<>
+        <circle cx="11" cy="10.5" r="1.4" {...p} />
+        <circle cx="11" cy="6.7" r="1.9" {...p} />
+        <circle cx="14.6" cy="9.3" r="1.9" {...p} />
+        <circle cx="13.2" cy="13.4" r="1.9" {...p} />
+        <circle cx="8.8" cy="13.4" r="1.9" {...p} />
+        <circle cx="7.4" cy="9.3" r="1.9" {...p} />
+      </>)}
+      {abbr === "VI" && (<>
+        <path d="M4 16 C7 10.5 15 10.5 18 16" {...p} />
+        <path d="M3 16 H19" {...p} />
+        <circle cx="15" cy="7" r="2" {...p} />
+      </>)}
+      {abbr === "AS" && (<>
+        <path d="M3 9.5 Q6.5 5.8 10 9.5 T17 9.5" {...p} />
+        <path d="M3 14 Q6.5 10.3 10 14 T17 14" {...p} />
+      </>)}
+      {abbr === "MP" && (<>
+        <circle cx="11" cy="11" r="6.5" {...p} />
+        <path d="M11 4.5 Q6.5 11 11 17.5 Q15.5 11 11 4.5" {...p} />
+        <path d="M4.5 11 H17.5" {...p} />
+      </>)}
+    </svg>
+  );
+}
 
 function lighten(hex: string, amount = 0.28): string {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -313,7 +360,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
             gap: 8,
           }}
         >
-          {TERRITORY_INFO.map(({ abbr, fill, flag }) => {
+          {TERRITORY_INFO.map(({ abbr, fill }) => {
             const isHov = hovTerr === abbr;
             const name = STATE_NAMES[abbr] ?? abbr;
             return (
@@ -338,7 +385,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
                   transform: isHov ? "translate(-1px,-1px)" : "none",
                 }}
               >
-                <span style={{ fontSize: 16, lineHeight: 1, marginBottom: 6 }} aria-hidden="true">{flag}</span>
+                <span style={{ lineHeight: 0, marginBottom: 6 }} aria-hidden="true"><TerritoryGlyph abbr={abbr} color={isHov ? "#FBF8F1" : "#171717"} /></span>
                 <span style={{
                   fontFamily: "var(--app-font-mono)",
                   fontSize: 11,

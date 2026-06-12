@@ -11,17 +11,23 @@ import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
 
 function useScrollReveal() {
   useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".ctl-reveal"));
+    const reveal = (el: Element) => el.classList.add("is-visible");
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      document.querySelectorAll(".ctl-reveal").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
+    if (mq.matches) { els.forEach(reveal); return; }
+    // Fire as soon as any part enters (threshold 0), with a generous margin so
+    // sections reveal slightly before they're scrolled into view. Reveal once.
     const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
-      { threshold: 0.08 },
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { reveal(e.target); obs.unobserve(e.target); }
+      }),
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
-    document.querySelectorAll(".ctl-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
+    els.forEach((el) => obs.observe(el));
+    // Safety net: never leave content hidden (e.g. anchor jumps, off-screen
+    // sections that the observer never re-checks, or any missed intersection).
+    const safety = window.setTimeout(() => els.forEach(reveal), 1200);
+    return () => { obs.disconnect(); window.clearTimeout(safety); };
   }, []);
 }
 
@@ -337,12 +343,12 @@ export default function Home() {
               <div>
                 <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(96px,14vw,180px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "#F5C547" }}>40%</div>
                 <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", color: "var(--color-bone)", marginTop: 12, maxWidth: 340, lineHeight: 1.5 }}>of leases contain clauses that are illegal in their own state.</div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.4)", marginTop: 6 }}>Source: Penn Law / Massachusetts study</div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.66)", marginTop: 6 }}>Source: Penn Law / Massachusetts study</div>
               </div>
               <div>
                 <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,120px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "var(--color-bone)" }}>41%</div>
                 <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.8)", marginTop: 12, maxWidth: 320, lineHeight: 1.5 }}>of renters end up disputing their deposit.</div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.4)", marginTop: 6 }}>Source: Zillow Renter Survey, 2024</div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.66)", marginTop: 6 }}>Source: Zillow Renter Survey, 2024</div>
               </div>
             </div>
 
@@ -369,7 +375,7 @@ export default function Home() {
               >
                 Scan yours free →
               </Link>
-              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.45)" }}>15 seconds · no account</span>
+              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.62)" }}>15 seconds · no account</span>
             </div>
           </div>
         </section>
@@ -511,7 +517,7 @@ export default function Home() {
                 <div style={{ marginBottom: 24 }}>
                   <IconUser size={52} aria-hidden={true} />
                 </div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.45)", marginBottom: 12 }}>FOR RENTERS</div>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.62)", marginBottom: 12 }}>FOR RENTERS</div>
                 <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
                   Know your rights.<br />Sign with confidence.
                 </h3>
