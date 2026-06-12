@@ -58,6 +58,26 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
   );
 }
 
+/* Waffle / pictogram grid — 10x10, first `value` cells filled. Echoes the
+   brand halftone-dot motif and makes a percentage tangible (UI/UX Pro Max:
+   best chart type for proportional data, more accessible than a pie). */
+function Waffle({ value, fill, cell = 12, gap = 4 }: { value: number; fill: string; cell?: number; gap?: number }) {
+  return (
+    <div role="img" aria-label={`${value} out of 100`} style={{ display: "grid", gridTemplateColumns: `repeat(10, ${cell}px)`, gap, width: "fit-content" }}>
+      {Array.from({ length: 100 }).map((_, i) => {
+        const on = i < value;
+        return <span key={i} aria-hidden="true" style={{ width: cell, height: cell, borderRadius: 3, background: on ? fill : "rgba(23,23,23,0.08)", border: `1px solid ${on ? "rgba(23,23,23,0.35)" : "rgba(23,23,23,0.08)"}` }} />;
+      })}
+    </div>
+  );
+}
+
+const PROBLEM_CLAUSES = [
+  { q: "“Landlord may enter at any time, without notice.”", a: "Illegal in 48 states" },
+  { q: "“Tenant waives all right to repair or remedy.”", a: "Can't be waived anywhere" },
+  { q: "“The security deposit is non-refundable.”", a: "Not a legal category" },
+];
+
 export default function Home() {
   useScrollReveal();
   const [, navigate] = useLocation();
@@ -326,43 +346,56 @@ export default function Home() {
           aria-labelledby="problem-heading"
           style={{ background: "#1E3A5F", padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
         >
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(90,139,122,0.85)" }}>
-              01. THE PROBLEM
+          {/* halftone texture on navy */}
+          <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(251,248,241,0.05) 1.5px, transparent 1.5px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
+          <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+            <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "#9DBEB0" }}>
+              01 · The problem
             </span>
             <h2
               id="problem-heading"
-              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,52px)", letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--color-bone)", margin: "16px 0 clamp(36px,5vw,56px)", transform: "rotate(-1deg)", transformOrigin: "left center", maxWidth: 720 }}
+              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,50px)", letterSpacing: "-0.03em", lineHeight: 1.05, color: "var(--color-bone)", margin: "14px 0 clamp(36px,5vw,52px)", maxWidth: 760 }}
             >
               Most leases aren't written{" "}
-              <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.38)" }}>for the people signing them.</em>
+              <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.55)" }}>for the people signing them.</em>
             </h2>
 
-            {/* The two stats that matter — huge */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(24px,4vw,56px)", alignItems: "end", marginBottom: "clamp(40px,6vw,64px)" }}>
-              <div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(96px,14vw,180px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "#F5C547" }}>40%</div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", color: "var(--color-bone)", marginTop: 12, maxWidth: 340, lineHeight: 1.5 }}>of leases contain clauses that are illegal in their own state.</div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.66)", marginTop: 6 }}>Source: Penn Law / Massachusetts study</div>
-              </div>
-              <div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,120px)", letterSpacing: "-0.05em", lineHeight: 0.9, color: "var(--color-bone)" }}>41%</div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.8)", marginTop: 12, maxWidth: 320, lineHeight: 1.5 }}>of renters end up disputing their deposit.</div>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11, color: "rgba(251,248,241,0.66)", marginTop: 6 }}>Source: Zillow Renter Survey, 2024</div>
-              </div>
+            {/* ── Waffle stat cards ── */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: "clamp(18px,2.5vw,28px)", marginBottom: "clamp(36px,5vw,56px)" }}>
+              {[
+                { n: 40, accent: "#7A2C3D", lead: "40 in every 100 leases", body: <>contain a clause that's <strong style={{ color: "#7A2C3D" }}>illegal in their own state</strong>.</>, src: "Penn Law / Massachusetts study" },
+                { n: 41, accent: "#C97A4A", lead: "41 in every 100 renters", body: <>end up <strong style={{ color: "#B5602A" }}>fighting over their deposit</strong> — money the law often says is theirs.</>, src: "Zillow Renter Survey, 2024" },
+              ].map((s) => (
+                <div key={s.n} style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 18, boxShadow: "6px 6px 0 0 #171717", padding: "clamp(24px,3vw,32px)", display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
+                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(56px,8vw,84px)", lineHeight: 0.85, letterSpacing: "-0.05em", color: s.accent }}>
+                      {s.n}<span style={{ fontSize: "0.46em", verticalAlign: "super" }}>%</span>
+                    </div>
+                    <Waffle value={s.n} fill={s.accent} />
+                  </div>
+                  <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: s.accent, marginBottom: 8 }}>{s.lead}</div>
+                  <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--color-ink)", lineHeight: 1.5, margin: "0 0 auto" }}>{s.body}</p>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11.5, color: "var(--color-ink-muted)", marginTop: 14 }}>Source: {s.src}</div>
+                </div>
+              ))}
             </div>
 
-            {/* Three clauses you'll recognise — one line each */}
-            <div style={{ borderTop: "1.5px solid rgba(251,248,241,0.15)", marginBottom: "clamp(32px,5vw,48px)" }}>
-              {[
-                { q: "“Landlord may enter at any time, without notice.”", a: "Illegal in 48 states." },
-                { q: "“Tenant waives all right to repair or remedy.”", a: "Can't be waived in any US state." },
-                { q: "“The security deposit is non-refundable.”", a: "Not a legal category — every state limits deductions." },
-              ].map(({ q, a }) => (
-                <div key={q} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "16px 0", borderBottom: "1.5px solid rgba(251,248,241,0.12)", flexWrap: "wrap" }}>
-                  <span aria-hidden="true" style={{ width: 9, height: 9, borderRadius: "50%", background: "#7A2C3D", border: "1.5px solid rgba(251,248,241,0.5)", flexShrink: 0, alignSelf: "center" }} />
-                  <span style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: "clamp(13px,1.5vw,15px)", color: "rgba(251,248,241,0.92)", flex: "1 1 300px" }}>{q}</span>
-                  <span style={{ fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: "clamp(12px,1.4vw,14px)", color: "#F5C547" }}>{a}</span>
+            {/* ── Clauses you'll recognise — comic red-flag cards ── */}
+            <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9DBEB0", marginBottom: 18 }}>
+              Clauses you'll recognise — and what the law actually says
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(258px,1fr))", gap: 16, marginBottom: "clamp(36px,5vw,52px)" }}>
+              {PROBLEM_CLAUSES.map(({ q, a }) => (
+                <div key={q} style={{ background: "rgba(251,248,241,0.05)", border: "2px solid rgba(251,248,241,0.18)", borderRadius: 14, padding: "20px 22px", display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
+                    <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#7A2C3D", border: "1.5px solid rgba(251,248,241,0.6)" }} />
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.55)" }}>From a real lease</span>
+                  </div>
+                  <p style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: 14, color: "rgba(251,248,241,0.95)", lineHeight: 1.6, margin: "0 0 16px auto" }}>{q}</p>
+                  <span style={{ alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 6, background: "#F5C547", color: "#171717", border: "2px solid #171717", borderRadius: 7, padding: "5px 12px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 12.5, boxShadow: "2px 2px 0 0 #171717" }}>
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.5v6M7 10.2v.3" stroke="#171717" strokeWidth="2" strokeLinecap="round"/><path d="M7 1.5 1 12.5h12z" stroke="#171717" strokeWidth="1.6" strokeLinejoin="round"/></svg>
+                    {a}
+                  </span>
                 </div>
               ))}
             </div>
@@ -371,11 +404,11 @@ export default function Home() {
               <Link
                 href="/upload"
                 className="mn-btn"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "13px 26px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "#F5C547", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", backgroundColor: "#F5C547", color: "#171717", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}
               >
-                Scan yours free →
+                Check yours free →
               </Link>
-              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.62)" }}>15 seconds · no account</span>
+              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.66)" }}>15 seconds · no account · never stored</span>
             </div>
           </div>
         </section>
