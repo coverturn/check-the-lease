@@ -458,7 +458,11 @@ export default function Results({ demo = false }: { demo?: boolean }) {
               {verdictSub}
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 10, maxWidth: 880 }} className="results-stats-grid">
+            <style>{`
+              @media (max-width: 1023px) { .results-stats-grid4 { grid-template-columns: 1fr 1fr !important; } }
+              @media (max-width: 480px) { .results-stats-grid4 { grid-template-columns: 1fr !important; } }
+            `}</style>
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 10, maxWidth: 880 }} className="results-stats-grid4">
               {[
                 { n: healthScore, label: lang === "es" ? "puntuación de salud\ndel contrato (de 100)" : "lease health score\n(out of 100)", color: healthColor },
                 { n: analysis.stats.potential_issues, label: t("results_stat_issues"), color: analysis.stats.potential_issues > 0 ? "#7A2C3D" : "#5A8B7A" },
