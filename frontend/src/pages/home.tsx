@@ -6,6 +6,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
+import { IllusMagnifier } from "@/components/illustrations/Magnifier";
 import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
 import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
 
@@ -54,20 +55,6 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
       }}>
         {num}. {label}
       </span>
-    </div>
-  );
-}
-
-/* Waffle / pictogram grid — 10x10, first `value` cells filled. Echoes the
-   brand halftone-dot motif and makes a percentage tangible (UI/UX Pro Max:
-   best chart type for proportional data, more accessible than a pie). */
-function Waffle({ value, fill, cell = 12, gap = 4 }: { value: number; fill: string; cell?: number; gap?: number }) {
-  return (
-    <div role="img" aria-label={`${value} out of 100`} style={{ display: "grid", gridTemplateColumns: `repeat(10, ${cell}px)`, gap, width: "fit-content" }}>
-      {Array.from({ length: 100 }).map((_, i) => {
-        const on = i < value;
-        return <span key={i} aria-hidden="true" style={{ width: cell, height: cell, borderRadius: 3, background: on ? fill : "rgba(23,23,23,0.08)", border: `1px solid ${on ? "rgba(23,23,23,0.35)" : "rgba(23,23,23,0.08)"}` }} />;
-      })}
     </div>
   );
 }
@@ -174,6 +161,7 @@ export default function Home() {
               }
               @media (max-width: 767px) {
                 .ctl-float-decor { display: none !important; }
+                .hero-aside { display: none !important; }
               }
             `}</style>
 
@@ -184,9 +172,9 @@ export default function Home() {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  padding: "7px 14px",
-                  background: "#F5C547",
-                  border: "2px solid #171717",
+                  padding: "8px 16px",
+                  background: "#1E3A5F",
+                  border: "2px solid #FBF8F1",
                   boxShadow: "3px 3px 0 0 #171717",
                   borderRadius: 999,
                   fontFamily: "var(--app-font-sans)",
@@ -194,7 +182,7 @@ export default function Home() {
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  color: "#171717",
+                  color: "#FBF8F1",
                   marginBottom: "clamp(18px, 2.5vw, 26px)",
                   animation: `ctl-fade-up 0.7s 0s ${EASE} both`,
                 }}
@@ -283,55 +271,41 @@ export default function Home() {
 
             </div>
 
-            {/* ── Right: mini report card — the product at a glance ── */}
-            <div
-              className="hero-aside"
-              aria-label="Example free scan result: lease health score with flagged clauses"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                maxWidth: 440,
-                width: "100%",
-                justifySelf: "center",
-                animation: `ctl-float-card 7s ease-in-out infinite, ctl-fade-up 0.9s 0.28s ${EASE} both`,
-              }}
-            >
-              <div style={{ background: "var(--color-bone)", borderRadius: 16, border: "2.5px solid #171717", boxShadow: "8px 8px 0 0 #171717", overflow: "hidden" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "12px 18px", borderBottom: "2px solid #171717", background: "#F5C547" }}>
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", border: "1.5px solid #171717", background: "var(--color-bone)" }} />
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", border: "1.5px solid #171717", background: "var(--color-bone)" }} />
-                  <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#171717", marginLeft: 8 }}>
-                    Your free scan · 15 seconds
-                  </span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "20px 22px", borderBottom: "1.5px solid rgba(23,23,23,0.1)" }}>
-                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,5vw,56px)", letterSpacing: "-0.04em", lineHeight: 1, color: "#7A2C3D" }}>
-                    41<span style={{ fontSize: "0.45em", color: "var(--color-ink-muted)" }}>/100</span>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-ink)" }}>Lease health score</div>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "var(--color-ink-muted)", marginTop: 3 }}>4 issues found — 1 high-risk</div>
-                  </div>
-                </div>
-                {[
-                  { sev: "#7A2C3D", tag: "High risk", text: "Landlord can enter without notice" },
-                  { sev: "#C97A4A", tag: "Medium", text: "“Non-refundable” deposit — not a legal category" },
-                  { sev: "#5A8B7A", tag: "What to say", text: "The exact lines to get both fixed" },
-                ].map((f) => (
-                  <div key={f.text} style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 22px", borderBottom: "1.5px solid rgba(23,23,23,0.08)" }}>
-                    <span style={{ width: 9, height: 9, borderRadius: "50%", background: f.sev, border: "1.5px solid #171717", flexShrink: 0 }} />
-                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: f.sev, flexShrink: 0, width: 84 }}>{f.tag}</span>
-                    <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.4 }}>{f.text}</span>
-                  </div>
-                ))}
-                <div style={{ padding: "12px 22px", background: "#1E3A5F" }}>
-                  <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.85)" }}>…every clause checked against your state's law.</span>
-                </div>
-              </div>
+            {/* ── Right: brand illustration — hero stays focused on the action ── */}
+            <div className="hero-aside" aria-hidden={true} style={{ display: "flex", alignItems: "center", justifyContent: "center", animation: `ctl-float-card 7s ease-in-out infinite, ctl-fade-up 0.9s 0.28s ${EASE} both` }}>
+              <IllusMagnifier size={320} />
             </div>
 
           </div>
         </section>
+
+        {/* ═══════════════ WHAT A SCAN GIVES YOU — relocated proof strip ═══════════════ */}
+        <div style={{ background: "var(--color-bone)", borderTop: "2.5px solid #171717", borderBottom: "2.5px solid #171717" }}>
+          <div style={{ maxWidth: 1000, margin: "0 auto", padding: "clamp(28px,4vw,40px) clamp(24px,4vw,48px)", display: "flex", alignItems: "center", gap: "clamp(24px,4vw,44px)", flexWrap: "wrap", justifyContent: "center" }}>
+            {/* score seal */}
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div aria-hidden={true} style={{ position: "absolute", top: -10, right: -10, color: "#F5C547" }}><IconSparkle size={26} /></div>
+              <div style={{ width: 124, height: 124, borderRadius: "50%", background: "#7A2C3D", border: "3px solid #171717", boxShadow: "4px 4px 0 0 #171717", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: 44, lineHeight: 0.9, letterSpacing: "-0.03em", color: "#FBF8F1" }}>41<span style={{ fontSize: "0.42em", color: "rgba(251,248,241,0.7)" }}>/100</span></div>
+                <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.75)", marginTop: 4 }}>Health score</div>
+              </div>
+            </div>
+            {/* explanation */}
+            <div style={{ flex: "1 1 360px", maxWidth: 540 }}>
+              <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--color-sage)", marginBottom: 8 }}>What a free scan gives you</div>
+              <p style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(18px,2.4vw,26px)", letterSpacing: "-0.02em", lineHeight: 1.3, color: "var(--color-ink)", margin: "0 0 14px" }}>
+                A lease health score, every red flag named, and the exact lines to get them fixed — in 15 seconds.
+              </p>
+              <div style={{ display: "flex", gap: "8px 18px", flexWrap: "wrap" }}>
+                {[{ c: "#7A2C3D", t: "Risk flags" }, { c: "#C97A4A", t: "Missing protections" }, { c: "#5A8B7A", t: "What to say" }].map((f) => (
+                  <span key={f.t} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 600, color: "var(--color-ink)" }}>
+                    <span style={{ width: 9, height: 9, borderRadius: "50%", background: f.c, border: "1.5px solid #171717" }} />{f.t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* ═══════════════ STATE COVERAGE — the product, interactive, straight after the hero ═══════════════ */}
         <div id="state-coverage" style={{ background: "#EAF2EE", borderTop: "2.5px solid #171717", borderBottom: "2.5px solid #171717" }}>
@@ -344,54 +318,48 @@ export default function Home() {
           data-reveal
           className="ctl-reveal"
           aria-labelledby="problem-heading"
-          style={{ background: "#1E3A5F", padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
+          style={{ background: "#F2EDE2", padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
         >
-          {/* halftone texture on navy */}
-          <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(251,248,241,0.05) 1.5px, transparent 1.5px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
+          {/* halftone texture */}
+          <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.05) 1.5px, transparent 1.5px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
           <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
-            <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "#9DBEB0" }}>
+            <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--color-sage)" }}>
               01 · The problem
             </span>
             <h2
               id="problem-heading"
-              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,50px)", letterSpacing: "-0.03em", lineHeight: 1.05, color: "var(--color-bone)", margin: "14px 0 clamp(36px,5vw,52px)", maxWidth: 760 }}
+              style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,50px)", letterSpacing: "-0.03em", lineHeight: 1.05, color: "var(--color-ink)", margin: "14px 0 clamp(36px,5vw,52px)", maxWidth: 760 }}
             >
               Most leases aren't written{" "}
-              <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.55)" }}>for the people signing them.</em>
+              <em style={{ fontStyle: "italic", color: "var(--color-ink-muted)" }}>for the people signing them.</em>
             </h2>
 
-            {/* ── Waffle stat cards ── */}
+            {/* ── Stat cards — solid, big numbers, white text ── */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: "clamp(18px,2.5vw,28px)", marginBottom: "clamp(36px,5vw,56px)" }}>
               {[
-                { n: 40, accent: "#7A2C3D", lead: "40 in every 100 leases", body: <>contain a clause that's <strong style={{ color: "#7A2C3D" }}>illegal in their own state</strong>.</>, src: "Penn Law / Massachusetts study" },
-                { n: 41, accent: "#C97A4A", lead: "41 in every 100 renters", body: <>end up <strong style={{ color: "#B5602A" }}>fighting over their deposit</strong> — money the law often says is theirs.</>, src: "Zillow Renter Survey, 2024" },
+                { bg: "#7A2C3D", n: "40%", body: <>of leases contain <strong style={{ color: "#F5C547" }}>illegal clauses</strong>.</>, src: "Penn Law / Massachusetts study" },
+                { bg: "#B5602A", n: "41%", body: <>of renters fight over a deposit that's <strong style={{ color: "#F5C547" }}>legally theirs</strong>.</>, src: "Zillow Renter Survey, 2024" },
               ].map((s) => (
-                <div key={s.n} style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 18, boxShadow: "6px 6px 0 0 #171717", padding: "clamp(24px,3vw,32px)", display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(56px,8vw,84px)", lineHeight: 0.85, letterSpacing: "-0.05em", color: s.accent }}>
-                      {s.n}<span style={{ fontSize: "0.46em", verticalAlign: "super" }}>%</span>
-                    </div>
-                    <Waffle value={s.n} fill={s.accent} />
-                  </div>
-                  <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: s.accent, marginBottom: 8 }}>{s.lead}</div>
-                  <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--color-ink)", lineHeight: 1.5, margin: "0 0 auto" }}>{s.body}</p>
-                  <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 11.5, color: "var(--color-ink-muted)", marginTop: 14 }}>Source: {s.src}</div>
+                <div key={s.n} style={{ background: s.bg, border: "2.5px solid #171717", borderRadius: 18, boxShadow: "6px 6px 0 0 #171717", padding: "clamp(28px,3.5vw,40px)", display: "flex", flexDirection: "column" }}>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,104px)", lineHeight: 0.85, letterSpacing: "-0.05em", color: "#FBF8F1", marginBottom: 18 }}>{s.n}</div>
+                  <p style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.6vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.25, color: "#FBF8F1", margin: "0 0 auto" }}>{s.body}</p>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 12, color: "rgba(251,248,241,0.7)", marginTop: 18 }}>Source: {s.src}</div>
                 </div>
               ))}
             </div>
 
             {/* ── Clauses you'll recognise — comic red-flag cards ── */}
-            <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9DBEB0", marginBottom: 18 }}>
+            <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#7A5A8B", marginBottom: 18 }}>
               Clauses you'll recognise — and what the law actually says
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(258px,1fr))", gap: 16, marginBottom: "clamp(36px,5vw,52px)" }}>
               {PROBLEM_CLAUSES.map(({ q, a }) => (
-                <div key={q} style={{ background: "rgba(251,248,241,0.05)", border: "2px solid rgba(251,248,241,0.18)", borderRadius: 14, padding: "20px 22px", display: "flex", flexDirection: "column" }}>
+                <div key={q} style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderTop: "6px solid #7A5A8B", borderRadius: 14, boxShadow: "5px 5px 0 0 #171717", padding: "20px 22px", display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
-                    <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#7A2C3D", border: "1.5px solid rgba(251,248,241,0.6)" }} />
-                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.55)" }}>From a real lease</span>
+                    <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#7A5A8B" }} />
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#7A5A8B" }}>From a real lease</span>
                   </div>
-                  <p style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: 14, color: "rgba(251,248,241,0.95)", lineHeight: 1.6, margin: "0 0 16px auto" }}>{q}</p>
+                  <p style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: 14, color: "var(--color-ink)", lineHeight: 1.6, margin: "0 0 16px auto" }}>{q}</p>
                   <span style={{ alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 6, background: "#F5C547", color: "#171717", border: "2px solid #171717", borderRadius: 7, padding: "5px 12px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 12.5, boxShadow: "2px 2px 0 0 #171717" }}>
                     <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.5v6M7 10.2v.3" stroke="#171717" strokeWidth="2" strokeLinecap="round"/><path d="M7 1.5 1 12.5h12z" stroke="#171717" strokeWidth="1.6" strokeLinejoin="round"/></svg>
                     {a}
@@ -408,7 +376,7 @@ export default function Home() {
               >
                 Check yours free →
               </Link>
-              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "rgba(251,248,241,0.66)" }}>15 seconds · no account · never stored</span>
+              <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "var(--color-ink-muted)" }}>15 seconds · no account · never stored</span>
             </div>
           </div>
         </section>
@@ -488,19 +456,19 @@ export default function Home() {
                 return (
                   <div
                     key={step.n}
-                    style={{ background: step.bg, border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)", color: "var(--color-bone)" }}
+                    style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)" }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-                      <StepIcon size={30} aria-hidden={true} />
-                      <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(40px,5vw,56px)", lineHeight: 1, letterSpacing: "-0.05em", color: "rgba(251,248,241,0.3)" }}>{step.n}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+                      <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,96px)", lineHeight: 0.8, letterSpacing: "-0.05em", color: "#5A8B7A" }}>{step.n}</span>
+                      <div aria-hidden={true} style={{ color: "#5A8B7A", opacity: 0.45 }}><StepIcon size={30} /></div>
                     </div>
-                    <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.2vw,24px)", letterSpacing: "-0.02em", color: "var(--color-bone)", marginBottom: 8 }}>{step.title}</h3>
-                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "rgba(251,248,241,0.78)", lineHeight: 1.6, margin: 0 }}>{step.body}</p>
+                    <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.2vw,24px)", letterSpacing: "-0.02em", color: "var(--color-ink)", marginBottom: 8 }}>{step.title}</h3>
+                    <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", lineHeight: 1.6, margin: 0 }}>{step.body}</p>
                     {step.ticks && (
-                      <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0", display: "flex", flexDirection: "column", gap: 7 }}>
+                      <ul style={{ listStyle: "none", padding: 0, margin: "14px 0 0", display: "flex", flexDirection: "column", gap: 7 }}>
                         {step.ticks.map((tk) => (
-                          <li key={tk} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.92)", lineHeight: 1.45 }}>
-                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: 4 }}><path d="M2 7.2L5.5 10.5L12 3" stroke="#F5C547" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          <li key={tk} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.45 }}>
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: 4 }}><path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                             {tk}
                           </li>
                         ))}
@@ -545,46 +513,46 @@ export default function Home() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: 16 }} className="who-its-for-grid">
 
               {/* Renters panel */}
-              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden" }}>
-                <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
-                <div style={{ marginBottom: 24 }}>
+              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#5A8B7A", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }}>
+                <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.1, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
+                <div style={{ marginBottom: 24, color: "#FBF8F1" }}>
                   <IconUser size={52} aria-hidden={true} />
                 </div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.62)", marginBottom: 12 }}>FOR RENTERS</div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.75)", marginBottom: 12 }}>FOR RENTERS</div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#FBF8F1", margin: "0 0 16px" }}>
                   Know your rights.<br />Sign with confidence.
                 </h3>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.8)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.9)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none", position: "relative" }}>
                   {["Clauses that violate your state's law - and what to do about them", "Rights the law gives you that no lease can take away", "What to ask before you put pen to paper"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ color: "rgba(90,139,122,0.9)", marginTop: 1, flexShrink: 0 }}>→</span>
+                      <span style={{ color: "#F5C547", marginTop: 1, flexShrink: 0, fontWeight: 700 }}>→</span>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 14, textDecoration: "none", backgroundColor: "#5A8B7A", color: "#FBF8F1", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}>
+                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#171717", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717", position: "relative" }}>
                   Read my lease →
                 </Link>
               </div>
 
               {/* Landlords panel */}
-              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#C97A4A", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)" }}>
-                <div style={{ marginBottom: 24 }}>
+              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", boxShadow: "6px 6px 0 0 #171717" }}>
+                <div style={{ marginBottom: 24, color: "#FBF8F1" }}>
                   <IconHouseSmall size={52} aria-hidden={true} />
                 </div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(23,23,23,0.6)", marginBottom: 12 }}>FOR LANDLORDS</div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#171717", margin: "0 0 16px" }}>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.75)", marginBottom: 12 }}>FOR LANDLORDS</div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#FBF8F1", margin: "0 0 16px" }}>
                   Stay compliant.<br />Stay rock solid in court.
                 </h3>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(23,23,23,0.8)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.9)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
                   {["Language courts have already ruled unenforceable", "State-specific compliance gaps that expose you to liability", "What to fix before you issue - not after a dispute starts"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ color: "#171717", marginTop: 1, flexShrink: 0 }}>→</span>
+                      <span style={{ color: "#F5C547", marginTop: 1, flexShrink: 0, fontWeight: 700 }}>→</span>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 600, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#171717", border: "2px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}>
+                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#171717", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717" }}>
                   Read my lease →
                 </Link>
               </div>
