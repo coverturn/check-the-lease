@@ -146,7 +146,7 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
             )}
 
             <Link
-              href="/upload"
+              href={loc === "/upload" ? "/example" : "/upload"}
               onMouseEnter={() => setCtaHov(true)}
               onMouseLeave={() => setCtaHov(false)}
               style={{
@@ -170,7 +170,9 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
                 letterSpacing: "-0.01em",
               }}
             >
-              {lang === "es" ? "Leer mi contrato" : "Read my lease"}
+              {loc === "/upload"
+                ? (lang === "es" ? "Ver informe de ejemplo" : "See example report")
+                : (lang === "es" ? "Leer mi contrato" : "Read my lease")}
               <span
                 aria-hidden={true}
                 style={{
