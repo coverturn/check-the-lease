@@ -6,8 +6,9 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
-import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
-import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
+import PhotoMovingSteps from "@assets/home-moving-steps.webp";
+import PhotoMomBaby from "@assets/home-mom-baby.webp";
+import PhotoFounder from "@assets/founder-ishmael.webp";
 
 function useScrollReveal() {
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function Home() {
                   letterSpacing: "0.1em",
                   color: "#FBF8F1",
                   marginBottom: "clamp(18px, 2.5vw, 26px)",
-                  animation: `ctl-fade-up 0.7s 0s ${EASE} both`,
+                  animation: `ctl-fade-up 0.55s 0s ${EASE} both`,
                 }}
               >
                 For renters · For landlords · All 50 states
@@ -196,7 +197,7 @@ export default function Home() {
                   letterSpacing: "-0.04em",
                   color: "var(--color-ink)",
                   margin: 0,
-                  animation: `ctl-fade-up 0.7s 0.08s ${EASE} both`,
+                  animation: `ctl-fade-up 0.55s 0.06s ${EASE} both`,
                 }}
               >
                 Your lease,
@@ -213,14 +214,14 @@ export default function Home() {
                   marginTop: "clamp(20px, 3vw, 28px)",
                   color: "var(--color-ink-muted)",
                   maxWidth: 480,
-                  animation: `ctl-fade-up 0.7s 0.22s ${EASE} both`,
+                  animation: `ctl-fade-up 0.55s 0.12s ${EASE} both`,
                 }}
               >
                 Signing one or issuing one — a free scan shows you what won't hold up in court, in 15 seconds. Full report $9.99. No subscription.
               </p>
 
               {/* Hero action: pick your state → start free scan (the first step, surfaced) */}
-              <div style={{ marginTop: "clamp(24px, 3.5vw, 36px)", animation: `ctl-fade-up 0.7s 0.36s ${EASE} both` }}>
+              <div style={{ marginTop: "clamp(24px, 3.5vw, 36px)", animation: `ctl-fade-up 0.55s 0.18s ${EASE} both` }}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", maxWidth: 480, margin: "0 auto" }}>
                   <select
                     aria-label="Your state or territory"
@@ -255,7 +256,7 @@ export default function Home() {
               </div>
 
               {/* Trust row */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, justifyContent: "center", animation: `ctl-fade-up 0.7s 0.44s ${EASE} both` }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, justifyContent: "center", animation: `ctl-fade-up 0.55s 0.24s ${EASE} both` }}>
                 {["Free scan", "No account", "No subscription", "Never stored", "15-second scan"].map((t) => (
                   <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)" }}>
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden={true}><path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -385,7 +386,7 @@ export default function Home() {
             <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(18px,2.8vw,28px)", color: "rgba(251,248,241,0.95)", lineHeight: 1.3, margin: "0 0 8px", textShadow: "0 2px 16px rgba(0,0,0,0.5)", letterSpacing: "-0.02em" }}>
               Every move starts with a lease.
             </p>
-            <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(12px,1.3vw,14px)", color: "rgba(251,248,241,0.65)", margin: 0, textShadow: "0 1px 8px rgba(0,0,0,0.5)", letterSpacing: "0.02em" }}>
+            <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(12px,1.3vw,14px)", color: "rgba(251,248,241,0.82)", margin: 0, textShadow: "0 1px 8px rgba(0,0,0,0.6)", letterSpacing: "0.02em" }}>
               Make sure you know what you signed.
             </p>
           </div>
@@ -599,14 +600,14 @@ export default function Home() {
               >
                 Know what you're signing.
                 <br />
-                <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.55)" }}>Before you agree.</em>
+                <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.72)" }}>Before you agree.</em>
               </h2>
 
               <p
                 style={{
                   fontFamily: "var(--app-font-sans)",
                   fontSize: "clamp(14px, 1.8vw, 17px)",
-                  color: "rgba(251,248,241,0.6)",
+                  color: "rgba(251,248,241,0.74)",
                   lineHeight: 1.6,
                   margin: "0 auto 40px",
                   maxWidth: 440,
@@ -672,7 +673,15 @@ export default function Home() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
               <div style={{ flexShrink: 0 }}>
-                <IconUser size={48} aria-hidden={true} />
+                <img
+                  src={PhotoFounder}
+                  alt="Ishmael, founder of Check the Lease"
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover", border: "2.5px solid #171717", boxShadow: "3px 3px 0 0 #5A8B7A", display: "block" }}
+                />
               </div>
               <div>
                 <blockquote
@@ -681,7 +690,8 @@ export default function Home() {
                 >
                   "No one should have to sign 35 pages of legal language without help. The scan is free; the full report costs less than lunch."
                 </blockquote>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 12 }}>- Ishmael</p>
+                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 700, color: "var(--color-ink)", marginTop: 12, marginBottom: 0 }}>Ishmael</p>
+                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 2 }}>Founder, Check the Lease</p>
               </div>
             </div>
           </div>

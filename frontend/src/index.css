@@ -551,7 +551,7 @@ a[href="#main"]:focus {
 }
 
 .ctl-reveal.is-visible {
-  animation: ctl-fade-up 400ms ease-out forwards;
+  animation: ctl-fade-up 300ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 /* ── Page fade-in on mount ── */
@@ -651,7 +651,7 @@ a[href="#main"]:focus {
 .mn-card {
   border: 2px solid #171717;
   box-shadow: 6px 6px 0 0 #171717;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-card:hover {
   transform: translate(3px, 3px);
@@ -665,7 +665,7 @@ a[href="#main"]:focus {
 /* Clay (terracotta) shadow — featured dark cards, renters panel */
 .mn-shadow-clay {
   box-shadow: 6px 6px 0 0 #C97A4A;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-shadow-clay:hover {
   transform: translate(3px, 3px);
@@ -675,7 +675,7 @@ a[href="#main"]:focus {
 /* Sage shadow — landlords panel, resource cards */
 .mn-shadow-sage {
   box-shadow: 6px 6px 0 0 #5A8B7A;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-shadow-sage:hover {
   transform: translate(3px, 3px);
@@ -685,7 +685,7 @@ a[href="#main"]:focus {
 /* Shadow-only — cards with their own animations (no hover translate) */
 .mn-shadow-only {
   box-shadow: 6px 6px 0 0 #171717;
-  transition: box-shadow 0.15s ease;
+  transition: box-shadow 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-shadow-only:hover {
   box-shadow: 3px 3px 0 0 #171717;
@@ -695,7 +695,7 @@ a[href="#main"]:focus {
 .mn-btn {
   border: 2px solid #171717;
   box-shadow: 4px 4px 0 0 #171717;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+  transition: transform 0.12s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.12s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.18s ease-out;
 }
 .mn-btn:hover {
   transform: translate(2px, 2px);
@@ -710,7 +710,7 @@ a[href="#main"]:focus {
 .mn-btn-ghost {
   border: 2px solid #171717;
   box-shadow: 4px 4px 0 0 #171717;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.12s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.12s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-btn-ghost:hover {
   transform: translate(2px, 2px);
@@ -731,7 +731,7 @@ a[href="#main"]:focus {
 .mn-pill {
   border: 2px solid #171717;
   box-shadow: 3px 3px 0 0 #171717;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.12s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.12s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .mn-pill:hover {
   transform: translate(1.5px, 1.5px);
@@ -768,6 +768,15 @@ a[href="#main"]:focus {
   .mn-card:hover, .mn-shadow-clay:hover, .mn-shadow-sage:hover,
   .mn-btn:hover, .mn-btn-ghost:hover, .mn-pill:hover {
     transform: none !important;
+  }
+}
+
+/* Emil: hover effects only on hover-capable devices. On touch, :hover fires on
+   tap and leaves buttons/cards looking "pressed/lifted" - neutralise the move. */
+@media (hover: none), (pointer: coarse) {
+  .mn-card:hover, .mn-shadow-clay:hover, .mn-shadow-sage:hover, .mn-shadow-only:hover,
+  .mn-btn:hover, .mn-btn-ghost:hover, .mn-pill:hover, .mn-pill.mn-pill-active:hover {
+    transform: none;
   }
 }
 
