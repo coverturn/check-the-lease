@@ -227,7 +227,7 @@ export default function Home() {
                   <select
                     aria-label="Your state or territory"
                     value={heroState}
-                    onChange={(e) => setHeroState(e.target.value)}
+                    onChange={(e) => { setHeroState(e.target.value); if (e.target.value) { try { localStorage.setItem("ctl-state", e.target.value); } catch { /* noop */ } } }}
                     style={{ flex: "1 1 190px", minWidth: 168, padding: "15px 16px", borderRadius: 12, border: "2.5px solid #171717", backgroundColor: "var(--color-bone)", color: heroState ? "var(--color-ink)" : "var(--color-ink-muted)", fontFamily: "var(--app-font-sans)", fontSize: 15, fontWeight: 600, appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23171717' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 15px center", paddingRight: 42, cursor: "pointer", outline: "none", minHeight: 54, boxShadow: "3px 3px 0 0 #5A8B7A" }}
                   >
                     <option value="">Choose your state</option>
@@ -246,9 +246,10 @@ export default function Home() {
                 </div>
                 <Link
                   href="/example"
+                  className="mn-btn-ghost"
                   onMouseEnter={() => setSampleHover(true)}
                   onMouseLeave={() => setSampleHover(false)}
-                  style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, fontFamily: "var(--app-font-sans)", fontSize: 14, fontWeight: 600, color: sampleHover ? "#3D5F50" : "var(--color-ink)", textDecoration: "underline", textUnderlineOffset: 3 }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 14, borderRadius: 999, padding: "11px 22px", fontFamily: "var(--app-font-sans)", fontSize: 14, fontWeight: 600, color: sampleHover ? "#3D5F50" : "var(--color-ink)", backgroundColor: "transparent", textDecoration: "none" }}
                 >
                   See example report
                   <IconChevronRight size={13} aria-hidden={true} />
@@ -384,18 +385,6 @@ export default function Home() {
         {/* ═══════════════ STATE COVERAGE — the product, interactive, straight after the hero ═══════════════ */}
         <div id="state-coverage">
           <StatePreviews />
-        </div>
-
-        {/* ═══════════════ MARQUEE ═══════════════ */}
-        <div aria-hidden={true} style={{ overflow: "hidden", lineHeight: 0, borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)" }}>
-          <svg viewBox="0 0 1200 72" width="100%" height="72" preserveAspectRatio="xMidYMid meet">
-            <path id="ctl-marquee-path" d="M 0,36 Q 300,8 600,32 T 1200,30" fill="none" />
-            <text style={{ fontFamily: "'Fraunces', Georgia, serif", fontStyle: "italic", fontSize: "18px", fill: "#1E3A5F", opacity: 0.55, letterSpacing: "-0.01em" }}>
-              <textPath href="#ctl-marquee-path" startOffset="0%">
-                we read your lease · so everyone gets a fair deal · free scan for renters · free scan for landlords · we read your lease · so everyone gets a fair deal · free scan ·
-              </textPath>
-            </text>
-          </svg>
         </div>
 
         {/* ═══════════════ EDITORIAL PHOTO - Moving Day ═══════════════ */}
