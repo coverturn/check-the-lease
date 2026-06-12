@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { STATE_GUIDES } from "@/lib/guide-data";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
+import { TravellingLease } from "@/components/TravellingLease";
 import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
 import PhotoMovingSteps from "@assets/home-moving-steps.webp";
 import PhotoMomBaby from "@assets/home-mom-baby.webp";
@@ -59,6 +60,34 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
   );
 }
 
+/* Counts a stat up from 0 when it scrolls into view. Reduced-motion safe. */
+function CountUpStat({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setN(value); return; }
+    let raf = 0;
+    const obs = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      const t0 = performance.now();
+      const dur = 1100;
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        setN(Math.round(e * value));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => { obs.disconnect(); cancelAnimationFrame(raf); };
+  }, [value]);
+  return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{n}{suffix}</span>;
+}
+
 const PROBLEM_CLAUSES = [
   { q: "“Landlord may enter at any time, without notice.”", a: "Illegal in 48 states" },
   { q: "“Tenant waives all right to repair or remedy.”", a: "Can't be waived anywhere" },
@@ -91,6 +120,7 @@ export default function Home() {
     >
       <SkipLink />
       <Nav />
+      <TravellingLease />
 
       {/* Scroll progress */}
       <div aria-hidden={true} style={{ position: "fixed", top: 62, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(23,23,23,0.05)" }}>
@@ -158,6 +188,10 @@ export default function Home() {
             <style>{`
               @media (max-width: 767px) {
                 .ctl-float-decor { display: none !important; }
+              }
+              @media (prefers-reduced-motion: no-preference) {
+                .ctl-reveal .ctl-settle { transition: box-shadow 0.55s cubic-bezier(0.23,1,0.32,1), transform 0.55s cubic-bezier(0.23,1,0.32,1); }
+                .ctl-reveal:not(.is-visible) .ctl-settle { box-shadow: 0 0 0 0 rgba(23,23,23,0) !important; transform: translate(5px, 5px); }
               }
             `}</style>
 
@@ -271,13 +305,13 @@ export default function Home() {
         </section>
 
         {/* ═══════════════ WHAT A SCAN GIVES YOU — relocated proof strip ═══════════════ */}
-        <div style={{ background: "var(--color-bone)", borderTop: "2.5px solid #171717", borderBottom: "2.5px solid #171717" }}>
+        <div id="score-band" style={{ background: "var(--color-bone)", borderTop: "2.5px solid #171717", borderBottom: "2.5px solid #171717" }}>
           <div style={{ maxWidth: 1000, margin: "0 auto", padding: "clamp(28px,4vw,40px) clamp(24px,4vw,48px)", display: "flex", alignItems: "center", gap: "clamp(24px,4vw,44px)", flexWrap: "wrap", justifyContent: "center" }}>
             {/* score seal */}
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div aria-hidden={true} style={{ position: "absolute", top: -10, right: -10, color: "#F5C547" }}><IconSparkle size={26} /></div>
               <div style={{ width: 124, height: 124, borderRadius: "50%", background: "#7A2C3D", border: "3px solid #171717", boxShadow: "4px 4px 0 0 #171717", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: 44, lineHeight: 0.9, letterSpacing: "-0.03em", color: "#FBF8F1" }}>41<span style={{ fontSize: "0.42em", color: "rgba(251,248,241,0.7)" }}>/100</span></div>
+                <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: 44, lineHeight: 0.9, letterSpacing: "-0.03em", color: "#FBF8F1" }}><CountUpStat value={41} /><span style={{ fontSize: "0.42em", color: "rgba(251,248,241,0.7)" }}>/100</span></div>
                 <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.75)", marginTop: 4 }}>Health score</div>
               </div>
             </div>
@@ -330,9 +364,9 @@ export default function Home() {
               {[
                 { bg: "#7A2C3D", n: "40%", body: <>of leases contain <strong style={{ color: "#F5C547" }}>illegal clauses</strong>.</>, src: "Penn Law / Massachusetts study" },
                 { bg: "#B5602A", n: "41%", body: <>of renters fight over a deposit that's <strong style={{ color: "#F5C547" }}>legally theirs</strong>.</>, src: "Zillow Renter Survey, 2024" },
-              ].map((s) => (
-                <div key={s.n} style={{ background: s.bg, border: "2.5px solid #171717", borderRadius: 18, boxShadow: "6px 6px 0 0 #171717", padding: "clamp(28px,3.5vw,40px)", display: "flex", flexDirection: "column" }}>
-                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,104px)", lineHeight: 0.85, letterSpacing: "-0.05em", color: "#FBF8F1", marginBottom: 18 }}>{s.n}</div>
+              ].map((s, i) => (
+                <div key={s.n} className="ctl-settle" style={{ background: s.bg, border: "2.5px solid #171717", borderRadius: 18, boxShadow: "6px 6px 0 0 #171717", padding: "clamp(28px,3.5vw,40px)", display: "flex", flexDirection: "column", transitionDelay: `${i * 0.12}s` }}>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,104px)", lineHeight: 0.85, letterSpacing: "-0.05em", color: "#FBF8F1", marginBottom: 18 }}><CountUpStat value={parseInt(s.n, 10)} suffix="%" /></div>
                   <p style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.6vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.25, color: "#FBF8F1", margin: "0 0 auto" }}>{s.body}</p>
                   <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 12, color: "rgba(251,248,241,0.7)", marginTop: 18 }}>Source: {s.src}</div>
                 </div>
@@ -344,8 +378,8 @@ export default function Home() {
               Clauses you'll recognise — and what the law actually says
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(258px,1fr))", gap: 16, marginBottom: "clamp(36px,5vw,52px)" }}>
-              {PROBLEM_CLAUSES.map(({ q, a }) => (
-                <div key={q} style={{ background: "#7A5A8B", border: "2.5px solid #171717", borderRadius: 14, boxShadow: "5px 5px 0 0 #171717", padding: "20px 22px", display: "flex", flexDirection: "column" }}>
+              {PROBLEM_CLAUSES.map(({ q, a }, i) => (
+                <div key={q} className="ctl-settle" style={{ background: "#7A5A8B", border: "2.5px solid #171717", borderRadius: 14, boxShadow: "5px 5px 0 0 #171717", padding: "20px 22px", display: "flex", flexDirection: "column", transitionDelay: `${0.24 + i * 0.1}s` }}>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                     <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#F5C547", border: "1.5px solid rgba(23,23,23,0.3)" }} />
                     <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.8)" }}>From a real lease</span>
@@ -448,7 +482,8 @@ export default function Home() {
                 return (
                   <div
                     key={step.n}
-                    style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)" }}
+                    className="ctl-settle"
+                    style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)", transitionDelay: `${idx * 0.12}s` }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
                       <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,96px)", lineHeight: 0.8, letterSpacing: "-0.05em", color: numColor }}>{step.n}</span>
@@ -555,6 +590,7 @@ export default function Home() {
 
         {/* ═══════════════ FINAL CTA ═══════════════ */}
         <section
+          id="final-cta"
           data-reveal
           className="ctl-reveal"
           aria-labelledby="cta-heading"
