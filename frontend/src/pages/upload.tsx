@@ -5,8 +5,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useT } from "@/lib/translations";
-import PhotoMovingBox from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2713_1777779569749.jpg";
-import PhotoDoor from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.jpg";
 
 type IntakeForm = {
   file: File | null;
@@ -76,7 +74,8 @@ export default function Upload() {
   useEffect(() => {
     try {
       const s = new URLSearchParams(window.location.search).get("state");
-      if (s) setForm((f) => ({ ...f, state: s.toUpperCase() }));
+      const saved = s ? s.toUpperCase() : (localStorage.getItem("ctl-state") || "").toUpperCase() || null;
+      if (saved) setForm((f) => ({ ...f, state: saved }));
     } catch { /* noop */ }
   }, []);
 
@@ -242,7 +241,7 @@ export default function Upload() {
       <Nav />
       <main id="main" style={{ flex: 1, width: "100%" }} role="main">
 
-        <div style={{ background: "#1E3A5F", padding: "clamp(52px,9vw,88px) clamp(24px,4vw,48px) clamp(44px,7vw,68px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ background: "#1E3A5F", padding: "clamp(28px,5vw,48px) clamp(24px,4vw,48px) clamp(24px,4vw,40px)", position: "relative", overflow: "hidden" }}>
           <svg aria-hidden="true" width="28" height="28" viewBox="0 0 28 28" style={{ position: "absolute", top: "12%", right: "7%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none" }}>
             <path d="M14 2 L16 10 L24 13 L16 16 L14 26 L12 16 L4 13 L12 10 Z" fill="#F5C547" stroke="#171717" strokeWidth="2" strokeLinejoin="round"/>
           </svg>
@@ -254,17 +253,12 @@ export default function Upload() {
           </svg>
           <div style={{ maxWidth: 720, margin: "0 auto", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "1fr auto", gap: "clamp(24px,4vw,48px)", alignItems: "flex-end" }} className="ctl-upload-header-grid upload-header-grid">
             <div>
-              <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(251,248,241,0.35)", marginBottom: 20 }}>Lease Analysis</div>
-              <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(36px,5.5vw,64px)", letterSpacing: "-0.03em", lineHeight: 1.04, color: "var(--color-bone)", margin: "0 0 18px" }}>
-                Read it once.<br />
-                <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.35)" }}>Know it completely.</em>
+              <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,4vw,40px)", letterSpacing: "-0.03em", lineHeight: 1.08, color: "var(--color-bone)", margin: "0 0 10px" }}>
+                Read it once. <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.4)" }}>Know it completely.</em>
               </h1>
-              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.5vw,16px)", color: "rgba(251,248,241,0.5)", lineHeight: 1.75, maxWidth: 420, margin: 0 }}>
+              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.4vw,15px)", color: "rgba(251,248,241,0.5)", lineHeight: 1.65, maxWidth: 520, margin: 0 }}>
                 Analyzed in seconds, then discarded — your lease is never stored. No account, no email. Free scan, full report $9.99.
               </p>
-            </div>
-            <div style={{ width: 140, height: 180, borderRadius: 16, overflow: "hidden", border: "2px solid rgba(251,248,241,0.15)", flexShrink: 0, boxShadow: "4px 4px 0 0 rgba(251,248,241,0.08)" }} className="ctl-upload-photo">
-              <img src={PhotoMovingBox} alt="Moving boxes on a front porch" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block" }} />
             </div>
           </div>
         </div>
@@ -309,100 +303,6 @@ export default function Upload() {
               <button onClick={() => setError(null)} style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, fontWeight: 600, color: "#7A2C3D", background: "transparent", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>{lang === "es" ? "Descartar" : "Dismiss"}</button>
             </div>
           )}
-
-          {/* ── Role Selection ── */}
-          <div style={{ marginBottom: 16 }}>
-            <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-              <legend style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--color-ink-muted)", marginBottom: 14 }}>
-                {lang === "es" ? "¿Para quién es esta lectura?" : "Who is this read for?"}
-              </legend>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="form-grid-2col">
-              {([
-                {
-                  v: "renter" as const,
-                  l: lang === "es" ? "Soy Inquilino/a" : "I'm a Renter",
-                  s: lang === "es" ? "Revisando un contrato que firmaré - o ya firmé." : "Reviewing a lease I'll sign - or have already signed.",
-                  icon: (
-                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                      <rect x="6" y="16" width="24" height="16" rx="2" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                      <path d="M3 18 L18 6 L33 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <rect x="14" y="22" width="8" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                      <circle cx="18" cy="27" r="1.5" fill="currentColor"/>
-                    </svg>
-                  ),
-                },
-                {
-                  v: "landlord" as const,
-                  l: lang === "es" ? "Soy Propietario/a" : "I'm a Landlord",
-                  s: lang === "es" ? "Revisando un contrato que emití o estoy emitiendo." : "Reviewing a lease I'm issuing or have issued.",
-                  icon: (
-                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                      <rect x="4" y="12" width="28" height="20" rx="2" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                      <rect x="10" y="18" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-                      <rect x="21" y="18" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-                      <path d="M4 17 L18 6 L32 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M15 32 L15 24 L21 24 L21 32" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                    </svg>
-                  ),
-                },
-              ] as const).map((opt) => {
-                const selected = form.perspective === opt.v;
-                return (
-                  <button
-                    key={opt.v}
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, perspective: opt.v }))}
-                    aria-pressed={selected}
-                    aria-describedby={`desc-${opt.v}`}
-                    style={{
-                      borderRadius: 20,
-                      padding: "clamp(20px,3vw,28px) clamp(18px,2.5vw,26px)",
-                      border: selected ? "2.5px solid var(--color-ink-blue)" : "2.5px solid rgba(23,23,23,0.15)",
-                      backgroundColor: selected ? "rgba(30,58,95,0.07)" : "var(--color-bone)",
-                      boxShadow: selected ? "6px 6px 0 0 var(--color-ink-blue)" : "6px 6px 0 0 rgba(23,23,23,0.07)",
-                      cursor: "pointer",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      gap: 14,
-                      textAlign: "left",
-                      transition: "all 0.15s ease",
-                      minHeight: 130,
-                    }}
-                  >
-                    <span style={{ color: selected ? "var(--color-ink-blue)" : "rgba(23,23,23,0.32)", transition: "color 0.15s ease" }}>
-                      {opt.icon}
-                    </span>
-                    <div>
-                      <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(16px,2.5vw,20px)", color: selected ? "var(--color-ink-blue)" : "var(--color-ink)", letterSpacing: "-0.02em", marginBottom: 5, transition: "color 0.15s ease" }}>
-                        {opt.l}
-                      </div>
-                      <div id={`desc-${opt.v}`} style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", lineHeight: 1.5 }}>
-                        {opt.s}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-            </fieldset>
-          </div>
-
-          {/* ── Editorial photo break ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "7fr 5fr", borderRadius: 20, overflow: "hidden", border: "2.5px solid #171717", boxShadow: "6px 6px 0 0 #171717", marginBottom: 14 }} className="ctl-upload-editorial upload-editorial-grid">
-            <div style={{ padding: "clamp(24px,3.5vw,36px)", backgroundColor: "#1E3A5F", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "2.5px solid #171717" }}>
-              <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(15px,2vw,21px)", letterSpacing: "-0.02em", lineHeight: 1.35, color: "rgba(251,248,241,0.9)", margin: "0 0 14px" }}>
-                {lang === "es" ? "La mayoría firma sin leerlo. Tú lo estás haciendo diferente." : "Most people sign without reading it. You're doing it differently."}
-              </p>
-              <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(251,248,241,0.35)" }}>
-                {lang === "es" ? "Paso 1 de 3 abajo" : "Step 1 of 3 below"}
-              </div>
-            </div>
-            <div style={{ position: "relative", minHeight: 160, overflow: "hidden" }}>
-              <img src={PhotoDoor} alt="A key in a door lock" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block", position: "absolute", inset: 0 }} />
-              <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(30,58,95,0.4) 0%, transparent 50%)" }} />
-            </div>
-          </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
 
@@ -483,7 +383,7 @@ export default function Upload() {
               <select
                 id="state-select"
                 value={form.state || ""}
-                onChange={(e) => setForm((f) => ({ ...f, state: e.target.value || null }))}
+                onChange={(e) => { const v = e.target.value || null; if (v) { try { localStorage.setItem("ctl-state", v); } catch { /* noop */ } } setForm((f) => ({ ...f, state: v })); }}
                 style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "2px solid rgba(23,23,23,0.18)", backgroundColor: "var(--color-bone)", color: form.state ? "var(--color-ink)" : "var(--color-ink-muted)", fontFamily: "var(--app-font-sans)", fontSize: 15, appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 16px center", paddingRight: 44, cursor: "pointer", outline: "none", minHeight: 52 }}
               >
                 <option value="">{lang === "es" ? "Elige tu estado o territorio" : "Choose your state or territory"}</option>
@@ -494,6 +394,84 @@ export default function Upload() {
                   {["DC|Washington DC","PR|Puerto Rico","GU|Guam","VI|US Virgin Islands","AS|American Samoa","MP|Northern Mariana Islands"].map(s => { const [v,l] = s.split("|"); return <option key={v} value={v}>{l}</option>; })}
                 </optgroup>
               </select>
+            </div>
+
+            {/* ── Role Selection ── */}
+            <div style={{ margin: 0 }}>
+              <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
+                <legend style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--color-ink-muted)", marginBottom: 14 }}>
+                  {lang === "es" ? "¿Para quién es esta lectura?" : "Who is this read for?"}
+                </legend>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="form-grid-2col">
+                {([
+                  {
+                    v: "renter" as const,
+                    l: lang === "es" ? "Soy Inquilino/a" : "I'm a Renter",
+                    s: lang === "es" ? "Revisando un contrato que firmaré - o ya firmé." : "Reviewing a lease I'll sign - or have already signed.",
+                    icon: (
+                      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <rect x="6" y="16" width="24" height="16" rx="2" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+                        <path d="M3 18 L18 6 L33 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <rect x="14" y="22" width="8" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+                        <circle cx="18" cy="27" r="1.5" fill="currentColor"/>
+                      </svg>
+                    ),
+                  },
+                  {
+                    v: "landlord" as const,
+                    l: lang === "es" ? "Soy Propietario/a" : "I'm a Landlord",
+                    s: lang === "es" ? "Revisando un contrato que emití o estoy emitiendo." : "Reviewing a lease I'm issuing or have issued.",
+                    icon: (
+                      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <rect x="4" y="12" width="28" height="20" rx="2" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+                        <rect x="10" y="18" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+                        <rect x="21" y="18" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M4 17 L18 6 L32 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M15 32 L15 24 L21 24 L21 32" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      </svg>
+                    ),
+                  },
+                ] as const).map((opt) => {
+                  const selected = form.perspective === opt.v;
+                  return (
+                    <button
+                      key={opt.v}
+                      type="button"
+                      onClick={() => setForm((f) => ({ ...f, perspective: opt.v }))}
+                      aria-pressed={selected}
+                      aria-describedby={`desc-${opt.v}`}
+                      style={{
+                        borderRadius: 20,
+                        padding: "clamp(20px,3vw,28px) clamp(18px,2.5vw,26px)",
+                        border: selected ? "2.5px solid var(--color-ink-blue)" : "2.5px solid rgba(23,23,23,0.15)",
+                        backgroundColor: selected ? "rgba(30,58,95,0.07)" : "var(--color-bone)",
+                        boxShadow: selected ? "6px 6px 0 0 var(--color-ink-blue)" : "6px 6px 0 0 rgba(23,23,23,0.07)",
+                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: 14,
+                        textAlign: "left",
+                        transition: "all 0.15s ease",
+                        minHeight: 130,
+                      }}
+                    >
+                      <span style={{ color: selected ? "var(--color-ink-blue)" : "rgba(23,23,23,0.32)", transition: "color 0.15s ease" }}>
+                        {opt.icon}
+                      </span>
+                      <div>
+                        <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(16px,2.5vw,20px)", color: selected ? "var(--color-ink-blue)" : "var(--color-ink)", letterSpacing: "-0.02em", marginBottom: 5, transition: "color 0.15s ease" }}>
+                          {opt.l}
+                        </div>
+                        <div id={`desc-${opt.v}`} style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", lineHeight: 1.5 }}>
+                          {opt.s}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              </fieldset>
             </div>
 
             {/* 03 Stage */}
