@@ -6,7 +6,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
-import { IllusMagnifier } from "@/components/illustrations/Magnifier";
 import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
 import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
 
@@ -156,17 +155,13 @@ export default function Home() {
             }}
           >
             <style>{`
-              @media (min-width: 768px) {
-                .hero-grid { grid-template-columns: 1fr 1fr !important; }
-              }
               @media (max-width: 767px) {
                 .ctl-float-decor { display: none !important; }
-                .hero-aside { display: none !important; }
               }
             `}</style>
 
-            {/* ── Left: Text ── */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            {/* ── Centered hero content ── */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
 
               <div
                 style={{
@@ -174,7 +169,7 @@ export default function Home() {
                   alignItems: "center",
                   padding: "8px 16px",
                   background: "#1E3A5F",
-                  border: "2px solid #FBF8F1",
+                  border: "2px solid #171717",
                   boxShadow: "3px 3px 0 0 #171717",
                   borderRadius: 999,
                   fontFamily: "var(--app-font-sans)",
@@ -226,7 +221,7 @@ export default function Home() {
 
               {/* Hero action: pick your state → start free scan (the first step, surfaced) */}
               <div style={{ marginTop: "clamp(24px, 3.5vw, 36px)", animation: `ctl-fade-up 0.7s 0.36s ${EASE} both` }}>
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "stretch", maxWidth: 480 }}>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "stretch", justifyContent: "center", maxWidth: 480, margin: "0 auto" }}>
                   <select
                     aria-label="Your state or territory"
                     value={heroState}
@@ -260,7 +255,7 @@ export default function Home() {
               </div>
 
               {/* Trust row */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, animation: `ctl-fade-up 0.7s 0.44s ${EASE} both` }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 18px", marginTop: 18, justifyContent: "center", animation: `ctl-fade-up 0.7s 0.44s ${EASE} both` }}>
                 {["Free scan", "No account", "No subscription", "Never stored", "15-second scan"].map((t) => (
                   <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)" }}>
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden={true}><path d="M2 7.2L5.5 10.5L12 3" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -269,11 +264,6 @@ export default function Home() {
                 ))}
               </div>
 
-            </div>
-
-            {/* ── Right: brand illustration — hero stays focused on the action ── */}
-            <div className="hero-aside" aria-hidden={true} style={{ display: "flex", alignItems: "center", justifyContent: "center", animation: `ctl-float-card 7s ease-in-out infinite, ctl-fade-up 0.9s 0.28s ${EASE} both` }}>
-              <IllusMagnifier size={320} />
             </div>
 
           </div>
@@ -354,12 +344,12 @@ export default function Home() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(258px,1fr))", gap: 16, marginBottom: "clamp(36px,5vw,52px)" }}>
               {PROBLEM_CLAUSES.map(({ q, a }) => (
-                <div key={q} style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderTop: "6px solid #7A5A8B", borderRadius: 14, boxShadow: "5px 5px 0 0 #171717", padding: "20px 22px", display: "flex", flexDirection: "column" }}>
+                <div key={q} style={{ background: "#7A5A8B", border: "2.5px solid #171717", borderRadius: 14, boxShadow: "5px 5px 0 0 #171717", padding: "20px 22px", display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
-                    <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#7A5A8B" }} />
-                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#7A5A8B" }}>From a real lease</span>
+                    <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: "50%", background: "#F5C547", border: "1.5px solid rgba(23,23,23,0.3)" }} />
+                    <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.8)" }}>From a real lease</span>
                   </div>
-                  <p style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: 14, color: "var(--color-ink)", lineHeight: 1.6, margin: "0 0 16px auto" }}>{q}</p>
+                  <p style={{ fontFamily: "var(--app-font-mono)", fontStyle: "italic", fontSize: 14, color: "#FBF8F1", lineHeight: 1.6, margin: "0 0 16px auto" }}>{q}</p>
                   <span style={{ alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 6, background: "#F5C547", color: "#171717", border: "2px solid #171717", borderRadius: 7, padding: "5px 12px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 12.5, boxShadow: "2px 2px 0 0 #171717" }}>
                     <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.5v6M7 10.2v.3" stroke="#171717" strokeWidth="2" strokeLinecap="round"/><path d="M7 1.5 1 12.5h12z" stroke="#171717" strokeWidth="1.6" strokeLinejoin="round"/></svg>
                     {a}
@@ -453,14 +443,15 @@ export default function Home() {
               {STEPS.map((step, idx) => {
                 const stepIcons = [IconUpload, IconMapPin, IconDocumentSmall];
                 const StepIcon = stepIcons[idx];
+                const numColor = ["#5A8B7A", "#C97A4A", "#1E3A5F"][idx];
                 return (
                   <div
                     key={step.n}
                     style={{ background: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "clamp(24px,3vw,32px)" }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
-                      <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,96px)", lineHeight: 0.8, letterSpacing: "-0.05em", color: "#5A8B7A" }}>{step.n}</span>
-                      <div aria-hidden={true} style={{ color: "#5A8B7A", opacity: 0.45 }}><StepIcon size={30} /></div>
+                      <span aria-hidden={true} style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(64px,9vw,96px)", lineHeight: 0.8, letterSpacing: "-0.05em", color: numColor }}>{step.n}</span>
+                      <div aria-hidden={true} style={{ color: numColor, opacity: 0.5 }}><StepIcon size={30} /></div>
                     </div>
                     <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.2vw,24px)", letterSpacing: "-0.02em", color: "var(--color-ink)", marginBottom: 8 }}>{step.title}</h3>
                     <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", lineHeight: 1.6, margin: 0 }}>{step.body}</p>
@@ -513,30 +504,30 @@ export default function Home() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: 16 }} className="who-its-for-grid">
 
               {/* Renters panel */}
-              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#5A8B7A", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }}>
-                <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.1, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
-                <div style={{ marginBottom: 24, color: "#FBF8F1" }}>
+              <div id="renter-card" className="mn-shadow-clay" style={{ background: "#F5C547", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }}>
+                <img src={PhotoMomBaby} aria-hidden={true} alt="" loading="lazy" decoding="async" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
+                <div style={{ marginBottom: 24, color: "#171717", position: "relative" }}>
                   <IconUser size={52} aria-hidden={true} />
                 </div>
-                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(251,248,241,0.75)", marginBottom: 12 }}>FOR RENTERS</div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#FBF8F1", margin: "0 0 16px" }}>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(23,23,23,0.6)", marginBottom: 12, position: "relative" }}>FOR RENTERS</div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "#171717", margin: "0 0 16px", position: "relative" }}>
                   Know your rights.<br />Sign with confidence.
                 </h3>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.9)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none", position: "relative" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(23,23,23,0.82)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none", position: "relative" }}>
                   {["Clauses that violate your state's law - and what to do about them", "Rights the law gives you that no lease can take away", "What to ask before you put pen to paper"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ color: "#F5C547", marginTop: 1, flexShrink: 0, fontWeight: 700 }}>→</span>
+                      <span style={{ color: "#7A2C3D", marginTop: 1, flexShrink: 0, fontWeight: 700 }}>→</span>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "var(--color-bone)", color: "#171717", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717", position: "relative" }}>
+                <Link href="/upload" className="mn-btn" style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "14px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none", backgroundColor: "#1E3A5F", color: "#FBF8F1", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717", position: "relative" }}>
                   Read my lease →
                 </Link>
               </div>
 
               {/* Landlords panel */}
-              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", boxShadow: "6px 6px 0 0 #171717" }}>
+              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#5A8B7A", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(32px,5vw,52px)", boxShadow: "6px 6px 0 0 #171717" }}>
                 <div style={{ marginBottom: 24, color: "#FBF8F1" }}>
                   <IconHouseSmall size={52} aria-hidden={true} />
                 </div>
