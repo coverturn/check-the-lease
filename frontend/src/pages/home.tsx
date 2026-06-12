@@ -29,7 +29,7 @@ const EASE = "cubic-bezier(0.16,1,0.3,1)";
 
 const STEPS = [
   { n: "01", title: "Upload your lease", body: "Drop the PDF. Any length, any state, any template.", borderRight: true },
-  { n: "02", title: "Pick your state", body: "We check it against your state's actual tenant protection rules and the obligations on landlords.", borderRight: true },
+  { n: "02", title: "Pick your state", body: "We check it against your state's actual tenant protection rules.", borderRight: true },
   { n: "03", title: "Read what it actually says", body: "Plain English. Every risky clause named. Every legal citation sourced. In under 15 seconds.", borderRight: false },
 ];
 
@@ -192,7 +192,7 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.22s ${EASE} both`,
                 }}
               >
-                Get a free scan that names the red flags in seconds. Unlock the full report — every clause, the law behind it, and what to say — for $9.99. No subscription.
+                A free scan names every red flag in 15 seconds. The full report — the law behind each one, and what to say — is $9.99. No subscription.
               </p>
 
               {/* Coverage badge */}
@@ -381,27 +381,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════ TL;DR JUMP STRIP ═══════════════ */}
-        <div style={{ padding: "clamp(20px,3vw,32px) clamp(24px,4vw,48px)" }}>
-          <div style={{
-            background: "#F2EDE2",
-            border: "1.5px solid rgba(23,23,23,0.1)",
-            borderRadius: 16,
-            padding: "14px 24px",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 24,
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "0 auto",
-            maxWidth: 800,
-          }}>
-            <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "#6B6B6B" }}>Jump to:</span>
-            <a href="#problem" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>The problem</a>
-            <a href="#how-it-works" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>How it works</a>
-            <a href="#who-its-for" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>Who it's for</a>
-            <a href="#state-coverage" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>State coverage</a>
-          </div>
+        {/* ═══════════════ STATE COVERAGE — the product, interactive, straight after the hero ═══════════════ */}
+        <div id="state-coverage">
+          <StatePreviews />
         </div>
 
         {/* ═══════════════ MARQUEE ═══════════════ */}
@@ -553,11 +535,8 @@ export default function Home() {
                   Most leases aren't written{" "}
                   <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.38)" }}>for the people signing them.</em>
                 </h2>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: "0 0 24px", maxWidth: 460 }}>
-                  Most leases are 35 pages of hard-to-read legal writing. Renters sign them without a lawyer. Landlords use old templates with clauses that don't work. Both sides end up confused about what they actually agreed to.
-                </p>
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: 0, maxWidth: 460 }}>
-                  A fair lease protects everyone. Most don't.
+                  35 pages of legal writing, signed without a lawyer. A fair lease protects everyone. Most don't.
                 </p>
                 <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                   <Link
@@ -774,10 +753,7 @@ export default function Home() {
                 <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
                   Know your rights.<br />Sign with confidence.
                 </h3>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,15px)", color: "rgba(251,248,241,0.55)", lineHeight: 1.75, margin: "0 0 24px" }}>
-                  The law gives you more protection than most leases let on. Check the Lease flags what won't hold up in court, what you can push back on, and what protections your state guarantees - in under 15 seconds, for free.
-                </p>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.5)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.6)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
                   {["Clauses that violate your state's law - and what to do about them", "Rights the law gives you that no lease can take away", "What to ask before you put pen to paper"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <span style={{ color: "rgba(90,139,122,0.9)", marginTop: 1, flexShrink: 0 }}>→</span>
@@ -799,10 +775,7 @@ export default function Home() {
                 <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(20px,2.5vw,28px)", letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--color-bone)", margin: "0 0 16px" }}>
                   Stay compliant.<br />Stay rock solid in court.
                 </h3>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,15px)", color: "rgba(251,248,241,0.55)", lineHeight: 1.75, margin: "0 0 24px" }}>
-                  A lease full of unenforceable clauses doesn't protect your property - it invites disputes. We flag what courts have already voided so your template is legally sound, your tenants are treated fairly, and you're covered if anything goes wrong.
-                </p>
-                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.5)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
+                <ul style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,14px)", color: "rgba(251,248,241,0.6)", lineHeight: 2, margin: "0 0 28px", paddingLeft: 0, listStyle: "none" }}>
                   {["Language courts have already ruled unenforceable", "State-specific compliance gaps that expose you to liability", "What to fix before you issue - not after a dispute starts"].map(item => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <span style={{ color: "rgba(201,122,74,0.9)", marginTop: 1, flexShrink: 0 }}>→</span>
@@ -818,11 +791,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* ═══════════════ STATE COVERAGE ═══════════════ */}
-        <div id="state-coverage">
-          <StatePreviews />
-        </div>
 
         {/* ═══════════════ FINAL CTA ═══════════════ */}
         <section
@@ -951,7 +919,7 @@ export default function Home() {
                   id="founder-heading"
                   style={{ margin: 0, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px, 1.8vw, 16px)", color: "var(--color-ink)", lineHeight: 1.75 }}
                 >
-                  "I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords both deserve a fair read - and the technology to deliver it has been here for years. The scan is free; the full report costs less than lunch."
+                  "No one should have to sign 35 pages of legal language without help. The scan is free; the full report costs less than lunch."
                 </blockquote>
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 12 }}>- Ishmael</p>
               </div>

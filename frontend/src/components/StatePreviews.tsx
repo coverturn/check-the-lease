@@ -26,7 +26,7 @@ const CATEGORIES = [
 const CAT_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 const CARD_ACCENTS = ["#1E3A5F", "#5A8B7A", "#C97A4A", "#7A2C3D"];
 
-/* ─── Modal ─────────────────────────────────────────────────────────────── */
+/* ─── Modal ─────────────────────────────────────────────────────── */
 function StateModal({ stateKey, onClose }: { stateKey: StateKey; onClose: () => void }) {
   const [tab, setTab] = useState<Tab>("rights");
   const [category, setCategory] = useState("all");
@@ -173,7 +173,7 @@ function StateModal({ stateKey, onClose }: { stateKey: StateKey; onClose: () => 
   );
 }
 
-/* ─── Main section ───────────────────────────────────────────────────────── */
+/* ─── Main section ───────────────────────────────────────────────────── */
 export function StatePreviews() {
   const [openState, setOpenState] = useState<StateKey | null>(null);
   const _territories = ALL_STATES.filter(k => TERRITORIES.has(k));
@@ -202,7 +202,7 @@ export function StatePreviews() {
               Know your rights, wherever you are.
             </h2>
             <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", lineHeight: 1.65, maxWidth: 520, margin: 0 }}>
-              Click any state or territory to see the laws that protect every renter there, plus housing support programs for seniors, veterans, students, families, and more.
+              Tap your state. Every renter's rights there, plus the support programs most people never hear about.
             </p>
           </div>
 
