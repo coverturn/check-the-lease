@@ -40,10 +40,15 @@ const WAYPOINTS: Way[] = [
 
 const smooth = (u: number) => u * u * (3 - 2 * u);
 
+// Colour of the soft light the document "carries" at each stage, so the
+// section it passes over visibly responds to it (blended via mix-blend-mode).
+const STAGE_LIGHT = ["#F5C547", "#7A2C3D", "#5A8B7A", "#C97A4A", "#C97A4A", "#F5C547", "#5A8B7A"];
+
 export function TravellingLease() {
   const [enabled, setEnabled] = useState(false);
   const [stage, setStage] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const lightRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef(0);
 
   useEffect(() => {
@@ -130,6 +135,14 @@ export function TravellingLease() {
         el.style.transform = `translate3d(${cx - 48}px, ${cy - 60}px, 0) rotate(${cr}deg) scale(${cs})`;
         el.style.opacity = String(Math.max(0, Math.min(1, co)));
 
+        // Carried light follows the document, centred on it, so the section
+        // beneath visibly warms/tints as it passes (the "adapting" feel).
+        const lg = lightRef.current;
+        if (lg) {
+          lg.style.transform = `translate3d(${cx - 220}px, ${cy - 220}px, 0) scale(${cs})`;
+          lg.style.opacity = String(Math.max(0, Math.min(1, co)) * 0.9);
+        }
+
         if (nearestStage !== stageRef.current) {
           stageRef.current = nearestStage;
           setStage(nearestStage);
@@ -147,7 +160,15 @@ export function TravellingLease() {
 
   if (!enabled) return null;
 
+  const lightColor = STAGE_LIGHT[Math.min(stage, STAGE_LIGHT.length - 1)] ?? "#F5C547";
   return (
+    <>
+    <div
+      ref={lightRef}
+      aria-hidden="true"
+      className="ctl-trav-light"
+      style={{ position: "fixed", top: 0, left: 0, width: 440, height: 440, borderRadius: "50%", zIndex: 29, pointerEvents: "none", opacity: 0, mixBlendMode: "soft-light", background: `radial-gradient(circle, ${lightColor} 0%, ${lightColor}00 68%)`, transition: "background 0.7s ease", willChange: "transform, opacity" }}
+    />
     <div
       ref={wrapRef}
       aria-hidden="true"
@@ -206,7 +227,7 @@ export function TravellingLease() {
       <div className="trav-ghost trav-ghost-b" style={{ position: "absolute", inset: 0, background: "#5A8B7A", border: "2.5px solid #171717", borderRadius: 8, boxShadow: "3px 3px 0 0 #171717" }} />
 
       {/* The document itself */}
-      <svg width="96" height="120" viewBox="0 0 96 120" fill="none" style={{ position: "relative", display: "block", filter: "drop-shadow(4px 4px 0 rgba(23,23,23,0.9))" }}>
+      <svg width="96" height="120" viewBox="0 0 96 120" fill="none" style={{ position: "relative", display: "block", filter: "drop-shadow(2.5px 3px 0 rgba(23,23,23,0.8)) drop-shadow(0 16px 20px rgba(23,23,23,0.22))" }}>
         <path d="M6 10 a6 6 0 0 1 6-6 H68 L90 26 V110 a6 6 0 0 1-6 6 H12 a6 6 0 0 1-6-6 Z" fill="#FBF8F1" stroke="#171717" strokeWidth="3" strokeLinejoin="round" />
         <path d="M68 4 V20 a6 6 0 0 0 6 6 H90" fill="#F2EDE2" stroke="#171717" strokeWidth="3" strokeLinejoin="round" />
         <rect x="18" y="34" width="52" height="5" rx="2.5" fill="rgba(23,23,23,0.55)" />
@@ -253,5 +274,6 @@ export function TravellingLease() {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L9.5 18 L20 6" stroke="#FBF8F1" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
     </div>
+    </>
   );
 }

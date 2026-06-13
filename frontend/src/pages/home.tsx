@@ -77,7 +77,7 @@ function CountUpStat({ value, suffix = "" }: { value: number; suffix?: string })
       const tick = (t: number) => {
         const p = Math.min(1, (t - t0) / dur);
         const e = 1 - Math.pow(1 - p, 3);
-        setN(Math.round(e * value));
+        setN(Math.max(0, Math.min(value, Math.round(e * value))));
         if (p < 1) raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
