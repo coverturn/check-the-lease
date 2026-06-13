@@ -88,6 +88,38 @@ function CountUpStat({ value, suffix = "" }: { value: number; suffix?: string })
   return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{n}{suffix}</span>;
 }
 
+/* Subtle scroll parallax — background decorations drift at their own depth so
+   the page reads as one layered scene the lease travels through, not flat
+   stacked blocks. Uses the `translate` property (composes with the float
+   keyframes' `transform`). Reduced-motion safe; rAF-throttled. */
+function useParallax() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
+    if (!els.length) return;
+    let raf = 0, ticking = false;
+    const update = () => {
+      const vh = window.innerHeight;
+      for (const el of els) {
+        const speed = parseFloat(el.dataset.parallax || "0");
+        const r = el.getBoundingClientRect();
+        const progress = (r.top + r.height / 2 - vh / 2) / vh;
+        el.style.translate = `0 ${(-progress * speed).toFixed(1)}px`;
+      }
+      ticking = false;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; raf = requestAnimationFrame(update); } };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+}
+
 const PROBLEM_CLAUSES = [
   { q: "“Landlord may enter at any time, without notice.”", a: "Illegal in 48 states" },
   { q: "“Tenant waives all right to repair or remedy.”", a: "Can't be waived anywhere" },
@@ -96,6 +128,7 @@ const PROBLEM_CLAUSES = [
 
 export default function Home() {
   useScrollReveal();
+  useParallax();
   const [, navigate] = useLocation();
 
   const [ctaHover, setCtaHover] = useState(false);
@@ -153,10 +186,10 @@ export default function Home() {
           </video>
 
           {/* ── Floating illustrations (hidden on mobile via .ctl-float-decor) ── */}
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
+          <div aria-hidden={true} data-parallax="46" className="ctl-float-decor" style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
+          <div aria-hidden={true} data-parallax="80" className="ctl-float-decor" style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
+          <div aria-hidden={true} data-parallax="32" className="ctl-float-decor" style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
+          <div aria-hidden={true} data-parallax="64" className="ctl-float-decor" style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
 
           {/* ── Decorative shapes (hidden on mobile via .ctl-float-decor) ── */}
           <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", top: "9%", left: "44%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none", zIndex: 0, color: "#F5C547" }}>
@@ -346,7 +379,7 @@ export default function Home() {
           style={{ background: "#F2EDE2", padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
         >
           {/* halftone texture */}
-          <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.05) 1.5px, transparent 1.5px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
+          <div aria-hidden={true} data-parallax="18" style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(23,23,23,0.05) 1.5px, transparent 1.5px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
           <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
             <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--color-sage)" }}>
               01 · The problem
@@ -443,7 +476,7 @@ export default function Home() {
           aria-labelledby="how-heading"
           style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(48px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
         >
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", right: -60, top: "32%", opacity: 0.22, pointerEvents: "none", animation: "ctl-illus-float-b 12s ease-in-out infinite 2s", zIndex: 0, color: "#F4A480" }}><IconBox size={195} /></div>
+          <div aria-hidden={true} data-parallax="92" className="ctl-float-decor" style={{ position: "absolute", right: -60, top: "32%", opacity: 0.22, pointerEvents: "none", animation: "ctl-illus-float-b 12s ease-in-out infinite 2s", zIndex: 0, color: "#F4A480" }}><IconBox size={195} /></div>
           <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
 
             <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
@@ -518,7 +551,7 @@ export default function Home() {
           style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(56px, 7vw, 88px)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} className="ctl-float-decor" style={{ position: "absolute", left: "clamp(20px, 4vw, 80px)", bottom: "clamp(30px, 10vh, 100px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.18)" }}><IconHouseSmall size={250} /></div>
+          <div aria-hidden={true} data-parallax="58" className="ctl-float-decor" style={{ position: "absolute", left: "clamp(20px, 4vw, 80px)", bottom: "clamp(30px, 10vh, 100px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.18)" }}><IconHouseSmall size={250} /></div>
 
           {/* ── Shapes ── */}
           <div className="ctl-float-decor" style={{ position: "absolute", top: "8%", right: "1%", animation: "star-twinkle 4.5s ease-in-out infinite 2s", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
