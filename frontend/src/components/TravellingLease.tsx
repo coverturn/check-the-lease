@@ -139,8 +139,8 @@ export function TravellingLease() {
         // beneath visibly warms/tints as it passes (the "adapting" feel).
         const lg = lightRef.current;
         if (lg) {
-          lg.style.transform = `translate3d(${cx - 220}px, ${cy - 220}px, 0) scale(${cs})`;
-          lg.style.opacity = String(Math.max(0, Math.min(1, co)) * 0.9);
+          lg.style.transform = `translate3d(${cx - 290}px, ${cy - 290}px, 0) scale(${cs})`;
+          lg.style.opacity = String(Math.max(0, Math.min(1, co)));
         }
 
         if (nearestStage !== stageRef.current) {
@@ -167,7 +167,7 @@ export function TravellingLease() {
       ref={lightRef}
       aria-hidden="true"
       className="ctl-trav-light"
-      style={{ position: "fixed", top: 0, left: 0, width: 440, height: 440, borderRadius: "50%", zIndex: 29, pointerEvents: "none", opacity: 0, mixBlendMode: "soft-light", background: `radial-gradient(circle, ${lightColor} 0%, ${lightColor}00 68%)`, transition: "background 0.7s ease", willChange: "transform, opacity" }}
+      style={{ position: "fixed", top: 0, left: 0, width: 580, height: 580, borderRadius: "50%", zIndex: 29, pointerEvents: "none", opacity: 0, background: `radial-gradient(circle, ${lightColor}4d 0%, ${lightColor}24 36%, ${lightColor}00 70%)`, transition: "background 0.7s ease", willChange: "transform, opacity" }}
     />
     <div
       ref={wrapRef}
