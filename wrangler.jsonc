@@ -11,6 +11,9 @@
   "vars": {
     "LLM_PROVIDER": "groq"
   },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "check-the-lease-db", "database_id": "1768499d-8067-402f-9b57-a669776d793c" }
+  ],
   "observability": {
     "enabled": true
   }

@@ -9,6 +9,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Upload from "@/pages/upload";
 import Results from "@/pages/results";
+import SavedReport from "@/pages/saved-report";
 import Example from "@/pages/example";
 import Pricing from "@/pages/pricing";
 import Checkout from "@/pages/checkout";
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/upload" component={Upload} />
       <Route path="/results/:id" component={Results} />
       <Route path="/results" component={Results} />
+      <Route path="/r/:token" component={SavedReport} />
       <Route path="/example" component={Example} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/checkout" component={Checkout} />

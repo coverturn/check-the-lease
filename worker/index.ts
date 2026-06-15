@@ -167,6 +167,53 @@ app.get("/api/verify", async (c) => {
   }
 });
 
+// ── Save a PAID report so the buyer can return to it (stores the report, never the lease file) ──
+app.post("/api/save-report", async (c) => {
+  const key = c.env.STRIPE_SECRET_KEY;
+  let body: { session_id?: string; report?: unknown; intake?: Record<string, unknown> };
+  try { body = await c.req.json(); } catch { return c.json({ error: "Bad request" }, 400); }
+  const { session_id, report, intake } = body || {};
+  if (!report || !session_id) return c.json({ error: "Missing report or session." }, 400);
+  if (!key) return c.json({ error: "Payments not configured." }, 503);
+
+  // Only paid sessions get saved. Email is pulled from Stripe, server-side.
+  let email: string | null = null;
+  try {
+    const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session_id)}`, { headers: { Authorization: `Bearer ${key}` } });
+    const s = await res.json() as { payment_status?: string; customer_details?: { email?: string }; customer_email?: string };
+    if (!res.ok || s.payment_status !== "paid") return c.json({ error: "Payment not verified." }, 402);
+    email = s.customer_details?.email || s.customer_email || null;
+  } catch { return c.json({ error: "Could not verify payment." }, 502); }
+
+  const token = crypto.randomUUID().replace(/-/g, "");
+  const intakeObj = (intake || {}) as Record<string, string | undefined>;
+  try {
+    await c.env.DB.prepare(
+      "INSERT INTO reports (token, email, state, stage, perspective, report_json, stripe_session, created_at) VALUES (?,?,?,?,?,?,?,?)",
+    ).bind(
+      token, email, intakeObj.state ?? null, intakeObj.stage ?? null, intakeObj.perspective ?? null,
+      JSON.stringify({ report, intake: intakeObj }), session_id, Date.now(),
+    ).run();
+    return c.json({ ok: true, token, email });
+  } catch {
+    return c.json({ error: "Could not save report." }, 500);
+  }
+});
+
+// ── Fetch a saved report by its private token (the token is the access key) ──
+app.get("/api/report/:token", async (c) => {
+  const token = c.req.param("token");
+  if (!token) return c.json({ error: "Missing token." }, 400);
+  try {
+    const row = await c.env.DB.prepare("SELECT report_json, created_at FROM reports WHERE token = ?").bind(token).first<{ report_json: string; created_at: number }>();
+    if (!row) return c.json({ error: "Report not found." }, 404);
+    const data = JSON.parse(row.report_json);
+    return c.json({ ok: true, report: data.report, intake: data.intake, created_at: row.created_at });
+  } catch {
+    return c.json({ error: "Could not load report." }, 500);
+  }
+});
+
 // Everything else → static frontend assets (SPA fallback handled by the assets binding).
 app.all("*", (c) => c.env.ASSETS.fetch(c.req.raw));
 

@@ -303,15 +303,35 @@ export default function Results({ demo = false }: { demo?: boolean }) {
     } catch { return demo; }
   });
 
-  // After returning from Stripe, verify the session server-side before unlocking
-  // (a faked ?paid=1 does nothing — only a real paid session flips this).
+  const [savedToken, setSavedToken] = useState<string | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  // After returning from Stripe: verify the session server-side before unlocking
+  // (a faked ?paid=1 does nothing), then save the paid report so the buyer can
+  // return to it later via a private link.
   useEffect(() => {
     try {
       const sid = new URLSearchParams(window.location.search).get("session_id");
-      if (!sid || sessionStorage.getItem("ctl-paid") === "1") return;
+      if (!sid) return;
       fetch(`/api/verify?session_id=${encodeURIComponent(sid)}`)
         .then((r) => r.json())
-        .then((d) => { if (d && d.paid) { try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ } setPaid(true); } })
+        .then((d) => {
+          if (!d || !d.paid) return;
+          try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ }
+          setPaid(true);
+          let already: string | null = null;
+          try { already = localStorage.getItem("ctl-report-token"); } catch { /* noop */ }
+          if (already) { setSavedToken(already); return; }
+          try {
+            const a = JSON.parse(sessionStorage.getItem("ctl-analysis") || "null");
+            const ik = JSON.parse(sessionStorage.getItem("ctl-intake") || "null");
+            if (!a) return;
+            fetch("/api/save-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: sid, report: a, intake: ik || {} }) })
+              .then((r) => r.json())
+              .then((s) => { if (s && s.token) { try { localStorage.setItem("ctl-report-token", s.token); } catch { /* noop */ } setSavedToken(s.token); } })
+              .catch(() => { /* noop */ });
+          } catch { /* noop */ }
+        })
         .catch(() => { /* noop */ });
     } catch { /* noop */ }
   }, []);
@@ -528,6 +548,19 @@ export default function Results({ demo = false }: { demo?: boolean }) {
           </div>
         </div>
 
+        {!LOCKED && savedToken && (
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(20px,3vw,28px) clamp(24px,4vw,48px) 0" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "space-between", backgroundColor: "#F0F6F4", border: "2px solid #5A8B7A", borderRadius: 14, padding: "14px 18px", boxShadow: "3px 3px 0 0 #5A8B7A" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5L6.5 12L13 4" stroke="#5A8B7A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13.5, color: "var(--color-ink)", lineHeight: 1.45 }}>{lang === "es" ? "Guardado. Vuelve a este informe cuando quieras con tu enlace privado." : "Saved. Return to this report anytime with your private link."}</span>
+              </div>
+              <button onClick={() => { try { navigator.clipboard.writeText(`${window.location.origin}/r/${savedToken}`); setLinkCopied(true); setTimeout(() => setLinkCopied(false), 2000); } catch { /* noop */ } }} style={{ flexShrink: 0, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 13, color: "#FBF8F1", backgroundColor: "#5A8B7A", border: "2px solid #171717", borderRadius: 999, padding: "9px 16px", cursor: "pointer", boxShadow: "3px 3px 0 0 #171717" }}>
+                {linkCopied ? (lang === "es" ? "¡Copiado!" : "Copied \u2713") : (lang === "es" ? "Copiar mi enlace" : "Copy my link")}
+              </button>
+            </div>
+          </div>
+        )}
         {LOCKED && (
           <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(28px,4vw,40px) clamp(24px,4vw,48px) 0" }}>
             <div style={{ border: "2.5px solid #171717", borderRadius: 16, overflow: "hidden", boxShadow: "5px 5px 0 0 #5A8B7A", backgroundColor: "var(--color-bone)" }}>

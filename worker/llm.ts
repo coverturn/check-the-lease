@@ -6,6 +6,7 @@ export interface Env {
   GROQ_API_KEY: string;
   ANTHROPIC_API_KEY?: string;
   STRIPE_SECRET_KEY?: string;
+  DB: D1Database;
   LLM_PROVIDER?: string;
 }
 
