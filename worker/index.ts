@@ -127,12 +127,20 @@ app.post("/api/checkout", async (c) => {
   params.set("line_items[0][quantity]", "1");
   params.set("success_url", `${origin}${returnPath}${sep}paid=1&session_id={CHECKOUT_SESSION_ID}`);
   params.set("cancel_url", `${origin}${returnPath}`);
+  const postSession = (body: string) => fetch("https://api.stripe.com/v1/checkout/sessions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+
   try {
-    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/x-www-form-urlencoded" },
-      body: params.toString(),
-    });
+    // Per-session branding so the Checkout header reads "Check the Lease" (not the
+    // Stripe account's business name). If the account/API version doesn't support
+    // branding_settings, fall back to an unbranded session so checkout never breaks.
+    const branded = new URLSearchParams(params);
+    branded.set("branding_settings[display_name]", "Check the Lease");
+    let res = await postSession(branded.toString());
+    if (!res.ok) res = await postSession(params.toString());
     const data = await res.json() as { url?: string; error?: { message?: string } };
     if (!res.ok || !data.url) return c.json({ error: data?.error?.message || "Could not start checkout." }, 502);
     return c.json({ url: data.url });
