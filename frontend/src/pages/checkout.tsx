@@ -55,8 +55,8 @@ export default function Checkout() {
             <div style={{ position: "relative" }}>
               <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(251,248,241,0.6)", marginBottom: 12 }}>Your full lease report</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 9, marginBottom: 22, paddingBottom: 22, borderBottom: "1.5px solid rgba(251,248,241,0.15)" }}>
-                <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,7vw,56px)", letterSpacing: "-0.04em", color: "#FBF8F1", lineHeight: 1 }}>$9.99</span>
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "rgba(251,248,241,0.6)" }}>one-time · no subscription</span>
+                <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,7vw,56px)", letterSpacing: "-0.04em", color: "#FBF8F1", lineHeight: 1 }}>Free</span>
+                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "rgba(251,248,241,0.6)" }}>no account, no card</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 11, marginBottom: 26 }}>
                 {INCLUDED.map((f) => (
@@ -67,7 +67,7 @@ export default function Checkout() {
                 ))}
               </div>
               <button onClick={pay} disabled={status !== "idle"} style={{ width: "100%", display: "inline-flex", justifyContent: "center", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 16, color: NAVY, backgroundColor: "#FBF8F1", border: `2.5px solid ${INK}`, borderRadius: 999, padding: "16px 24px", cursor: status === "idle" ? "pointer" : "default", boxShadow: "5px 5px 0 0 rgba(0,0,0,0.35)", opacity: status === "processing" ? 0.85 : 1 }}>
-                {status === "processing" ? (<><span className="ctl-spin" style={{ width: 16, height: 16, border: "2.5px solid rgba(30,58,95,0.3)", borderTopColor: NAVY, borderRadius: "50%", display: "inline-block" }} /> Redirecting…</>) : "Pay $9.99 securely →"}
+                {status === "processing" ? (<><span className="ctl-spin" style={{ width: 16, height: 16, border: "2.5px solid rgba(30,58,95,0.3)", borderTopColor: NAVY, borderRadius: "50%", display: "inline-block" }} /> Redirecting…</>) : "Continue →"}
               </button>
               {error && <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "#F5C547", margin: "12px 0 0", textAlign: "center" }}>{error}</p>}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, marginTop: 16 }}>

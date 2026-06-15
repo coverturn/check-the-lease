@@ -757,7 +757,7 @@ export default function Home() {
                   id="founder-heading"
                   style={{ margin: 0, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px, 1.8vw, 16px)", color: "var(--color-ink)", lineHeight: 1.75 }}
                 >
-                  "No one should have to sign 35 pages of legal language without help. The scan is free; the full report costs less than lunch."
+                  "No one should have to sign 35 pages of legal language without help. So I made the whole thing free."
                 </blockquote>
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 700, color: "var(--color-ink)", marginTop: 12, marginBottom: 0 }}>Ishmael</p>
                 <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 2 }}>Founder, Check the Lease</p>

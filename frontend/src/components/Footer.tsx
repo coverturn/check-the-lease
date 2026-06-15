@@ -156,10 +156,6 @@ export function Footer() {
                 </Link>
               ))}
             </div>
-            <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: DIM, lineHeight: 1.55, borderTop: `1px solid ${BORDER}`, paddingTop: 14 }}>
-              "I built Check the Lease because no one should have to sign 35 pages of legal language without help."
-              <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, color: DIM, marginTop: 8 }}>- Ishmael</div>
-            </div>
           </div>
         </div>
 

@@ -108,7 +108,7 @@ app.post("/api/chat", async (c) => {
   }
 });
 
-// ── Stripe: create a Checkout Session for the $9.99 one-time full report ──
+// ── Stripe: create a Checkout Session for the full report (dormant — platform is free) ──
 app.post("/api/checkout", async (c) => {
   const key = c.env.STRIPE_SECRET_KEY;
   if (!key) return c.json({ error: "Payments aren't set up yet. Please try again shortly." }, 503);

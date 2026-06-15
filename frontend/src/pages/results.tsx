@@ -451,7 +451,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   // ── Freemium gating ──────────────────────────────────────────────
   // Free quick scan = verdict + score + key terms + top 3 flags.
   // Everything else (full issue list, action plan, missing protections,
-  // negotiation toolkit, financial impact) is unlocked with the $9.99 report.
+  // negotiation toolkit, financial impact) is unlocked with the full report.
   const LOCKED = false; // FREE FOR NOW — full report shown to everyone (paywall code kept, dormant)
   const PREVIEW_LIMIT = 3;
   const orderedIssues = [...highIssues, ...medIssues, ...lowIssues];
@@ -976,7 +976,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
                     <button onClick={goCheckout} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1E3A5F", backgroundColor: "#FBF8F1", border: "2.5px solid #FBF8F1", borderRadius: 999, padding: "16px 30px", cursor: "pointer", boxShadow: "5px 5px 0 0 rgba(251,248,241,0.25)" }}>
-                      {lang === "es" ? "Desbloquear por $9.99 →" : "Unlock every issue · $9.99 →"}
+                      {lang === "es" ? "Desbloquear todos los problemas →" : "Unlock every issue →"}
                     </button>
                     <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12.5, color: "rgba(251,248,241,0.6)", lineHeight: 1.5 }}>
                       {lang === "es" ? "Pago único · Sin suscripción · Nunca guardamos tu contrato" : "One-time payment · No subscription · Your lease is never stored"}
@@ -1198,7 +1198,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
             {LOCKED ? (
               <>
                 <button onClick={goCheckout} style={{ marginTop: 28, display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FBF8F1", backgroundColor: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 999, padding: "16px 32px", cursor: "pointer", boxShadow: "4px 4px 0 0 #171717", transition: "transform 0.1s ease" }}>
-                  {lang === "es" ? "Desbloquear el informe completo · $9.99 →" : "Unlock the full report · $9.99 →"}
+                  {lang === "es" ? "Desbloquear el informe completo →" : "Unlock the full report →"}
                 </button>
                 <a href="/upload" style={{ marginTop: 16, fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink-muted)", textDecoration: "underline", textUnderlineOffset: 3 }}>
                   {lang === "es" ? "o analizar otro contrato" : "or check another lease"}
@@ -1221,7 +1221,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
               {lang === "es" ? `Tu escaneo encontró ${totalIssueCount} problema${totalIssueCount === 1 ? "" : "s"} — ve el informe completo` : `Your scan found ${totalIssueCount} issue${totalIssueCount === 1 ? "" : "s"} — see the full report`}
             </span>
             <button onClick={goCheckout} style={{ fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 14, color: "#171717", backgroundColor: "#F5C547", border: "2.5px solid #171717", borderRadius: 999, padding: "11px 22px", cursor: "pointer", boxShadow: "3px 3px 0 0 #171717", whiteSpace: "nowrap" }}>
-              {lang === "es" ? "Desbloquear · $9.99 →" : "Unlock full report · $9.99 →"}
+              {lang === "es" ? "Desbloquear informe →" : "Unlock full report →"}
             </button>
           </div>
         </div>
