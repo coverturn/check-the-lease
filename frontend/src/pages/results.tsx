@@ -247,6 +247,23 @@ function CopyButton({ text, label = "Copy", lang }: { text: string; label?: stri
   );
 }
 
+function ResultsCountUp({ value }: { value: number }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setN(value); return; }
+    let raf = 0; const t0 = performance.now(); const dur = 1000;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      setN(Math.max(0, Math.min(value, Math.round(e * value))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return <>{n}</>;
+}
+
 export default function Results({ demo = false }: { demo?: boolean }) {
   const { lang } = useLanguage();
   const t = useT(lang);
@@ -264,12 +281,12 @@ export default function Results({ demo = false }: { demo?: boolean }) {
     try { return !sessionStorage.getItem("ctl-analysis"); } catch { return false; }
   });
   const [paid, setPaid] = useState<boolean>(() => {
-    if (demo) return true;
     try {
       const u = new URLSearchParams(window.location.search);
+      if (demo) return u.get("locked") !== "1"; // example is unlocked unless ?locked=1 (paywall preview)
       if (u.get("paid") === "1" || u.get("unlocked") === "1") return true;
       return sessionStorage.getItem("ctl-paid") === "1";
-    } catch { return false; }
+    } catch { return demo; }
   });
 
   useEffect(() => {
@@ -360,7 +377,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
     ? analysis.missing_protections.landlord
     : [...analysis.missing_protections.renter, ...analysis.missing_protections.landlord.filter(p => p.helps === "both" && !analysis.missing_protections.renter.some(r => r.title === p.title))];
 
-  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+  const checkedCount = questions.reduce((acc, _q, i) => acc + (checkedItems[i] ? 1 : 0), 0);
   const highIssues = analysis.potential_issues.filter(i => i.severity === "high");
   const medIssues = analysis.potential_issues.filter(i => i.severity === "medium");
   const lowIssues = analysis.potential_issues.filter(i => i.severity === "low");
@@ -437,7 +454,9 @@ export default function Results({ demo = false }: { demo?: boolean }) {
       <main id="main" style={{ flex: 1, width: "100%" }} role="main" aria-live="polite" aria-atomic="false">
 
         <div style={{ background: "#1E3A5F", position: "relative", overflow: "hidden" }}>
-          <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(24px,4vw,48px) clamp(32px,5vw,48px)" }}>
+          <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(251,248,241,0.06) 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", pointerEvents: "none" }} />
+          <div aria-hidden={true} style={{ position: "absolute", top: "-30%", right: "-12%", width: "60%", height: "150%", background: "radial-gradient(circle, rgba(201,122,74,0.20) 0%, transparent 62%)", pointerEvents: "none" }} />
+          <div style={{ position: "relative", zIndex: 1, maxWidth: 960, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(24px,4vw,48px) clamp(32px,5vw,48px)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
               <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(251,248,241,0.5)" }}>
                 {stateLabel} · {intake.stage === "before" ? t("results_pre_label") : t("results_post_label")} · {intake.perspective === "both" ? t("results_both_label") : intake.perspective === "renter" ? t("results_renter_label") : t("results_landlord_label")}
@@ -472,7 +491,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                 const hero = i === 0;
                 return (
                   <div key={i} style={{ background: hero ? statTile.color : "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 16, padding: "clamp(16px,2.5vw,24px)", boxShadow: `4px 4px 0 0 ${hero ? "#171717" : statTile.color}` }}>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: hero ? "clamp(52px,9vw,82px)" : "clamp(36px,6vw,54px)", color: hero ? "#FBF8F1" : statTile.color, letterSpacing: "-0.04em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{statTile.n}</div>
+                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: hero ? "clamp(52px,9vw,82px)" : "clamp(36px,6vw,54px)", color: hero ? "#FBF8F1" : statTile.color, letterSpacing: "-0.04em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}><ResultsCountUp value={statTile.n} /></div>
                     <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, color: hero ? "rgba(251,248,241,0.78)" : "var(--color-ink-muted)", marginTop: 6, lineHeight: 1.45, whiteSpace: "pre-line" }}>{statTile.label}</div>
                   </div>
                 );
@@ -595,7 +614,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
 
             <div style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ flex: 1, height: 10, backgroundColor: "rgba(30,58,95,0.1)", borderRadius: 999, border: "1.5px solid rgba(30,58,95,0.2)", overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${(checkedCount / questions.length) * 100}%`, backgroundColor: "#1E3A5F", borderRadius: 999, transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)" }} />
+                <div style={{ height: "100%", width: `${(checkedCount / Math.max(1, questions.length)) * 100}%`, backgroundColor: "#1E3A5F", borderRadius: 999, transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)" }} />
               </div>
               <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, color: "#1E3A5F", flexShrink: 0, minWidth: 48, textAlign: "right" }}>
                 {checkedCount}/{questions.length}
@@ -785,8 +804,9 @@ export default function Results({ demo = false }: { demo?: boolean }) {
 
           {LOCKED && (
             <section aria-labelledby="paywall-heading" style={{ marginBottom: "clamp(48px,7vw,80px)" }}>
-              <div style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 20, overflow: "hidden", boxShadow: "8px 8px 0 0 #171717" }}>
-                <div style={{ padding: "clamp(28px,4vw,44px)" }}>
+              <div style={{ background: "#1E3A5F", border: "2.5px solid #171717", borderRadius: 20, overflow: "hidden", boxShadow: "8px 8px 0 0 #171717", position: "relative" }}>
+                <div aria-hidden={true} style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(251,248,241,0.06) 1.5px, transparent 1.5px)", backgroundSize: "20px 20px", pointerEvents: "none" }} />
+                <div style={{ position: "relative", zIndex: 1, padding: "clamp(28px,4vw,44px)" }}>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: "rgba(251,248,241,0.1)", border: "1.5px solid rgba(251,248,241,0.25)", borderRadius: 999, padding: "6px 14px", marginBottom: 18 }}>
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#FBF8F1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FBF8F1" }}>
@@ -794,7 +814,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                     </span>
                   </div>
                   <h2 id="paywall-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.6vw,40px)", color: "#FBF8F1", letterSpacing: "-0.03em", lineHeight: 1.05, margin: "0 0 12px" }}>
-                    {lang === "es" ? "Desbloquea el informe completo." : "Unlock your full lease report."}
+                    {lang === "es" ? "Arr\u00e9glalo antes de firmar." : "See every problem \u2014 before you sign."}
                   </h2>
                   <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.7)", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 520 }}>
                     {lang === "es"
@@ -814,7 +834,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
                     <button onClick={goCheckout} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1E3A5F", backgroundColor: "#FBF8F1", border: "2.5px solid #FBF8F1", borderRadius: 999, padding: "16px 30px", cursor: "pointer", boxShadow: "5px 5px 0 0 rgba(251,248,241,0.25)" }}>
-                      {lang === "es" ? "Desbloquear por $9.99 →" : "Unlock full report · $9.99 →"}
+                      {lang === "es" ? "Desbloquear por $9.99 →" : "Unlock every issue · $9.99 →"}
                     </button>
                     <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12.5, color: "rgba(251,248,241,0.6)", lineHeight: 1.5 }}>
                       {lang === "es" ? "Pago único · Sin suscripción · Nunca guardamos tu contrato" : "One-time payment · No subscription · Your lease is never stored"}
