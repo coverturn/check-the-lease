@@ -37,19 +37,19 @@ const PAID_FEATURES = [
 const FAQ = [
   {
     q: "Is the scan really free?",
-    a: "Yes. The lease health score, top red flags, key terms and your state's resources are free, with no account and no card. You only pay if you want the full report.",
+    a: "Yes — the whole thing is free right now: the scan and the full report, with no account and no card.",
   },
   {
-    q: "What does the $9.99 get me?",
+    q: "What's in the full report?",
     a: "A complete clause-by-clause report: every flagged issue with a severity score, the protections your lease is missing, the financial impact, and negotiation scripts you can send your landlord today — plus a PDF you can keep.",
   },
   {
     q: "Is it a subscription?",
-    a: "No. It's a one-time $9.99 payment per report. No recurring charge, nothing to cancel.",
+    a: "No — there's nothing to pay and nothing to cancel. It's free.",
   },
   {
     q: "Is my lease stored anywhere?",
-    a: "Your lease is analyzed in seconds and never stored. Your report is held securely for 24 hours so you can open it after payment, then deleted. No account, no data kept.",
+    a: "Your lease file is analyzed in seconds and never stored. Your report is saved to a private link so you can return to it — nothing else is kept, and there's no account.",
   },
 ];
 
@@ -66,10 +66,10 @@ export default function Pricing() {
           <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
             <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(251,248,241,0.5)", marginBottom: 18 }}>Pricing</div>
             <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(34px,5.5vw,60px)", letterSpacing: "-0.035em", lineHeight: 1.02, color: "#FBF8F1", margin: "0 0 16px" }}>
-              One lease. <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.5)" }}>One small price.</em>
+              One lease. <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.5)" }}>Read it free.</em>
             </h1>
             <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(15px,1.8vw,18px)", color: "rgba(251,248,241,0.65)", lineHeight: 1.6, maxWidth: 520, margin: "0 auto" }}>
-              A lawyer to review a lease runs $200–500. Check the Lease gives you a free scan, and a full report for less than lunch — no subscription.
+              A lawyer to review a lease runs $200–500. Check the Lease gives you the whole thing — scan and full report — free.
             </p>
           </div>
         </section>
@@ -100,8 +100,8 @@ export default function Pricing() {
               <div style={{ position: "absolute", top: -14, right: 24, backgroundColor: "#C97A4A", color: "#FBF8F1", border: `2px solid ${INK}`, borderRadius: 999, padding: "4px 14px", fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>Most popular</div>
               <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(251,248,241,0.65)", marginBottom: 14 }}>Full Report</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,6vw,60px)", letterSpacing: "-0.04em", color: "#FBF8F1", lineHeight: 1 }}>$9.99</span>
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.6)" }}>one-time</span>
+                <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(44px,6vw,60px)", letterSpacing: "-0.04em", color: "#FBF8F1", lineHeight: 1 }}>Free</span>
+                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.6)" }}>no card, no catch</span>
               </div>
               <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "rgba(251,248,241,0.7)", margin: "0 0 24px", lineHeight: 1.5 }}>The complete review before you sign — diagnosis and what to do about it.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 11, marginBottom: 28, flex: 1 }}>
@@ -110,14 +110,14 @@ export default function Pricing() {
                 ))}
               </div>
               <Link href="/upload" style={{ display: "inline-flex", justifyContent: "center", alignItems: "center", gap: 8, fontFamily: "var(--app-font-sans)", fontWeight: 700, fontSize: 15, color: NAVY, backgroundColor: "#FBF8F1", border: "2.5px solid #FBF8F1", borderRadius: 999, padding: "14px 24px", textDecoration: "none", boxShadow: "4px 4px 0 0 rgba(251,248,241,0.25)" }}>
-                Scan, then unlock →
+                Start free scan →
               </Link>
-              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.55)", margin: "14px 0 0", textAlign: "center" }}>One-time payment · No subscription · 48-hr money-back if it fails technically</p>
+              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.55)", margin: "14px 0 0", textAlign: "center" }}>Free · No account · Your lease is never stored</p>
             </div>
           </div>
 
           <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px,1.6vw,17px)", color: "var(--color-ink-muted)", textAlign: "center", maxWidth: 560, margin: "clamp(32px,4vw,48px) auto 0" }}>
-            See the full report before you pay — open the <Link href="/example" style={{ color: SAGE, fontStyle: "normal", fontWeight: 600 }}>example report</Link>.
+            See a full example report — open the <Link href="/example" style={{ color: SAGE, fontStyle: "normal", fontWeight: 600 }}>example report</Link>.
           </p>
         </section>
 

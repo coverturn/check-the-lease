@@ -22,6 +22,7 @@ export default function SavedReport() {
           if (d.intake) sessionStorage.setItem("ctl-intake", JSON.stringify(d.intake));
           sessionStorage.setItem("ctl-paid", "1");
           localStorage.setItem("ctl-report-token", token);
+          sessionStorage.setItem("ctl-saved-token", token);
         } catch { /* noop */ }
         navigate("/results");
       })

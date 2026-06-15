@@ -165,7 +165,7 @@ export default function Upload() {
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
       sessionStorage.setItem("ctl-intake", JSON.stringify(sampleIntake));
       sessionStorage.setItem("ctl-analysis", JSON.stringify(data.analysis));
-      sessionStorage.removeItem("ctl-paid"); // new scan starts locked until unlocked
+      sessionStorage.removeItem("ctl-paid"); sessionStorage.removeItem("ctl-saved-token"); // new scan = fresh report
       if (data.leaseText) sessionStorage.setItem("ctl-lease-text", data.leaseText);
       navigate("/results/demo");
     } catch (err: unknown) {
@@ -192,7 +192,7 @@ export default function Upload() {
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
       sessionStorage.setItem("ctl-intake", JSON.stringify(intake));
       sessionStorage.setItem("ctl-analysis", JSON.stringify(data.analysis));
-      sessionStorage.removeItem("ctl-paid"); // new scan starts locked until unlocked
+      sessionStorage.removeItem("ctl-paid"); sessionStorage.removeItem("ctl-saved-token"); // new scan = fresh report
       if (data.leaseText) sessionStorage.setItem("ctl-lease-text", data.leaseText);
       navigate(`/results/${Math.random().toString(36).slice(2, 10)}`);
     } catch (err: unknown) {
@@ -299,7 +299,7 @@ export default function Upload() {
                 Read it once. <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.4)" }}>Know it completely.</em>
               </h1>
               <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.4vw,15px)", color: "rgba(251,248,241,0.5)", lineHeight: 1.65, maxWidth: 520, margin: 0 }}>
-                Analyzed in seconds, then discarded — your lease is never stored. No account, no email. Free scan, full report $9.99.
+                Analyzed in seconds, then discarded — your lease is never stored. No account, no email, no payment. Free scan and full report.
               </p>
             </div>
           </div>

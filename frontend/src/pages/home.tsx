@@ -284,7 +284,7 @@ export default function Home() {
                   animation: `ctl-fade-up 0.55s 0.12s ${EASE} both`,
                 }}
               >
-                Signing one or issuing one — a free scan shows you what won't hold up in court, in 15 seconds. Full report $9.99. No subscription.
+                Signing one or issuing one — a free scan shows you what won't hold up in court, in 15 seconds. Full report, free. No account, no catch.
               </p>
 
               {/* Hero action: pick your state → start free scan (the first step, surfaced) */}
@@ -683,7 +683,7 @@ export default function Home() {
                   position: "relative",
                 }}
               >
-                Free scan, no account required. Unlock the full report for $9.99 — one-time, no subscription. Renters and landlords, all 50 states.
+                Free, no account required. Every flagged clause, the missing protections, and exactly what to say — at no cost. Renters and landlords, all 50 states.
               </p>
 
               <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", position: "relative" }}>

@@ -173,17 +173,19 @@ app.post("/api/save-report", async (c) => {
   let body: { session_id?: string; report?: unknown; intake?: Record<string, unknown> };
   try { body = await c.req.json(); } catch { return c.json({ error: "Bad request" }, 400); }
   const { session_id, report, intake } = body || {};
-  if (!report || !session_id) return c.json({ error: "Missing report or session." }, 400);
-  if (!key) return c.json({ error: "Payments not configured." }, 503);
+  if (!report) return c.json({ error: "Missing report." }, 400);
 
-  // Only paid sessions get saved. Email is pulled from Stripe, server-side.
+  // Free mode: any scan can be saved so the reader can return to it via a private
+  // link. If a paid Stripe session is supplied (payments re-enabled later), verify
+  // it and capture the email; otherwise just save.
   let email: string | null = null;
-  try {
-    const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session_id)}`, { headers: { Authorization: `Bearer ${key}` } });
-    const s = await res.json() as { payment_status?: string; customer_details?: { email?: string }; customer_email?: string };
-    if (!res.ok || s.payment_status !== "paid") return c.json({ error: "Payment not verified." }, 402);
-    email = s.customer_details?.email || s.customer_email || null;
-  } catch { return c.json({ error: "Could not verify payment." }, 502); }
+  if (session_id && key) {
+    try {
+      const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session_id)}`, { headers: { Authorization: `Bearer ${key}` } });
+      const s = await res.json() as { payment_status?: string; customer_details?: { email?: string }; customer_email?: string };
+      if (res.ok && s.payment_status === "paid") email = s.customer_details?.email || s.customer_email || null;
+    } catch { /* free mode still saves */ }
+  }
 
   const token = crypto.randomUUID().replace(/-/g, "");
   const intakeObj = (intake || {}) as Record<string, string | undefined>;
@@ -192,7 +194,7 @@ app.post("/api/save-report", async (c) => {
       "INSERT INTO reports (token, email, state, stage, perspective, report_json, stripe_session, created_at) VALUES (?,?,?,?,?,?,?,?)",
     ).bind(
       token, email, intakeObj.state ?? null, intakeObj.stage ?? null, intakeObj.perspective ?? null,
-      JSON.stringify({ report, intake: intakeObj }), session_id, Date.now(),
+      JSON.stringify({ report, intake: intakeObj }), session_id ?? null, Date.now(),
     ).run();
     return c.json({ ok: true, token, email });
   } catch {

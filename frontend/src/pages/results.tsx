@@ -309,6 +309,21 @@ export default function Results({ demo = false }: { demo?: boolean }) {
 
   useEffect(() => { if (!demo) track("results_view"); }, []);
 
+  // Free mode: save the report so the reader can return via a private link.
+  useEffect(() => {
+    if (demo) return;
+    let flag: string | null = null;
+    try { flag = sessionStorage.getItem("ctl-saved-token"); } catch { /* noop */ }
+    if (flag) { setSavedToken(flag); return; }
+    let a = null, ik = null;
+    try { a = JSON.parse(sessionStorage.getItem("ctl-analysis") || "null"); ik = JSON.parse(sessionStorage.getItem("ctl-intake") || "null"); } catch { /* noop */ }
+    if (!a) return;
+    fetch("/api/save-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ report: a, intake: ik || {} }) })
+      .then((r) => r.json())
+      .then((s) => { if (s && s.token) { try { sessionStorage.setItem("ctl-saved-token", s.token); } catch { /* noop */ } setSavedToken(s.token); track("report_saved"); } })
+      .catch(() => { /* noop */ });
+  }, []);
+
   // After returning from Stripe: verify the session server-side before unlocking
   // (a faked ?paid=1 does nothing), then save the paid report so the buyer can
   // return to it later via a private link.
@@ -437,7 +452,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   // Free quick scan = verdict + score + key terms + top 3 flags.
   // Everything else (full issue list, action plan, missing protections,
   // negotiation toolkit, financial impact) is unlocked with the $9.99 report.
-  const LOCKED = !paid;
+  const LOCKED = false; // FREE FOR NOW — full report shown to everyone (paywall code kept, dormant)
   const PREVIEW_LIMIT = 3;
   const orderedIssues = [...highIssues, ...medIssues, ...lowIssues];
   const totalIssueCount = analysis.potential_issues.length;
@@ -649,7 +664,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
               { id: "section-terms", label: lang === "es" ? "Términos" : "Key terms" },
               { id: "section-issues", label: lang === "es" ? "Riesgos" : "Issues" },
               { id: "section-protections", label: lang === "es" ? "Vacíos" : "Gaps" },
-            ].filter(({ id }) => paid || (id !== "section-action" && id !== "section-protections")).map(({ id, label }) => {
+            ].filter(({ id }) => !LOCKED || paid || (id !== "section-action" && id !== "section-protections")).map(({ id, label }) => {
               const isActive = activeSection === id;
               return (
                 <a
