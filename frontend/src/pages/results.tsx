@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { track } from "@/lib/track";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -306,6 +307,8 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   const [savedToken, setSavedToken] = useState<string | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
 
+  useEffect(() => { if (!demo) track("results_view"); }, []);
+
   // After returning from Stripe: verify the session server-side before unlocking
   // (a faked ?paid=1 does nothing), then save the paid report so the buyer can
   // return to it later via a private link.
@@ -319,6 +322,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
           if (!d || !d.paid) return;
           try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ }
           setPaid(true);
+          track("paid");
           let already: string | null = null;
           try { already = localStorage.getItem("ctl-report-token"); } catch { /* noop */ }
           if (already) { setSavedToken(already); return; }
@@ -328,7 +332,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
             if (!a) return;
             fetch("/api/save-report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: sid, report: a, intake: ik || {} }) })
               .then((r) => r.json())
-              .then((s) => { if (s && s.token) { try { localStorage.setItem("ctl-report-token", s.token); } catch { /* noop */ } setSavedToken(s.token); } })
+              .then((s) => { if (s && s.token) { try { localStorage.setItem("ctl-report-token", s.token); } catch { /* noop */ } setSavedToken(s.token); track("report_saved"); } })
               .catch(() => { /* noop */ });
           } catch { /* noop */ }
         })

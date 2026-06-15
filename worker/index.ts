@@ -214,6 +214,26 @@ app.get("/api/report/:token", async (c) => {
   }
 });
 
+// ── First-party funnel analytics: log a lightweight event (no cookies, no PII) ──
+app.post("/api/event", async (c) => {
+  let b: { name?: string; anon?: string; path?: string; ref?: string; meta?: unknown };
+  try { b = await c.req.json(); } catch { return c.json({ ok: false }); }
+  const name = typeof b?.name === "string" ? b.name.slice(0, 40) : "";
+  if (!name) return c.json({ ok: false });
+  try {
+    await c.env.DB.prepare("INSERT INTO events (name, anon, path, ref, meta, created_at) VALUES (?,?,?,?,?,?)")
+      .bind(
+        name,
+        (b.anon ? String(b.anon).slice(0, 40) : null),
+        (b.path ? String(b.path).slice(0, 120) : null),
+        (b.ref ? String(b.ref).slice(0, 120) : null),
+        (b.meta != null ? JSON.stringify(b.meta).slice(0, 500) : null),
+        Date.now(),
+      ).run();
+  } catch { /* analytics must never break the app */ }
+  return c.json({ ok: true });
+});
+
 // Everything else → static frontend assets (SPA fallback handled by the assets binding).
 app.all("*", (c) => c.env.ASSETS.fetch(c.req.raw));
 

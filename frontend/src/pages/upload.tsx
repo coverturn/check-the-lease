@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
+import { track } from "@/lib/track";
 import { useLocation } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
@@ -95,6 +96,8 @@ export default function Upload() {
   const fileURL = useMemo(() => (form.file ? URL.createObjectURL(form.file) : null), [form.file]);
   useEffect(() => () => { if (fileURL) URL.revokeObjectURL(fileURL); }, [fileURL]);
 
+  useEffect(() => { track("upload_view"); }, []);
+
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -145,6 +148,7 @@ export default function Upload() {
   const loadSampleLease = async () => {
     setIsAnalysing(true);
     setError(null);
+    track("scan_started", { source: "sample" });
     try {
       const res = await fetch("/sample-lease.pdf");
       const blob = await res.blob();
@@ -177,6 +181,7 @@ export default function Upload() {
     if (!isFormValid || !form.file || !form.state) return;
     setIsAnalysing(true);
     setError(null);
+    track("scan_started", { source: "upload" });
     try {
       const formData = new FormData();
       formData.append("lease", form.file);

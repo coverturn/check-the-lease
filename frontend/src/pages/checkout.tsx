@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { track } from "@/lib/track";
 import { Link } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
@@ -22,9 +23,12 @@ export default function Checkout() {
   const [status, setStatus] = useState<"idle" | "processing">("idle");
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => { track("checkout_view"); }, []);
+
   const pay = async () => {
     setError(null);
     setStatus("processing");
+    track("checkout_started");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",

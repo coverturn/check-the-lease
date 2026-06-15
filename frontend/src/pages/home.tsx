@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { track } from "@/lib/track";
 import { Link, useLocation } from "wouter";
 import { STATE_GUIDES } from "@/lib/guide-data";
 import { SkipLink } from "@/components/SkipLink";
@@ -128,6 +129,7 @@ const PROBLEM_CLAUSES = [
 export default function Home() {
   useScrollReveal();
   useParallax();
+  useEffect(() => { track("home_view"); }, []);
   const [, navigate] = useLocation();
 
   const [ctaHover, setCtaHover] = useState(false);
