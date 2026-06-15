@@ -18,6 +18,8 @@ export const KeyTermSchema = z.object({
   label: z.string(),
   value: z.string(),
   original_quote: z.string().optional(),
+  status: z.enum(["standard", "check", "flag"]).optional(),
+  note: z.string().optional(),
 });
 
 export const PotentialIssueSchema = z.object({

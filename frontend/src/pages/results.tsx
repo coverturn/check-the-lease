@@ -17,7 +17,7 @@ type IntakeState = {
   reviewingForSomeoneElse: boolean;
 };
 
-type KeyTerm = { label: string; value: string; original_quote?: string };
+type KeyTerm = { label: string; value: string; original_quote?: string; status?: "standard" | "check" | "flag"; note?: string };
 type PotentialIssue = { severity: "low" | "medium" | "high"; title: string; explanation: string; citation?: string; original_quote?: string };
 type MissingProtection = { title: string; explanation: string; helps: "renter" | "landlord" | "both" };
 type ParentConsideration = { title: string; explanation: string };
@@ -40,10 +40,14 @@ const DEFAULT_INTAKE: IntakeState = { state: "CA", stage: "before", perspective:
 
 const PLACEHOLDER_ANALYSIS: AnalysisResult = {
   key_terms: [
-    { label: "RENT", value: "$3,200/month" }, { label: "SECURITY DEPOSIT", value: "$9,600" },
-    { label: "LATE FEE", value: "Unspecified" }, { label: "LEASE TERM", value: "12 months" },
-    { label: "RENEWAL", value: "Auto-renews · 90 days notice" }, { label: "ENTRY NOTICE", value: "None specified" },
-    { label: "PETS", value: "$500/pet non-refundable" }, { label: "UTILITIES", value: "Tenant responsible" },
+    { label: "RENT", value: "$3,200/month", status: "standard", note: "In a normal range for the area." },
+    { label: "SECURITY DEPOSIT", value: "$9,600", status: "flag", note: "Exceeds California's 2-month cap (~$6,400) by about $3,200." },
+    { label: "LATE FEE", value: "Unspecified", status: "check", note: "No fixed amount given. 'As determined by landlord' is likely unenforceable in California." },
+    { label: "LEASE TERM", value: "12 months", status: "standard", note: "Standard fixed term." },
+    { label: "RENEWAL", value: "Auto-renews · 90 days notice", status: "check", note: "A 90-day notice window is long; most leases use 30 days." },
+    { label: "ENTRY NOTICE", value: "None specified", status: "flag", note: "California requires at least 24 hours' written notice for non-emergency entry." },
+    { label: "PETS", value: "$500/pet non-refundable", status: "check", note: "Non-refundable pet fees are limited or banned in several states." },
+    { label: "UTILITIES", value: "Tenant responsible", status: "standard", note: "Common arrangement." },
   ],
   potential_issues: [
     { severity: "high", title: "Security deposit exceeds the legal cap.", explanation: "California limits residential security deposits to two months' rent for unfurnished units. This lease asks for three months' rent. That's $3,200 over the legal maximum.", citation: "Cal. Civ. Code § 1950.5" },
@@ -698,14 +702,34 @@ export default function Results({ demo = false }: { demo?: boolean }) {
             <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", marginBottom: 24, lineHeight: 1.5 }}>
               {lang === "es" ? "Los números más importantes del contrato. Usa estos para comparar con la ley de tu estado." : "The key numbers from your lease. Use these to compare against state law and typical terms."}
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))", gap: 10 }} className="action-cards-grid">
-              {analysis.key_terms.map((term, i) => (
-                <div key={i} style={{ backgroundColor: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 14, padding: "20px 22px", boxShadow: "4px 4px 0 0 #171717", position: "relative", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", bottom: -6, right: 12, fontFamily: "var(--app-font-serif)", fontWeight: 900, fontSize: 80, color: "rgba(23,23,23,0.03)", lineHeight: 1, userSelect: "none", pointerEvents: "none" }}>{i + 1}</div>
-                  <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--color-sage)", marginBottom: 10 }}>{term.label}</div>
-                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(18px,2.5vw,22px)", color: "var(--color-ink)", letterSpacing: "-0.02em", lineHeight: 1.25 }}>{term.value}</div>
-                </div>
-              ))}
+            <div style={{ border: "2.5px solid #171717", borderRadius: 16, overflow: "hidden", boxShadow: "5px 5px 0 0 #171717", backgroundColor: "var(--color-bone)" }}>
+              {analysis.key_terms.map((term, i) => {
+                const st = term.status === "flag" ? { c: "#7A2C3D", bg: "rgba(122,44,61,0.09)", label: lang === "es" ? "Marcado" : "Flagged" }
+                  : term.status === "check" ? { c: "#C97A4A", bg: "rgba(201,122,74,0.12)", label: lang === "es" ? "Revisar" : "Check this" }
+                  : term.status === "standard" ? { c: "#5A8B7A", bg: "rgba(90,139,122,0.12)", label: lang === "es" ? "Normal" : "Standard" }
+                  : null;
+                const last = i === analysis.key_terms.length - 1;
+                return (
+                  <div key={i} style={{ padding: "16px 22px", borderBottom: last ? "none" : "1.5px solid rgba(23,23,23,0.08)", backgroundColor: term.status === "flag" && !LOCKED ? "rgba(122,44,61,0.035)" : "transparent" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--color-ink-muted)", marginBottom: 4 }}>{term.label}</div>
+                        <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(17px,2.2vw,21px)", color: "var(--color-ink)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>{term.value}</div>
+                      </div>
+                      {st && (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, flexShrink: 0, fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: st.c, backgroundColor: st.bg, border: "1.5px solid " + st.c, borderRadius: 999, padding: "5px 12px" }}>
+                          {term.status !== "standard" && <span aria-hidden="true" style={{ fontWeight: 800 }}>!</span>}{st.label}
+                        </span>
+                      )}
+                    </div>
+                    {st && term.note && term.status !== "standard" && (!LOCKED ? (
+                      <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.55, marginTop: 10 }}>{term.note}</div>
+                    ) : (
+                      <button onClick={goCheckout} style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: "var(--app-font-sans)", fontSize: 12.5, fontWeight: 600, color: st.c }}>{lang === "es" ? "Desbloquear para ver por qué →" : "Unlock to see why →"}</button>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           </section>
 

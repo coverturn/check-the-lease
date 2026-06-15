@@ -21,7 +21,7 @@ Return ONLY valid JSON matching the schema. No prose outside the JSON. No markdo
 
 const JSON_SCHEMA_PREAMBLE = `JSON SCHEMA TO RETURN:
 {
-  "key_terms": [{ "label": "Rent", "value": "$X/month", "original_quote": "..." }],
+  "key_terms": [{ "label": "Rent", "value": "$X/month", "original_quote": "...", "status": "standard|check|flag", "note": "one line on how this compares to state law or typical terms" }],
   "potential_issues": [{ "severity": "low|medium|high", "title": "...", "explanation": "...", "citation": "...", "original_quote": "..." }],
   "missing_protections": { "renter": [{ "title": "...", "explanation": "...", "helps": "renter" }], "landlord": [{ "title": "...", "explanation": "...", "helps": "landlord" }] },
   "parent_considerations": [{ "title": "...", "explanation": "..." }],
@@ -31,7 +31,7 @@ const JSON_SCHEMA_PREAMBLE = `JSON SCHEMA TO RETURN:
   "stats": { "potential_issues": N, "missing_protections": N, "questions": N }
 }
 NOTE: parent_considerations is OPTIONAL — only include it when explicitly instructed.
-Include 6-10 key terms (Rent, Security Deposit, Late Fee, Lease Term, Renewal, Entry Notice, Pets, Termination, Repairs, Utilities — extract actual values or write "Not specified"). Include all material issues found. Missing protections: 2-5 per side. Questions: 5-8. stats.missing_protections = total across both arrays. "citation" is optional on each issue — include it ONLY when it comes from the provided STATE LAW context.
+Include 6-10 key terms (Rent, Security Deposit, Late Fee, Lease Term, Renewal, Entry Notice, Pets, Termination, Repairs, Utilities — extract actual values or write "Not specified"). For EACH key term set "status": "flag" if the value violates or exceeds the provided STATE LAW context, "check" if it is vague, unusual, or worth clarifying, or "standard" if it is normal; for "flag" and "check" add a one-line "note" explaining why (reference the state-law context where relevant). Use "flag"/"check" only when justified. Include all material issues found. Missing protections: 2-5 per side. Questions: 5-8. stats.missing_protections = total across both arrays. "citation" is optional on each issue — include it ONLY when it comes from the provided STATE LAW context.
 
 ALWAYS include "financial_impact": estimate the costs the user could REALISTICALLY and TYPICALLY face based on the flagged issues and the lease's actual numbers — not the absolute worst case. Cover items like late fees, admin/processing fees, early-termination charges, rent escalation, mandatory services/fees, and any deposit at risk. 3-6 items. Use the lease's real figures where present; otherwise reason from typical terms and say so in "basis". Be grounded and conservative: do NOT assume the maximum possible (e.g. do not assume the tenant pays every remaining month of rent unless the lease clearly states that); estimate what a typical renter in this situation would more likely face. Phrase amounts as approximate ranges ("~", "up to", a range). "total_estimate" is a plain, believable range over the lease term — keep it proportionate to the rent and deposit, not alarmist. Keep "note" reminding it is informational only, not financial advice.
 
