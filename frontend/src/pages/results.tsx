@@ -505,19 +505,6 @@ export default function Results({ demo = false }: { demo?: boolean }) {
       <SkipLink />
       <Nav showAnalyseAnother={true} />
 
-      {demo && (
-        <div style={{ backgroundColor: "#5A8B7A", color: "#FBF8F1", padding: "10px 24px", textAlign: "center" }}>
-          <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 600 }}>
-              {lang === "es" ? "Informe de ejemplo — así se ve un informe completo, gratis." : "Example report — this is what every full report looks like. Free."}
-            </span>
-            <a href="/upload" style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: 700, color: "#FBF8F1", textDecoration: "underline", textUnderlineOffset: 2 }}>
-              {lang === "es" ? "Escanea el tuyo gratis →" : "Scan your own lease free →"}
-            </a>
-          </div>
-        </div>
-      )}
-
       <main id="main" style={{ flex: 1, width: "100%" }} role="main" aria-live="polite" aria-atomic="false">
 
         <div style={{ background: "#1E3A5F", position: "relative", overflow: "hidden" }}>
