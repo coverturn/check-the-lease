@@ -5,6 +5,7 @@ export interface Env {
   ASSETS: Fetcher;
   GROQ_API_KEY: string;
   ANTHROPIC_API_KEY?: string;
+  STRIPE_SECRET_KEY?: string;
   LLM_PROVIDER?: string;
 }
 

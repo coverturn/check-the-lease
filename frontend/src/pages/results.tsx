@@ -298,10 +298,23 @@ export default function Results({ demo = false }: { demo?: boolean }) {
     try {
       const u = new URLSearchParams(window.location.search);
       if (demo) return u.get("locked") !== "1"; // example is unlocked unless ?locked=1 (paywall preview)
-      if (u.get("paid") === "1" || u.get("unlocked") === "1") return true;
+      if (u.get("unlocked") === "1") return true; // dev/preview bypass only
       return sessionStorage.getItem("ctl-paid") === "1";
     } catch { return demo; }
   });
+
+  // After returning from Stripe, verify the session server-side before unlocking
+  // (a faked ?paid=1 does nothing — only a real paid session flips this).
+  useEffect(() => {
+    try {
+      const sid = new URLSearchParams(window.location.search).get("session_id");
+      if (!sid || sessionStorage.getItem("ctl-paid") === "1") return;
+      fetch(`/api/verify?session_id=${encodeURIComponent(sid)}`)
+        .then((r) => r.json())
+        .then((d) => { if (d && d.paid) { try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ } setPaid(true); } })
+        .catch(() => { /* noop */ });
+    } catch { /* noop */ }
+  }, []);
 
   useEffect(() => {
     const sectionIds = ["section-action", "section-terms", "section-issues", "section-protections"];

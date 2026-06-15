@@ -108,6 +108,57 @@ app.post("/api/chat", async (c) => {
   }
 });
 
+// ── Stripe: create a Checkout Session for the $9.99 one-time full report ──
+app.post("/api/checkout", async (c) => {
+  const key = c.env.STRIPE_SECRET_KEY;
+  if (!key) return c.json({ error: "Payments aren't set up yet. Please try again shortly." }, 503);
+  const origin = new URL(c.req.url).origin;
+  let returnPath = "/results";
+  try {
+    const b = await c.req.json();
+    if (b && typeof b.returnPath === "string" && b.returnPath.startsWith("/")) returnPath = b.returnPath;
+  } catch { /* no body is fine */ }
+  const sep = returnPath.includes("?") ? "&" : "?";
+  const params = new URLSearchParams();
+  params.set("mode", "payment");
+  params.set("line_items[0][price_data][currency]", "usd");
+  params.set("line_items[0][price_data][product_data][name]", "Check the Lease — Full lease report");
+  params.set("line_items[0][price_data][unit_amount]", "999");
+  params.set("line_items[0][quantity]", "1");
+  params.set("success_url", `${origin}${returnPath}${sep}paid=1&session_id={CHECKOUT_SESSION_ID}`);
+  params.set("cancel_url", `${origin}${returnPath}`);
+  try {
+    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+    });
+    const data = await res.json() as { url?: string; error?: { message?: string } };
+    if (!res.ok || !data.url) return c.json({ error: data?.error?.message || "Could not start checkout." }, 502);
+    return c.json({ url: data.url });
+  } catch {
+    return c.json({ error: "Could not reach the payment processor." }, 502);
+  }
+});
+
+// ── Stripe: verify a Checkout Session was actually paid (server-authoritative) ──
+app.get("/api/verify", async (c) => {
+  const key = c.env.STRIPE_SECRET_KEY;
+  if (!key) return c.json({ paid: false }, 503);
+  const id = c.req.query("session_id");
+  if (!id) return c.json({ paid: false }, 400);
+  try {
+    const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(id)}`, {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    const data = await res.json() as { payment_status?: string };
+    if (!res.ok) return c.json({ paid: false }, 502);
+    return c.json({ paid: data.payment_status === "paid" });
+  } catch {
+    return c.json({ paid: false }, 502);
+  }
+});
+
 // Everything else → static frontend assets (SPA fallback handled by the assets binding).
 app.all("*", (c) => c.env.ASSETS.fetch(c.req.raw));
 
