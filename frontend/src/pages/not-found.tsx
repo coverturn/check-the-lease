@@ -29,7 +29,7 @@ export default function NotFound() {
           href="/"
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
-          style={{ display: "inline-block", borderRadius: 999, padding: "13px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 500, fontSize: 15, backgroundColor: hover ? "var(--color-ink-blue-dark)" : "var(--color-ink-blue)", color: "var(--color-bone)", border: `2px solid ${hover ? "var(--color-ink-blue-dark)" : "var(--color-ink-blue)"}`, transform: hover ? "scale(0.97)" : "scale(1)", transition: "all 0.15s ease", textDecoration: "none", minHeight: 44, lineHeight: "18px" }}
+          style={{ display: "inline-block", borderRadius: 999, padding: "13px 28px", fontFamily: "var(--app-font-sans)", fontWeight: 500, fontSize: 15, backgroundColor: hover ? "var(--color-ink-blue-dark)" : "var(--color-ink-blue)", color: "var(--color-bone)", border: `2px solid ${hover ? "var(--color-ink-blue-dark)" : "var(--color-ink-blue)"}`, transform: hover ? "scale(0.97)" : "scale(1)", transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease", textDecoration: "none", minHeight: 44, lineHeight: "18px" }}
         >
           Back home →
         </Link>

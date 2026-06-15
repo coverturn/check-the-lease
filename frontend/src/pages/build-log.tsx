@@ -194,7 +194,7 @@ export default function BuildLog() {
                   color: "#FBF8F1",
                   border: "2px solid #171717",
                   boxShadow: "4px 4px 0 0 #171717",
-                  transition: "all 0.15s ease",
+                  transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
                 }}
               >
                 See the live site →
@@ -214,7 +214,7 @@ export default function BuildLog() {
                   backgroundColor: "transparent",
                   color: "#171717",
                   border: "2px solid rgba(23,23,23,0.25)",
-                  transition: "all 0.15s ease",
+                  transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
                 }}
               >
                 Try the demo result →

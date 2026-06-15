@@ -473,7 +473,7 @@ export default function Resources() {
                       key={r}
                       onClick={() => setRegion(r)}
                       aria-pressed={region === r}
-                      style={{ borderRadius: 999, padding: "9px 18px", fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: region === r ? 700 : 500, cursor: "pointer", border: `2px solid ${region === r ? BG_INK_BLUE : "rgba(23,23,23,0.18)"}`, backgroundColor: region === r ? BG_INK_BLUE : "transparent", color: region === r ? "var(--color-bone)" : "var(--color-ink-muted)", transition: "all 0.15s", minHeight: 44, boxShadow: region === r ? "3px 3px 0 0 #171717" : "none" }}
+                      style={{ borderRadius: 999, padding: "9px 18px", fontFamily: "var(--app-font-sans)", fontSize: 13, fontWeight: region === r ? 700 : 500, cursor: "pointer", border: `2px solid ${region === r ? BG_INK_BLUE : "rgba(23,23,23,0.18)"}`, backgroundColor: region === r ? BG_INK_BLUE : "transparent", color: region === r ? "var(--color-bone)" : "var(--color-ink-muted)", transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease", minHeight: 44, boxShadow: region === r ? "3px 3px 0 0 #171717" : "none" }}
                     >
                       {r}
                     </button>
@@ -507,7 +507,7 @@ export default function Resources() {
                         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "18px 20px", cursor: "pointer", border: "none", backgroundColor: "transparent", textAlign: "left" }}
                       >
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                          <div style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: isOpen ? accent : "rgba(23,23,23,0.06)", border: `2px solid ${isOpen ? "#171717" : "rgba(23,23,23,0.12)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.15s" }}>
+                          <div style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: isOpen ? accent : "rgba(23,23,23,0.06)", border: `2px solid ${isOpen ? "#171717" : "rgba(23,23,23,0.12)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease" }}>
                             <span style={{ fontFamily: "var(--app-font-mono)", fontWeight: 700, fontSize: 11, color: isOpen ? "#FBF8F1" : "var(--color-ink-muted)", letterSpacing: "0.04em" }}>{code}</span>
                           </div>
                           <div>

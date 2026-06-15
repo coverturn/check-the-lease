@@ -127,7 +127,7 @@ function StateModal({ stateKey, onClose }: { stateKey: StateKey; onClose: () => 
                   const isActive = category === cat.id;
                   return (
                     <button key={cat.id} onClick={() => setCategory(cat.id)} aria-pressed={isActive}
-                      style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: isActive ? 700 : 500, padding: "5px 13px", borderRadius: 999, cursor: "pointer", border: isActive ? `1.5px solid ${cat.color}` : "1.5px solid rgba(23,23,23,0.14)", backgroundColor: isActive ? cat.bg : "transparent", color: isActive ? cat.color : "var(--color-ink-muted)", transition: "all 0.12s" }}>{cat.label}</button>
+                      style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: isActive ? 700 : 500, padding: "5px 13px", borderRadius: 999, cursor: "pointer", border: isActive ? `1.5px solid ${cat.color}` : "1.5px solid rgba(23,23,23,0.14)", backgroundColor: isActive ? cat.bg : "transparent", color: isActive ? cat.color : "var(--color-ink-muted)", transition: "background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, box-shadow 0.12s ease" }}>{cat.label}</button>
                   );
                 })}
               </div>

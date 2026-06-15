@@ -380,7 +380,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
                   backgroundColor: isHov ? fill : `${fill}22`,
                   cursor: "pointer",
                   textAlign: "left",
-                  transition: "all 0.15s ease",
+                  transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
                   boxShadow: isHov ? "3px 3px 0 0 #171717" : "none",
                   transform: isHov ? "translate(-1px,-1px)" : "none",
                 }}

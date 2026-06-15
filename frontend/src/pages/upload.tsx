@@ -494,7 +494,7 @@ export default function Upload() {
                         alignItems: "flex-start",
                         gap: 14,
                         textAlign: "left",
-                        transition: "all 0.15s ease",
+                        transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
                         minHeight: 130,
                       }}
                     >
@@ -530,10 +530,10 @@ export default function Upload() {
                   : [{ v: "before", l: "Before signing", s: "Reviewing before I agree to anything." }, { v: "already", l: "Already signed", s: "I want to know what I agreed to." }]
               ).map((opt) => (
                   <label key={opt.v}
-                    style={{ flex: "1 1 200px", borderRadius: 16, padding: "20px 22px", border: form.stage === opt.v ? "2.5px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.18)", backgroundColor: form.stage === opt.v ? "rgba(30,58,95,0.06)" : "var(--color-bone)", cursor: "pointer", boxShadow: form.stage === opt.v ? "5px 5px 0 0 var(--color-ink-blue)" : "none", display: "flex", alignItems: "flex-start", gap: 14, minHeight: 44, transition: "all 0.15s ease" }}
+                    style={{ flex: "1 1 200px", borderRadius: 16, padding: "20px 22px", border: form.stage === opt.v ? "2.5px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.18)", backgroundColor: form.stage === opt.v ? "rgba(30,58,95,0.06)" : "var(--color-bone)", cursor: "pointer", boxShadow: form.stage === opt.v ? "5px 5px 0 0 var(--color-ink-blue)" : "none", display: "flex", alignItems: "flex-start", gap: 14, minHeight: 44, transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease" }}
                   >
                     <input type="radio" name="stage" value={opt.v} checked={form.stage === opt.v} onChange={() => setForm((f) => ({ ...f, stage: opt.v as "before" | "already" }))} style={{ position: "absolute", opacity: 0, width: 0, height: 0 }} />
-                    <div style={{ width: 22, height: 22, borderRadius: "50%", border: form.stage === opt.v ? "2px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.25)", backgroundColor: form.stage === opt.v ? "var(--color-ink-blue)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2, transition: "all 0.15s ease" }}>
+                    <div style={{ width: 22, height: 22, borderRadius: "50%", border: form.stage === opt.v ? "2px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.25)", backgroundColor: form.stage === opt.v ? "var(--color-ink-blue)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2, transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease" }}>
                       {form.stage === opt.v && (
                         <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                       )}
@@ -568,7 +568,7 @@ export default function Upload() {
                     />
                     <div
                       aria-hidden="true"
-                      style={{ width: 22, height: 22, borderRadius: 6, border: (form as Record<string, unknown>)[opt.key] ? "2px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.2)", backgroundColor: (form as Record<string, unknown>)[opt.key] ? "var(--color-ink-blue)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.15s ease", flexShrink: 0 }}
+                      style={{ width: 22, height: 22, borderRadius: 6, border: (form as Record<string, unknown>)[opt.key] ? "2px solid var(--color-ink-blue)" : "2px solid rgba(23,23,23,0.2)", backgroundColor: (form as Record<string, unknown>)[opt.key] ? "var(--color-ink-blue)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease", flexShrink: 0 }}
                     >
                       {!!(form as Record<string, unknown>)[opt.key] && (
                         <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>

@@ -791,7 +791,7 @@ export default function Home() {
             minHeight: 44,
             minWidth: 200,
             textAlign: "center",
-            transition: "all 0.15s ease",
+            transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
           }}
         >
           Read my lease →

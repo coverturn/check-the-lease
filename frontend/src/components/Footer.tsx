@@ -80,7 +80,7 @@ export function Footer() {
                   border: `2.5px solid ${BORDER}`,
                   borderRadius: 999, padding: "12px 22px",
                   textDecoration: "none",
-                  transition: "all 0.15s ease",
+                  transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
                 }}
               >
                 How it works
