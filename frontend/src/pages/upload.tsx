@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
@@ -68,6 +68,7 @@ export default function Upload() {
   const [isHoverSample, setIsHoverSample] = useState(false);
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [msgIdx, setMsgIdx] = useState(0);
+  const [clausesScanned, setClausesScanned] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
 
@@ -81,9 +82,18 @@ export default function Upload() {
 
   useEffect(() => {
     if (!isAnalysing) { setMsgIdx(0); return; }
-    const t = setInterval(() => setMsgIdx((i) => (i + 1) % LOADING_MESSAGES.length), 3000);
+    const t = setInterval(() => setMsgIdx((i) => Math.min(i + 1, LOADING_MESSAGES.length - 1)), 2200);
     return () => clearInterval(t);
   }, [isAnalysing]);
+
+  useEffect(() => {
+    if (!isAnalysing) { setClausesScanned(0); return; }
+    const t = setInterval(() => setClausesScanned((n) => (n < 32 ? n + 1 : n)), 280);
+    return () => clearInterval(t);
+  }, [isAnalysing]);
+
+  const fileURL = useMemo(() => (form.file ? URL.createObjectURL(form.file) : null), [form.file]);
+  useEffect(() => () => { if (fileURL) URL.revokeObjectURL(fileURL); }, [fileURL]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -196,37 +206,64 @@ export default function Upload() {
     return (
       <div className="ctl-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#1E3A5F", color: "var(--color-bone)" }}>
         <style>{`
-          @keyframes ctl-spin { to { transform: rotate(360deg); } }
-          @keyframes ctl-msg-fade { 0% { opacity: 0; transform: translateY(8px); } 20%,80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-8px); } }
-          .ctl-spinner { animation: ctl-spin 1.1s linear infinite; }
-          .ctl-msg { animation: ctl-msg-fade 3s ease-in-out; }
-          @media (prefers-reduced-motion: reduce) { .ctl-spinner, .ctl-msg { animation: none; } }
+          @keyframes ctl-scanline { 0% { top: 2%; } 100% { top: 98%; } }
+          @keyframes ctl-pulse { 0%,100% { opacity: 0.45; } 50% { opacity: 1; } }
+          .ctl-scanline { animation: ctl-scanline 2.2s cubic-bezier(0.45,0,0.55,1) infinite alternate; }
+          @media (max-width: 800px) { .ctl-scan-grid { grid-template-columns: 1fr !important; } .ctl-scan-doc { max-width: 300px; margin: 0 auto; } }
+          @media (prefers-reduced-motion: reduce) { .ctl-scanline { animation: none; opacity: 0; } }
         `}</style>
         <SkipLink />
         <Nav />
-        <main id="main" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 28px" }}>
-          <div
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-            style={{ textAlign: "center", maxWidth: 520, width: "100%" }}
-          >
-            <div style={{ marginBottom: 40, display: "flex", justifyContent: "center" }}>
-              <svg className="ctl-spinner" width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-                <circle cx="28" cy="28" r="23" stroke="rgba(251,248,241,0.12)" strokeWidth="4"/>
-                <path d="M28 5 A23 23 0 0 1 51 28" stroke="#F5C547" strokeWidth="4" strokeLinecap="round"/>
-              </svg>
+        <main id="main" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "clamp(32px,5vw,56px) clamp(24px,4vw,48px)" }} role="status" aria-live="polite" aria-atomic="true">
+          <div className="ctl-scan-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 340px) minmax(0, 1fr)", gap: "clamp(28px,4vw,56px)", alignItems: "center", maxWidth: 880, width: "100%" }}>
+            <div className="ctl-scan-doc" style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 14, overflow: "hidden", border: "2.5px solid #171717", boxShadow: "6px 6px 0 0 #F5C547", backgroundColor: "#FBF8F1" }}>
+              {fileURL ? (
+                <iframe src={fileURL + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH"} title={lang === "es" ? "Tu contrato" : "Your lease"} style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none" }} />
+              ) : (
+                <div aria-hidden="true" style={{ position: "absolute", inset: 0, padding: 26, display: "flex", flexDirection: "column", gap: 9 }}>
+                  {[92,80,86,70,88,60,84,76,90,64,82,72].map((w, i) => (
+                    <div key={i} style={{ height: 7, width: `${w}%`, borderRadius: 3, backgroundColor: "rgba(23,23,23,0.12)" }} />
+                  ))}
+                </div>
+              )}
+              <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(30,58,95,0.05), rgba(30,58,95,0.16))", pointerEvents: "none" }} />
+              <div className="ctl-scanline" aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, height: 3, background: "#F5C547", boxShadow: "0 0 18px 3px rgba(245,197,71,0.8)", pointerEvents: "none" }} />
+              <div aria-hidden="true" style={{ position: "absolute", top: 12, left: 12, display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: "rgba(23,23,23,0.82)", borderRadius: 999, padding: "5px 12px" }}>
+                <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#F5C547", animation: "ctl-pulse 1.2s ease-in-out infinite" }} />
+                <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FBF8F1" }}>{lang === "es" ? "Escaneando" : "Scanning"}</span>
+              </div>
             </div>
-            <p key={msgIdx} className="ctl-msg" style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(28px,4vw,42px)", color: "var(--color-bone)", letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 18 }}>
-              {LOADING_MESSAGES[msgIdx]}
-            </p>
-            <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.45)", lineHeight: 1.55, marginBottom: 32 }}>
-              {form.state === "CA" ? "California" : form.state || "California"} law check · about 5–15 seconds
-            </p>
-            <div style={{ display: "flex", gap: 6, justifyContent: "center" }}>
-              {LOADING_MESSAGES.map((_, i) => (
-                <div key={i} style={{ width: i === msgIdx % LOADING_MESSAGES.length ? 20 : 6, height: 6, borderRadius: 999, backgroundColor: i === msgIdx % LOADING_MESSAGES.length ? "#F5C547" : "rgba(251,248,241,0.2)", transition: "all 0.4s ease" }} />
-              ))}
+            <div>
+              <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "#F5C547", marginBottom: 14 }}>
+                {((form.state === "CA" || !form.state) ? "California" : form.state)}{lang === "es" ? " · revisión legal" : " · law check"}
+              </div>
+              <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4vw,44px)", color: "var(--color-bone)", letterSpacing: "-0.03em", lineHeight: 1.08, margin: "0 0 26px" }}>
+                {lang === "es" ? "Leyendo tu contrato." : "Reading your lease."}
+              </h1>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 28 }}>
+                {LOADING_MESSAGES.map((label, i) => {
+                  const done = i < msgIdx; const active = i === msgIdx;
+                  return (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, opacity: done || active ? 1 : 0.4, transition: "opacity 0.3s ease" }}>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", flexShrink: 0, border: `2px solid ${done || active ? "#F5C547" : "rgba(251,248,241,0.3)"}`, backgroundColor: done ? "#F5C547" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        {done ? (
+                          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2L4.8 9L10 3" stroke="#1E3A5F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        ) : active ? (
+                          <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#F5C547", animation: "ctl-pulse 1.2s ease-in-out infinite" }} />
+                        ) : null}
+                      </div>
+                      <span style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.7vw,16px)", fontWeight: active ? 600 : 400, color: "var(--color-bone)" }}>{label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 22 }}>
+                <span style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: 32, color: "#F5C547", letterSpacing: "-0.03em", fontVariantNumeric: "tabular-nums" }}>{clausesScanned}</span>
+                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "rgba(251,248,241,0.6)" }}>{lang === "es" ? "cláusulas revisadas" : "clauses scanned"}</span>
+              </div>
+              <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12.5, color: "rgba(251,248,241,0.45)", lineHeight: 1.55, margin: 0 }}>
+                {lang === "es" ? "Tu contrato nunca se guarda · unos 5–15 segundos" : "Your lease is never stored · about 5–15 seconds"}
+              </p>
             </div>
           </div>
         </main>
