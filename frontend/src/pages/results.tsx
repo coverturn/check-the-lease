@@ -106,6 +106,16 @@ const SEV_COLORS = {
   low: { color: "#5A8B7A", bg: "rgba(90,139,122,0.07)", border: "#5A8B7A", dot: "#5A8B7A", shadow: "5px 5px 0 0 #171717" },
 };
 
+const SAMPLE_LEASE_EXCERPT = `RESIDENTIAL LEASE AGREEMENT
+
+This Agreement is made between Landlord and Tenant for the premises located in the State of California.
+
+3. RENT. Tenant shall pay rent of $3,200 per month, due on the 1st of each month. A late fee will be charged on any payment not received on time, as determined by the Landlord.
+
+8. SECURITY DEPOSIT. Tenant shall pay a security deposit equal to three (3) months' rent prior to occupancy, returned at the Landlord's discretion following inspection.
+
+14. ENTRY. Landlord may enter the premises at any time to inspect, repair, or show the unit.`;
+
 function ComplianceScorePanel({ analysis, lang }: { analysis: AnalysisResult; lang: "en" | "es" }) {
   const highIssues = analysis.potential_issues.filter(i => i.severity === "high");
   const medIssues  = analysis.potential_issues.filter(i => i.severity === "medium");
@@ -389,7 +399,6 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   const LOCKED = !paid;
   const PREVIEW_LIMIT = 3;
   const orderedIssues = [...highIssues, ...medIssues, ...lowIssues];
-  const previewIssues = orderedIssues.slice(0, PREVIEW_LIMIT);
   const totalIssueCount = analysis.potential_issues.length;
 
   // Lease health score (0–100) — promised on the homepage and pricing page.
@@ -397,9 +406,11 @@ export default function Results({ demo = false }: { demo?: boolean }) {
   // counted from the viewer's perspective.
   const healthScore = Math.max(0, 100 - highIssues.length * 15 - medIssues.length * 8 - lowIssues.length * 3 - allProts.length * 5);
   const healthColor = healthScore >= 75 ? "#5A8B7A" : healthScore >= 50 ? "#C97A4A" : "#7A2C3D";
-  const dispHigh = LOCKED ? previewIssues.filter(i => i.severity === "high") : highIssues;
-  const dispMed  = LOCKED ? previewIssues.filter(i => i.severity === "medium") : medIssues;
-  const dispLow  = LOCKED ? previewIssues.filter(i => i.severity === "low") : lowIssues;
+  // Locked shows EVERY finding as a redacted panel (proof, not a partial preview);
+  // the card itself branches on LOCKED. Unlocked shows the full content.
+  const dispHigh = highIssues;
+  const dispMed  = medIssues;
+  const dispLow  = lowIssues;
 
   useEffect(() => {
     if (paid) { try { sessionStorage.setItem("ctl-paid", "1"); } catch { /* noop */ } }
@@ -500,6 +511,24 @@ export default function Results({ demo = false }: { demo?: boolean }) {
           </div>
         </div>
 
+        {LOCKED && (
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(28px,4vw,40px) clamp(24px,4vw,48px) 0" }}>
+            <div style={{ border: "2.5px solid #171717", borderRadius: 16, overflow: "hidden", boxShadow: "5px 5px 0 0 #5A8B7A", backgroundColor: "var(--color-bone)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "12px 20px", backgroundColor: "#5A8B7A", borderBottom: "2.5px solid #171717" }}>
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5L13 5v9.5H4z" stroke="#FBF8F1" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 1.5V5h4" stroke="#FBF8F1" strokeWidth="1.6" strokeLinejoin="round"/></svg>
+                <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FBF8F1" }}>{lang === "es" ? "Le\u00edmos tu contrato" : "We read your lease"}</span>
+              </div>
+              <div style={{ padding: "18px 22px 20px" }}>
+                <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#5A8B7A", marginBottom: 12 }}>{lang === "es" ? "Extracto de tu documento" : "Excerpt from your document"}</div>
+                <div style={{ position: "relative", maxHeight: 150, overflow: "hidden", fontFamily: "var(--app-font-sans)", fontSize: 13, lineHeight: 1.7, color: "var(--color-ink)", whiteSpace: "pre-wrap" }}>
+                  {leaseText || SAMPLE_LEASE_EXCERPT}
+                  <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 64, background: "linear-gradient(to bottom, rgba(251,248,241,0), var(--color-bone))" }} />
+                </div>
+                <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 14, fontStyle: "italic" }}>{lang === "es" ? "Cada hallazgo abajo apunta a una cl\u00e1usula real de este documento." : "Every finding below points to a real clause in this document."}</div>
+              </div>
+            </div>
+          </div>
+        )}
         {leaseText && (
           <div style={{ maxWidth: 960, margin: "0 auto", padding: "clamp(32px,5vw,48px) clamp(24px,4vw,48px)", borderBottom: "2.5px solid #171717" }}>
             <button
@@ -717,14 +746,38 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                   </div>
                   {issues.map((issue, i) => {
                     const s = getSev(severity, t);
+                    if (LOCKED) {
+                      const titleW = Math.min(92, 42 + (issue.title.length * 3) % 48);
+                      const l1 = Math.min(96, 58 + (issue.explanation.length * 2) % 36);
+                      const l2 = Math.min(82, 34 + (issue.explanation.length * 5) % 44);
+                      const sevWord = severity === "high" ? (lang === "es" ? "Riesgo alto" : "High risk") : severity === "medium" ? (lang === "es" ? "Riesgo medio" : "Medium risk") : (lang === "es" ? "Riesgo bajo" : "Low risk");
+                      return (
+                        <button key={i} onClick={goCheckout} aria-label={lang === "es" ? "Desbloquear hallazgo" : "Unlock this finding"} style={{ display: "block", textAlign: "left", width: "100%", cursor: "pointer", backgroundColor: s.color, border: "2.5px solid #171717", borderRadius: 16, boxShadow: "5px 5px 0 0 #171717", padding: "18px 22px", marginBottom: 12, position: "relative", overflow: "hidden" }}>
+                          <div aria-hidden="true" style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(251,248,241,0.08) 1.2px, transparent 1.2px)", backgroundSize: "16px 16px", pointerEvents: "none" }} />
+                          <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 13 }}>
+                                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#FBF8F1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FBF8F1" }}>{sevWord}</span>
+                              </div>
+                              <div style={{ height: 13, width: `${titleW}%`, maxWidth: 380, background: "rgba(251,248,241,0.92)", borderRadius: 4, marginBottom: 10 }} />
+                              <div style={{ height: 8, width: `${l1}%`, background: "rgba(251,248,241,0.38)", borderRadius: 3, marginBottom: 6 }} />
+                              <div style={{ height: 8, width: `${l2}%`, background: "rgba(251,248,241,0.38)", borderRadius: 3 }} />
+                            </div>
+                            <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, fontWeight: 700, color: "#FBF8F1", flexShrink: 0, whiteSpace: "nowrap" }}>{lang === "es" ? "Desbloquear →" : "Unlock →"}</span>
+                          </div>
+                        </button>
+                      );
+                    }
                     const citationShown = expandedCitations[`${severity}-${i}`];
                     return (
-                      <article key={i} style={{ backgroundColor: "var(--color-bone)", border: "2.5px solid #171717", borderTop: `7px solid ${s.border}`, borderRadius: 18, overflow: "hidden", boxShadow: s.shadow, marginBottom: 12 }}>
-                        <div style={{ padding: "22px 26px 0" }}>
-                          <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.8vw,24px)", color: "var(--color-ink)", letterSpacing: "-0.02em", lineHeight: 1.25, margin: "0 0 16px" }}>
+                      <article key={i} style={{ backgroundColor: "var(--color-bone)", border: "2.5px solid #171717", borderRadius: 18, overflow: "hidden", boxShadow: s.shadow, marginBottom: 12 }}>
+                        <div style={{ backgroundColor: s.color, padding: "15px 26px" }}>
+                          <h3 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(19px,2.8vw,24px)", color: "#FBF8F1", letterSpacing: "-0.02em", lineHeight: 1.25, margin: 0 }}>
                             {issue.title}
                           </h3>
                         </div>
+                        <div aria-hidden="true" style={{ height: 18 }} />
                         <div style={{ margin: "0 26px 0", backgroundColor: s.bg, borderRadius: 12, padding: "14px 18px", border: `1.5px solid ${s.border}`, borderLeft: `4px solid ${s.border}` }}>
                           <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(13px,1.5vw,15px)", color: "var(--color-ink)", lineHeight: 1.65, margin: 0 }}>{issue.explanation}</p>
                         </div>
@@ -766,7 +819,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
             </div>
           </section>
 
-          {LOCKED && (orderedIssues.length > PREVIEW_LIMIT || allProts.length > 0) && (
+          {false && LOCKED && (orderedIssues.length > PREVIEW_LIMIT || allProts.length > 0) && (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: "clamp(28px,4vw,44px)" }}>
               {orderedIssues.slice(PREVIEW_LIMIT).map((issue, i) => (
                 <button
@@ -810,7 +863,7 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: "rgba(251,248,241,0.1)", border: "1.5px solid rgba(251,248,241,0.25)", borderRadius: 999, padding: "6px 14px", marginBottom: 18 }}>
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 6V4.2a3.5 3.5 0 117 0V6M2.5 6h9v6h-9z" stroke="#FBF8F1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FBF8F1" }}>
-                      {lang === "es" ? `Viendo ${previewIssues.length} de ${totalIssueCount} problemas` : `You're seeing ${previewIssues.length} of ${totalIssueCount} issues`}
+                      {lang === "es" ? `${totalIssueCount} hallazgos · bloqueados` : `${totalIssueCount} finding${totalIssueCount === 1 ? "" : "s"} found · locked`}
                     </span>
                   </div>
                   <h2 id="paywall-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.6vw,40px)", color: "#FBF8F1", letterSpacing: "-0.03em", lineHeight: 1.05, margin: "0 0 12px" }}>
@@ -818,8 +871,8 @@ export default function Results({ demo = false }: { demo?: boolean }) {
                   </h2>
                   <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.7)", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 520 }}>
                     {lang === "es"
-                      ? `Tu escaneo gratuito encontró ${totalIssueCount} problemas. Obtén cada cláusula marcada, protecciones que faltan, el impacto económico y guiones de negociación que puedes enviar hoy.`
-                      : `Your free scan found ${totalIssueCount} issue${totalIssueCount === 1 ? "" : "s"}. Get every flagged clause, missing protections, the financial impact, and negotiation scripts you can send today.`}
+                      ? `Tu escaneo marcó ${totalIssueCount} cláusula${totalIssueCount === 1 ? "" : "s"}${allProts.length ? ` y ${allProts.length} protección${allProts.length === 1 ? "" : "es"} que falta${allProts.length === 1 ? "" : "n"}` : ""}. Desbloquea para leer cada una: qué dice, por qué es un riesgo y qué pedir.`
+                      : `Your free scan flagged ${totalIssueCount} clause${totalIssueCount === 1 ? "" : "s"}${allProts.length ? ` and ${allProts.length} missing protection${allProts.length === 1 ? "" : "s"}` : ""}. Unlock to read each one \u2014 what it says, why it's a risk, and exactly what to ask for.`}
                   </p>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "8px 24px", marginBottom: 28 }}>
                     {(lang === "es"
