@@ -5,7 +5,6 @@ import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
-import { TravellingLease } from "@/components/TravellingLease";
 import { IconBox, IconChevronRight, IconDocumentSmall, IconFlag, IconHouseSmall, IconKey, IconMapPin, IconPlus, IconSearchSmall, IconSparkle, IconUpload, IconUser } from "@/components/icons/Icon";
 import PhotoMovingSteps from "@assets/home-moving-steps.webp";
 import PhotoMomBaby from "@assets/home-mom-baby.webp";
@@ -153,7 +152,6 @@ export default function Home() {
     >
       <SkipLink />
       <Nav />
-      <TravellingLease />
 
       {/* Scroll progress */}
       <div aria-hidden={true} style={{ position: "fixed", top: 62, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(23,23,23,0.05)" }}>
