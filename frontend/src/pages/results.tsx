@@ -214,7 +214,11 @@ export default function Results() {
   const [expandedCitations, setExpandedCitations] = useState<Record<string, boolean>>({});
   const [previewExpanded, setPreviewExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState("section-action");
+  // The /results/demo route always shows the built-in sample analysis,
+  // even on a fresh visit with no sessionStorage (e.g. a shared link).
+  const isDemo = typeof window !== "undefined" && window.location.pathname.endsWith("/demo");
   const [noData, setNoData] = useState<boolean>(() => {
+    if (isDemo) return false;
     try { return !sessionStorage.getItem("ctl-analysis"); } catch { return false; }
   });
 
@@ -240,7 +244,7 @@ export default function Results() {
       const parsedIntake: IntakeState = rawIntake ? { ...DEFAULT_INTAKE, ...JSON.parse(rawIntake) } : DEFAULT_INTAKE;
       setIntake(parsedIntake);
       const rawAnalysis = sessionStorage.getItem("ctl-analysis");
-      setNoData(!rawAnalysis);
+      setNoData(!rawAnalysis && !isDemo);
       const parsedAnalysis: AnalysisResult = rawAnalysis ? JSON.parse(rawAnalysis) : PLACEHOLDER_ANALYSIS;
       if (rawAnalysis) setAnalysis(parsedAnalysis);
       const rawLeaseText = sessionStorage.getItem("ctl-lease-text");
@@ -261,10 +265,10 @@ export default function Results() {
           isStudent: parsedIntake.isStudent,
           reviewingForSomeoneElse: parsedIntake.reviewingForSomeoneElse,
         } : null,
-        analysisResult: rawAnalysis ? parsedAnalysis : null,
+        analysisResult: rawAnalysis ? parsedAnalysis : isDemo ? PLACEHOLDER_ANALYSIS : null,
       });
     } catch { /* keep defaults */ }
-  }, [setChatCtx]);
+  }, [setChatCtx, isDemo]);
 
   const stateAbbr = intake.state || "CA";
   const stateLabel = STATE_NAMES[stateAbbr] || stateAbbr;
