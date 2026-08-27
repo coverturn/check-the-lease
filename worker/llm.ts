@@ -1,9 +1,10 @@
-// Provider-agnostic LLM layer. Default: Groq (Llama 3.3 70B), OpenAI-compatible.
+// Provider-agnostic LLM layer. Default: Groq (gpt-oss-120b), OpenAI-compatible.
 // Swap providers by changing the endpoint/model below — Anthropic fallback can drop in here.
 
 export interface Env {
   ASSETS: Fetcher;
   GROQ_API_KEY: string;
+  GROQ_MODEL?: string;
   ANTHROPIC_API_KEY?: string;
   LLM_PROVIDER?: string;
 }
@@ -11,7 +12,11 @@ export interface Env {
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+// llama-3.3-70b-versatile was retired by Groq on 2026-08-16 (free/dev tiers).
+// Default is Groq's recommended replacement; override via the GROQ_MODEL
+// env var in the Cloudflare dashboard without a redeploy.
+const DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b";
+const model = (env: Env) => env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
 
 /** Non-streaming completion that returns raw text (used for JSON analysis). */
 export async function complete(
@@ -26,7 +31,7 @@ export async function complete(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: GROQ_MODEL,
+      model: model(env),
       temperature: 0,
       max_tokens: opts.maxTokens ?? 4096,
       ...(opts.json ? { response_format: { type: "json_object" } } : {}),
@@ -55,7 +60,7 @@ export async function streamChat(env: Env, messages: Msg[]): Promise<ReadableStr
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: GROQ_MODEL,
+      model: model(env),
       temperature: 0.3,
       max_tokens: 2048,
       stream: true,
