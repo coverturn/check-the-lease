@@ -199,10 +199,10 @@ export function StatePreviews() {
               </div>
             </div>
             <h2 id="state-preview-heading" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px, 3.5vw, 38px)", letterSpacing: "-0.03em", color: "var(--color-ink)", marginBottom: 10, lineHeight: 1.1 }}>
-              Know your rights, wherever you are.
+              Real law. <em style={{ fontStyle: "italic", color: "var(--color-ink-muted)" }}>Your state.</em>
             </h2>
             <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 14, color: "var(--color-ink-muted)", lineHeight: 1.65, maxWidth: 520, margin: 0 }}>
-              Click any state or territory to see the laws that protect every renter there, plus housing support programs for seniors, veterans, students, families, and more.
+              We check your lease against the statutes your state actually has on the books - not generic advice. Tap any state or territory to see the laws that protect renters there, plus housing support programs.
             </p>
           </div>
 

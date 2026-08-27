@@ -52,9 +52,14 @@ export default function Upload() {
   const t = useT(lang);
   const LOADING_MESSAGES = [t("loading_1"), t("loading_2"), t("loading_3"), t("loading_4")];
   const STEP_LABELS = [t("upload_step1"), t("upload_step2"), t("upload_step3"), t("upload_step4")];
-  const [form, setForm] = useState<IntakeForm>({
+  const [form, setForm] = useState<IntakeForm>(() => {
+    let preselect: string | null = null;
+    try {
+      preselect = sessionStorage.getItem("ctl-preselect-state");
+    } catch { /* storage unavailable */ }
+    return {
     file: null,
-    state: null,
+    state: preselect,
     stage: "before",
     perspective: "renter",
     isParent: false,
@@ -62,6 +67,7 @@ export default function Upload() {
     isStudent: false,
     reviewingForSomeoneElse: false,
     language: lang,
+    };
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);

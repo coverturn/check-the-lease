@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
+import { STATE_NAMES } from "@/components/USStateMap";
 import { IconChevronRight, IconMapPin, IconSparkle, IconClock, IconWarning, IconUpload, IconKey, IconDocumentSmall, IconShield, IconHelp, IconUser, IconHouseSmall, IconPlus, IconFlag, IconBox, IconSearchSmall } from "@/components/icons/Icon";
 import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.webp";
-import PhotoDoorKey from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.webp";
 import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.webp";
 
 
@@ -47,9 +47,18 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
 export default function Home() {
   useScrollReveal();
 
+  const [, navigate] = useLocation();
   const [ctaHover, setCtaHover] = useState(false);
   const [sampleHover, setSampleHover] = useState(false);
+  const [heroState, setHeroState] = useState("");
   const [scrollPct, setScrollPct] = useState(0);
+
+  const startRead = () => {
+    try {
+      if (heroState) sessionStorage.setItem("ctl-preselect-state", heroState);
+    } catch { /* storage unavailable - upload still works */ }
+    navigate("/upload");
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -171,102 +180,99 @@ export default function Home() {
                   animation: `ctl-fade-up 0.7s 0.22s ${EASE} both`,
                 }}
               >
-                Reads any lease in 15 seconds. Shows you the law behind every issue. Free for renters and landlords. Always.
+                Upload the PDF, pick your state, and read what it actually says - with the law behind every issue. Free for renters and landlords. Always.
               </p>
 
-              {/* Coverage badge */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "8px 16px",
-                  background: "rgba(90,139,122,0.08)",
-                  border: "1.5px solid rgba(90,139,122,0.25)",
-                  borderRadius: 999,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  color: "#3D5F50",
-                  marginTop: "clamp(20px, 3vw, 28px)",
-                  marginBottom: "clamp(24px, 3.5vw, 36px)",
-                  animation: `ctl-fade-up 0.7s 0.28s ${EASE} both`,
-                }}
-              >
-                <span style={{ fontWeight: 700 }}>50</span>
-                <span style={{ opacity: 0.6 }}>·</span>
-                <span>DC</span>
-                <span style={{ opacity: 0.6 }}>·</span>
-                <span>6 territories</span>
-                <span style={{ marginLeft: 4, fontFamily: "var(--app-font-serif)", fontStyle: "italic", opacity: 0.7 }}>covered</span>
-              </div>
-
+              {/* ── The action: state + read, right in the hero ── */}
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  marginTop: 0,
-                  flexWrap: "wrap",
+                  flexDirection: "column",
+                  gap: 12,
+                  marginTop: "clamp(24px, 3.5vw, 36px)",
+                  width: "100%",
+                  maxWidth: 480,
                   animation: `ctl-fade-up 0.7s 0.36s ${EASE} both`,
                 }}
               >
-                {/* Primary CTA - demo link */}
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  <label htmlFor="hero-state" className="sr-only" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
+                    Choose your state or territory
+                  </label>
+                  <select
+                    id="hero-state"
+                    value={heroState}
+                    onChange={(e) => setHeroState(e.target.value)}
+                    style={{
+                      flex: "1 1 180px",
+                      minWidth: 170,
+                      padding: "12px 40px 12px 16px",
+                      borderRadius: 999,
+                      border: "2.5px solid #171717",
+                      backgroundColor: "#FFFFFF",
+                      color: heroState ? "var(--color-ink)" : "var(--color-ink-muted)",
+                      fontFamily: "var(--app-font-sans)",
+                      fontWeight: 500,
+                      fontSize: 14,
+                      appearance: "none",
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23171717' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 16px center",
+                      cursor: "pointer",
+                      minHeight: 48,
+                      boxShadow: "3px 3px 0 0 rgba(23,23,23,0.18)",
+                    }}
+                  >
+                    <option value="">Your state…</option>
+                    {Object.entries(STATE_NAMES).map(([abbr, name]) => (
+                      <option key={abbr} value={abbr}>{name}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={startRead}
+                    className="mn-btn"
+                    onMouseEnter={() => setCtaHover(true)}
+                    onMouseLeave={() => setCtaHover(false)}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 10,
+                      borderRadius: 999,
+                      padding: "12px 26px",
+                      fontFamily: "var(--app-font-sans)",
+                      fontWeight: 700,
+                      fontSize: 15,
+                      letterSpacing: "-0.01em",
+                      cursor: "pointer",
+                      background: ctaHover ? "#3D5F50" : "#5A8B7A",
+                      color: "#FBF8F1",
+                      border: "2.5px solid #171717",
+                      boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "4px 4px 0 0 #171717",
+                      transform: ctaHover ? "translate(2px, 2px)" : "translate(0, 0)",
+                      transition: "background 0.2s, transform 0.12s ease, box-shadow 0.12s ease",
+                      minHeight: 48,
+                    }}
+                  >
+                    Read my lease
+                    <IconChevronRight size={16} style={{ transform: ctaHover ? "translateX(4px)" : "translateX(0)", transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1)" }} aria-hidden={true} />
+                  </button>
+                </div>
                 <Link
                   href="/results/demo"
-                  className="mn-btn"
-                  onMouseEnter={() => setCtaHover(true)}
-                  onMouseLeave={() => setCtaHover(false)}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 10,
-                    borderRadius: 999,
-                    padding: "12px 22px",
-                    fontFamily: "var(--app-font-sans)",
-                    fontWeight: 600,
-                    fontSize: 15,
-                    letterSpacing: "-0.01em",
-                    textDecoration: "none",
-                    background: ctaHover ? "#3D5F50" : "#5A8B7A",
-                    color: "#FBF8F1",
-                    border: "2.5px solid #171717",
-                    boxShadow: ctaHover ? "2px 2px 0 0 #171717" : "4px 4px 0 0 #171717",
-                    transform: ctaHover ? "translate(2px, 2px)" : "translate(0, 0)",
-                    transition: "background 0.2s, transform 0.12s ease, box-shadow 0.12s ease",
-                    minHeight: 48,
-                  }}
-                >
-                  See a real result
-                  <IconChevronRight size={16} style={{ transform: ctaHover ? "translateX(4px)" : "translateX(0)", transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1)" }} aria-hidden={true} />
-                </Link>
-
-                {/* Ghost CTA - upload link */}
-                <Link
-                  href="/upload"
-                  className="mn-btn-ghost"
                   onMouseEnter={() => setSampleHover(true)}
                   onMouseLeave={() => setSampleHover(false)}
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    borderRadius: 999,
-                    padding: "12px 22px",
                     fontFamily: "var(--app-font-sans)",
-                    fontWeight: 500,
-                    fontSize: 15,
-                    textDecoration: "none",
-                    color: sampleHover ? "#FBF8F1" : "var(--color-ink)",
-                    backgroundColor: sampleHover ? "#171717" : "transparent",
-                    border: "2.5px solid #171717",
-                    boxShadow: sampleHover ? "2px 2px 0 0 #5A8B7A" : "4px 4px 0 0 #5A8B7A",
-                    transform: sampleHover ? "translate(2px, 2px)" : "translate(0, 0)",
-                    transition: "all 0.15s ease",
-                    minHeight: 48,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: sampleHover ? "#3D5F50" : "var(--color-sage)",
+                    textDecoration: "underline",
+                    textUnderlineOffset: 3,
+                    width: "fit-content",
                   }}
                 >
-                  Or read your own lease
-                  <IconChevronRight size={14} style={{ transform: sampleHover ? "translateX(3px)" : "translateX(0)", transition: "transform 0.2s ease" }} aria-hidden={true} />
+                  Or see a sample report first →
                 </Link>
               </div>
 
@@ -386,28 +392,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════ TL;DR JUMP STRIP ═══════════════ */}
-        <div style={{ padding: "clamp(20px,3vw,32px) clamp(24px,4vw,48px)" }}>
-          <div style={{
-            background: "#F2EDE2",
-            border: "1.5px solid rgba(23,23,23,0.1)",
-            borderRadius: 16,
-            padding: "14px 24px",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 24,
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "0 auto",
-            maxWidth: 800,
-          }}>
-            <span style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 13, color: "#6B6B6B" }}>Jump to:</span>
-            <a href="#problem" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>The problem</a>
-            <a href="#how-it-works" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>How it works</a>
-            <a href="#who-its-for" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>Who it's for</a>
-            <a href="#state-coverage" style={{ fontSize: 12, fontWeight: 500, color: "#171717", textDecoration: "none", borderBottom: "1.5px solid #5A8B7A" }}>State coverage</a>
-          </div>
-        </div>
+        {/* ═══════════════ THE MAP - the differentiator, promoted ═══════════════ */}
+        <StatePreviews />
 
         {/* ═══════════════ MARQUEE ═══════════════ */}
         <div aria-hidden={true} style={{ overflow: "hidden", lineHeight: 0, borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)" }}>
@@ -422,7 +408,7 @@ export default function Home() {
         </div>
 
         {/* ═══════════════ EDITORIAL PHOTO - Moving Day ═══════════════ */}
-        <div style={{ position: "relative", overflow: "hidden", height: "clamp(260px, 38vw, 480px)", borderTop: "2px solid #171717", borderBottom: "2px solid #171717" }}>
+        <div style={{ position: "relative", overflow: "hidden", height: "clamp(170px, 24vw, 300px)", borderTop: "2px solid #171717", borderBottom: "2px solid #171717" }}>
           <img
             loading="lazy"
             decoding="async"
@@ -520,71 +506,25 @@ export default function Home() {
               ))}
             </div>
 
+            {/* Sourced stat strip - merged from The Problem */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px,1fr))", gap: 12, marginTop: "clamp(28px,4vw,44px)" }} className="problem-stats-grid">
+              {[
+                { n: "45M", l: "renter households in the US", src: "Harvard JCHS, 2024" },
+                { n: "40%", l: "of leases contain illegal clauses", src: "Penn Law / Massachusetts study" },
+                { n: "41%", l: "of renters dispute their deposit", src: "Zillow Renter Survey, 2024" },
+                { n: "1 in 13", l: "households faced eviction in 2023", src: "Eviction Lab, Princeton" },
+              ].map(({ n, l, src }) => (
+                <div key={n} style={{ background: "#FFFFFF", border: "2px solid #171717", borderRadius: 14, padding: "clamp(16px,2.5vw,24px)", boxShadow: "4px 4px 0 0 #F5C547" }}>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(26px,3.5vw,40px)", color: "var(--color-ink)", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>{n}</div>
+                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.5, marginBottom: 6 }}>{l}</div>
+                  <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 10, color: "#6B6B6B", lineHeight: 1.4 }}>Source: {src}</div>
+                </div>
+              ))}
+            </div>
+
             <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px,1.5vw,16px)", color: "var(--color-ink-muted)", textAlign: "center", marginTop: "clamp(28px,4vw,48px)" }}>
               Check the Lease finds these and shows you the law that breaks them.
             </p>
-          </div>
-        </section>
-
-        {/* ══════════════════ THE PROBLEM ═══════════════════════════ */}
-        <section
-          id="problem"
-          data-reveal
-          className="ctl-reveal"
-          aria-labelledby="problem-heading"
-          style={{ background: "#1E3A5F", padding: "clamp(56px,7vw,88px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
-        >
-          {/* ── Background icon graphic ── */}
-          <div aria-hidden={true} style={{ position: "absolute", right: "clamp(40px, 8vw, 120px)", bottom: "clamp(20px, 8vh, 80px)", opacity: 0.18, pointerEvents: "none", zIndex: 0, color: "rgba(251,248,241,0.3)" }}><IconWarning size={240} /></div>
-          
-          {/* ── Shapes ── */}
-          <div style={{ position: "absolute", top: "10%", right: "6%", animation: "star-twinkle 3.5s ease-in-out infinite", pointerEvents: "none", zIndex: 1, color: "#F5C547" }}>
-            <IconSparkle size={30} aria-hidden={true} />
-          </div>
-          <div style={{ position: "absolute", bottom: "14%", left: "4%", animation: "blob-bob 8s ease-in-out infinite 1.5s", pointerEvents: "none", zIndex: 1, color: "#F4A480" }}>
-            <IconPlus size={22} aria-hidden={true} />
-          </div>
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))", gap: "clamp(40px,7vw,80px)", alignItems: "center" }} className="problem-section-grid">
-
-              {/* Left: the case */}
-              <div>
-                {/* 02 eyebrow - on dark background, sage still reads */}
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(90,139,122,0.85)" }}>
-                  02. THE PROBLEM
-                </span>
-                <h2
-                  id="problem-heading"
-                  style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4.5vw,52px)", letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--color-bone)", margin: "16px 0 24px", transform: "rotate(-1deg)", transformOrigin: "left center" }}
-                >
-                  Most leases aren't written{" "}
-                  <em style={{ fontStyle: "italic", color: "rgba(251,248,241,0.38)" }}>for the people signing them.</em>
-                </h2>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: "0 0 24px", maxWidth: 460 }}>
-                  Most leases are 35 pages of hard-to-read legal writing. Renters sign them without a lawyer. Landlords use old templates with clauses that don't work. Both sides end up confused about what they actually agreed to.
-                </p>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: "clamp(14px,1.6vw,16px)", color: "rgba(251,248,241,0.52)", lineHeight: 1.8, margin: 0, maxWidth: 460 }}>
-                  A fair lease protects everyone. Most don't.
-                </p>
-              </div>
-
-              {/* Right: stat grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, minHeight: "auto" }} className="problem-stats-grid">
-                {[
-                  { n: "45M", l: "renter households in the US", src: "Harvard JCHS, 2024" },
-                  { n: "40%", l: "of leases contain illegal clauses", src: "Penn Law / Massachusetts study" },
-                  { n: "41%", l: "of renters dispute their deposit", src: "Zillow Renter Survey, 2024" },
-                  { n: "1 in 13", l: "households faced eviction in 2023", src: "Eviction Lab, Princeton" },
-                ].map(({ n, l, src }) => (
-                  <div key={n} style={{ background: "var(--color-bone)", border: "2px solid #171717", padding: "clamp(16px,2.5vw,26px)", boxShadow: "4px 4px 0 0 #F5C547" }}>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(28px,4vw,48px)", color: "var(--color-ink)", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>{n}</div>
-                    <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 13, color: "var(--color-ink)", lineHeight: 1.5, marginBottom: 6 }}>{l}</div>
-                    <div style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: 10, color: "#6B6B6B", lineHeight: 1.4 }}>Source: {src}</div>
-                  </div>
-                ))}
-              </div>
-
-            </div>
           </div>
         </section>
 
@@ -611,7 +551,7 @@ export default function Home() {
             <div style={{ display: "flex", alignItems: "baseline", gap: 20, paddingBottom: 0, marginBottom: 0 }}>
               <div>
                 <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--color-sage)", display: "block", marginBottom: 8 }}>
-                  03 - HOW IT WORKS
+                  02 - HOW IT WORKS
                 </span>
                 <h2
                   id="how-heading"
@@ -705,39 +645,11 @@ export default function Home() {
           
           <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
 
-            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
-              <div>
-                <span style={{ fontFamily: "var(--app-font-sans)", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--color-sage)", display: "block", marginBottom: 8 }}>
-                  04 - A COMPLETE READ
-                </span>
-                <h2
-                  id="features-heading"
-                  style={{
-                    fontFamily: "var(--app-font-serif)",
-                    fontWeight: 500,
-                    fontSize: "clamp(24px, 3.5vw, 36px)",
-                    letterSpacing: "-0.025em",
-                    color: "var(--color-ink)",
-                    margin: 0,
-                  }}
-                >
-                  A complete read. <em style={{ fontStyle: "italic", color: "var(--color-ink-blue)" }}>Four parts.</em>
-                </h2>
-              </div>
-              <Link
-                href="/upload"
-                style={{
-                  fontFamily: "var(--app-font-sans)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: "var(--color-sage)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: 3,
-                  flexShrink: 0,
-                }}
-              >
-                Read my lease →
-              </Link>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+              <span style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--color-ink-muted)", whiteSpace: "nowrap" }}>
+                Every read · four parts
+              </span>
+              <div style={{ flex: 1, height: 1.5, background: "var(--border-subtle)" }} />
             </div>
 
             {/* 4-column strip - brand-semantic top borders */}
@@ -800,39 +712,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════ EDITORIAL - Door & Audience ═══════════════ */}
-        <div style={{ padding: "0 clamp(24px,4vw,48px) clamp(32px,5vw,56px)" }}>
-          <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0,5fr) minmax(0,7fr)", gap: 0, border: "2.5px solid #171717", borderRadius: 24, overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }} className="ctl-door-editorial door-editorial-grid">
-              <div style={{ position: "relative", minHeight: 260 }}>
-                <img
-            loading="lazy"
-            decoding="async"
-                  src={PhotoDoorKey}
-                  alt="A hand unlocking an ornate antique door handle with keys"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", display: "block", position: "absolute", inset: 0 }}
-                />
-              </div>
-              <div style={{ padding: "clamp(28px,4vw,52px)", background: "#1E3A5F", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(90,139,122,0.75)", marginBottom: 16 }}>
-                  From either side of the door
-                </div>
-                <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(17px,2.2vw,24px)", color: "var(--color-bone)", lineHeight: 1.4, margin: "0 0 18px", letterSpacing: "-0.02em" }}>
-                  Whether you're signing one or issuing one - a well-read lease protects everyone.
-                </p>
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.7)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: "#5A8B7A" }}>→</span> For renters
-                  </div>
-                  <div style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "rgba(251,248,241,0.7)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: "#C97A4A" }}>→</span> For landlords
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* ═══════════════ WHO IT'S FOR ═══════════════ */}
         <section
           id="who-its-for"
@@ -852,7 +731,7 @@ export default function Home() {
             <IconFlag size={22} aria-hidden={true} />
           </div>
           <div style={{ maxWidth: 1160, margin: "0 auto" }}>
-            <SectionEyebrow num="05" label="WHO IT'S FOR" />
+            <SectionEyebrow num="03" label="WHO IT'S FOR" />
             <h2
               id="who-heading"
               style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(24px,3.5vw,40px)", letterSpacing: "-0.025em", lineHeight: 1.1, color: "var(--color-ink)", margin: "0 0 clamp(28px,4vw,48px)" }}
@@ -917,9 +796,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* ═══════════════ STATE COVERAGE ═══════════════ */}
-        <StatePreviews />
 
         {/* ═══════════════ FINAL CTA ═══════════════ */}
         <section
@@ -989,7 +865,7 @@ export default function Home() {
 
               <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", position: "relative" }}>
                 <Link
-                  href="/results/demo"
+                  href="/upload"
                   className="mn-btn"
                   style={{
                     display: "inline-block",
@@ -1006,10 +882,10 @@ export default function Home() {
                     minHeight: 44,
                   }}
                 >
-                  Try the sample →
+                  Read my lease →
                 </Link>
                 <Link
-                  href="/upload"
+                  href="/results/demo"
                   className="mn-btn-ghost"
                   style={{
                     display: "inline-block",
@@ -1026,7 +902,7 @@ export default function Home() {
                     minHeight: 44,
                   }}
                 >
-                  Or read your own lease →
+                  Or see the sample report →
                 </Link>
               </div>
             </div>
