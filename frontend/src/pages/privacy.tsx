@@ -1,24 +1,10 @@
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect } from "react";
 import { Link } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
-function useScrollReveal() {
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      document.querySelectorAll(".ctl-reveal").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
-      { threshold: 0.08 }
-    );
-    document.querySelectorAll(".ctl-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-}
 
 const LAST_UPDATED = "May 2026";
 

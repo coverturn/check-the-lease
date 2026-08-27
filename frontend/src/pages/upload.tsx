@@ -5,8 +5,8 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useT } from "@/lib/translations";
-import PhotoMovingBox from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2713_1777779569749.jpg";
-import PhotoDoor from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.jpg";
+import PhotoMovingBox from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2713_1777779569749.webp";
+import PhotoDoor from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.webp";
 
 type IntakeForm = {
   file: File | null;
@@ -255,7 +255,7 @@ export default function Upload() {
               </p>
             </div>
             <div style={{ width: 140, height: 180, borderRadius: 16, overflow: "hidden", border: "2px solid rgba(251,248,241,0.15)", flexShrink: 0, boxShadow: "4px 4px 0 0 rgba(251,248,241,0.08)" }} className="ctl-upload-photo">
-              <img src={PhotoMovingBox} alt="Moving boxes on a front porch" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block" }} />
+              <img loading="lazy" decoding="async" src={PhotoMovingBox} alt="Moving boxes on a front porch" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block" }} />
             </div>
           </div>
         </div>
@@ -390,7 +390,7 @@ export default function Upload() {
               </div>
             </div>
             <div style={{ position: "relative", minHeight: 160, overflow: "hidden" }}>
-              <img src={PhotoDoor} alt="A key in a door lock" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block", position: "absolute", inset: 0 }} />
+              <img loading="lazy" decoding="async" src={PhotoDoor} alt="A key in a door lock" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block", position: "absolute", inset: 0 }} />
               <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(30,58,95,0.4) 0%, transparent 50%)" }} />
             </div>
           </div>

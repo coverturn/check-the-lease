@@ -5,9 +5,9 @@ import { Footer } from "@/components/Footer";
 import resourcesHub from "@/data/resources-hub.json";
 import { Link } from "wouter";
 import { IconSearchSmall, IconExternalLink, IconGlobe, IconScale, IconShield } from "@/components/icons/Icon";
-import PhotoStairs from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
-import PhotoApartment from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2723_1777779569759.jpg";
-import PhotoDoor from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.jpg";
+import PhotoStairs from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.webp";
+import PhotoApartment from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2723_1777779569759.webp";
+import PhotoDoor from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.webp";
 
 const BG_INK_BLUE = "#1E3A5F";
 const SAGE = "#5A8B7A";
@@ -420,7 +420,7 @@ export default function Resources() {
           <div style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gap: 16 }}>
             <div style={{ border: "2.5px solid #171717", borderRadius: 18, overflow: "hidden", boxShadow: "5px 5px 0 0 #171717", backgroundColor: "#F2EDE2" }}>
               <div style={{ position: "relative", minHeight: 240 }}>
-                <img src={PhotoStairs} alt="A person carrying boxes up the stairs outside a home" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }} />
+                <img loading="lazy" decoding="async" src={PhotoStairs} alt="A person carrying boxes up the stairs outside a home" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }} />
                 <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(30,58,95,0.28) 0%, transparent 55%)" }} />
                 <div style={{ position: "absolute", left: 20, bottom: 18, maxWidth: 320, color: "#FBF8F1" }}>
                   <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 8 }}>Move-in moment</div>
@@ -430,7 +430,7 @@ export default function Resources() {
             </div>
             <div style={{ border: "2.5px solid #171717", borderRadius: 18, overflow: "hidden", boxShadow: "5px 5px 0 0 #171717", backgroundColor: "#F2EDE2" }}>
               <div style={{ position: "relative", minHeight: 220 }}>
-                <img src={PhotoApartment} alt="A person carrying boxes through an apartment during a move" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }} />
+                <img loading="lazy" decoding="async" src={PhotoApartment} alt="A person carrying boxes through an apartment during a move" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }} />
                 <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(23,23,23,0.22) 0%, transparent 50%)" }} />
                 <div style={{ position: "absolute", left: 20, bottom: 18, maxWidth: 320, color: "#FBF8F1" }}>
                   <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 9, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 8 }}>Move with clarity</div>
@@ -555,7 +555,7 @@ export default function Resources() {
 
         {/* ── Closing CTA ── */}
         <div style={{ backgroundColor: BG_INK_BLUE, padding: "clamp(48px,7vw,80px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}>
-          <img src={PhotoDoor} alt="" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 28%", opacity: 0.16, mixBlendMode: "screen" }} />
+          <img loading="lazy" decoding="async" src={PhotoDoor} alt="" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 28%", opacity: 0.16, mixBlendMode: "screen" }} />
           <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(30,58,95,0.08) 0%, rgba(30,58,95,0.72) 100%)" }} />
           <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center", position: "relative" }}>
             <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(22px,3.5vw,38px)", letterSpacing: "-0.03em", lineHeight: 1.2, color: "var(--color-bone)", margin: "0 0 24px" }}>

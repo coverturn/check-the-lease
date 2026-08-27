@@ -150,7 +150,7 @@ export function Footer() {
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = TEXT; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = MUTED; }}
                 >
-                  <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#1E3A5F", flexShrink: 0 }} />
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#F5C547", flexShrink: 0 }} />
                   {label}
                 </Link>
               ))}

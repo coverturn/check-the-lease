@@ -1,3 +1,4 @@
+import { SkipLink } from "@/components/SkipLink";
 import { Link } from "wouter";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -26,6 +27,8 @@ export default function BuildLog() {
                 backgroundColor: "#fff",
               }}>
                 <img
+            loading="lazy"
+            decoding="async"
                   src="/profile.jpg"
                   alt="Ishmael McCalla, founder"
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
