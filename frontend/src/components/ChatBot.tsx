@@ -47,6 +47,21 @@ function TypingDots() {
   );
 }
 
+/** Render **bold** markdown spans as <strong>; everything else stays plain text. */
+function renderRichText(text: string) {
+  const parts = text.split(/\*\*([^*]+)\*\*/g);
+  if (parts.length === 1) return text;
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <strong key={i} style={{ fontWeight: 700 }}>
+        {part}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
+
 function ChatBubble({ msg }: { msg: Message }) {
   const isUser = msg.role === "user";
   return (
@@ -95,7 +110,7 @@ function ChatBubble({ msg }: { msg: Message }) {
           wordBreak: "break-word",
         }}
       >
-        {msg.streaming && msg.content === "" ? <TypingDots /> : msg.content}
+        {msg.streaming && msg.content === "" ? <TypingDots /> : renderRichText(msg.content)}
         {msg.streaming && msg.content !== "" && (
           <span
             style={{
