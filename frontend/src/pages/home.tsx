@@ -1,29 +1,15 @@
 import { useState, useEffect } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Link } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StatePreviews } from "@/components/StatePreviews";
 import { IconChevronRight, IconMapPin, IconSparkle, IconClock, IconWarning, IconUpload, IconKey, IconDocumentSmall, IconShield, IconHelp, IconUser, IconHouseSmall, IconPlus, IconFlag, IconBox, IconSearchSmall } from "@/components/icons/Icon";
-import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
-import PhotoDoorKey from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.jpg";
-import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
+import PhotoMovingSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.webp";
+import PhotoDoorKey from "@assets/DTS_Home_Buyer_Mathew_Addington_Photos_ID1413_1777779569760.webp";
+import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.webp";
 
-function useScrollReveal() {
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      document.querySelectorAll(".ctl-reveal").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
-      { threshold: 0.08 },
-    );
-    document.querySelectorAll(".ctl-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-}
 
 const EASE = "cubic-bezier(0.16,1,0.3,1)";
 
@@ -439,6 +425,8 @@ export default function Home() {
         {/* ═══════════════ EDITORIAL PHOTO - Moving Day ═══════════════ */}
         <div style={{ position: "relative", overflow: "hidden", height: "clamp(260px, 38vw, 480px)", borderTop: "2px solid #171717", borderBottom: "2px solid #171717" }}>
           <img
+            loading="lazy"
+            decoding="async"
             src={PhotoMovingSteps}
             alt="A person carries a moving box marked FRAGILE up the front steps of a brownstone building"
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", display: "block" }}
@@ -459,7 +447,7 @@ export default function Home() {
           data-reveal
           className="ctl-reveal"
           aria-labelledby="clauses-heading"
-          style={{ padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", background: "var(--color-bone)", position: "relative", overflow: "hidden" }}
+          style={{ padding: "clamp(56px,7vw,88px) clamp(24px,4vw,48px)", background: "var(--color-bone)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
           <div aria-hidden={true} style={{ position: "absolute", left: "clamp(30px, 5vw, 100px)", top: "clamp(40px, 12vh, 120px)", opacity: 0.08, pointerEvents: "none", zIndex: 0, color: "rgba(23,23,23,0.2)" }}><IconDocumentSmall size={260} /></div>
@@ -539,13 +527,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ THE PROBLEM ═══════════════════════════ */}
+        {/* ══════════════════ THE PROBLEM ═══════════════════════ */}
         <section
           id="problem"
           data-reveal
           className="ctl-reveal"
           aria-labelledby="problem-heading"
-          style={{ background: "#1E3A5F", padding: "clamp(64px,9vw,100px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
+          style={{ background: "#1E3A5F", padding: "clamp(56px,7vw,88px) clamp(24px,4vw,48px)", position: "relative", overflow: "hidden" }}
         >
           {/* ── Background icon graphic ── */}
           <div aria-hidden={true} style={{ position: "absolute", right: "clamp(40px, 8vw, 120px)", bottom: "clamp(20px, 8vh, 80px)", opacity: 0.18, pointerEvents: "none", zIndex: 0, color: "rgba(251,248,241,0.3)" }}><IconWarning size={240} /></div>
@@ -758,7 +746,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                borderTop: "1px solid var(--border-subtle)",
+                gap: 14,
               }}
               className="features-grid"
             >
@@ -770,11 +758,13 @@ export default function Home() {
                     key={f.label}
                     className="mn-shadow-only"
                     style={{
-                      padding: "clamp(20px, 3vw, 32px) clamp(14px, 2vw, 24px)",
-                      borderTop: `4px solid ${f.color}`,
-                      borderRight: f.right ? "1px solid var(--border-subtle)" : "none",
-                      marginTop: "-1px",
-                      }}
+                      padding: "clamp(20px, 3vw, 30px) clamp(16px, 2vw, 24px)",
+                      backgroundColor: "#FFFFFF",
+                      border: "2px solid #171717",
+                      borderTop: `6px solid ${f.color}`,
+                      borderRadius: 14,
+                      boxShadow: "4px 4px 0 0 #171717",
+                    }}
                   >
                     <div style={{ marginBottom: 16 }}>
                       <FeatureIcon size={28} aria-hidden={true} />
@@ -817,6 +807,8 @@ export default function Home() {
             <div style={{ display: "grid", gridTemplateColumns: "minmax(0,5fr) minmax(0,7fr)", gap: 0, border: "2.5px solid #171717", borderRadius: 24, overflow: "hidden", boxShadow: "6px 6px 0 0 #171717" }} className="ctl-door-editorial door-editorial-grid">
               <div style={{ position: "relative", minHeight: 260 }}>
                 <img
+            loading="lazy"
+            decoding="async"
                   src={PhotoDoorKey}
                   alt="A hand unlocking an ornate antique door handle with keys"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", display: "block", position: "absolute", inset: 0 }}
@@ -874,7 +866,7 @@ export default function Home() {
 
               {/* Renters panel */}
               <div id="renter-card" className="mn-shadow-clay" style={{ background: "#1E3A5F", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)", position: "relative", overflow: "hidden" }}>
-                <img src={PhotoMomBaby} aria-hidden={true} alt="" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
+                <img loading="lazy" decoding="async" src={PhotoMomBaby} aria-hidden={true} alt="" style={{ position: "absolute", bottom: 0, right: 0, width: 220, height: 280, objectFit: "cover", objectPosition: "center 20%", opacity: 0.12, pointerEvents: "none", maskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)", WebkitMaskImage: "linear-gradient(to top left, rgba(0,0,0,0.6), transparent 65%)" }} />
                 <div style={{ marginBottom: 24 }}>
                   <IconUser size={52} aria-hidden={true} />
                 </div>
@@ -899,7 +891,7 @@ export default function Home() {
               </div>
 
               {/* Landlords panel */}
-              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#2a1f14", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)" }}>
+              <div id="landlord-card" className="mn-shadow-sage" style={{ background: "#33544A", border: "2px solid #171717", borderRadius: 24, padding: "clamp(32px,5vw,52px)" }}>
                 <div style={{ marginBottom: 24 }}>
                   <IconHouseSmall size={52} aria-hidden={true} />
                 </div>
@@ -942,6 +934,8 @@ export default function Home() {
               style={{
                 background: "#1E3A5F",
                 borderRadius: 28,
+                border: "2.5px solid #171717",
+                boxShadow: "6px 6px 0 0 #171717",
                 padding: "clamp(56px, 8vw, 96px) clamp(32px, 5vw, 72px)",
                 textAlign: "center",
                 position: "relative",
@@ -1047,19 +1041,43 @@ export default function Home() {
           aria-labelledby="founder-heading"
           style={{ padding: "0 clamp(24px, 4vw, 48px) clamp(64px, 7vw, 96px)" }}
         >
-          <div style={{ maxWidth: 600, margin: "0 auto" }}>
-            <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-              <div style={{ flexShrink: 0 }}>
-                <IconUser size={48} aria-hidden={true} />
+          <div style={{ maxWidth: 640, margin: "0 auto" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: 20,
+                alignItems: "flex-start",
+                backgroundColor: "#FFFFFF",
+                border: "2.5px solid #171717",
+                borderRadius: 18,
+                boxShadow: "5px 5px 0 0 #F5C547",
+                padding: "clamp(22px, 3vw, 30px) clamp(22px, 3.5vw, 34px)",
+              }}
+            >
+              <div
+                aria-hidden={true}
+                style={{
+                  flexShrink: 0,
+                  width: 56,
+                  height: 56,
+                  borderRadius: "50%",
+                  backgroundColor: "#F5C547",
+                  border: "2px solid #171717",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <IconUser size={34} aria-hidden={true} />
               </div>
               <div>
                 <blockquote
                   id="founder-heading"
-                  style={{ margin: 0, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px, 1.8vw, 16px)", color: "var(--color-ink)", lineHeight: 1.75 }}
+                  style={{ margin: 0, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(15px, 2vw, 18px)", color: "var(--color-ink)", lineHeight: 1.7 }}
                 >
                   "I built Check the Lease because no one should have to sign 35 pages of legal language without help. Renters and landlords both deserve a fair read - and the technology to deliver it has been here for years. Now it's free."
                 </blockquote>
-                <p style={{ fontFamily: "var(--app-font-sans)", fontSize: 12, color: "var(--color-ink-muted)", marginTop: 12 }}>- Ishmael</p>
+                <p style={{ fontFamily: "var(--app-font-mono)", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-ink-muted)", marginTop: 14 }}>— Ishmael · builder of Check the Lease</p>
               </div>
             </div>
           </div>
