@@ -846,24 +846,20 @@ a[href="#main"]:focus {
 .hero-ctas  { animation: ctl-hero-up 200ms ease-out 240ms both; }
 .hero-aside { animation: ctl-hero-up 200ms ease-out 120ms both; }
 
-/* ── Mobile sticky CTA ── */
-.mobile-sticky-cta {
-  display: none;
+/* ── Hero floating decoratives: hidden on mobile, they collide with the headline ── */
+@media (max-width: 767px) {
+  .hero-floater {
+    display: none;
+  }
 }
 
-@media (max-width: 767px) {
-  .mobile-sticky-cta {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 40;
-    justify-content: center;
-    padding: 12px 20px env(safe-area-inset-bottom, 12px);
-    background: rgba(251, 248, 241, 0.96);
-    border-top: 1px solid rgba(23,23,23,0.08);
-    backdrop-filter: blur(8px);
+/* ── Nav CTA pill: desktop only — on mobile it lives in the drawer ── */
+.nav-cta-pill {
+  display: none;
+}
+@media (min-width: 768px) {
+  .nav-cta-pill {
+    display: inline-flex;
   }
 }
 
@@ -931,9 +927,6 @@ a[href="#main"]:focus {
   /* Problem stats: 2-up */
   .problem-stats-grid {
     grid-template-columns: 1fr 1fr !important;
-  }
-  .mobile-sticky-cta {
-    padding: 10px 14px env(safe-area-inset-bottom, 10px);
   }
 }
 

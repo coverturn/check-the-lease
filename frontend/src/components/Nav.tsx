@@ -146,6 +146,7 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
 
             <Link
               href="/upload"
+              className="nav-cta-pill"
               onMouseEnter={() => setCtaHov(true)}
               onMouseLeave={() => setCtaHov(false)}
               style={{
@@ -154,7 +155,6 @@ export function Nav({ showAnalyseAnother = false }: { showAnalyseAnother?: boole
                 fontFamily: "var(--app-font-sans)",
                 fontWeight: 700,
                 fontSize: 13,
-                display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
                 textDecoration: "none",

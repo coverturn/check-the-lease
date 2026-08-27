@@ -49,7 +49,6 @@ export default function Home() {
 
   const [ctaHover, setCtaHover] = useState(false);
   const [sampleHover, setSampleHover] = useState(false);
-  const [mobileCTAHover, setMobileCTAHover] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
 
   useEffect(() => {
@@ -100,22 +99,22 @@ export default function Home() {
           </video>
 
           {/* ── Floating illustrations ── */}
-          <div aria-hidden={true} style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
-          <div aria-hidden={true} style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
+          <div aria-hidden={true} className="hero-floater" style={{ position: "absolute", left: "-18px", top: "18%", opacity: 0.55, pointerEvents: "none", animation: "ctl-illus-float-a 8.5s ease-in-out infinite", zIndex: 0, color: "#5A8B7A" }}><IconKey size={120} /></div>
+          <div aria-hidden={true} className="hero-floater" style={{ position: "absolute", left: "-28px", bottom: "10%", opacity: 0.45, pointerEvents: "none", animation: "ctl-illus-float-b 11s ease-in-out infinite 1.8s", zIndex: 0, color: "#C97A4A" }}><IconHouseSmall size={155} /></div>
+          <div aria-hidden={true} className="hero-floater" style={{ position: "absolute", right: "-12px", top: "12%", opacity: 0.40, pointerEvents: "none", animation: "ctl-illus-float-c 9.5s ease-in-out infinite 3.2s", zIndex: 0, color: "#F4A480" }}><IconBox size={88} /></div>
+          <div aria-hidden={true} className="hero-floater" style={{ position: "absolute", right: "-18px", bottom: "18%", opacity: 0.35, pointerEvents: "none", animation: "ctl-illus-float-d 13s ease-in-out infinite 5s", zIndex: 0, color: "#5A8B7A" }}><IconDocumentSmall size={108} /></div>
 
           {/* ── Decorative shapes ── */}
-          <div style={{ position: "absolute", top: "9%", left: "44%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none", zIndex: 0, color: "#F5C547" }}>
+          <div className="hero-floater" style={{ position: "absolute", top: "9%", left: "44%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none", zIndex: 0, color: "#F5C547" }}>
             <IconSparkle size={26} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", bottom: "22%", left: "40%", animation: "blob-bob 7s ease-in-out infinite 2.5s", pointerEvents: "none", zIndex: 0, color: "#5A8B7A" }}>
+          <div className="hero-floater" style={{ position: "absolute", bottom: "22%", left: "40%", animation: "blob-bob 7s ease-in-out infinite 2.5s", pointerEvents: "none", zIndex: 0, color: "#5A8B7A" }}>
             <IconPlus size={20} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", top: "38%", right: "46%", animation: "blob-bob 9s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 0, color: "#C97A4A" }}>
+          <div className="hero-floater" style={{ position: "absolute", top: "38%", right: "46%", animation: "blob-bob 9s ease-in-out infinite 1s", pointerEvents: "none", zIndex: 0, color: "#C97A4A" }}>
             <IconFlag size={22} aria-hidden={true} />
           </div>
-          <div style={{ position: "absolute", top: "14%", right: "43%", animation: "blob-bob 6.5s ease-in-out infinite 4s", pointerEvents: "none", zIndex: 0, color: "#D4B8E5" }}>
+          <div className="hero-floater" style={{ position: "absolute", top: "14%", right: "43%", animation: "blob-bob 6.5s ease-in-out infinite 4s", pointerEvents: "none", zIndex: 0, color: "#D4B8E5" }}>
             <IconPlus size={20} aria-hidden={true} />
           </div>
 
@@ -527,7 +526,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ THE PROBLEM ═══════════════════════ */}
+        {/* ══════════════════ THE PROBLEM ═══════════════════════════ */}
         <section
           id="problem"
           data-reveal
@@ -1087,33 +1086,6 @@ export default function Home() {
 
       <Footer />
 
-      {/* Mobile sticky CTA - sage primary, full-width */}
-      <div className="mobile-sticky-cta" role="complementary" aria-label="Quick access">
-        <Link
-          href="/upload"
-          onMouseEnter={() => setMobileCTAHover(true)}
-          onMouseLeave={() => setMobileCTAHover(false)}
-          style={{
-            display: "inline-block",
-            borderRadius: 999,
-            padding: "13px 32px",
-            fontFamily: "var(--app-font-sans)",
-            fontWeight: 600,
-            fontSize: 15,
-            textDecoration: "none",
-            backgroundColor: mobileCTAHover ? "#3D5F50" : "#5A8B7A",
-            color: "#FBF8F1",
-            border: "2.5px solid #171717",
-            boxShadow: mobileCTAHover ? "2px 2px 0 0 #171717" : "4px 4px 0 0 #171717",
-            minHeight: 44,
-            minWidth: 200,
-            textAlign: "center",
-            transition: "all 0.15s ease",
-          }}
-        >
-          Read my lease →
-        </Link>
-      </div>
 
     </div>
   );
