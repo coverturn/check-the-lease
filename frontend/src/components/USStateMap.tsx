@@ -35,31 +35,31 @@ export const STATE_NAMES: Record<string, string> = {
 };
 
 const STATE_FILL: Record<string, string> = {
-  WA: "#2A5A8F", OR: "#C97A4A", CA: "#5A8B7A",
-  AK: "#3D6A8B", HI: "#7A2C3D",
-  ID: "#5A8B7A", MT: "#B86A3A", WY: "#1E3A5F",
-  CO: "#7A5A8B", UT: "#5A7A4A", NV: "#2A5A8F", AZ: "#C97A4A", NM: "#7A2C3D",
-  ND: "#3D6A8B", SD: "#7A5A8B", NE: "#5A8B7A",
-  KS: "#8B6A3A", OK: "#7A2C3D", TX: "#1E3A5F",
-  MN: "#7A5A8B", WI: "#3D6A8B", MI: "#C97A4A",
-  IA: "#5A7A4A", IL: "#5A8B7A", IN: "#1E3A5F", OH: "#8B6A3A",
-  MO: "#3D6A8B", AR: "#7A5A8B", LA: "#5A8B7A",
-  KY: "#C97A4A", TN: "#1E3A5F", VA: "#8B6A3A",
-  WV: "#7A2C3D", NC: "#3D6A8B", SC: "#7A5A8B",
-  GA: "#C97A4A", FL: "#5A8B7A", AL: "#1E3A5F", MS: "#8B6A3A",
-  NY: "#7A2C3D", PA: "#3D6A8B", ME: "#7A5A8B",
+  WA: "#3F6086", OR: "#C97A4A", CA: "#5A8B7A",
+  AK: "#61809C", HI: "#7A2C3D",
+  ID: "#5A8B7A", MT: "#D89B72", WY: "#1E3A5F",
+  CO: "#8A9BB3", UT: "#7BA08F", NV: "#3F6086", AZ: "#C97A4A", NM: "#7A2C3D",
+  ND: "#61809C", SD: "#8A9BB3", NE: "#5A8B7A",
+  KS: "#B08968", OK: "#7A2C3D", TX: "#1E3A5F",
+  MN: "#8A9BB3", WI: "#61809C", MI: "#C97A4A",
+  IA: "#7BA08F", IL: "#5A8B7A", IN: "#1E3A5F", OH: "#B08968",
+  MO: "#61809C", AR: "#8A9BB3", LA: "#5A8B7A",
+  KY: "#C97A4A", TN: "#1E3A5F", VA: "#B08968",
+  WV: "#7A2C3D", NC: "#61809C", SC: "#8A9BB3",
+  GA: "#C97A4A", FL: "#5A8B7A", AL: "#1E3A5F", MS: "#B08968",
+  NY: "#7A2C3D", PA: "#61809C", ME: "#8A9BB3",
   NH: "#C97A4A", VT: "#5A8B7A", MA: "#1E3A5F",
-  RI: "#8B6A3A", CT: "#7A2C3D", NJ: "#3D6A8B",
-  DE: "#7A5A8B", MD: "#C97A4A", DC: "#5A8B7A",
+  RI: "#B08968", CT: "#7A2C3D", NJ: "#61809C",
+  DE: "#8A9BB3", MD: "#C97A4A", DC: "#5A8B7A",
 };
 
-const TERRITORY_INFO: { abbr: string; fill: string; flag: string }[] = [
-  { abbr: "DC", fill: "#5A8B7A",  flag: "🏛️" },
-  { abbr: "PR", fill: "#2A5A8F",  flag: "🌴" },
-  { abbr: "GU", fill: "#7A5A8B",  flag: "🌺" },
-  { abbr: "VI", fill: "#C97A4A",  flag: "🏝️" },
-  { abbr: "AS", fill: "#7A2C3D",  flag: "🌊" },
-  { abbr: "MP", fill: "#3D6A8B",  flag: "🌏" },
+const TERRITORY_INFO: { abbr: string; fill: string }[] = [
+  { abbr: "DC", fill: "#5A8B7A" },
+  { abbr: "PR", fill: "#3F6086" },
+  { abbr: "GU", fill: "#8A9BB3" },
+  { abbr: "VI", fill: "#C97A4A" },
+  { abbr: "AS", fill: "#7A2C3D" },
+  { abbr: "MP", fill: "#61809C" },
 ];
 
 function lighten(hex: string, amount = 0.28): string {
@@ -72,7 +72,7 @@ function lighten(hex: string, amount = 0.28): string {
   return `#${lr.toString(16).padStart(2, "0")}${lg.toString(16).padStart(2, "0")}${lb.toString(16).padStart(2, "0")}`;
 }
 
-/* ── Stylised US flag ─────────────────────────────────────────────────────── */
+/* ── Stylised US flag ─────────────────────────────────────────────────────────── */
 export function USFlag({ width: w = 52, height: h = 28 }: { width?: number; height?: number }) {
   const stripeH = h / 13;
   const cantonW = w * 0.384;
@@ -197,7 +197,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
                 geographies.map((geo) => {
                   const abbr = FIPS_TO_ABBR[geo.id as string];
                   if (!abbr) return null;
-                  const fill = STATE_FILL[abbr] ?? "#3D6A8B";
+                  const fill = STATE_FILL[abbr] ?? "#61809C";
                   const isHov = hovered === abbr;
                   return (
                     <Geography
@@ -313,7 +313,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
             gap: 8,
           }}
         >
-          {TERRITORY_INFO.map(({ abbr, fill, flag }) => {
+          {TERRITORY_INFO.map(({ abbr, fill }) => {
             const isHov = hovTerr === abbr;
             const name = STATE_NAMES[abbr] ?? abbr;
             return (
@@ -338,7 +338,7 @@ export function USStateMap({ onStateClick }: USStateMapProps) {
                   transform: isHov ? "translate(-1px,-1px)" : "none",
                 }}
               >
-                <span style={{ fontSize: 16, lineHeight: 1, marginBottom: 6 }} aria-hidden="true">{flag}</span>
+                <span aria-hidden="true" style={{ width: 13, height: 13, borderRadius: "50%", backgroundColor: isHov ? "#FBF8F1" : fill, border: "2px solid #171717", marginBottom: 6, display: "block", transition: "background-color 0.15s ease" }} />
                 <span style={{
                   fontFamily: "var(--app-font-mono)",
                   fontSize: 11,

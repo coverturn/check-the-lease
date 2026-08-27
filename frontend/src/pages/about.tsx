@@ -1,30 +1,16 @@
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect } from "react";
 import { Link } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { IconHeart, IconCalendar, IconLightbulb, IconShield, IconScale, IconCheck, IconUser, IconMail, IconPhone, IconSparkle, IconPlus, IconDocumentSmall } from "@/components/icons/Icon";
-import PhotoPackingChaos from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2721_1777779569757.jpg";
-import PhotoMotionBlur from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2723_1777779569759.jpg";
-import PhotoParents from "@assets/DTS_Parenthood_Daniel_Faro_ID6899.jpg";
-import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.jpg";
+import PhotoPackingChaos from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2721_1777779569757.webp";
+import PhotoMotionBlur from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2723_1777779569759.webp";
+import PhotoParents from "@assets/DTS_Parenthood_Daniel_Faro_ID6899.webp";
+import PhotoMomBaby from "@assets/DTS_AWAY_Daniel_Faro_ID7514.webp";
 import ProfilePhoto from "/profile.jpg";
 
-function useScrollReveal() {
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      document.querySelectorAll(".ctl-reveal").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
-      { threshold: 0.08 }
-    );
-    document.querySelectorAll(".ctl-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-}
 
 const VALUES = [
   {
@@ -87,9 +73,11 @@ export default function About() {
           </div>
         </div>
 
-        {/* ═══ EDITORIAL PHOTO - Packing ════════════════════════════════════ */}
+        {/* ═══ EDITORIAL PHOTO - Packing ════════════════════════════════ */}
         <div style={{ position: "relative", overflow: "hidden", height: "clamp(220px,32vw,400px)", borderBottom: "2px solid #171717" }}>
           <img
+            loading="lazy"
+            decoding="async"
             src={PhotoPackingChaos}
             alt="A person packing belongings into moving boxes before a move"
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 55%", display: "block" }}
@@ -102,7 +90,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* ═══ OPENING ════════════════════════════════════════════════════════ */}
+        {/* ═══ OPENING ══════════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -143,7 +131,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ THE APPROACH ═══════════════════════════════════════════════════ */}
+        {/* ═══ THE APPROACH ═════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", backgroundColor: "var(--color-bone-dark)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -180,7 +168,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ VALUES ═════════════════════════════════════════════════════════ */}
+        {/* ═══ VALUES ═══════════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -195,7 +183,7 @@ export default function About() {
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, borderRadius: 20, overflow: "hidden", border: "2.5px solid #171717", boxShadow: "7px 7px 0 0 #171717", marginBottom: 20 }}>
               <div style={{ position: "relative", minHeight: 200, gridColumn: "1 / -1" }}>
-                <img src={PhotoParents} alt="A couple holding a baby, representing families protected by a fair lease" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 25%", display: "block", maxHeight: 220 }} />
+                <img loading="lazy" decoding="async" src={PhotoParents} alt="A couple holding a baby, representing families protected by a fair lease" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 25%", display: "block", maxHeight: 220 }} />
                 <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 20%, rgba(251,248,241,0.92) 100%)" }} />
                 <div style={{ position: "absolute", bottom: 20, left: 28, fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(15px,1.8vw,19px)", color: "var(--color-ink)", letterSpacing: "-0.02em" }}>
                   Clear agreements, understood by both parties.
@@ -215,10 +203,12 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ EDITORIAL - Mom + Baby ══════════════════════════════════════════ */}
+        {/* ═══ EDITORIAL - Mom + Baby ══════════════════════════════════════ */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)" }} className="ctl-mom-editorial">
           <div style={{ position: "relative", minHeight: 320 }}>
             <img
+            loading="lazy"
+            decoding="async"
               src={PhotoMomBaby}
               alt="A parent holding a baby while reviewing documents in a new home"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 25%", display: "block", position: "absolute", inset: 0 }}
@@ -276,7 +266,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ BUILDER NOTE ═══════════════════════════════════════════════════ */}
+        {/* ═══ BUILDER NOTE ═════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -289,6 +279,8 @@ export default function About() {
             <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "start" }}>
               <div style={{ width: 200, borderRadius: 16, overflow: "hidden", border: "2.5px solid #171717", boxShadow: "4px 4px 0 0 #171717", flexShrink: 0, aspectRatio: "1/1" }} className="ctl-story-photo">
                 <img
+            loading="lazy"
+            decoding="async"
                   src={ProfilePhoto}
                   alt="Ishmael McCalla, founder of Check the Lease"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
@@ -315,7 +307,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ HOW I BUILT IT ═════════════════════════════════════════════════ */}
+        {/* ═══ HOW I BUILT IT ═══════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", backgroundColor: "#F2EDE2", borderBottom: "1px solid var(--border-subtle)" }}
@@ -352,7 +344,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ═══ CTA ════════════════════════════════════════════════════════════ */}
+        {/* ═══ CTA ══════════════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)" }}

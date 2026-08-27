@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 
 type Role = "user" | "assistant";
@@ -47,19 +47,41 @@ function TypingDots() {
   );
 }
 
-/** Render **bold** markdown spans as <strong>; everything else stays plain text. */
-function renderRichText(text: string) {
-  const parts = text.split(/\*\*([^*]+)\*\*/g);
-  if (parts.length === 1) return text;
-  return parts.map((part, i) =>
-    i % 2 === 1 ? (
-      <strong key={i} style={{ fontWeight: 700 }}>
-        {part}
-      </strong>
-    ) : (
-      part
-    ),
-  );
+/** Render **bold** markdown spans as <strong>; everything else stays plain text.
+ * While streaming, a trailing unmatched ** is treated as bold-in-progress so
+ * raw asterisks never flash mid-stream. */
+function renderRichText(text: string, streaming?: boolean) {
+  let t = text;
+  let openTail: string | null = null;
+  if (streaming) {
+    const markers = (t.match(/\*\*/g) || []).length;
+    if (markers % 2 === 1) {
+      const idx = t.lastIndexOf("**");
+      openTail = t.slice(idx + 2);
+      t = t.slice(0, idx);
+    }
+  }
+  const parts = t.split(/\*\*([^*]+)\*\*/g);
+  const nodes: ReactNode[] =
+    parts.length === 1
+      ? [t]
+      : parts.map((part, i) =>
+          i % 2 === 1 ? (
+            <strong key={i} style={{ fontWeight: 700 }}>
+              {part}
+            </strong>
+          ) : (
+            part
+          ),
+        );
+  if (openTail !== null && openTail.length > 0) {
+    nodes.push(
+      <strong key="open" style={{ fontWeight: 700 }}>
+        {openTail}
+      </strong>,
+    );
+  }
+  return nodes;
 }
 
 function ChatBubble({ msg }: { msg: Message }) {
@@ -110,7 +132,7 @@ function ChatBubble({ msg }: { msg: Message }) {
           wordBreak: "break-word",
         }}
       >
-        {msg.streaming && msg.content === "" ? <TypingDots /> : renderRichText(msg.content)}
+        {msg.streaming && msg.content === "" ? <TypingDots /> : renderRichText(msg.content, msg.streaming)}
         {msg.streaming && msg.content !== "" && (
           <span
             style={{
@@ -284,7 +306,15 @@ export function ChatBot() {
   const prompts = hasLeaseCtx ? LEASE_PROMPTS : DEFAULT_PROMPTS;
   const showPrompts = messages.length === 0 && !loading;
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 640,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const onChange = () => setIsMobile(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <>

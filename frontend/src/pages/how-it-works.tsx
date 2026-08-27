@@ -1,26 +1,12 @@
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect } from "react";
 import { Link } from "wouter";
 import { SkipLink } from "@/components/SkipLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import PhotoTruck from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2722_1777779569758.jpg";
-import PhotoSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.jpg";
+import PhotoTruck from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2722_1777779569758.webp";
+import PhotoSteps from "@assets/DTS_Chicago_to_LA_Alex_Tan_Photos_ID2720_1777779569750.webp";
 
-function useScrollReveal() {
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      document.querySelectorAll(".ctl-reveal").forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
-      { threshold: 0.08 }
-    );
-    document.querySelectorAll(".ctl-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-}
 
 const STEPS = [
   {
@@ -127,7 +113,7 @@ export default function HowItWorks() {
 
       <main id="main" style={{ flex: 1, width: "100%" }} role="main">
 
-        {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
+        {/* ═══ HERO ═════════════════════════════════════════════════════════ */}
         <div style={{ background: "#1E3A5F", padding: "clamp(64px,9vw,108px) clamp(24px,4vw,48px) clamp(56px,8vw,88px)", position: "relative", overflow: "hidden" }}>
           <svg aria-hidden="true" width="28" height="28" viewBox="0 0 28 28" style={{ position: "absolute", top: "15%", right: "6%", animation: "star-twinkle 4s ease-in-out infinite", pointerEvents: "none" }}>
             <path d="M14 2 L16 10 L24 13 L16 16 L14 26 L12 16 L4 13 L12 10 Z" fill="#F5C547" stroke="#171717" strokeWidth="2" strokeLinejoin="round"/>
@@ -147,16 +133,16 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        {/* ═══ PHOTO STRIP ════════════════════════════════════════════════════ */}
+        {/* ═══ PHOTO STRIP ══════════════════════════════════════════════════ */}
         <div style={{ width: "100%", height: "clamp(180px,22vw,300px)", overflow: "hidden", position: "relative", borderBottom: "2.5px solid #171717" }}>
-          <img src={PhotoTruck} alt="A moving truck in a city alley, life in transit" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 55%", display: "block" }} />
+          <img loading="lazy" decoding="async" src={PhotoTruck} alt="A moving truck in a city alley, life in transit" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 55%", display: "block" }} />
           <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(30,58,95,0.55) 0%, transparent 50%, rgba(30,58,95,0.3) 100%)" }} />
           <div style={{ position: "absolute", left: "clamp(24px,4vw,48px)", bottom: "clamp(18px,3vw,32px)", fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(14px,1.8vw,20px)", color: "rgba(251,248,241,0.9)", letterSpacing: "-0.02em", maxWidth: 420 }}>
             Every address change comes with a lease worth reading.
           </div>
         </div>
 
-        {/* ═══ STEP BY STEP ═══════════════════════════════════════════════════ */}
+        {/* ═══ STEP BY STEP ═════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           aria-labelledby="steps-heading"
@@ -200,7 +186,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* ═══ WHAT WE LOOK FOR ═══════════════════════════════════════════════ */}
+        {/* ═══ WHAT WE LOOK FOR ═════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", backgroundColor: "var(--color-bone-dark)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -240,12 +226,12 @@ export default function HowItWorks() {
             </p>
           </div>
           <div style={{ position: "relative", minHeight: 260, overflow: "hidden" }}>
-            <img src={PhotoSteps} alt="Stone steps leading to a brownstone apartment entrance" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block", position: "absolute", inset: 0 }} />
+            <img loading="lazy" decoding="async" src={PhotoSteps} alt="Stone steps leading to a brownstone apartment entrance" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block", position: "absolute", inset: 0 }} />
             <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(30,58,95,0.18) 0%, transparent 60%)" }} />
           </div>
         </div>
 
-        {/* ═══ LIMITATIONS ════════════════════════════════════════════════════ */}
+        {/* ═══ LIMITATIONS ══════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)", borderBottom: "1px solid var(--border-subtle)" }}
@@ -276,7 +262,7 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        {/* ═══ CTA ════════════════════════════════════════════════════════════ */}
+        {/* ═══ CTA ══════════════════════════════════════════════════════════ */}
         <section
           data-reveal className="ctl-reveal"
           style={{ padding: "clamp(56px,8vw,96px) clamp(24px,4vw,48px)" }}
