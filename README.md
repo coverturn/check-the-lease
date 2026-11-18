@@ -72,7 +72,7 @@ npm test            # unit tests (vitest)
 npm run typecheck   # TypeScript, API layer
 ```
 
-The tests cover state lookup, the request and response schemas, the integrity of the state-law dataset, and the citation and quote checks. They run on every push and pull request.
+The tests cover state lookup, the request and response schemas, the integrity of the state-law dataset, the citation and quote checks, and the API routes. One fixture is a real response recorded from the production model, so the checks are tested against what the model actually returns. They run on every push and pull request.
 
 ## Deploy
 

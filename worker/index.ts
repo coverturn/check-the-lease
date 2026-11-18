@@ -9,6 +9,23 @@ const app = new Hono<{ Bindings: Env }>();
 
 app.get("/api/health", (c) => c.json({ ok: true }));
 
+// Vulnerability scanners probe every site for secrets files and other platforms'
+// admin pages. Without this they fall through to the single-page-app fallback
+// and get a 200 with the homepage, which invites more probing. Answer 404.
+const PROBE_PATH = /^\/(\.env|\.git|\.aws|\.ssh|wp-admin|wp-login\.php|wp-content|wp-includes|xmlrpc\.php|phpmyadmin|vendor\/phpunit)|\.(php|asp|aspx|jsp|cgi)$/i;
+
+export function isProbePath(path: string): boolean {
+  return PROBE_PATH.test(path);
+}
+
+app.use("*", async (c, next) => {
+  if (isProbePath(c.req.path)) return c.text("Not found", 404);
+  await next();
+});
+
+/** The uploaded file could not be read. The message is safe to show to the user. */
+class LeaseReadError extends Error {}
+
 function looksLikePdf(bytes: Uint8Array): boolean {
   // "%PDF" magic number
   return bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46;
@@ -33,7 +50,7 @@ async function extractLeaseText(bytes: Uint8Array): Promise<string> {
   // Plain-text lease (or non-PDF upload): decode directly.
   const decoded = decodeText(bytes);
   if (decoded.length > 50) return decoded;
-  throw new Error("Could not read this file. If it's a scanned PDF, run OCR first (e.g. ilovepdf.com), then re-upload.");
+  throw new LeaseReadError("Could not read this file. If it's a scanned PDF, run OCR first (e.g. ilovepdf.com), then re-upload.");
 }
 
 app.post("/api/analyze", async (c) => {
@@ -82,8 +99,13 @@ app.post("/api/analyze", async (c) => {
 
     return c.json({ ok: true, analysis, grounding: report, leaseText: leaseText.slice(0, 3000) });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Analysis failed.";
-    return c.json({ error: msg }, 500);
+    // Reading errors are written for the user. Anything else (the model
+    // provider failing, or returning something that is not the schema) is
+    // logged in full and reported in plain words, so provider details never
+    // reach the browser.
+    if (err instanceof LeaseReadError) return c.json({ error: err.message }, 400);
+    console.error("analyze failed", err);
+    return c.json({ error: "The analysis could not be completed. Please try again in a moment." }, 500);
   }
 });
 
@@ -111,8 +133,8 @@ app.post("/api/chat", async (c) => {
       },
     });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Chat error.";
-    return c.json({ error: msg }, 500);
+    console.error("chat failed", err);
+    return c.json({ error: "The assistant is unavailable right now. Please try again in a moment." }, 500);
   }
 });
 
