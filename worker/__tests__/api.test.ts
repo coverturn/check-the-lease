@@ -111,6 +111,15 @@ describe("POST /api/analyze", () => {
     expect(body.error).not.toMatch(/api key|sk-secret|401|LLM/i);
   });
 
+  it("asks the user to retry in a minute when the model provider is rate limiting", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response('{"error":{"message":"Rate limit reached"}}', { status: 429 })));
+    const res = await app.request(analyseRequest(fixture.leaseText, intake), {}, env);
+    expect(res.status).toBe(429);
+    expect(res.headers.get("Retry-After")).toBe("60");
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toMatch(/try again in about a minute/i);
+  });
+
   it("tells the user plainly when the file cannot be read", async () => {
     const res = await app.request(analyseRequest("too short", intake), {}, env);
     expect(res.status).toBe(400);

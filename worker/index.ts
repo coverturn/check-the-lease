@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { extractText, getDocumentProxy } from "unpdf";
-import { type Env, complete, streamChat } from "./llm";
+import { type Env, LlmError, complete, streamChat } from "./llm";
 import { IntakeSchema, ChatRequestSchema, AnalysisResultSchema } from "./schema";
 import { buildAnalysisMessages, buildChatSystem } from "./prompts";
 import { groundAnalysis } from "./citations";
@@ -22,6 +22,8 @@ app.use("*", async (c, next) => {
   if (isProbePath(c.req.path)) return c.text("Not found", 404);
   await next();
 });
+
+const BUSY_MESSAGE = "Check the Lease is busy right now. Please try again in about a minute.";
 
 /** The uploaded file could not be read. The message is safe to show to the user. */
 class LeaseReadError extends Error {}
@@ -104,6 +106,10 @@ app.post("/api/analyze", async (c) => {
     // logged in full and reported in plain words, so provider details never
     // reach the browser.
     if (err instanceof LeaseReadError) return c.json({ error: err.message }, 400);
+    if (err instanceof LlmError && err.rateLimited) {
+      console.warn("analyze rate limited by the model provider");
+      return c.json({ error: BUSY_MESSAGE }, 429, { "Retry-After": "60" });
+    }
     console.error("analyze failed", err);
     return c.json({ error: "The analysis could not be completed. Please try again in a moment." }, 500);
   }
@@ -133,6 +139,10 @@ app.post("/api/chat", async (c) => {
       },
     });
   } catch (err) {
+    if (err instanceof LlmError && err.rateLimited) {
+      console.warn("chat rate limited by the model provider");
+      return c.json({ error: BUSY_MESSAGE }, 429, { "Retry-After": "60" });
+    }
     console.error("chat failed", err);
     return c.json({ error: "The assistant is unavailable right now. Please try again in a moment." }, 500);
   }

@@ -11,6 +11,20 @@ export interface Env {
 
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
+/** The model provider answered with an error. `status` is its HTTP status. */
+export class LlmError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+  }
+  /** The provider is rate limiting us; the request is fine and will work shortly. */
+  get rateLimited(): boolean {
+    return this.status === 429;
+  }
+}
+
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 // llama-3.3-70b-versatile was retired by Groq on 2026-08-16 (free/dev tiers).
 // Default is Groq's recommended replacement; override via the GROQ_MODEL
@@ -40,7 +54,7 @@ export async function complete(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`LLM error ${res.status}: ${text.slice(0, 300)}`);
+    throw new LlmError(`LLM error ${res.status}: ${text.slice(0, 300)}`, res.status);
   }
   const data = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
   const content = data.choices?.[0]?.message?.content;
@@ -70,7 +84,7 @@ export async function streamChat(env: Env, messages: Msg[]): Promise<ReadableStr
 
   if (!upstream.ok || !upstream.body) {
     const text = await upstream.text().catch(() => "");
-    throw new Error(`LLM stream error ${upstream.status}: ${text.slice(0, 300)}`);
+    throw new LlmError(`LLM stream error ${upstream.status}: ${text.slice(0, 300)}`, upstream.status);
   }
 
   const encoder = new TextEncoder();
