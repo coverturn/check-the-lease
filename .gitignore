@@ -6,6 +6,3 @@ dist/
 .dev.vars
 *.log
 .DS_Store
-
-# Generated from the source JPEGs by scripts/convert_images.py
-frontend/attached_assets/*.webp

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Generate the .webp assets the frontend imports from the source JPEGs.
 
-The optimised .webp files are build inputs but are kept out of version control;
-run this once after cloning (requires Pillow: pip install Pillow).
+The optimised .webp files are committed, because the frontend imports them and
+the hosted build starts from a clean clone. Re-run this only when a source JPEG
+changes (requires Pillow: pip install Pillow).
 """
 import os
 from PIL import Image

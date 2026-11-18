@@ -51,17 +51,16 @@ scripts/             Image conversion for the frontend
 
 ## Local development
 
-Requires Node 22 and, for the image step, Python 3 with Pillow (`pip install Pillow`).
+Requires Node 22.
 
 ```bash
 npm install                       # API dependencies
 (cd frontend && npm install)      # frontend dependencies
-npm run build:images              # generate the .webp images the frontend imports
 npm run build:frontend            # build the React app into frontend/dist/public
 npm run dev                       # run the worker locally (wrangler)
 ```
 
-The optimised `.webp` images are generated from the source JPEGs and are not committed, so `npm run build:images` has to run once before the first frontend build.
+The optimised `.webp` images the frontend imports are committed. If a source JPEG changes, regenerate them with `npm run build:images` (Python 3 with Pillow).
 
 The worker needs a `GROQ_API_KEY`. For local development put it in a `.dev.vars` file, which is git-ignored.
 
