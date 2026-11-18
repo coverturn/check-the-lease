@@ -39,9 +39,33 @@ export function knownCitations(state?: string | null): Set<string> {
   const entry = getStateEntry(state);
   const known = new Set<string>();
   for (const right of entry?.rights ?? []) {
-    if (right.citation) known.add(normaliseCitation(right.citation));
+    if (!right.citation) continue;
+    for (const form of citationForms(right.citation)) known.add(form);
   }
   return known;
+}
+
+/**
+ * Every form of a dataset citation the model may legitimately repeat.
+ * The dataset joins statutes ("A; B") and lists sections ("§§ 827, 1946"),
+ * and the model often cites just one of them, so each is indexed on its own
+ * as well as in full.
+ */
+export function citationForms(citation: string): string[] {
+  const forms = new Set<string>([normaliseCitation(citation)]);
+  for (const part of citation.split(";")) {
+    const single = normaliseCitation(part);
+    if (!single) continue;
+    forms.add(single);
+    const list = single.match(/^(.*?)\u00a7\s*\u00a7\s*(.+)$/);
+    if (list) {
+      for (const section of list[2].split(",")) {
+        const trimmed = section.trim();
+        if (trimmed) forms.add(normaliseCitation(`${list[1]}\u00a7 ${trimmed}`));
+      }
+    }
+  }
+  return [...forms];
 }
 
 /**
@@ -109,6 +133,10 @@ export function groundAnalysis(
 
   const checkQuote = <T extends { original_quote?: string }>(item: T): T => {
     if (item.original_quote === undefined) return item;
+    if (item.original_quote.trim() === "") {
+      const { original_quote: _empty, ...rest } = item;
+      return rest as T;
+    }
     if (quoteAppearsInLease(item.original_quote, leaseText)) {
       report.quotesKept += 1;
       return item;
@@ -120,7 +148,11 @@ export function groundAnalysis(
 
   const potential_issues = analysis.potential_issues.map((issue) => {
     let checked = checkQuote(issue);
-    if (checked.citation !== undefined) {
+    if (checked.citation !== undefined && checked.citation.trim() === "") {
+      // The model sometimes returns an empty string where it has no citation.
+      const { citation: _empty, ...rest } = checked;
+      checked = rest as typeof checked;
+    } else if (checked.citation !== undefined) {
       if (isKnownCitation(checked.citation, known)) {
         report.citationsKept += 1;
       } else {

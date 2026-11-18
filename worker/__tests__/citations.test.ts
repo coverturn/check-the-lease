@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { groundAnalysis, isKnownCitation, knownCitations, normaliseCitation, quoteAppearsInLease } from "../citations";
+import { citationForms, groundAnalysis, isKnownCitation, knownCitations, normaliseCitation, quoteAppearsInLease } from "../citations";
 import { getStateEntry } from "../states";
 import type { AnalysisResult } from "../schema";
 
@@ -24,6 +24,21 @@ describe("normaliseCitation", () => {
   it("ignores case, spacing after the section sign, brackets and trailing punctuation", () => {
     expect(normaliseCitation("Cal. Civ. Code §1950.5")).toBe(normaliseCitation("cal. civ. code §  1950.5."));
     expect(normaliseCitation("(Cal. Civ. Code § 1950.5)")).toBe(normaliseCitation("Cal. Civ. Code § 1950.5"));
+  });
+});
+
+describe("citationForms", () => {
+  it("indexes each statute of a joined citation on its own", () => {
+    const forms = citationForms("Cal. Civ. Code \u00a7 1942; Cal. Civ. Proc. Code \u00a7 1174.2");
+    expect(forms).toContain(normaliseCitation("Cal. Civ. Code \u00a7 1942"));
+    expect(forms).toContain(normaliseCitation("Cal. Civ. Proc. Code \u00a7 1174.2"));
+  });
+
+  it("expands a section list into single sections", () => {
+    const forms = citationForms("Cal. Civ. Code \u00a7\u00a7 827, 1946, 1946.2");
+    expect(forms).toContain(normaliseCitation("Cal. Civ. Code \u00a7 827"));
+    expect(forms).toContain(normaliseCitation("Cal. Civ. Code \u00a7 1946.2"));
+    expect(forms).toContain(normaliseCitation("Cal. Civ. Code \u00a7\u00a7 827, 1946, 1946.2"));
   });
 });
 
@@ -130,6 +145,14 @@ describe("groundAnalysis", () => {
     expect(analysis.key_terms[0].original_quote).toBeUndefined();
     expect(analysis.key_terms[0].value).toBe("$900/month");
     expect(report.quotesRemoved).toBe(2);
+  });
+
+  it("drops empty citation and quote strings without counting them as removals", () => {
+    const input = analysisWith([{ severity: "low", title: "Pets", explanation: "May apply.", citation: "", original_quote: "  " }]);
+    const { analysis, report } = groundAnalysis(input, "CA", lease);
+    expect(analysis.potential_issues[0].citation).toBeUndefined();
+    expect(analysis.potential_issues[0].original_quote).toBeUndefined();
+    expect(report).toEqual({ citationsKept: 0, citationsRemoved: 0, quotesKept: 0, quotesRemoved: 0 });
   });
 
   it("does not mutate the analysis it was given", () => {
