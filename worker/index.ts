@@ -3,6 +3,7 @@ import { extractText, getDocumentProxy } from "unpdf";
 import { type Env, complete, streamChat } from "./llm";
 import { IntakeSchema, ChatRequestSchema, AnalysisResultSchema } from "./schema";
 import { buildAnalysisMessages, buildChatSystem } from "./prompts";
+import { groundAnalysis } from "./citations";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -70,9 +71,16 @@ app.post("/api/analyze", async (c) => {
     );
 
     const cleaned = raw.replace(/^```json\s*/i, "").replace(/\s*```\s*$/, "").trim();
-    const analysis = AnalysisResultSchema.parse(JSON.parse(cleaned));
+    const parsed = AnalysisResultSchema.parse(JSON.parse(cleaned));
 
-    return c.json({ ok: true, analysis, leaseText: leaseText.slice(0, 3000) });
+    // Check the model's citations and quotes against the statute dataset and
+    // the lease itself before anything is returned to the reader.
+    const { analysis, report } = groundAnalysis(parsed, intake.state, leaseText);
+    if (report.citationsRemoved || report.quotesRemoved) {
+      console.warn("grounding: removed unverified model output", { state: intake.state, ...report });
+    }
+
+    return c.json({ ok: true, analysis, grounding: report, leaseText: leaseText.slice(0, 3000) });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Analysis failed.";
     return c.json({ error: msg }, 500);
