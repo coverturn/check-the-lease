@@ -6,7 +6,10 @@
   "scripts": {
     "build:frontend": "cd frontend && vite build",
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev"
+    "dev": "wrangler dev",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "build:images": "python3 scripts/convert_images.py"
   },
   "dependencies": {
     "hono": "^4.6.0",
@@ -14,7 +17,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250101.0",
+    "@cloudflare/workers-types": "^5.20261117.1",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9",
     "wrangler": "^4.0.0"
   }
 }
