@@ -27,6 +27,8 @@ The model is not asked to remember statutes. The repository carries a dataset of
 
 Data: `worker/data/state-previews.json`. Lookup and prompt context: `worker/states.ts`.
 
+A prompt is a request, not a guarantee, so the API checks the model's output before returning it (`worker/citations.ts`). A citation that is not on file for the selected state is removed, and so is any quote that does not appear in the uploaded lease. The plain-English point stays, without the unverified citation or quote. The response includes a `grounding` report with counts of what was kept and removed.
+
 ## Stack
 
 - **Frontend:** React + TypeScript, built with Vite
@@ -70,7 +72,7 @@ npm test            # unit tests (vitest)
 npm run typecheck   # TypeScript, API layer
 ```
 
-The tests cover state lookup, the request and response schemas, and the integrity of the state-law dataset. They run on every push and pull request.
+The tests cover state lookup, the request and response schemas, the integrity of the state-law dataset, the citation and quote checks, and the API routes. One fixture is a real response recorded from the production model, so the checks are tested against what the model actually returns. They run on every push and pull request.
 
 ## Deploy
 

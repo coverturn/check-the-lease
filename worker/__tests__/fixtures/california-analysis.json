@@ -1,0 +1,157 @@
+{
+  "note": "A real response from the production model (openai/gpt-oss-120b via Groq) for a sample California lease, recorded 18 Nov 2026. The lease is invented test data.",
+  "state": "CA",
+  "leaseText": "RESIDENTIAL LEASE AGREEMENT This Lease is made on March 1, 2026 between Harbor Point Properties LLC (\"Landlord\") and Jordan Ellis (\"Tenant\") for the premises at 1420 Alder Street, Unit 3B, Sacramento, California 95814. 1. TERM. The lease term is twelve (12) months beginning April 1, 2026 and ending March 31, 2027. The lease renews automatically for a further twelve months unless Tenant gives ninety (90) days written notice. 2. RENT. Tenant shall pay rent of $2,150 per month, due on the 1st day of each month. A late fee of $250 applies if rent is received after the 3rd day of the month, plus $50 for each additional day rent remains unpaid. 3. SECURITY DEPOSIT. Tenant shall pay a security deposit of $6,450, equal to three months' rent. Landlord may retain the deposit for any reason at Landlord's sole discretion and shall return any balance within ninety (90) days of move-out. The deposit is non-refundable if Tenant terminates early. 4. ENTRY. Landlord may enter the premises at any time without notice for any purpose. 5. REPAIRS. Tenant is responsible for all repairs to the premises, including plumbing, heating, electrical systems and the roof, regardless of cause. Tenant waives any right to repair and deduct. 6. UTILITIES. Tenant pays all utilities, including water, gas, electricity and trash. 7. PETS. No pets are permitted. A violation results in a $500 fee per day. 8. RETALIATION AND WAIVER. Tenant waives all rights under state law relating to habitability and agrees not to report the premises to any government agency. Tenant waives the right to a jury trial. 9. TERMINATION. Landlord may terminate this lease on three (3) days notice for any reason. Tenant may not terminate early for any reason. Signed: Harbor Point Properties LLC / Jordan Ellis",
+  "analysis": {
+    "key_terms": [
+      {
+        "label": "Rent",
+        "value": "$2,150/month",
+        "original_quote": "Tenant shall pay rent of $2,150 per month, due on the 1st day of each month."
+      },
+      {
+        "label": "Security Deposit",
+        "value": "$6,450 (three months' rent)",
+        "original_quote": "Tenant shall pay a security deposit of $6,450, equal to three months' rent."
+      },
+      {
+        "label": "Late Fee",
+        "value": "$250 after 3rd day, plus $50 each additional day",
+        "original_quote": "A late fee of $250 applies if rent is received after the 3rd day of the month, plus $50 for each additional day rent remains unpaid."
+      },
+      {
+        "label": "Lease Term",
+        "value": "12 months (April 1, 2026 – March 31, 2027)",
+        "original_quote": "The lease term is twelve (12) months beginning April 1, 2026 and ending March 31, 2027."
+      },
+      {
+        "label": "Renewal",
+        "value": "Automatic 12‑month renewal unless 90 days notice",
+        "original_quote": "The lease renews automatically for a further twelve months unless Tenant gives ninety (90) days written notice."
+      },
+      {
+        "label": "Entry Notice",
+        "value": "None (landlord may enter at any time)",
+        "original_quote": "Landlord may enter the premises at any time without notice for any purpose."
+      },
+      {
+        "label": "Repairs",
+        "value": "Tenant responsible for all repairs; waiver of repair‑and‑deduct",
+        "original_quote": "Tenant is responsible for all repairs to the premises, including plumbing, heating, electrical systems and the roof, regardless of cause. Tenant waives any right to repair and deduct."
+      },
+      {
+        "label": "Pets",
+        "value": "Not permitted; $500 fee per day for violation",
+        "original_quote": "No pets are permitted. A violation results in a $500 fee per day."
+      },
+      {
+        "label": "Termination",
+        "value": "Landlord 3‑day notice; tenant cannot terminate early",
+        "original_quote": "Landlord may terminate this lease on three (3) days notice for any reason. Tenant may not terminate early for any reason."
+      },
+      {
+        "label": "Utilities",
+        "value": "Tenant pays all utilities",
+        "original_quote": "Tenant pays all utilities, including water, gas, electricity and trash."
+      }
+    ],
+    "potential_issues": [
+      {
+        "severity": "high",
+        "title": "Security deposit amount exceeds statutory cap",
+        "explanation": "The deposit of three months' rent may exceed the limit of two months for unfurnished units and the newer rule limiting most landlords to one month’s rent, unless the landlord qualifies as a small landlord. State law generally requires the deposit to be no more than the amounts specified in Cal. Civ. Code § 1950.5 and Cal. Civ. Code § 1940.5(g).",
+        "citation": "Cal. Civ. Code § 1950.5; Cal. Civ. Code § 1940.5(g)",
+        "original_quote": "Tenant shall pay a security deposit of $6,450, equal to three months' rent."
+      },
+      {
+        "severity": "high",
+        "title": "Deposit return timeframe violates law",
+        "explanation": "The lease requires the deposit to be returned within ninety days, but state law requires return within twenty‑one days of move‑out with an itemised statement. This clause may be unenforceable.",
+        "citation": "Cal. Civ. Code § 1950.5",
+        "original_quote": "shall return any balance within ninety (90) days of move-out."
+      },
+      {
+        "severity": "high",
+        "title": "Landlord entry without notice",
+        "explanation": "The clause allowing entry at any time without notice conflicts with the statutory requirement of at least 24 hours written notice except in emergencies. This provision may be unenforceable.",
+        "citation": "Cal. Civ. Code § 1954",
+        "original_quote": "Landlord may enter the premises at any time without notice for any purpose."
+      },
+      {
+        "severity": "high",
+        "title": "Tenant bears all repair costs and waives repair‑and‑deduct",
+        "explanation": "California law obligates landlords to maintain habitability and permits tenants to repair and deduct for major repairs. A blanket waiver may be unenforceable and could leave the tenant responsible for costs that the landlord must bear.",
+        "citation": "",
+        "original_quote": "Tenant is responsible for all repairs to the premises, including plumbing, heating, electrical systems and the roof, regardless of cause. Tenant waives any right to repair and deduct."
+      },
+      {
+        "severity": "medium",
+        "title": "Late fee may be unreasonable penalty",
+        "explanation": "A flat $250 fee plus $50 per day may not reflect the landlord’s actual damages and could be deemed an unenforceable penalty under case law. The fee should be a reasonable estimate of actual costs.",
+        "citation": "Orozco v. Casimiro, 121 Cal. App. 4th Supp. 7 (2004)",
+        "original_quote": "A late fee of $250 applies if rent is received after the 3rd day of the month, plus $50 for each additional day rent remains unpaid."
+      },
+      {
+        "severity": "high",
+        "title": "Landlord termination with three‑day notice",
+        "explanation": "A clause allowing the landlord to end a fixed‑term lease on three days’ notice for any reason conflicts with California statutes that require just cause for early termination of a lease. This provision may be void.",
+        "citation": "Cal. Civ. Code §§ 827, 1946, 1946.2",
+        "original_quote": "Landlord may terminate this lease on three (3) days notice for any reason."
+      },
+      {
+        "severity": "high",
+        "title": "Waiver of habitability and reporting rights",
+        "explanation": "A contractual waiver of statutory habitability rights and the right to report conditions is likely unenforceable because state law cannot be waived by agreement.",
+        "citation": "",
+        "original_quote": "Tenant waives all rights under state law relating to habitability and agrees not to report the premises to any government agency."
+      },
+      {
+        "severity": "medium",
+        "title": "Pet fee may be excessive",
+        "explanation": "A $500 per day fee for pet violations may be considered an unreasonable penalty not tied to actual damages, potentially rendering it unenforceable.",
+        "citation": "",
+        "original_quote": "A violation results in a $500 fee per day."
+      }
+    ],
+    "missing_protections": {
+      "renter": [
+        {
+          "title": "Required landlord disclosures",
+          "explanation": "California law requires written disclosures of the landlord or manager’s identity, how the security deposit is held, and any known hazards. The lease does not contain these disclosures.",
+          "helps": "renter"
+        },
+        {
+          "title": "Right to repair and deduct",
+          "explanation": "State law permits tenants to withhold rent or repair and deduct for major habitability issues. The lease’s blanket waiver removes this statutory right.",
+          "helps": "renter"
+        },
+        {
+          "title": "Protection against retaliation",
+          "explanation": "Tenants are protected from retaliation for exercising legal rights. The lease’s waiver of habitability rights may conflict with these protections.",
+          "helps": "renter"
+        },
+        {
+          "title": "Limits on late fees and penalties",
+          "explanation": "State law requires late fees to be a reasonable estimate of actual damages. The lease’s high flat and per‑day fees may exceed that limit.",
+          "helps": "renter"
+        }
+      ],
+      "landlord": []
+    },
+    "questions": [
+      "Is the security deposit amount and the 90‑day return period compliant with California law?",
+      "What notice is required before the landlord can enter the unit?",
+      "Can the landlord require me to pay for all repairs, including the roof, and waive my right to repair‑and‑deduct?",
+      "Is the $250 late fee plus $50 per day enforceable under California law?",
+      "Can the landlord terminate a fixed‑term lease with three days’ notice for any reason?",
+      "What statutory disclosures about the landlord’s identity and deposit handling should be provided?",
+      "Are pet‑related fees of $500 per day permissible?",
+      "How does the waiver of habitability rights affect my legal protections?"
+    ],
+    "stats": {
+      "potential_issues": 8,
+      "missing_protections": 4,
+      "questions": 8
+    }
+  }
+}

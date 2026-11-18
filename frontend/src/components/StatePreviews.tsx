@@ -114,7 +114,9 @@ function StateModal({ stateKey, onClose }: { stateKey: StateKey; onClose: () => 
                   <div aria-hidden="true" style={{ fontFamily: "var(--app-font-serif)", fontWeight: 900, fontSize: 96, color: "rgba(23,23,23,0.04)", lineHeight: 1, position: "absolute", bottom: -12, right: 16, userSelect: "none", pointerEvents: "none" }}>{i + 1}</div>
                   <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: CARD_ACCENTS[i % 4], marginBottom: 12 }}>Right {String(i + 1).padStart(2, "0")}</div>
                   <p style={{ fontFamily: "var(--app-font-serif)", fontWeight: 500, fontSize: "clamp(17px,2.5vw,22px)", lineHeight: 1.45, letterSpacing: "-0.02em", color: "var(--color-ink)", margin: 0, marginBottom: 16, position: "relative" }}>{right.text}</p>
-                  <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, color: "var(--color-ink-muted)", letterSpacing: "0.04em", padding: "6px 10px", borderRadius: 6, backgroundColor: "rgba(23,23,23,0.04)", border: "1px solid rgba(23,23,23,0.08)", display: "inline-block", position: "relative" }}>{right.citation}</div>
+                  {right.citation && (
+                    <div style={{ fontFamily: "var(--app-font-mono)", fontSize: 10, color: "var(--color-ink-muted)", letterSpacing: "0.04em", padding: "6px 10px", borderRadius: 6, backgroundColor: "rgba(23,23,23,0.04)", border: "1px solid rgba(23,23,23,0.08)", display: "inline-block", position: "relative" }}>{right.citation}</div>
+                  )}
                 </div>
               ))}
             </div>
