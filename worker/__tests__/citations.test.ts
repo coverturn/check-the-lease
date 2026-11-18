@@ -54,6 +54,16 @@ describe("isKnownCitation", () => {
     expect(isKnownCitation(`${real} and ${two}`, known)).toBe(true);
   });
 
+  it("accepts a real statute cited down to a subsection", () => {
+    expect(isKnownCitation(`${real}(g)(1)`, known)).toBe(true);
+    expect(isKnownCitation(`${real} (b)`, known)).toBe(true);
+  });
+
+  it("does not treat a longer section number as a subsection of a real one", () => {
+    expect(isKnownCitation(`${real}99`, known)).toBe(false);
+    expect(isKnownCitation(`${real} of the Imaginary Tenant Act`, known)).toBe(false);
+  });
+
   it("rejects an invented statute, an empty string, and a real statute joined to a fake one", () => {
     expect(isKnownCitation("Cal. Civ. Code § 9999.99", known)).toBe(false);
     expect(isKnownCitation("", known)).toBe(false);

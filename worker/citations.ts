@@ -52,12 +52,26 @@ export function knownCitations(state?: string | null): Set<string> {
 export function isKnownCitation(citation: string, known: Set<string>): boolean {
   const whole = normaliseCitation(citation);
   if (!whole) return false;
-  if (known.has(whole)) return true;
+  if (matchesKnown(whole, known)) return true;
   const parts = whole
     .split(/\s*;\s*|\s+and\s+/)
     .map((part) => normaliseCitation(part))
     .filter(Boolean);
-  return parts.length > 1 && parts.every((part) => known.has(part));
+  return parts.length > 1 && parts.every((part) => matchesKnown(part, known));
+}
+
+/**
+ * A citation matches when it is on file exactly, or when it is a statute on
+ * file followed only by subsection markers: "§ 1950.5(g)(1)" matches "§ 1950.5".
+ */
+function matchesKnown(normalised: string, known: Set<string>): boolean {
+  if (known.has(normalised)) return true;
+  for (const candidate of known) {
+    if (!normalised.startsWith(`${candidate} `)) continue;
+    const rest = normalised.slice(candidate.length).trim().split(" ");
+    if (rest.every((token) => /^[a-z0-9]{1,3}$/.test(token))) return true;
+  }
+  return false;
 }
 
 function normaliseText(text: string): string {
