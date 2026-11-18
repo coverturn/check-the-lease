@@ -104,7 +104,6 @@ function normaliseText(text: string): string {
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/[‐-―]/g, "-")
-    .replace(/…|\.\.\./g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -112,11 +111,24 @@ function normaliseText(text: string): string {
 /** Shortest quote worth checking. Anything shorter matches almost any document. */
 const MIN_QUOTE_LENGTH = 12;
 
-/** True when the quote appears in the lease, ignoring case, whitespace and smart punctuation. */
+/** Shortest passage accepted on one side of an ellipsis. */
+const MIN_PASSAGE_LENGTH = 6;
+
+/**
+ * True when the quote appears in the lease, ignoring case, whitespace and smart punctuation.
+ * The model sometimes joins two passages with an ellipsis. That is still a
+ * faithful quote as long as every passage is in the lease, so each one is
+ * checked on its own.
+ */
 export function quoteAppearsInLease(quote: string, leaseText: string): boolean {
-  const needle = normaliseText(quote).replace(/^["']+|["']+$/g, "").trim();
-  if (needle.length < MIN_QUOTE_LENGTH) return false;
-  return normaliseText(leaseText).includes(needle);
+  const haystack = normaliseText(leaseText);
+  const passages = quote
+    .split(/\u2026|\.{3,}/)
+    .map((passage) => normaliseText(passage).replace(/^["']+|["']+$/g, "").trim())
+    .filter(Boolean);
+  if (passages.length === 0) return false;
+  if (passages.join(" ").length < MIN_QUOTE_LENGTH) return false;
+  return passages.every((passage) => passage.length >= MIN_PASSAGE_LENGTH && haystack.includes(passage));
 }
 
 /**

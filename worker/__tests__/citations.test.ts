@@ -97,6 +97,15 @@ describe("quoteAppearsInLease", () => {
     expect(quoteAppearsInLease("“LANDLORD may enter   the premises at any time”", lease)).toBe(true);
   });
 
+  it("accepts two real passages joined with an ellipsis", () => {
+    expect(quoteAppearsInLease("late fee of $250 ... Landlord may enter the premises", lease)).toBe(true);
+    expect(quoteAppearsInLease("late fee of $250\u2026without notice.", lease)).toBe(true);
+  });
+
+  it("rejects an ellipsis quote when one passage is not in the lease", () => {
+    expect(quoteAppearsInLease("late fee of $250 ... Tenant waives a jury trial", lease)).toBe(false);
+  });
+
   it("rejects a quote the lease does not contain", () => {
     expect(quoteAppearsInLease("Tenant waives all rights to a jury trial", lease)).toBe(false);
   });
